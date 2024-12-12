@@ -1,0 +1,240 @@
+import { relations, sql } from "drizzle-orm";
+import { index, pgTable, primaryKey, unique } from "drizzle-orm/pg-core";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
+import type { z } from "zod";
+
+export const team = pgTable("team", (t) => ({
+  id: t.uuid().notNull().primaryKey().defaultRandom(),
+  ref: t.integer().notNull().unique(),
+  name: t.varchar({ length: 255 }).unique().notNull(),
+  abbreviation: t.varchar({ length: 7 }),
+}));
+
+export const teamRelations = relations(team, ({ many }) => ({
+  pitchers: many(pitcher),
+}));
+
+export const createTeamSchema = createInsertSchema(team);
+
+export type Team = z.infer<typeof createTeamSchema>;
+
+export const pitcher = pgTable(
+  "pitcher",
+  (t) => ({
+    id: t.uuid().notNull().primaryKey().defaultRandom(),
+    ref: t.integer().notNull().unique(),
+    name: t.varchar({ length: 127 }).notNull(),
+    teamId: t
+      .uuid()
+      .notNull()
+      .references(() => team.id, { onDelete: "restrict" }),
+    number: t.text(),
+  }),
+  (t) => ({
+    nameSearchIndex: index("name_search_index").using(
+      "gin",
+      sql`to_tsvector('english', ${t.name})`,
+    ),
+  }),
+);
+
+export const pitcherRelations = relations(pitcher, ({ one, many }) => ({
+  team: one(team, { fields: [pitcher.teamId], references: [team.id] }),
+  homeGames: many(game, { relationName: "homePitcher" }),
+  awayGames: many(game, { relationName: "awayPitcher" }),
+  subscriptions: many(subscription),
+  notifications: many(notification),
+}));
+
+export const createPitcherSchema = createInsertSchema(pitcher);
+
+export type Pitcher = z.infer<typeof createPitcherSchema>;
+
+export const game = pgTable("game", (t) => ({
+  id: t.uuid().notNull().primaryKey().defaultRandom(),
+  ref: t.integer().notNull().unique(),
+  date: t.timestamp().notNull(),
+  homePitcherId: t
+    .uuid()
+    .references(() => pitcher.id, { onDelete: "restrict" }),
+  awayPitcherId: t
+    .uuid()
+    .references(() => pitcher.id, { onDelete: "restrict" }),
+}));
+
+export const gameRelations = relations(game, ({ one, many }) => ({
+  homePitcher: one(pitcher, {
+    fields: [game.homePitcherId],
+    references: [pitcher.id],
+    relationName: "homePitcher",
+  }),
+  awayPitcher: one(pitcher, {
+    fields: [game.awayPitcherId],
+    references: [pitcher.id],
+    relationName: "awayPitcher",
+  }),
+  notifications: many(notification),
+}));
+
+export const createGameSchema = createInsertSchema(game);
+
+export type Game = z.infer<typeof createGameSchema>;
+
+export const subscription = pgTable(
+  "subscription",
+  (t) => ({
+    id: t.uuid().notNull().primaryKey().defaultRandom(),
+    userId: t
+      .uuid()
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    pitcherId: t
+      .uuid()
+      .notNull()
+      .references(() => pitcher.id, { onDelete: "restrict" }),
+  }),
+  (t) => ({
+    uniquePitcherSubPerUser: unique().on(t.userId, t.pitcherId),
+  }),
+);
+
+export const subscriptionRelations = relations(subscription, ({ one }) => ({
+  user: one(user, { fields: [subscription.userId], references: [user.id] }),
+  pitcher: one(pitcher, {
+    fields: [subscription.pitcherId],
+    references: [pitcher.id],
+  }),
+}));
+
+export const createSubscriptionSchema = createInsertSchema(subscription);
+export const selectSubscriptionSchema = createSelectSchema(subscription);
+
+export type Subscription = z.infer<typeof selectSubscriptionSchema>;
+
+export const notification = pgTable(
+  "notification",
+  (t) => ({
+    id: t.uuid().notNull().primaryKey().defaultRandom(),
+    deviceId: t
+      .uuid()
+      .notNull()
+      .references(() => device.id, { onDelete: "cascade" }),
+    gameId: t
+      .uuid()
+      .notNull()
+      .references(() => game.id, { onDelete: "restrict" }),
+    pitcherId: t
+      .uuid()
+      .notNull()
+      .references(() => pitcher.id, { onDelete: "restrict" }),
+    sentOn: t.timestamp({ mode: "date", withTimezone: true }),
+  }),
+  (t) => ({
+    uniqueGamePitcherPerDevice: unique().on(t.deviceId, t.gameId, t.pitcherId),
+  }),
+);
+
+export const notificationRelations = relations(notification, ({ one }) => ({
+  device: one(device, {
+    fields: [notification.deviceId],
+    references: [device.id],
+  }),
+  game: one(game, { fields: [notification.gameId], references: [game.id] }),
+  pitcher: one(pitcher, {
+    fields: [notification.pitcherId],
+    references: [pitcher.id],
+  }),
+}));
+
+export const createNotificationSchema = createInsertSchema(notification);
+
+export type Notification = z.infer<typeof createNotificationSchema>;
+
+export const device = pgTable(
+  "device",
+  (t) => ({
+    id: t.uuid().notNull().primaryKey().defaultRandom(),
+    userId: t
+      .uuid()
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    pushToken: t.varchar({ length: 1023 }).unique().notNull(),
+    timezone: t.varchar({ length: 255 }).notNull(),
+    notificationsEnabled: t.boolean().default(true),
+  }),
+  (t) => ({
+    uniqueUserPerPushToken: unique().on(t.pushToken, t.userId),
+  }),
+);
+
+export const deviceRelations = relations(device, ({ one, many }) => ({
+  user: one(user, { fields: [device.userId], references: [user.id] }),
+  notifications: many(notification),
+}));
+
+export const createDeviceSchema = createInsertSchema(device);
+export const selectDeviceSchema = createSelectSchema(device);
+
+export type Device = z.infer<typeof selectDeviceSchema>;
+
+export const user = pgTable("user", (t) => ({
+  id: t.uuid().notNull().primaryKey().defaultRandom(),
+  name: t.varchar({ length: 255 }),
+  email: t.varchar({ length: 255 }).notNull(),
+  emailVerified: t.timestamp({ mode: "date", withTimezone: true }),
+  image: t.varchar({ length: 255 }),
+}));
+
+export const userRelations = relations(user, ({ many }) => ({
+  accounts: many(account),
+  devices: many(device),
+}));
+
+export const selectUserSchema = createSelectSchema(user);
+
+export type User = z.infer<typeof selectUserSchema>;
+
+export const account = pgTable(
+  "account",
+  (t) => ({
+    userId: t
+      .uuid()
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    type: t
+      .varchar({ length: 255 })
+      .$type<"email" | "oauth" | "oidc" | "webauthn">()
+      .notNull(),
+    provider: t.varchar({ length: 255 }).notNull(),
+    providerAccountId: t.varchar({ length: 255 }).notNull(),
+    refresh_token: t.varchar({ length: 255 }),
+    access_token: t.text(),
+    expires_at: t.integer(),
+    token_type: t.varchar({ length: 255 }),
+    scope: t.varchar({ length: 255 }),
+    id_token: t.text(),
+    session_state: t.varchar({ length: 255 }),
+  }),
+  (account) => ({
+    compoundKey: primaryKey({
+      columns: [account.provider, account.providerAccountId],
+    }),
+  }),
+);
+
+export const accountRelations = relations(account, ({ one }) => ({
+  user: one(user, { fields: [account.userId], references: [user.id] }),
+}));
+
+export const session = pgTable("session", (t) => ({
+  sessionToken: t.varchar({ length: 255 }).notNull().primaryKey(),
+  userId: t
+    .uuid()
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  expires: t.timestamp({ mode: "date", withTimezone: true }).notNull(),
+}));
+
+export const sessionRelations = relations(session, ({ one }) => ({
+  user: one(user, { fields: [session.userId], references: [user.id] }),
+}));

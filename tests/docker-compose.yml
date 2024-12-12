@@ -1,0 +1,90 @@
+services:
+  # nextjs:
+  #   build:
+  #     context: ..
+  #     dockerfile: apps/nextjs/Dockerfile
+  #   environment:
+  #     DATABASE_URL: mysql://root:password@db:3306/probable-pitcher
+  #     NEXTAUTH_URL: http://nextjs:3000
+  #     NEXTAUTH_SECRET: secret
+  db:
+    image: postgres:17.0-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=probable-pitcher
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      retries: 10
+      timeout: 2s
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user-name@domain-name.com
+      PGADMIN_DEFAULT_PASSWORD: strong-password
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+  migrate:
+    build:
+      context: ..
+      dockerfile: packages/db/Dockerfile
+    environment:
+      DATABASE_URL: postgres://postgres:password@db:5432/probable-pitcher
+    depends_on:
+      db:
+        condition: service_healthy
+  seed:
+    image: postgres:17.0-alpine
+    volumes:
+      - ./test-data.sql:/test-data.sql
+    entrypoint:
+      [
+        "bash",
+        "-c",
+        "sleep 10 && PGPASSWORD=password psql --username=postgres --host=db --port=5432 --dbname=probable-pitcher -f /test-data.sql && exit",
+      ]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+  ingest:
+    build:
+      context: ..
+      dockerfile: apps/ingest/Dockerfile
+    environment:
+      INGEST_JOBS: teams,pitchers,games,notifications
+      DATABASE_URL: postgres://postgres:password@db:5432/probable-pitcher
+    depends_on:
+      seed:
+        condition: service_completed_successfully
+  # integration:
+  #   build:
+  #     context: ..
+  #     dockerfile: tests/integration/Dockerfile
+  #   environment:
+  #     API_URL: http://nextjs:3000
+  #   depends_on:
+  #     ingest:
+  #       condition: service_completed_successfully
+  # stress:
+  #   image: grafana/k6
+  #   environment:
+  #     API_URL: http://nextjs:3000
+  #   depends_on:
+  #     seed:
+  #       condition: service_completed_successfully
+  #   volumes:
+  #     - ./scripts:/scripts
+  #   command: run /scripts/index.js
+volumes:
+  pgdata:
+  pgadmin-data:

@@ -1,0 +1,38 @@
+{
+  "name": "@probable/api",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "dev": "tsc",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "@probable/auth": "workspace:*",
+    "@probable/db": "workspace:*",
+    "@probable/validators": "workspace:*",
+    "@trpc/server": "catalog:",
+    "superjson": "2.2.1",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@probable/eslint-config": "workspace:*",
+    "@probable/prettier-config": "workspace:*",
+    "@probable/tsconfig": "workspace:*",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:"
+  },
+  "prettier": "@probable/prettier-config"
+}
