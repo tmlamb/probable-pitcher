@@ -1,9 +1,19 @@
 import { formatISO } from "date-fns";
 import { client } from "../db/client.js";
 import { getPitchers } from "../services/base-api.js";
-import type { Player } from "../services/base-api.js";
+import type { Pitcher } from "../services/base-api.js";
 
-export async function processPitcher(pitcher: Player) {
+export async function ingestPitchers(ingestDate: Date) {
+  const date = formatISO(ingestDate, { representation: "date" });
+
+  const pitchers = await getPitchers(date);
+  console.debug("Found pitchers: ", pitchers);
+  for (const pitcher of pitchers) {
+    await processPitcher(pitcher);
+  }
+}
+
+export async function processPitcher(pitcher: Pitcher) {
   const existing = await client.pitcher.byRef(pitcher.ref);
   const existingTeam = await client.team.byRef(pitcher.team);
 
@@ -36,15 +46,5 @@ export async function processPitcher(pitcher: Player) {
         } has multiple IDs: ${JSON.stringify(pitchersWithName)}`,
       );
     }
-  }
-}
-
-export async function ingestPitchers() {
-  const date = formatISO(new Date(), { representation: "date" });
-
-  const pitchers = await getPitchers(date);
-  console.debug("Found pitchers: ", pitchers);
-  for (const pitcher of pitchers) {
-    await processPitcher(pitcher);
   }
 }

@@ -13,16 +13,11 @@ const pitcher = z.object({
   ref: z.number(),
   name: z.string(),
   number: z.string().nullish(),
+  team: z.number(),
+  position: z.string().optional(),
 });
 
-const player = pitcher.merge(
-  z.object({
-    team: z.number(),
-    position: z.string().optional(),
-  }),
-);
-
-export type Player = z.infer<typeof player>;
+export type Pitcher = z.infer<typeof pitcher>;
 
 const teamPitcher = z.object({
   team,
@@ -32,21 +27,14 @@ const teamPitcher = z.object({
 const game = z.object({
   ref: z.number(),
   date: z.string(),
-  teams: z.object({
-    away: teamPitcher,
-    home: teamPitcher,
-  }),
+  away: teamPitcher,
+  home: teamPitcher,
 });
 
 export type Game = z.infer<typeof game>;
 
 const gamesResponse = z.object({
-  dates: z.array(
-    z.object({
-      date: z.string(),
-      games: z.array(game),
-    }),
-  ),
+  games: z.array(game),
 });
 
 export async function getGames(date: string): Promise<Game[]> {
@@ -54,15 +42,8 @@ export async function getGames(date: string): Promise<Game[]> {
   return fetch(`${process.env.BASE_API_URL}/games?date=${date}`)
     .then((res) => res.json())
     .then((data) => {
-      const schedule = gamesResponse.parse(data);
-      return schedule.dates
-        .filter((d) => d.date === date)
-        .reduce(
-          (acc, cur) => {
-            return acc.concat(cur.games);
-          },
-          [] as z.infer<typeof game>[],
-        );
+      const { games } = gamesResponse.parse(data);
+      return games;
     })
     .catch((err: Error) => {
       console.error(err);
@@ -79,8 +60,8 @@ export async function getTeams(date: string): Promise<Team[]> {
   return fetch(`${process.env.BASE_API_URL}/teams?date=${date}`)
     .then((res) => res.json())
     .then((data) => {
-      const teams = teamsResponse.parse(data);
-      return teams.teams;
+      const { teams } = teamsResponse.parse(data);
+      return teams;
     })
     .catch((err: Error) => {
       console.error(err);
@@ -88,13 +69,16 @@ export async function getTeams(date: string): Promise<Team[]> {
     });
 }
 
-const pitchersResponse = z.array(player);
+const pitchersResponse = z.object({
+  pitchers: z.array(pitcher),
+});
 
-export async function getPitchers(date: string): Promise<Player[]> {
+export async function getPitchers(date: string): Promise<Pitcher[]> {
   return fetch(`${process.env.BASE_API_URL}/pitchers?date=${date}`)
     .then((res) => res.json())
     .then((data) => {
-      return pitchersResponse.parse(data);
+      const { pitchers } = pitchersResponse.parse(data);
+      return pitchers;
     })
     .catch((err) => {
       console.error("Error fetching players:", err);

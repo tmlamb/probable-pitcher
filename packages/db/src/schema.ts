@@ -238,3 +238,5 @@ export const session = pgTable("session", (t) => ({
 export const sessionRelations = relations(session, ({ one }) => ({
   user: one(user, { fields: [session.userId], references: [user.id] }),
 }));
+
+export type QueryError = typeof Error & { code?: unknown };

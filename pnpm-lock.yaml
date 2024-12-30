@@ -88,6 +88,9 @@ importers:
       '@types/node':
         specifier: ^20.16.11
         version: 20.17.6
+      dotenv-cli:
+        specifier: ^7.4.2
+        version: 7.4.2
       eslint:
         specifier: 'catalog:'
         version: 9.14.0(jiti@2.4.0)

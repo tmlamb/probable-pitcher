@@ -1,27 +1,45 @@
-import { add, endOfToday, format } from "date-fns";
-import { DrizzleError } from "drizzle-orm";
+import { add, endOfToday, format, endOfDay } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 import { client } from "../db/client.js";
 import { sendPushNotification } from "../services/push.js";
+import type { QueryError } from "@probable/db/schema";
 
 const TIME_FORMAT = "h:mm aaa z";
 
-export async function ingestNotifications() {
-  const todayStart = new Date();
-  const todayEnd = add(endOfToday(), { hours: 6 });
+export async function ingestNotifications(ingestStartTime: Date) {
+  const ingestEndTime = add(endOfDay(ingestStartTime), { hours: 6 });
 
-  console.log("Ingesting notifications for today:", todayStart, todayEnd);
-  const gamesToday = await client.game.inRange(todayStart, todayEnd);
+  console.log(
+    "Ingesting notifications for today:",
+    ingestStartTime,
+    ingestEndTime,
+  );
+  const gamesToday = await client.game.inRange(ingestStartTime, ingestEndTime);
   console.debug("Found games today:", JSON.stringify(gamesToday));
   for (const game of gamesToday) {
+    console.debug("Ingesting notifications for game:", game.id);
     const pitchers = [game.homePitcher, game.awayPitcher].filter(
       (pitcher) => !!pitcher,
     );
-
+    console.debug("Found pitchers for game:", JSON.stringify(pitchers));
     for (const pitcher of pitchers) {
+      console.debug("Ingesting notifications for pitcher:", pitcher.id);
       const subscriptions = await client.subscription.byPitcherId(pitcher.id);
+      console.debug(
+        `Found ${subscriptions.length} subscriptions for pitcher: ${JSON.stringify(
+          subscriptions,
+        )}`,
+      );
       for (const subscription of subscriptions) {
+        console.debug(
+          `Ingesting notifications for subscription: ${JSON.stringify(
+            subscription,
+          )}`,
+        );
         for (const device of subscription.user.devices) {
+          console.debug(
+            `Ingesting notifications for device: ${JSON.stringify(device)}`,
+          );
           try {
             await client.notification.create({
               deviceId: device.id,
@@ -30,8 +48,9 @@ export async function ingestNotifications() {
             });
           } catch (e) {
             if (
-              e instanceof DrizzleError &&
-              e.message.includes("23505") // unique constraint violation, notification already ingested
+              e instanceof Error
+              //e instanceof QueryError &&
+              //e.code === "23505" // unique constraint violation, notification already ingested
             ) {
               console.warn("Duplicate notifications cannot be created: ", e);
             } else {
@@ -48,14 +67,18 @@ export async function ingestNotifications() {
   }
 }
 
-export async function sendNotifications() {
-  const todayStart = new Date();
-  const hour = Number(format(todayStart, "H"));
-  const todayEnd = add(hour < 6 ? todayStart : endOfToday(), { hours: 6 });
+export async function sendNotifications(sendStartTime: Date) {
+  const hour = Number(format(sendStartTime, "H"));
+  const sendEndTime = add(hour < 6 ? sendStartTime : endOfToday(), {
+    hours: 6,
+  });
 
-  console.log("Getting notifications for today:", todayStart, todayEnd);
+  console.log("Getting notifications for today:", sendStartTime, sendEndTime);
   const devicesWithNotifications =
-    await client.device.withPendingNotificationsInRange(todayStart, todayEnd);
+    await client.device.withPendingNotificationsInRange(
+      sendStartTime,
+      sendEndTime,
+    );
 
   console.debug(
     `Found ${
@@ -64,8 +87,11 @@ export async function sendNotifications() {
   );
 
   for (const device of devicesWithNotifications) {
+    console.debug(
+      `Sending notifications for device: ${JSON.stringify(device)}`,
+    );
     const localHour = Number(
-      formatInTimeZone(Date.now(), device.timezone, "H"),
+      formatInTimeZone(sendStartTime.getTime(), device.timezone, "H"),
     );
     if (localHour < 9 || localHour >= 21) {
       console.debug(

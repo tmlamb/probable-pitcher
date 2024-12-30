@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 export async function sendPushNotification(
   expoPushToken: string,
   title: string,
-  body: string
+  body: string,
 ) {
   const message = {
     to: expoPushToken,
@@ -14,7 +14,7 @@ export async function sendPushNotification(
   };
   try {
     console.log(`sending push notification: ${JSON.stringify(message)}`);
-    await fetch("https://exp.host/--/api/v2/push/send", {
+    await fetch(`${process.env.EXPO_API_URL}/--/api/v2/push/send`, {
       method: "POST",
       headers: {
         Accept: "application/json",

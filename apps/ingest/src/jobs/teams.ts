@@ -2,8 +2,8 @@ import { formatISO } from "date-fns";
 import { client } from "../db/client.js";
 import { getTeams } from "../services/base-api.js";
 
-export async function ingestTeams() {
-  const date = formatISO(new Date(), { representation: "date" });
+export async function ingestTeams(ingestDate: Date) {
+  const date = formatISO(ingestDate, { representation: "date" });
 
   const teams = await getTeams(date);
   console.debug("Found teams: ", teams);

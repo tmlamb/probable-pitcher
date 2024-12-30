@@ -39,7 +39,10 @@ COPY --from=pruner /probable-pitcher/out/full/ .
 RUN pnpm install
 
 ARG INGEST_JOBS
+ARG INGEST_DATE
 ARG DATABASE_URL
+ARG BASE_API_URL
+ARG EXPO_API_URL
 
 ARG TURBO_TEAM
 ENV TURBO_TEAM=$TURBO_TEAM
@@ -59,7 +62,6 @@ ENV NODE_ENV production
 
 RUN addgroup --system --gid 1001 ingest
 RUN adduser --system --uid 1001 ingest
-RUN apk add --no-cache curl
 
 COPY --from=builder /probable-pitcher/ .
 # COPY --from=builder /probable-pitcher/apps/ingest/package.json ./apps/ingest/package.json

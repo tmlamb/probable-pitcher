@@ -6,6 +6,7 @@ import {
   device,
   user,
   notification,
+  subscription,
 } from "@probable/db/schema";
 import type { Team, Pitcher, Game, Notification } from "@probable/db/schema";
 import { eq, between, and, inArray, isNull } from "@probable/db";
@@ -104,7 +105,7 @@ export const client = {
   subscription: {
     byPitcherId: (pitcherId: string) => {
       return db.query.subscription.findMany({
-        where: eq(pitcher.id, pitcherId),
+        where: eq(subscription.pitcherId, pitcherId),
         with: {
           user: {
             with: {

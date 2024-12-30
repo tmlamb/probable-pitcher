@@ -6,8 +6,8 @@ INSERT INTO "user" (
 )
 VALUES
   (
-    'e312a8dc-bcaa-4452-9371-3701a88cda18',
-    'test1@probablepitcher.com',
+    'e111a8dc-bcaa-4452-9371-3701a88c111e',
+    'test1@example.com',
     NULL,
     NULL
   );
@@ -20,8 +20,8 @@ INSERT INTO "user" (
 )
 VALUES
   (
-    '548e899a-2e4e-4413-aad6-15a87b69661d',
-    'test2@probablepitcher.com',
+    'e222899a-2e4e-4413-aad6-15a87b69222e',
+    'test2@example.com',
     NULL,
     NULL
   );
@@ -34,8 +34,64 @@ INSERT INTO "user" (
 )
 VALUES
   (
-    'ad6632a5-d6d8-469d-aae6-22c1ff53c58a',
-    'test3@probablepitcher.com',
+    'e33332a5-d6d8-469d-aae6-22c1ff53333e',
+    'test3@example.com',
+    NULL,
+    NULL
+  );
+
+INSERT INTO "user" (
+  id,
+  email,
+  email_verified,
+  image
+)
+VALUES
+  (
+    'e44442e4-2962-4ed7-99ea-c64d248d444e',
+    'test4@example.com',
+    NULL,
+    NULL
+  );
+
+INSERT INTO "user" (
+  id,
+  email,
+  email_verified,
+  image
+)
+VALUES
+  (
+    'e555bfa9-4dbf-42da-8f8d-348a7364555e',
+    'test5@example.com',
+    NULL,
+    NULL
+  );
+
+INSERT INTO "user" (
+  id,
+  email,
+  email_verified,
+  image
+)
+VALUES
+  (
+    'e666cadc-f752-4646-ad6b-419be06f666e',
+    'test6@example.com',
+    NULL,
+    NULL
+  );
+
+INSERT INTO "user" (
+  id,
+  email,
+  email_verified,
+  image
+)
+VALUES
+  (
+    'e777a9b7-2b65-4a8d-b476-6eb5fda8777e',
+    'test7@example.com',
     NULL,
     NULL
   );
@@ -56,7 +112,7 @@ INSERT INTO
   )
 VALUES
   (
-    'e312a8dc-bcaa-4452-9371-3701a88cda18',
+    'e111a8dc-bcaa-4452-9371-3701a88c111e',
     'oauth',
     'google',
     '123456789101112131415',
@@ -85,7 +141,7 @@ INSERT INTO
   )
 VALUES
   (
-    '548e899a-2e4e-4413-aad6-15a87b69661d',
+    'e222899a-2e4e-4413-aad6-15a87b69222e',
     'oauth',
     'google',
     '123456789101112131416',
@@ -114,7 +170,7 @@ INSERT INTO
   )
 VALUES
   (
-    'ad6632a5-d6d8-469d-aae6-22c1ff53c58a',
+    'e33332a5-d6d8-469d-aae6-22c1ff53333e',
     'oauth',
     'google',
     '123456789101112131417',
@@ -128,12 +184,128 @@ VALUES
   );
 
 INSERT INTO
+  account (
+    user_id,
+    type,
+    provider,
+    provider_account_id,
+    refresh_token,
+    access_token,
+    expires_at,
+    token_type,
+    scope,
+    id_token,
+    session_state
+  )
+VALUES
+  (
+    'e44442e4-2962-4ed7-99ea-c64d248d444e',
+    'oauth',
+    'google',
+    '123456789101112131418',
+    NULL,
+    'test_access_token_4',
+    1970188389,
+    'Bearer',
+    'openid',
+    'test_id_token_4',
+    NULL
+  );
+
+INSERT INTO
+  account (
+    user_id,
+    type,
+    provider,
+    provider_account_id,
+    refresh_token,
+    access_token,
+    expires_at,
+    token_type,
+    scope,
+    id_token,
+    session_state
+  )
+VALUES
+  (
+    'e555bfa9-4dbf-42da-8f8d-348a7364555e',
+    'oauth',
+    'google',
+    '123456789101112131419',
+    NULL,
+    'test_access_token_5',
+    1970188389,
+    'Bearer',
+    'openid',
+    'test_id_token_5',
+    NULL
+  );
+
+INSERT INTO
+  account (
+    user_id,
+    type,
+    provider,
+    provider_account_id,
+    refresh_token,
+    access_token,
+    expires_at,
+    token_type,
+    scope,
+    id_token,
+    session_state
+  )
+VALUES
+  (
+    'e666cadc-f752-4646-ad6b-419be06f666e',
+    'oauth',
+    'google',
+    '123456789101112131420',
+    NULL,
+    'test_access_token_6',
+    1970188389,
+    'Bearer',
+    'openid',
+    'test_id_token_6',
+    NULL
+  );
+
+INSERT INTO
+  account (
+    user_id,
+    type,
+    provider,
+    provider_account_id,
+    refresh_token,
+    access_token,
+    expires_at,
+    token_type,
+    scope,
+    id_token,
+    session_state
+  )
+VALUES
+  (
+    'e777a9b7-2b65-4a8d-b476-6eb5fda8777e',
+    'oauth',
+    'facebook',
+    '123456789101112131421',
+    NULL,
+    'test_access_token_7',
+    1970188389,
+    'Bearer',
+    'openid',
+    'test_id_token_7',
+    NULL
+  );
+
+INSERT INTO
   session (session_token, user_id, expires)
 VALUES
   (
     '1c2358f5-51e0-4be5-ae8e-312a6b9888e1',
-    'e312a8dc-bcaa-4452-9371-3701a88cda18',
-    '2049-03-14 10:12:11.256'
+    'e111a8dc-bcaa-4452-9371-3701a88c111e',
+    '2049-08-14 15:12:11.256'
   );
 
 INSERT INTO
@@ -141,8 +313,8 @@ INSERT INTO
 VALUES
   (
     '2c2358f5-51e0-4be5-ae8e-312a6b9888e2',
-    '548e899a-2e4e-4413-aad6-15a87b69661d',
-    '2049-03-14 10:12:11.256'
+    'e222899a-2e4e-4413-aad6-15a87b69222e',
+    '2049-08-14 15:12:11.256'
   );
 
 INSERT INTO
@@ -150,8 +322,44 @@ INSERT INTO
 VALUES
   (
     '3c2358f5-51e0-4be5-ae8e-312a6b9888e3',
-    'ad6632a5-d6d8-469d-aae6-22c1ff53c58a',
-    '2049-03-14 10:12:11.256'
+    'e33332a5-d6d8-469d-aae6-22c1ff53333e',
+    '2049-08-14 15:12:11.256'
+  );
+
+INSERT INTO
+  session (session_token, user_id, expires)
+VALUES
+  (
+    '4c2358f5-51e0-4be5-ae8e-312a6b9888e4',
+    'e44442e4-2962-4ed7-99ea-c64d248d444e',
+    '2049-08-14 15:12:11.256'
+  );
+
+INSERT INTO
+  session (session_token, user_id, expires)
+VALUES
+  (
+    '5c2358f5-51e0-4be5-ae8e-312a6b9888e5',
+    'e555bfa9-4dbf-42da-8f8d-348a7364555e',
+    '2049-08-14 15:12:11.256'
+  );
+
+INSERT INTO
+  session (session_token, user_id, expires)
+VALUES
+  (
+    '6c2358f5-51e0-4be5-ae8e-312a6b9888e6',
+    'e666cadc-f752-4646-ad6b-419be06f666e',
+    '2049-08-14 15:12:11.256'
+  );
+
+INSERT INTO
+  session (session_token, user_id, expires)
+VALUES
+  (
+    '7c2358f5-51e0-4be5-ae8e-312a6b9888e7',
+    'e777a9b7-2b65-4a8d-b476-6eb5fda8777e',
+    '2049-08-14 15:12:11.256'
   );
 
 INSERT INTO
@@ -164,8 +372,8 @@ INSERT INTO
   )
 VALUES
   (
-    'f37e86c4-4d5c-4a4e-95c7-fd4c382c8644',
-    'e312a8dc-bcaa-4452-9371-3701a88cda18',
+    'd11186c4-4d5c-4a4e-95c7-fd4c382c111d',
+    'e111a8dc-bcaa-4452-9371-3701a88c111e',
     'test_push_token_1',
     'America/New_York',
     true
@@ -181,8 +389,8 @@ INSERT INTO
   )
 VALUES
   (
-    'f71d0614-e86b-43e5-a6ea-f4d7816a6e46',
-    '548e899a-2e4e-4413-aad6-15a87b69661d',
+    'd2220614-e86b-43e5-a6ea-f4d7816a222d',
+    'e222899a-2e4e-4413-aad6-15a87b69222e',
     'test_push_token_2',
     'Europe/London',
     true
@@ -198,9 +406,43 @@ INSERT INTO
   )
 VALUES
   (
-    'fadbca0c-de64-4e25-9de7-bea768bc81aa',
-    'ad6632a5-d6d8-469d-aae6-22c1ff53c58a',
+    'd333ca0c-de64-4e25-9de7-bea768bc333d',
+    'e33332a5-d6d8-469d-aae6-22c1ff53333e',
     'test_push_token_3',
+    'America/Los_Angeles',
+    true
+  );
+
+INSERT INTO
+  device (
+    id,
+    user_id,
+    push_token,
+    timezone,
+    notifications_enabled
+  )
+VALUES
+  (
+    'd3232a0c-de64-4e25-9de7-bea768b2323d',
+    'e33332a5-d6d8-469d-aae6-22c1ff53333e',
+    'test_push_token_32',
+    'America/New_York',
+    false
+  );
+
+INSERT INTO
+  device (
+    id,
+    user_id,
+    push_token,
+    timezone,
+    notifications_enabled
+  )
+VALUES
+  (
+    'd444ca0c-de64-4e25-9de7-bea768b8444d',
+    'e44442e4-2962-4ed7-99ea-c64d248d444e',
+    'test_push_token_4',
     'America/New_York',
     true
   );
@@ -215,13 +457,80 @@ INSERT INTO
   )
 VALUES
   (
-    'fadbca0c-de64-4e25-9de7-bea768bc81aa2',
-    'ad6632a5-d6d8-469d-aae6-22c1ff53c58a',
-    'test_push_token_32',
-    'America/New_York',
-    false
+    'd4242c0c-de64-4e25-9de7-bea768b2424d',
+    'e44442e4-2962-4ed7-99ea-c64d248d444e',
+    'test_push_token_42',
+    'America/Chicago',
+    true
   );
 
+INSERT INTO
+  device (
+    id,
+    user_id,
+    push_token,
+    timezone,
+    notifications_enabled
+  )
+VALUES
+  (
+    'd555ca0c-de64-4e25-9de7-bea768bc555d',
+    'e555bfa9-4dbf-42da-8f8d-348a7364555e',
+    'test_push_token_5',
+    'America/New_York',
+    true
+  );
+
+INSERT INTO
+  device (
+    id,
+    user_id,
+    push_token,
+    timezone,
+    notifications_enabled
+  )
+VALUES
+  (
+    'd5252a0c-de64-4e25-9de7-bea768b2525d',
+    'e555bfa9-4dbf-42da-8f8d-348a7364555e',
+    'test_push_token_52',
+    'America/New_York',
+    true
+  );
+
+INSERT INTO
+  device (
+    id,
+    user_id,
+    push_token,
+    timezone,
+    notifications_enabled
+  )
+VALUES
+  (
+    'd666ca0c-de64-4e25-9de7-bea768bc666d',
+    'e666cadc-f752-4646-ad6b-419be06f666e',
+    'test_push_token_6',
+    'America/New_York',
+    true
+  );
+
+INSERT INTO
+  device (
+    id,
+    user_id,
+    push_token,
+    timezone,
+    notifications_enabled
+  )
+VALUES
+  (
+    'd777aa0c-de64-4e25-9de7-bea768ba777d',
+    'e777a9b7-2b65-4a8d-b476-6eb5fda8777e',
+    'test_push_token_62',
+    'America/New_York',
+    true
+  );
 
 INSERT INTO
   team (id, ref, name, abbreviation)
@@ -259,7 +568,7 @@ INSERT INTO
     ref,
     name,
     team_id,
-    primary_number
+    number
   )
 VALUES
   (
@@ -276,7 +585,7 @@ INSERT INTO
     ref,
     name,
     team_id,
-    primary_number
+    number
   )
 VALUES
   (
@@ -293,7 +602,7 @@ INSERT INTO
     ref,
     name,
     team_id,
-    primary_number
+    number
   )
 VALUES
   (
@@ -310,7 +619,7 @@ INSERT INTO
     ref,
     name,
     team_id,
-    primary_number
+    number
   )
 VALUES
   (
@@ -327,7 +636,7 @@ INSERT INTO
     ref,
     name,
     team_id,
-    primary_number
+    number
   )
 VALUES
   (
@@ -344,7 +653,7 @@ INSERT INTO
     ref,
     name,
     team_id,
-    primary_number
+    number
   )
 VALUES
   (
@@ -353,6 +662,57 @@ VALUES
     'Freddy Fig',
     '31d12596-7771-4910-a3fb-609cf86747aa',
     '6'
+  );
+
+INSERT INTO
+  pitcher (
+    id,
+    ref,
+    name,
+    team_id,
+    number
+  )
+VALUES
+  (
+    '5c1b1f3b-1b1b-4b1b-8b1b-1b1b1b1b1b1b',
+    7,
+    'Gerry Grape',
+    '6e1bc9b2-0ae4-4484-b9ed-b3e8d4c86580',
+    '7'
+  );
+
+INSERT INTO
+  pitcher (
+    id,
+    ref,
+    name,
+    team_id,
+    number
+  )
+VALUES
+  (
+    '6d1d1f3b-1b1b-4b1b-8b1b-1b1b1b1b1b1b',
+    8,
+    'Harry Honeydew',
+    'da940603-baa0-48b7-a5e5-4f5376bbf757',
+    '8'
+  );
+
+INSERT INTO
+  pitcher (
+    id,
+    ref,
+    name,
+    team_id,
+    number
+  )
+VALUES
+  (
+    '7e1f1f3b-1b1b-4b1b-8b1b-1b1b1b1b1b1b',
+    9,
+    'Izzy Iceberg',
+    '8dd43e52-8037-47f3-a13a-53a5d039ac66',
+    '9'
   );
 
 INSERT INTO
@@ -365,9 +725,9 @@ INSERT INTO
   )
 VALUES
   (
-    '9a91c26a-f3e4-4c48-a132-fd6774cbe0e5',
+    'a111c26a-f3e4-4c48-a132-fd6774cb111a',
     1,
-    '2022-03-14 10:12:11.256',
+    '2022-08-15 02:12:11.256Z',
     '6ae0fbb7-4ad8-4aaa-a8ab-97748ce1c5da',
     'e3e6a1b0-34b9-43f3-8a5f-bcba844f5425'
   );
@@ -382,9 +742,9 @@ INSERT INTO
   )
 VALUES
   (
-    'd2605427-d775-4047-8b3e-e93a68fc214a',
+    'a2225427-d775-4047-8b3e-e93a68fc222a',
     2,
-    '2022-03-14 10:12:11.256',
+    '2022-08-14 19:00:11.256Z',
     'f1d41eb6-8572-47dc-889b-586508964d7e',
     '0034c398-f528-434a-9e5a-e0a7ab1dedab'
   );
@@ -399,11 +759,45 @@ INSERT INTO
   )
 VALUES
   (
-    '2fd81f88-3f1a-4492-978b-307703589c8b',
+    'a3331f88-3f1a-4492-978b-30770358333a',
     3,
-    '2022-03-14 10:12:11.256',
+    '2022-08-14 15:12:11.256Z',
     '3236eaf0-266f-49a2-9b7c-a5394b0c1e96',
     '4bd13920-5564-423e-ba4a-81e9079230af'
+  );
+
+INSERT INTO
+  game (
+    id,
+    ref,
+    date,
+    home_pitcher_id,
+    away_pitcher_id
+  )
+VALUES
+  (
+    'a4441f88-3f1a-4492-978b-30770358444a',
+    4,
+    '2022-08-14 02:00:11.256Z',
+    '5c1b1f3b-1b1b-4b1b-8b1b-1b1b1b1b1b1b',
+    '6d1d1f3b-1b1b-4b1b-8b1b-1b1b1b1b1b1b'
+  );
+
+INSERT INTO
+  game (
+    id,
+    ref,
+    date,
+    home_pitcher_id,
+    away_pitcher_id
+  )
+VALUES
+  (
+    'a5551f88-3f1a-4492-978b-30770358555a',
+    5,
+    '2022-08-14 15:12:11.256Z',
+    '7e1f1f3b-1b1b-4b1b-8b1b-1b1b1b1b1b1b',
+    NULL
   );
 
 INSERT INTO
@@ -415,7 +809,7 @@ INSERT INTO
 VALUES
   (
     '469aceb4-2081-4714-823a-35f15ca1f6f6',
-    'e312a8dc-bcaa-4452-9371-3701a88cda18',
+    'e111a8dc-bcaa-4452-9371-3701a88c111e',
     '6ae0fbb7-4ad8-4aaa-a8ab-97748ce1c5da'
   );
 
@@ -428,7 +822,7 @@ INSERT INTO
 VALUES
   (
     '4ec4f24a-c444-49bb-b318-0fec614c94f7',
-    '548e899a-2e4e-4413-aad6-15a87b69661d',
+    'e222899a-2e4e-4413-aad6-15a87b69222e',
     'e3e6a1b0-34b9-43f3-8a5f-bcba844f5425'
   );
 
@@ -441,6 +835,84 @@ INSERT INTO
 VALUES
   (
     'b099b64e-1f9c-403c-bf58-348e88aa2312',
-    'ad6632a5-d6d8-469d-aae6-22c1ff53c58a',
+    'e33332a5-d6d8-469d-aae6-22c1ff53333e',
     'f1d41eb6-8572-47dc-889b-586508964d7e'
+  );
+
+INSERT INTO
+  subscription (
+    id,
+    user_id,
+    pitcher_id
+  )
+VALUES
+  (
+    'b1b1b1b1-1b1b-1b1b-1b1b-1b1b1b1b1b1b',
+    'e44442e4-2962-4ed7-99ea-c64d248d444e',
+    '0034c398-f528-434a-9e5a-e0a7ab1dedab'
+  );
+
+INSERT INTO
+  subscription (
+    id,
+    user_id,
+    pitcher_id
+  )
+VALUES
+  (
+    'b2b2b2b2-2b2b-2b2b-2b2b-2b2b2b2b2b2b',
+    'e555bfa9-4dbf-42da-8f8d-348a7364555e',
+    '3236eaf0-266f-49a2-9b7c-a5394b0c1e96'
+  );
+
+INSERT INTO
+  subscription (
+    id,
+    user_id,
+    pitcher_id
+  )
+VALUES
+  (
+    'b3b3b3b3-3b3b-3b3b-3b3b-3b3b3b3b3b3b',
+    'e222899a-2e4e-4413-aad6-15a87b69222e',
+    '4bd13920-5564-423e-ba4a-81e9079230af'
+  );
+
+INSERT INTO
+  subscription (
+    id,
+    user_id,
+    pitcher_id
+  )
+VALUES
+  (
+    'b4b4b4b4-4b4b-4b4b-4b4b-4b4b4b4b4b4b',
+    'e33332a5-d6d8-469d-aae6-22c1ff53333e',
+    '5c1b1f3b-1b1b-4b1b-8b1b-1b1b1b1b1b1b'
+  );
+
+INSERT INTO
+  subscription (
+    id,
+    user_id,
+    pitcher_id
+  )
+VALUES
+  (
+    'b5b5b5b5-5b5b-5b5b-5b5b-5b5b5b5b5b5b',
+    'e666cadc-f752-4646-ad6b-419be06f666e',
+    '6d1d1f3b-1b1b-4b1b-8b1b-1b1b1b1b1b1b'
+  );
+
+INSERT INTO
+  subscription (
+    id,
+    user_id,
+    pitcher_id
+  )
+VALUES
+  (
+    'b6b6b6b6-6b6b-6b6b-6b6b-6b6b6b6b6b6b',
+    'e777a9b7-2b65-4a8d-b476-6eb5fda8777e',
+    '7e1f1f3b-1b1b-4b1b-8b1b-1b1b1b1b1b1b'
   );
