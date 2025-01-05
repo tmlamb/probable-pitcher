@@ -3,14 +3,16 @@ import { Suspense } from "react";
 import { api, HydrateClient } from "~/trpc/server";
 import { AuthShowcase } from "./_components/auth-showcase";
 import {
-  CreatePostForm,
-  PostCardSkeleton,
-  PostList,
-} from "./_components/posts";
+  //CreatePostForm,
+  NotificationSkeleton,
+  NotificationList,
+} from "./_components/subscriptions";
 
 export default function HomePage() {
   // You can await this here if you don't want to show Suspense fallback below
-  void api.post.all.prefetch();
+  void api.notification.byDeviceId.prefetch({
+    deviceId: "d11186c4-4d5c-4a4e-95c7-fd4c382c111d",
+  });
 
   return (
     <HydrateClient>
@@ -21,18 +23,18 @@ export default function HomePage() {
           </h1>
           <AuthShowcase />
 
-          <CreatePostForm />
+          {/*<CreatePostForm />*/}
           <div className="w-full max-w-2xl overflow-y-scroll">
             <Suspense
               fallback={
                 <div className="flex w-full flex-col gap-4">
-                  <PostCardSkeleton />
-                  <PostCardSkeleton />
-                  <PostCardSkeleton />
+                  <NotificationSkeleton />
+                  <NotificationSkeleton />
+                  <NotificationSkeleton />
                 </div>
               }
             >
-              <PostList />
+              <NotificationList />
             </Suspense>
           </div>
         </div>

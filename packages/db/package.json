@@ -5,22 +5,22 @@
   "type": "module",
   "exports": {
     ".": {
-      "default": "./dist/index.js",
       "types": "./dist/index.d.ts",
       "import": "./src/index.ts",
-      "main": "./src/index.ts"
+      "main": "./src/index.ts",
+      "default": "./dist/index.js"
     },
     "./client": {
-      "default": "./dist/client.js",
       "types": "./dist/client.d.ts",
       "import": "./src/client.ts",
-      "main": "./src/client.ts"
+      "main": "./src/client.ts",
+      "default": "./dist/client.js"
     },
     "./schema": {
-      "default": "./dist/schema.js",
       "types": "./dist/schema.d.ts",
       "import": "./src/schema.ts",
-      "main": "./src/schema.ts"
+      "main": "./src/schema.ts",
+      "default": "./dist/schema.js"
     }
   },
   "license": "MIT",
