@@ -58,6 +58,8 @@ RUN pnpm build --filter @probable/ingest
 FROM node:23-alpine AS runner
 WORKDIR /probable-pitcher
 
+RUN npm -g install tsx@^4
+
 ENV NODE_ENV production
 
 RUN addgroup --system --gid 1001 ingest
@@ -75,4 +77,5 @@ COPY --from=builder /probable-pitcher/ .
 USER ingest
 
 # TODO: Remove disable warning in future node versions
-ENTRYPOINT ["node", "--disable-warning=ExperimentalWarning", "apps/ingest/dist/index.js"]
+# ENTRYPOINT ["node", "--disable-warning=ExperimentalWarning", "apps/ingest/dist/index.js"]
+ENTRYPOINT ["tsx", "apps/ingest/src/index.ts"]

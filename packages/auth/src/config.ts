@@ -5,7 +5,7 @@ import type {
 } from "next-auth";
 import { skipCSRFCheck } from "@auth/core";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import Discord from "next-auth/providers/discord";
+import Google from "next-auth/providers/google";
 
 import { db } from "@probable/db/client";
 import { account, session, user } from "@probable/db/schema";
@@ -38,7 +38,12 @@ export const authConfig = {
       }
     : {}),
   secret: env.AUTH_SECRET,
-  providers: [Discord],
+  providers: [
+    Google({
+      clientId: env.AUTH_GOOGLE_ID,
+      clientSecret: env.AUTH_GOOGLE_SECRET,
+    }),
+  ],
   callbacks: {
     session: (opts) => {
       if (!("user" in opts))
@@ -53,6 +58,7 @@ export const authConfig = {
       };
     },
   },
+  trustHost: true,
 } satisfies NextAuthConfig;
 
 export const validateToken = async (

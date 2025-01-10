@@ -67,6 +67,10 @@ RUN pnpm build --filter @probable/nextjs
 
 # Production image, copy all the files and run next
 FROM node:23-alpine AS runner
+
+RUN apk update
+RUN apk add curl
+
 WORKDIR /probable-pitcher
 
 ENV NODE_ENV production
@@ -76,17 +80,15 @@ ENV NODE_ENV production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-#COPY --from=builder /probable-pitcher/ .
 COPY --from=builder /probable-pitcher/apps/nextjs/next.config.js ./apps/nextjs/next.config.js
-COPY --from=builder /probable-pitcher/apps/nextjs/public ./apps/nextjs/public
 COPY --from=builder /probable-pitcher/apps/nextjs/package.json ./apps/nextjs/package.json
 COPY --from=builder /probable-pitcher/package.json ./package.json
-#COPY --from=builder /probable-pitcher/node_modules ./node_modules
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /probable-pitcher/apps/nextjs/.next/standalone ./apps/nextjs/
-COPY --from=builder --chown=nextjs:nodejs /probable-pitcher/apps/nextjs/.next/static ./apps/nextjs/.next/static
+COPY --from=builder --chown=nextjs:nodejs /probable-pitcher/apps/nextjs/.next/static ./apps/nextjs/apps/nextjs/.next/static
+COPY --from=builder --chown=nextjs:nodejs /probable-pitcher/apps/nextjs/public ./apps/nextjs/apps/nextjs/public
 
 USER nextjs
 

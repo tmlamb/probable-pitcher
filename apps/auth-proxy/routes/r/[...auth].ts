@@ -13,5 +13,6 @@ export default eventHandler(async (event) =>
         clientSecret: process.env.AUTH_GOOGLE_SECRET,
       }),
     ],
+    trustHost: true,
   }),
 );

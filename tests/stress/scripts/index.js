@@ -1,3 +1,4 @@
+import { URL } from "https://jslib.k6.io/url/1.0.0/index.js";
 import http from "k6/http";
 import { check } from "k6";
 
@@ -30,7 +31,7 @@ const params = {
     "Content-Type": "application/json",
   },
   cookies: {
-    "next-auth.session-token": "4c2358f5-51e0-4be5-ae8e-312a6b9888e8",
+    "authjs.session-token": "1c2358f5-51e0-4be5-ae8e-312a6b9888e1",
   },
 };
 
@@ -40,14 +41,15 @@ export default function () {
   if (Math.random() > 0.5) {
     searchTerms.push(names[Math.floor(Math.random() * names.length)]);
   }
-  const response = http.get(
-    `${
-      __ENV.API_URL
-    }/api/trpc/pitcher.byFuzzyName?batch=1&input={"0":{"json":"${searchTerms.join(
-      "%20",
-    )}"}}`,
-    params,
+
+  const url = new URL(`${__ENV.API_URL}/api/trpc/pitcher.byFuzzyName`);
+
+  url.searchParams.append("batch", "1");
+  url.searchParams.append(
+    "input",
+    `{"0":{"json":{"name":"${searchTerms.join("%20")}"}}}`,
   );
+  const response = http.get(url.toString(), params);
 
   check(response, {
     "Get response status is 200": (r) => r.status === 200,
