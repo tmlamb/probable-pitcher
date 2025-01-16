@@ -1,5 +1,9 @@
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-  test: {},
+  test: {
+    env: {
+      VITE_API_URL: "http://nextjs.:3000",
+    },
+  },
 });

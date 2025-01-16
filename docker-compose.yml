@@ -1,4 +1,19 @@
 services:
+  mock-base-api:
+    image: "wiremock/wiremock:latest"
+    volumes:
+      - ./tests/mocks/wiremock:/home/wiremock
+    ports:
+      - "3011:8080"
+    entrypoint:
+      [
+        "/docker-entrypoint.sh",
+        "--global-response-templating",
+        "--disable-gzip",
+        "--verbose",
+      ]
+    networks:
+      - probablenet
   auth-proxy:
     environment:
       - AUTH_REDIRECT_PROXY_URL=http://localhost:3012/r
@@ -78,7 +93,7 @@ services:
   seed:
     image: postgres:17.0-alpine
     volumes:
-      - ./tests/test-data.sql:/test-data.sql
+      - ./tests/mocks/test-data.sql:/test-data.sql
     entrypoint:
       [
         "bash",
@@ -95,7 +110,7 @@ services:
       dockerfile: apps/ingest/Dockerfile
     environment:
       - INGEST_JOBS=teams,pitchers,games,notifications
-      - INGEST_DATE=2022-08-14 14:00:00.256Z,
+      - INGEST_DATE=2022-08-14 13:00:00.256Z,
       - DATABASE_URL=postgres://postgres:password@db:5432/probable-pitcher
       - BASE_API_URL=${BASE_API_URL}
       - EXPO_API_URL=${EXPO_API_URL}
@@ -104,22 +119,24 @@ services:
     depends_on:
       seed:
         condition: service_completed_successfully
-  # integration:
-  #   build:
-  #     dockerfile: tests/integration/Dockerfile
-  #   environment:
-  #     API_URL: http://nextjs:3000
-  #   depends_on:
-  #     ingest:
-  #       condition: service_completed_successfully
-  # networks:
-  #   - probablenet
+  integration:
+    build:
+      dockerfile: tests/integration/Dockerfile
+    environment:
+      - VITE_API_URL=http://nextjs:3000
+    depends_on:
+      seed:
+        condition: service_completed_successfully
+      nextjs:
+        condition: service_healthy
+    networks:
+      - probablenet
   stress:
     image: grafana/k6
     environment:
       API_URL: http://nextjs:3000
     depends_on:
-      seed:
+      ingest:
         condition: service_completed_successfully
       nextjs:
         condition: service_healthy

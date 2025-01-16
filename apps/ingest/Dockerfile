@@ -36,7 +36,7 @@ WORKDIR /probable-pitcher
 #COPY --from=pruner /probable-pitcher/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
 COPY --from=pruner /probable-pitcher/out/full/ .
 
-RUN pnpm install
+RUN pnpm install --frozen-lockfile
 
 ARG INGEST_JOBS
 ARG INGEST_DATE

@@ -1,8 +1,7 @@
-import { add, endOfToday, format, endOfDay } from "date-fns";
+import { add, format, endOfDay } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 import { client } from "../db/client.js";
 import { sendPushNotification } from "../services/push.js";
-import type { QueryError } from "@probable/db/schema";
 
 const TIME_FORMAT = "h:mm aaa z";
 
@@ -69,7 +68,7 @@ export async function ingestNotifications(ingestStartTime: Date) {
 
 export async function sendNotifications(sendStartTime: Date) {
   const hour = Number(format(sendStartTime, "H"));
-  const sendEndTime = add(hour < 6 ? sendStartTime : endOfToday(), {
+  const sendEndTime = add(hour < 6 ? sendStartTime : endOfDay(sendStartTime), {
     hours: 6,
   });
 

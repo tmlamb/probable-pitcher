@@ -35,7 +35,7 @@ WORKDIR /probable-pitcher
 #COPY --from=pruner /probable-pitchers/out/package-lock.json ./package-lock.json
 COPY --from=pruner /probable-pitcher/out/full/ .
 
-RUN pnpm install
+RUN pnpm install --frozen-lockfile
 
 ARG DATABASE_URL
 ARG AUTH_GOOGLE_ID
@@ -58,7 +58,6 @@ ENV CI=1
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN env
 RUN pnpm build --filter @probable/nextjs
 
 ########################

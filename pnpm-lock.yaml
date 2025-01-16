@@ -582,6 +582,24 @@ importers:
 
   tests/integration:
     devDependencies:
+      '@probable/db':
+        specifier: workspace:*
+        version: link:../../packages/db
+      '@probable/eslint-config':
+        specifier: workspace:*
+        version: link:../../tooling/eslint
+      '@probable/prettier-config':
+        specifier: workspace:*
+        version: link:../../tooling/prettier
+      '@probable/tsconfig':
+        specifier: workspace:*
+        version: link:../../tooling/typescript
+      node-fetch:
+        specifier: ^3.3.2
+        version: 3.3.2
+      typescript:
+        specifier: 'catalog:'
+        version: 5.7.2
       vitest:
         specifier: ^2.1.8
         version: 2.1.8(@types/node@20.17.6)(lightningcss@1.22.0)(terser@5.36.0)

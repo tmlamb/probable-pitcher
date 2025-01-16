@@ -21,10 +21,7 @@ RUN apk add --no-cache curl
 
 RUN npm -g install pnpm@^9
 
-RUN \
-  if [ -f pnpm-lock.yaml ]; then pnpm i; \
-  else echo "Lockfile not found." && exit 1; \
-  fi
+RUN pnpm install --frozen-lockfile
 
 ########################
 #        DB PUSH       #
