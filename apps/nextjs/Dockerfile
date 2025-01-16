@@ -35,7 +35,7 @@ WORKDIR /probable-pitcher
 #COPY --from=pruner /probable-pitchers/out/package-lock.json ./package-lock.json
 COPY --from=pruner /probable-pitcher/out/full/ .
 
-RUN pnpm install --frozen-lockfile
+RUN pnpm install
 
 ARG DATABASE_URL
 ARG AUTH_GOOGLE_ID

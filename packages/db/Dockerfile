@@ -21,7 +21,7 @@ RUN apk add --no-cache curl
 
 RUN npm -g install pnpm@^9
 
-RUN pnpm install --frozen-lockfile
+RUN pnpm install
 
 ########################
 #        DB PUSH       #

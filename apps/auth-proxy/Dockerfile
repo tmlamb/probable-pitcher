@@ -27,7 +27,7 @@ WORKDIR /probable-pitcher
 
 COPY --from=pruner /probable-pitcher/out/full/ .
 
-RUN pnpm install --frozen-lockfile
+RUN pnpm install
 
 ARG AUTH_GOOGLE_ID
 ARG AUTH_GOOGLE_SECRET
