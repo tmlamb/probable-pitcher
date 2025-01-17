@@ -10,7 +10,7 @@ const TEST_USER_SCENARIOS = [
     notifications: [
       {
         gameId: "a111c26a-f3e4-4c48-a132-fd6774cb111a",
-        sent: false,
+        sent: true,
       },
     ],
   },
