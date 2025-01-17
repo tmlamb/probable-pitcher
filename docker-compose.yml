@@ -1,54 +1,4 @@
 services:
-  mock-base-api:
-    image: "wiremock/wiremock:latest"
-    volumes:
-      - ./tests/mocks/wiremock:/home/wiremock
-    ports:
-      - "3011:8080"
-    entrypoint:
-      [
-        "/docker-entrypoint.sh",
-        "--global-response-templating",
-        "--disable-gzip",
-        "--verbose",
-      ]
-    networks:
-      - probablenet
-  auth-proxy:
-    environment:
-      - AUTH_REDIRECT_PROXY_URL=http://localhost:3012/r
-      - AUTH_SECRET=secret
-      - AUTH_GOOGLE_ID=secret
-      - AUTH_GOOGLE_SECRET=secret
-      - AUTH_APPLE_ID=secret
-      - AUTH_APPLE_SECRET=secret
-    build:
-      dockerfile: apps/auth-proxy/Dockerfile
-    ports:
-      - "3012:3012"
-    networks:
-      - probablenet
-  nextjs:
-    environment:
-      - DATABASE_URL=postgres://postgres:password@db:5432/probable-pitcher
-      - NEXTAUTH_URL=http://localhost:3000
-      - AUTH_REDIRECT_PROXY_URL=http://localhost:3012/r
-      - AUTH_SECRET=secret
-      - AUTH_GOOGLE_ID=secret
-      - AUTH_GOOGLE_SECRET=secret
-      - AUTH_APPLE_ID=secret
-      - AUTH_APPLE_SECRET=secret
-    build:
-      dockerfile: apps/nextjs/Dockerfile
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://nextjs:3000/api/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    ports:
-      - "3000:3000"
-    networks:
-      - probablenet
   db:
     image: postgres:17.0-alpine
     restart: always
@@ -67,19 +17,19 @@ services:
       interval: 10s
       retries: 10
       timeout: 2s
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin4_container
-    restart: always
-    ports:
-      - "8888:80"
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=user-name@domain-name.com
-      - PGADMIN_DEFAULT_PASSWORD=strong-password
-    networks:
-      - probablenet
-    volumes:
-      - pgadmin-data:/var/lib/pgadmin
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   container_name: pgadmin4_container
+  #   restart: always
+  #   ports:
+  #     - "8888:80"
+  #   environment:
+  #     - PGADMIN_DEFAULT_EMAIL=user-name@domain-name.com
+  #     - PGADMIN_DEFAULT_PASSWORD=strong-password
+  #   networks:
+  #     - probablenet
+  #   volumes:
+  #     - pgadmin-data:/var/lib/pgadmin
   migrate:
     build:
       dockerfile: packages/db/Dockerfile
@@ -105,6 +55,24 @@ services:
     depends_on:
       migrate:
         condition: service_completed_successfully
+  mock-base-api:
+    image: "wiremock/wiremock:latest"
+    volumes:
+      - ./tests/mocks/wiremock:/home/wiremock
+    ports:
+      - "3011:8080"
+    entrypoint:
+      [
+        "/docker-entrypoint.sh",
+        "--global-response-templating",
+        "--disable-gzip",
+        "--verbose",
+      ]
+    networks:
+      - probablenet
+    depends_on:
+      seed:
+        condition: service_completed_successfully
   ingest:
     build:
       dockerfile: apps/ingest/Dockerfile
@@ -117,16 +85,55 @@ services:
     networks:
       - probablenet
     depends_on:
-      seed:
+      mock-base-api:
+        condition: service_started
+  auth-proxy:
+    environment:
+      - AUTH_REDIRECT_PROXY_URL=http://localhost:3012/r
+      - AUTH_SECRET=secret
+      - AUTH_GOOGLE_ID=secret
+      - AUTH_GOOGLE_SECRET=secret
+      - AUTH_APPLE_ID=secret
+      - AUTH_APPLE_SECRET=secret
+    build:
+      dockerfile: apps/auth-proxy/Dockerfile
+    ports:
+      - "3012:3012"
+    networks:
+      - probablenet
+    depends_on:
+      ingest:
         condition: service_completed_successfully
+  nextjs:
+    environment:
+      - DATABASE_URL=postgres://postgres:password@db:5432/probable-pitcher
+      - NEXTAUTH_URL=http://localhost:3000
+      - AUTH_REDIRECT_PROXY_URL=http://localhost:3012/r
+      - AUTH_SECRET=secret
+      - AUTH_GOOGLE_ID=secret
+      - AUTH_GOOGLE_SECRET=secret
+      - AUTH_APPLE_ID=secret
+      - AUTH_APPLE_SECRET=secret
+    build:
+      dockerfile: apps/nextjs/Dockerfile
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://nextjs:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    ports:
+      - "3000:3000"
+    networks:
+      - probablenet
+    depends_on:
+      auth-proxy:
+        condition: service_started
   integration:
     build:
       dockerfile: tests/integration/Dockerfile
     environment:
       - VITE_API_URL=http://nextjs:3000
     depends_on:
-      seed:
-        condition: service_completed_successfully
       nextjs:
         condition: service_healthy
     networks:
@@ -136,8 +143,6 @@ services:
     environment:
       API_URL: http://nextjs:3000
     depends_on:
-      ingest:
-        condition: service_completed_successfully
       nextjs:
         condition: service_healthy
     volumes:
