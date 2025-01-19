@@ -105,7 +105,7 @@ const TEST_USER_SCENARIOS = [
   },
 ] as const;
 
-async function getNotifications(userId: string, deviceId: string) {
+async function getNotifications(sessionId: string, deviceId: string) {
   const url = new URL(
     `${process.env.VITE_API_URL}/api/trpc/notification.byDeviceId`,
   );
@@ -116,7 +116,7 @@ async function getNotifications(userId: string, deviceId: string) {
   return fetch(url.toString(), {
     headers: {
       "Content-Type": "application/json",
-      cookie: `authjs.session-token=${userId}`,
+      cookie: `authjs.session-token=${sessionId}`,
     },
   })
     .then((r) => r.json())
@@ -131,7 +131,6 @@ async function getNotifications(userId: string, deviceId: string) {
 }
 
 test("Users recieve expected notifications", async () => {
-  console.log("VITE_API_URL", process.env.VITE_API_URL);
   for (const user of TEST_USER_SCENARIOS) {
     const { sessionId, deviceId, notifications: notificationsExpected } = user;
     const notificationsRecieved = await getNotifications(sessionId, deviceId);
@@ -143,7 +142,7 @@ test("Users recieve expected notifications", async () => {
 
     expect(
       notificationsRecieved?.length,
-      `Number of recieved notifications (${notificationsRecieved?.length}) doesn't match number of expected notifications (${notificationsExpected.length}) for use session ${sessionId} with device ${deviceId}`,
+      `Number of recieved notifications (${notificationsRecieved?.length}) doesn't match number of expected notifications (${notificationsExpected.length}) for user session ${sessionId} with device ${deviceId}`,
     ).toBe(notificationsExpected.length);
     notificationsRecieved?.forEach((recieved) => {
       expect(
