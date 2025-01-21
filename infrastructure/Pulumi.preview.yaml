@@ -1,5 +1,5 @@
 config:
-  gcp:project: probable-pitcher
+  gcp:project: probable-pitchers-prod
   gcp:region: us-west1
   probable-pitcher:appleClientId:
     secure: AAABAN7nu0e04gaeRjNv2AfNKCKd7acuSmw5BhoqC+GTld8AswyuJ2HgqSwhOBKCKwXlRblEA2zXPl0euSfQCRkeBwwtQo3n

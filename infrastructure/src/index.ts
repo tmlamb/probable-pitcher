@@ -69,7 +69,7 @@ const databaseUrl = pulumi
     return `mysql://${username}:${password}@${ipAddress}/${database}`;
   });
 
-export const clusterProvider = new k8s.Provider(`probable-${env}`, {
+export const clusterProvider = new k8s.Provider(`probable-pitchers-${env}`, {
   kubeconfig: process.env.KUBECONFIG,
 });
 
@@ -763,7 +763,7 @@ const ingress = new k8s.networking.v1.Ingress(
                   service: {
                     name: service?.metadata?.apply((m) => m?.name),
                     port: {
-                      number: service?.spec?.ports?.[0].apply((p) => p?.port),
+                      number: service?.spec?.ports?.[0]?.apply((p) => p?.port),
                     },
                   },
                 },
