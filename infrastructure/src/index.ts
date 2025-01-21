@@ -32,7 +32,7 @@ const databaseInstance = new gcp.sql.DatabaseInstance(
   `probable-db-instance-${env}`,
   {
     name: `probable-db-instance-${env}`,
-    databaseVersion: "MYSQL_8_0",
+    databaseVersion: "POSTGRES_17",
     region: "us-west1",
     settings: {
       tier: "db-f1-micro",
@@ -66,7 +66,7 @@ const databaseUrl = pulumi
     databaseUser.password,
   ])
   .apply(([ipAddress, database, username, password]) => {
-    return `mysql://${username}:${password}@${ipAddress}/${database}`;
+    return `postgres://${username}:${password}@${ipAddress}/${database}`;
   });
 
 export const clusterProvider = new k8s.Provider(`probable-pitchers-${env}`, {
@@ -182,7 +182,7 @@ const dbcred = new k8s.core.v1.Secret(
         password: btoa(password!),
         database: btoa(databaseName),
         databaseUrl: btoa(
-          `mysql://${username}:${password}@127.0.0.1:3306/${databaseName}`,
+          `postgres://${username}:${password}@127.0.0.1:5432/${databaseName}`,
         ),
       })),
   },
