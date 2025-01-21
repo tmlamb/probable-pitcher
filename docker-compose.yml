@@ -43,7 +43,7 @@ services:
   seed:
     image: postgres:17.0-alpine
     volumes:
-      - ./tests/mocks/test-data.sql:/test-data.sql
+      - ./mocks/test-data.sql:/test-data.sql
     entrypoint:
       [
         "bash",
@@ -58,7 +58,7 @@ services:
   mock-base-api:
     image: "wiremock/wiremock:latest"
     volumes:
-      - ./tests/mocks/wiremock:/home/wiremock
+      - ./mocks/wiremock:/home/wiremock
     ports:
       - "3011:8080"
     entrypoint:
