@@ -374,6 +374,12 @@ importers:
         specifier: ^5.3.0
         version: 5.9.6
     devDependencies:
+      '@probable/prettier-config':
+        specifier: workspace:*
+        version: link:../tooling/prettier
+      '@probable/tsconfig':
+        specifier: workspace:*
+        version: link:../tooling/typescript
       '@types/node':
         specifier: ^20.16.11
         version: 20.17.6
