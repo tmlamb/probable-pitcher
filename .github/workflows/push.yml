@@ -109,7 +109,7 @@ jobs:
           location: "us-west1"
 
       - name: Install Dependencies
-        run: cd infrastructure && npm ci
+        run: pnpm install
 
       - name: Preview Test Stack
         uses: pulumi/actions@v6
