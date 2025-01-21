@@ -89,7 +89,7 @@ services:
         condition: service_started
   auth-proxy:
     environment:
-      - AUTH_REDIRECT_PROXY_URL=http://localhost:3012/r
+      - AUTH_REDIRECT_PROXY_URL=${AUTH_REDIRECT_PROXY_URL}
       - AUTH_SECRET=${AUTH_SECRET}
       - AUTH_GOOGLE_ID=${AUTH_GOOGLE_ID}
       - AUTH_GOOGLE_SECRET=${AUTH_GOOGLE_SECRET}
@@ -107,8 +107,8 @@ services:
   nextjs:
     environment:
       - DATABASE_URL=postgres://postgres:password@db:5432/probable-pitcher
-      - NEXTAUTH_URL=http://localhost:3000
-      - AUTH_REDIRECT_PROXY_URL=http://localhost:3012/r
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - AUTH_REDIRECT_PROXY_URL=${AUTH_REDIRECT_PROXY_URL}
       - AUTH_SECRET=${AUTH_SECRET}
       - AUTH_GOOGLE_ID=${AUTH_GOOGLE_ID}
       - AUTH_GOOGLE_SECRET=${AUTH_GOOGLE_SECRET}

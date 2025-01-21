@@ -6,8 +6,8 @@ This is a simple proxy server that enables OAuth authentication for preview envi
 
 Deploy it somewhere (Vercel is a one-click, zero-config option) and set the following environment variables:
 
-- `AUTH_DISCORD_ID` - The Discord OAuth client ID
-- `AUTH_DISCORD_SECRET` - The Discord OAuth client secret
+- `AUTH_GOOGLE_ID` - The Google OAuth client ID
+- `AUTH_GOOGLE_SECRET` - The Google OAuth client secret
 - `AUTH_REDIRECT_PROXY_URL` - The URL of this proxy server (e.g. )
 - `AUTH_SECRET` - Your secret
 
@@ -18,8 +18,6 @@ The lines below shows what values should match eachother in both deployments.
 > [!NOTE]
 >
 > For using the proxy for local development set the `AUTH_REDIRECT_PROXY_URL` in the `.env` file as well.
-
-![Environment variables setup](https://github.com/t3-oss/create-t3-turbo/assets/51714798/5fadd3f5-f705-459a-82ab-559a3df881d0)
 
 For providers that require an origin and a redirect URL, set them to `{AUTH_REDIRECT_PROXY_URL}` and `{AUTH_REDIRECT_PROXY_URL}/r/callback/{provider}` accordingly.
 

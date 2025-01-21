@@ -15,22 +15,22 @@ import { env } from "~/env";
 export const metadata: Metadata = {
   metadataBase: new URL(
     env.NODE_ENV === "production"
-      ? "https://turbo.t3.gg"
+      ? "https://probablepitcher.com"
       : "http://localhost:3000",
   ),
-  title: "Create T3 Turbo",
-  description: "Simple monorepo with shared backend for web & mobile apps",
+  title: "Probable Pitcher",
+  description: "The best way to keep up with MLB pitching updates",
   openGraph: {
-    title: "Create T3 Turbo",
-    description: "Simple monorepo with shared backend for web & mobile apps",
-    url: "https://create-t3-turbo.vercel.app",
-    siteName: "Create T3 Turbo",
+    title: "Probable Pitcher",
+    description: "The best way to keep up with MLB pitching updates",
+    url: "https://probablepitcher.com",
+    siteName: "Probable Pitcher",
   },
-  twitter: {
-    card: "summary_large_image",
-    site: "@jullerino",
-    creator: "@jullerino",
-  },
+  //twitter: {
+  //  card: "summary_large_image",
+  //  site: "",
+  //  creator: "",
+  //},
 };
 
 export const viewport: Viewport = {

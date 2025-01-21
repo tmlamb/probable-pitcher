@@ -4,7 +4,7 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".nitro/**", ".output/**", ".vercel/**"]
+      "outputs": [".nitro/**", ".output/**"]
     },
     "dev": {
       "persistent": true
