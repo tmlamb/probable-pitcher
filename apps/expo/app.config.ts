@@ -55,5 +55,5 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     tsconfigPaths: true,
     typedRoutes: true,
   },
-  plugins: ["expo-router", "sentry-expo", "expo-localization"],
+  plugins: ["expo-router"],
 });
