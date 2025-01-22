@@ -235,12 +235,20 @@ jobs:
   deploy-infra:
     name: Deploy Preview Infrastructure
     needs:
-      [changeset, build-nextjs, build-ingest, build-auth-proxy, build-migration]
+      [
+        changeset,
+        test,
+        build-nextjs,
+        build-ingest,
+        build-auth-proxy,
+        build-migration,
+      ]
     if: always() &&
       (needs.build-migration.result == 'skipped' || needs.build-migration.result == 'success') &&
       (needs.build-nextjs.result == 'skipped' || needs.build-nextjs.result == 'success') &&
       (needs.build-ingest.result == 'skipped' || needs.build-ingest.result == 'success') &&
-      (needs.build-auth-proxy.result == 'skipped' || needs.build-auth-proxy.result == 'success')
+      (needs.build-auth-proxy.result == 'skipped' || needs.build-auth-proxy.result == 'success') &&
+      (needs.test.result == 'success')
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -294,12 +302,12 @@ jobs:
     needs: [changeset, deploy-infra]
     if: |
       always() &&
-      needs.checks.result == 'success' &&
+      needs.changeset.result == 'success' &&
       needs.deploy-infra.result == 'success' &&
-      needs.checks.outputs.changed-expo
+      needs.changeset.outputs.changed-expo
     runs-on: ubuntu-latest
     env:
-      CHANGED_EXPO: ${{ needs.checks.outputs.changed-expo }}
+      CHANGED_EXPO: ${{ needs.changeset.outputs.changed-expo }}
     steps:
       - name: Check for EXPO_TOKEN
         run: |
