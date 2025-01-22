@@ -41,7 +41,6 @@ const databaseInstance = new gcp.sql.DatabaseInstance(
       availabilityType: isProd ? "REGIONAL" : "ZONAL",
       backupConfiguration: {
         enabled: true,
-        binaryLogEnabled: true,
         location: "us-east1",
       },
     },
