@@ -87,23 +87,23 @@ services:
     depends_on:
       mock-base-api:
         condition: service_started
-  auth-proxy:
-    environment:
-      - AUTH_REDIRECT_PROXY_URL=${AUTH_REDIRECT_PROXY_URL}
-      - AUTH_SECRET=${AUTH_SECRET}
-      - AUTH_GOOGLE_ID=${AUTH_GOOGLE_ID}
-      - AUTH_GOOGLE_SECRET=${AUTH_GOOGLE_SECRET}
-      - AUTH_APPLE_ID=${AUTH_APPLE_ID}
-      - AUTH_APPLE_SECRET=${AUTH_APPLE_SECRET}
-    build:
-      dockerfile: apps/auth-proxy/Dockerfile
-    ports:
-      - "3012:3012"
-    networks:
-      - probablenet
-    depends_on:
-      ingest:
-        condition: service_completed_successfully
+  # auth-proxy:
+  #   environment:
+  #     - AUTH_REDIRECT_PROXY_URL=${AUTH_REDIRECT_PROXY_URL}
+  #     - AUTH_SECRET=${AUTH_SECRET}
+  #     - AUTH_GOOGLE_ID=${AUTH_GOOGLE_ID}
+  #     - AUTH_GOOGLE_SECRET=${AUTH_GOOGLE_SECRET}
+  #     - AUTH_APPLE_ID=${AUTH_APPLE_ID}
+  #     - AUTH_APPLE_SECRET=${AUTH_APPLE_SECRET}
+  #   build:
+  #     dockerfile: apps/auth-proxy/Dockerfile
+  #   ports:
+  #     - "3012:3012"
+  #   networks:
+  #     - probablenet
+  #   depends_on:
+  #     ingest:
+  #       condition: service_completed_successfully
   nextjs:
     environment:
       - DATABASE_URL=postgres://postgres:password@db:5432/probable-pitcher
@@ -125,9 +125,9 @@ services:
       - "3000:3000"
     networks:
       - probablenet
-    depends_on:
-      auth-proxy:
-        condition: service_started
+    # depends_on:
+    #   auth-proxy:
+    #     condition: service_started
   integration:
     build:
       dockerfile: tests/integration/Dockerfile

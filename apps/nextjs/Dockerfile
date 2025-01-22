@@ -3,7 +3,6 @@
 ########################
 
 FROM node:23-alpine AS pruner
-# RUN apk add --no-cache libc6-compat openssl
 RUN apk update
 
 WORKDIR /probable-pitcher
@@ -12,7 +11,6 @@ RUN npm -g install turbo@^2
 
 COPY . .
 
-#RUN turbo prune --scope=@probable/nextjs --docker
 RUN turbo prune @probable/nextjs --docker
 
 ########################
@@ -20,19 +18,12 @@ RUN turbo prune @probable/nextjs --docker
 ########################
 
 FROM node:23-alpine AS builder
-# RUN apk add --no-cache libc6-compat openssl
 RUN apk update
 
 RUN npm -g install pnpm@^9
 
 WORKDIR /probable-pitcher
 
-#COPY .gitignore .gitignore
-#COPY turbo.json turbo.json
-#COPY tsconfig.json tsconfig.json
-#COPY patches/ patches/
-#COPY types/ types/
-#COPY --from=pruner /probable-pitchers/out/package-lock.json ./package-lock.json
 COPY --from=pruner /probable-pitcher/out/full/ .
 
 RUN pnpm install
@@ -73,6 +64,7 @@ RUN apk add curl
 WORKDIR /probable-pitcher
 
 ENV NODE_ENV production
+
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED 1
 

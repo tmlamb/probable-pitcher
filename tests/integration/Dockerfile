@@ -11,7 +11,6 @@ RUN npm -g install turbo@^2
 
 COPY . .
 
-#RUN turbo prune --scope=@probable/ingest --docker
 RUN turbo prune @probable/integration --docker
 
 ########################

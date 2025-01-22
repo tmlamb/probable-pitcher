@@ -57,7 +57,6 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nitro
 
 COPY --from=builder /probable-pitcher/ .
-# COPY --from=builder /app/.output ./.output
 
 USER nitro
 
