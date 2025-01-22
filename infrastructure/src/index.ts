@@ -31,7 +31,7 @@ const gsa = new gcp.serviceaccount.Account(`probable-service-account-${env}`, {
 });
 
 const databaseInstance = new gcp.sql.DatabaseInstance(
-  `probable-db-instance-${env}`,
+  `probable-db-instance-pg-${env}`,
   {
     name: `probable-db-instance-${env}`,
     databaseVersion: "POSTGRES_17",
