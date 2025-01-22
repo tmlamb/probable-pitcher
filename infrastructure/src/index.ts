@@ -771,11 +771,11 @@ const loginDeployment = new k8s.apps.v1.Deployment(
                 initialDelaySeconds: 10,
                 timeoutSeconds: 5,
               },
-              readinessProbe: {
-                httpGet: { path: "/healthcheck", port: 3012 },
-                initialDelaySeconds: 10,
-                timeoutSeconds: 5,
-              },
+              //readinessProbe: {
+              //  httpGet: { path: "/healthcheck", port: 3012 },
+              //  initialDelaySeconds: 10,
+              //  timeoutSeconds: 5,
+              //},
               env: [
                 {
                   name: "AUTH_GOOGLE_ID",
