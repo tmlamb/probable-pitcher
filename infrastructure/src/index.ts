@@ -315,6 +315,14 @@ const seedJob = new k8s.batch.v1.CronJob(
                       name: "INGEST_JOBS",
                       value: "teams,pitchers",
                     },
+                    {
+                      name: "BASE_API_URL",
+                      value: config.requireSecret("baseApiUrl"),
+                    },
+                    {
+                      name: "EXPO_API_URL",
+                      value: config.requireSecret("expoApiUrl"),
+                    },
                   ],
 
                   command: ["sh", "-c"],
@@ -407,6 +415,14 @@ const playerJob = new k8s.batch.v1.CronJob(
                       name: "INGEST_JOBS",
                       value: "pitchers,games",
                     },
+                    {
+                      name: "BASE_API_URL",
+                      value: config.requireSecret("baseApiUrl"),
+                    },
+                    {
+                      name: "EXPO_API_URL",
+                      value: config.requireSecret("expoApiUrl"),
+                    },
                   ],
 
                   command: ["sh", "-c"],
@@ -498,6 +514,14 @@ const notifyJob = new k8s.batch.v1.CronJob(
                     {
                       name: "INGEST_JOBS",
                       value: "games,notifications",
+                    },
+                    {
+                      name: "BASE_API_URL",
+                      value: config.requireSecret("baseApiUrl"),
+                    },
+                    {
+                      name: "EXPO_API_URL",
+                      value: config.requireSecret("expoApiUrl"),
                     },
                   ],
 
