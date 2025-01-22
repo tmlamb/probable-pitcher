@@ -90,7 +90,7 @@ jobs:
       - name: Start application-specific services using Docker Compose
         run: |
           NEXTAUTH_URL=http://localhost:3000 \
-          AUTH_REDIRECT_PROXY_URL=http://localhost:3012/r \
+          AUTH_REDIRECT_PROXY_URL=https://dev.login.probablepitcher.com/r \
           AUTH_SECRET=secret \
           AUTH_GOOGLE_ID=secret \
           AUTH_GOOGLE_SECRET=secret \
@@ -288,6 +288,58 @@ jobs:
           CHANGED_NEXTJS: ${{ needs.changeset.outputs.changed-nextjs }}
           CHANGED_AUTH_PROXY: ${{ needs.changeset.outputs.changed-auth-proxy }}
           CHANGED_DB: ${{ needs.changeset.outputs.changed-db }}
+
+  update-preview:
+    name: Update Preview Mobile App
+    needs: [changeset, deploy-infra]
+    if: |
+      always() &&
+      needs.checks.result == 'success' &&
+      needs.deploy-infra.result == 'success' &&
+      needs.checks.outputs.changed-expo
+    runs-on: ubuntu-latest
+    env:
+      CHANGED_EXPO: ${{ needs.checks.outputs.changed-expo }}
+    steps:
+      - name: Check for EXPO_TOKEN
+        run: |
+          if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then
+            echo "You must provide an EXPO_TOKEN secret linked to this project's Expo account in this repo's secrets. Learn more: https://docs.expo.dev/eas-update/github-actions"
+            exit 1
+          fi
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.12.2
+          run_install: false
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 23
+          cache: "pnpm"
+
+      - name: Setup Expo
+        uses: expo/expo-github-action@v8
+        with:
+          expo-version: latest
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Publish Live App Update
+        run:
+          # cd apps/expo && APP_ENV=preview SENTRY_PUBLIC_DSN="${{ secrets.SENTRY_PUBLIC_DSN }}" eas update --branch preview --message "${{ github.event.head_commit.message }}"
+          cd apps/expo && APP_ENV=preview eas update --branch preview --message "${{ github.event.head_commit.message }}"
+
+      - name: App Store Build
+        run: cd apps/expo && eas build --profile preview --platform all --non-interactive
 
   # tag-git:
   #   name: Preview Tag Git

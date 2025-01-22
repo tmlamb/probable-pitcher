@@ -9,7 +9,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: `Probable Pitcher${APP_ENV !== "production" ? ` (${APP_ENV})` : ""}`,
   slug: "probable-pitchers",
-  scheme: "com.probablepitcher",
+  scheme: "com.triplesight.probablepitchers",
   owner: "tmlamb",
   version: "2.0.0",
   orientation: "portrait",

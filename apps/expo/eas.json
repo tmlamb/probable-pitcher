@@ -13,17 +13,23 @@
     "development": {
       "extends": "base",
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "APP_ENV": "development"
+      }
     },
     "preview": {
       "extends": "base",
       "distribution": "internal",
-      "ios": {
-        "simulator": true
+      "env": {
+        "APP_ENV": "preview"
       }
     },
     "production": {
-      "extends": "base"
+      "extends": "base",
+      "env": {
+        "APP_ENV": "production"
+      }
     }
   },
   "submit": {

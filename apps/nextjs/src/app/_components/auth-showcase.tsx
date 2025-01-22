@@ -16,6 +16,15 @@ export async function AuthShowcase() {
         >
           Sign in with Google
         </Button>
+        <Button
+          size="lg"
+          formAction={async () => {
+            "use server";
+            await signIn("apple");
+          }}
+        >
+          Sign in with Apple
+        </Button>
       </form>
     );
   }
