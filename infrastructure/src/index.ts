@@ -9,10 +9,12 @@ const env = pulumi.getStack();
 const imageTag = process.env.DEPLOY_COMMIT_TAG || "latest";
 const changedNextjs = process.env.CHANGED_NEXTJS === "true" || false;
 const changedIngest = process.env.CHANGED_INGEST === "true" || false;
+const changedAuthProxy = process.env.CHANGED_AUTH_PROXY === "true" || false;
 const changedDatabase = process.env.CHANGED_DB === "true" || false;
 const isProd = env === "production";
 
 const domains = config.requireObject<string[]>("domains");
+const loginDomains = config.requireObject<string[]>("loginDomains");
 const replicas = config.requireNumber("nextjsReplicas");
 
 const projectCloudSql = new gcp.projects.Service(
@@ -558,7 +560,7 @@ const appleClientSecret = pulumi
 
 const appLabels = { app: `probable-nextjs-${env}` };
 
-const deployment = new k8s.apps.v1.Deployment(
+const appDeployment = new k8s.apps.v1.Deployment(
   appLabels.app,
   {
     metadata: {
@@ -608,31 +610,23 @@ const deployment = new k8s.apps.v1.Deployment(
                   },
                 },
                 {
-                  name: "AUTH_GOOGLE_CLIENT_ID",
+                  name: "AUTH_GOOGLE_ID",
                   value: config.requireSecret("authGoogleClientId"),
                 },
                 {
-                  name: "AUTH_GOOGLE_CLIENT_SECRET",
+                  name: "AUTH_GOOGLE_SECRET",
                   value: config.requireSecret("authGoogleClientSecret"),
                 },
                 {
-                  name: "APPLE_CLIENT_ID",
+                  name: "AUTH_APPLE_ID",
                   value: config.requireSecret("appleClientId"),
                 },
                 {
-                  name: "APPLE_CLIENT_SECRET",
+                  name: "AUTH_APPLE_SECRET",
                   value: appleClientSecret,
                 },
                 {
-                  name: "APPLE_WEB_CLIENT_ID",
-                  value: config.requireSecret("appleWebClientId"),
-                },
-                {
-                  name: "APPLE_WEB_CLIENT_SECRET",
-                  value: config.requireSecret("appleWebClientSecret"),
-                },
-                {
-                  name: "NEXTAUTH_SECRET",
+                  name: "AUTH_SECRET",
                   value: config.requireSecret("nextAuthSecret"),
                 },
                 {
@@ -640,8 +634,8 @@ const deployment = new k8s.apps.v1.Deployment(
                   value: config.requireSecret("nextAuthUrl"),
                 },
                 {
-                  name: "NEXTAUTH_EXPO_URL",
-                  value: config.requireSecret("nextAuthExpoUrl"),
+                  name: "AUTH_REDIRECT_PROXY_URL",
+                  value: config.requireSecret("authRedirectProxyUrl"),
                 },
               ],
             },
@@ -671,7 +665,7 @@ const deployment = new k8s.apps.v1.Deployment(
   },
 );
 
-const service = new k8s.core.v1.Service(
+const appService = new k8s.core.v1.Service(
   appLabels.app,
   {
     metadata: {
@@ -694,6 +688,107 @@ const service = new k8s.core.v1.Service(
   },
 );
 
+const loginLabels = { app: `probable-auth-proxy-${env}` };
+
+const loginDeployment = new k8s.apps.v1.Deployment(
+  loginLabels.app,
+  {
+    metadata: {
+      namespace: namespaceName,
+    },
+    spec: {
+      strategy: {
+        type: "RollingUpdate",
+        rollingUpdate: {
+          maxSurge: 1,
+          maxUnavailable: 1,
+        },
+      },
+      selector: { matchLabels: loginLabels },
+      replicas: replicas,
+      template: {
+        metadata: { labels: loginLabels },
+        spec: {
+          imagePullSecrets: [{ name: regcred.metadata.apply((m) => m.name) }],
+          serviceAccountName: ksa.metadata.apply((m) => m.name),
+          containers: [
+            {
+              name: loginLabels.app,
+              image: `ghcr.io/tmlamb/probable-auth-proxy:${
+                changedAuthProxy ? imageTag : "latest"
+              }`,
+
+              ports: [{ name: "http", containerPort: 3012 }],
+              resources: {
+                requests: {
+                  cpu: "250m",
+                  memory: "512Mi",
+                  "ephemeral-storage": "1Gi",
+                },
+              },
+              livenessProbe: {
+                httpGet: { path: "/", port: "http" },
+              },
+              env: [
+                {
+                  name: "AUTH_GOOGLE_ID",
+                  value: config.requireSecret("authGoogleClientId"),
+                },
+                {
+                  name: "AUTH_GOOGLE_SECRET",
+                  value: config.requireSecret("authGoogleClientSecret"),
+                },
+                {
+                  name: "AUTH_APPLE_ID",
+                  value: config.requireSecret("appleClientId"),
+                },
+                {
+                  name: "AUTH_APPLE_SECRET",
+                  value: appleClientSecret,
+                },
+                {
+                  name: "AUTH_SECRET",
+                  value: config.requireSecret("nextAuthSecret"),
+                },
+                {
+                  name: "AUTH_REDIRECT_PROXY_URL",
+                  value: config.requireSecret("authRedirectProxyUrl"),
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  {
+    provider: clusterProvider,
+  },
+);
+
+const loginService = new k8s.core.v1.Service(
+  loginLabels.app,
+  {
+    metadata: {
+      namespace: namespaceName,
+    },
+    spec: {
+      ports: [
+        {
+          port: 80,
+          targetPort: 3012,
+        },
+      ],
+      selector: {
+        app: loginLabels.app,
+      },
+    },
+  },
+  {
+    provider: clusterProvider,
+  },
+);
+
 const ipAddress = new gcp.compute.GlobalAddress(`probable-address-${env}`, {
   project: gcp.config.project,
   addressType: "EXTERNAL",
@@ -708,7 +803,7 @@ const managedCertificate = new k8s.apiextensions.CustomResource(
       namespace: namespaceName,
     },
     spec: {
-      domains: domains,
+      domains: [...domains, ...loginDomains],
     },
   },
   {
@@ -751,28 +846,56 @@ const ingress = new k8s.networking.v1.Ingress(
       },
     },
     spec: {
-      rules: domains.map((domain) => {
-        const rule = {
-          host: domain,
-          http: {
-            paths: [
-              {
-                path: "/",
-                pathType: "Prefix",
-                backend: {
-                  service: {
-                    name: service?.metadata?.apply((m) => m?.name),
-                    port: {
-                      number: service?.spec?.ports?.[0]?.apply((p) => p?.port),
+      rules: [
+        ...domains.map((domain) => {
+          const rule = {
+            host: domain,
+            http: {
+              paths: [
+                {
+                  path: "/",
+                  pathType: "Prefix",
+                  backend: {
+                    service: {
+                      name: appService?.metadata?.apply((m) => m?.name),
+                      port: {
+                        number: appService?.spec?.ports?.[0]?.apply(
+                          (p) => p?.port,
+                        ),
+                      },
                     },
                   },
                 },
-              },
-            ],
-          },
-        };
-        return rule;
-      }),
+              ],
+            },
+          };
+          return rule;
+        }),
+        ...loginDomains.map((domain) => {
+          const rule = {
+            host: domain,
+            http: {
+              paths: [
+                {
+                  path: "/",
+                  pathType: "Prefix",
+                  backend: {
+                    service: {
+                      name: loginService?.metadata?.apply((m) => m?.name),
+                      port: {
+                        number: loginService?.spec?.ports?.[0]?.apply(
+                          (p) => p?.port,
+                        ),
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          };
+          return rule;
+        }),
+      ],
     },
   },
   {

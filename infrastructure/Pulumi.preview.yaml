@@ -32,6 +32,8 @@ config:
     secure: AAABAPSKsxH9iMER4uU8hputFHXNY04l99qCStTDhJcTqs89OC3+3Hi0YAiWL1SAwG0k9sURT3IMPS+EptDvOJE0bKiayzHTScWYsERtU56O1D4km1OaZe9mt/z7xRhwOzjXMEQeWuzRI7kk5cSL9g+W5H/8htKmEV3rQguGZ35DHOGzJJ1haDGjQVF7M9MWMry811UDz7W7lKpVqQe0wD3Uy16kUzvZXZ1KopfZq6Q=
   probable-pitcher:domains:
     - dev.probablepitcher.com
+  probable-pitcher:loginDomains:
+    - dev.login.probablepitcher.com
   probable-pitcher:nextAuthExpoUrl:
     secure: AAABAOKBSytJI+/MdpyEs8YNyWaZmMTtNLvTQFjfHMAmymumzv9CHRtcp09q6JEIREJav0iu8aaFDfOWotdv1eT53fNKEYqUfScXqERS
   probable-pitcher:nextAuthSecret:
@@ -39,3 +41,5 @@ config:
   probable-pitcher:nextAuthUrl:
     secure: AAABAM4qV2HsKkhJ7rb/4jT1Kka7LnymYjWrfeOdZvSQlDuZHfm55zNw34uY2Jt1drORh9uwy9IG5UpaesvH
   probable-pitcher:nextjsReplicas: "1"
+  probable-pitcher:authRedirectProxyUrl:
+    secure: AAABAH49cXedoQeMbjUbARpadEGW8NIq1oIILi3DzcVCrLL273Eo9ciKeQNN/jGRQ82ho78/dm/ybumy9uijKgbqRtnlPu8=
