@@ -289,7 +289,8 @@ jobs:
 
   tag-git:
     name: Preview Tag Git
-    needs: [deploy-infra, update-preview]
+    needs: [deploy-infra]
+    # , update-preview]
     if:
       always() &&
       (needs.deploy-infra.result == 'skipped' || needs.deploy-infra.result == 'success')
