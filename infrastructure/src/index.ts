@@ -737,13 +737,13 @@ const loginDeployment = new k8s.apps.v1.Deployment(
       namespace: namespaceName,
     },
     spec: {
-      strategy: {
-        type: "RollingUpdate",
-        rollingUpdate: {
-          maxSurge: 1,
-          maxUnavailable: 1,
-        },
-      },
+      //strategy: {
+      //  type: "RollingUpdate",
+      //  rollingUpdate: {
+      //    maxSurge: 1,
+      //    maxUnavailable: 1,
+      //  },
+      //},
       selector: { matchLabels: loginLabels },
       replicas: replicas,
       template: {
