@@ -237,7 +237,7 @@ jobs:
     if: always() &&
       (needs.build-migration.result == 'skipped' || needs.build-migration.result == 'success') &&
       (needs.build-nextjs.result == 'skipped' || needs.build-nextjs.result == 'success') &&
-      (needs.build-ingest.result == 'skipped' || needs.build-ingest.result == 'success')
+      (needs.build-ingest.result == 'skipped' || needs.build-ingest.result == 'success') &&
       (needs.build-auth-proxy.result == 'skipped' || needs.build-auth-proxy.result == 'success')
     runs-on: ubuntu-latest
     steps:
