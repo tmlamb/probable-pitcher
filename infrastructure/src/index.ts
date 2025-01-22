@@ -730,88 +730,88 @@ const appService = new k8s.core.v1.Service(
 
 const loginLabels = { app: `probable-auth-proxy-${env}` };
 
-//const loginDeployment = new k8s.apps.v1.Deployment(
-//  loginLabels.app,
-//  {
-//    metadata: {
-//      namespace: namespaceName,
-//    },
-//    spec: {
-//      //strategy: {
-//      //  type: "RollingUpdate",
-//      //  rollingUpdate: {
-//      //    maxSurge: 1,
-//      //    maxUnavailable: 1,
-//      //  },
-//      //},
-//      selector: { matchLabels: loginLabels },
-//      replicas: replicas,
-//      template: {
-//        metadata: { labels: loginLabels },
-//        spec: {
-//          imagePullSecrets: [{ name: regcred.metadata.apply((m) => m.name) }],
-//          serviceAccountName: ksa.metadata.apply((m) => m.name),
-//          containers: [
-//            {
-//              name: loginLabels.app,
-//              image: `ghcr.io/tmlamb/probable-auth-proxy:${
-//                changedAuthProxy ? imageTag : "latest"
-//              }`,
-//
-//              ports: [{ name: "http", containerPort: 3012 }],
-//              resources: {
-//                requests: {
-//                  cpu: "250m",
-//                  memory: "512Mi",
-//                  "ephemeral-storage": "1Gi",
-//                },
-//              },
-//              livenessProbe: {
-//                httpGet: { path: "/healthcheck", port: "http" },
-//                initialDelaySeconds: 10,
-//                timeoutSeconds: 5,
-//              },
-//              //readinessProbe: {
-//              //  httpGet: { path: "/healthcheck", port: 3012 },
-//              //  initialDelaySeconds: 10,
-//              //  timeoutSeconds: 5,
-//              //},
-//              env: [
-//                {
-//                  name: "AUTH_GOOGLE_ID",
-//                  value: config.requireSecret("authGoogleClientId"),
-//                },
-//                {
-//                  name: "AUTH_GOOGLE_SECRET",
-//                  value: config.requireSecret("authGoogleClientSecret"),
-//                },
-//                {
-//                  name: "AUTH_APPLE_ID",
-//                  value: config.requireSecret("appleClientId"),
-//                },
-//                {
-//                  name: "AUTH_APPLE_SECRET",
-//                  value: appleClientSecret,
-//                },
-//                {
-//                  name: "AUTH_SECRET",
-//                  value: config.requireSecret("nextAuthSecret"),
-//                },
-//                {
-//                  name: "AUTH_REDIRECT_PROXY_URL",
-//                  value: config.requireSecret("authRedirectProxyUrl"),
-//                },
-//              ],
-//            },
-//          ],
-//        },
-//      },
-//    },
-//  },
-//  {
-//    provider: clusterProvider,
-//  },
-//);
+const loginDeployment = new k8s.apps.v1.Deployment(
+  loginLabels.app,
+  {
+    metadata: {
+      namespace: namespaceName,
+    },
+    spec: {
+      //strategy: {
+      //  type: "RollingUpdate",
+      //  rollingUpdate: {
+      //    maxSurge: 1,
+      //    maxUnavailable: 1,
+      //  },
+      //},
+      selector: { matchLabels: loginLabels },
+      replicas: replicas,
+      template: {
+        metadata: { labels: loginLabels },
+        spec: {
+          imagePullSecrets: [{ name: regcred.metadata.apply((m) => m.name) }],
+          serviceAccountName: ksa.metadata.apply((m) => m.name),
+          containers: [
+            {
+              name: loginLabels.app,
+              image: `ghcr.io/tmlamb/probable-auth-proxy:${
+                changedAuthProxy ? imageTag : "latest"
+              }`,
+
+              ports: [{ name: "http", containerPort: 3012 }],
+              resources: {
+                requests: {
+                  cpu: "250m",
+                  memory: "512Mi",
+                  "ephemeral-storage": "1Gi",
+                },
+              },
+              livenessProbe: {
+                httpGet: { path: "/healthcheck", port: "http" },
+                initialDelaySeconds: 10,
+                timeoutSeconds: 5,
+              },
+              //readinessProbe: {
+              //  httpGet: { path: "/healthcheck", port: 3012 },
+              //  initialDelaySeconds: 10,
+              //  timeoutSeconds: 5,
+              //},
+              env: [
+                {
+                  name: "AUTH_GOOGLE_ID",
+                  value: config.requireSecret("authGoogleClientId"),
+                },
+                {
+                  name: "AUTH_GOOGLE_SECRET",
+                  value: config.requireSecret("authGoogleClientSecret"),
+                },
+                {
+                  name: "AUTH_APPLE_ID",
+                  value: config.requireSecret("appleClientId"),
+                },
+                {
+                  name: "AUTH_APPLE_SECRET",
+                  value: appleClientSecret,
+                },
+                {
+                  name: "AUTH_SECRET",
+                  value: config.requireSecret("nextAuthSecret"),
+                },
+                {
+                  name: "AUTH_REDIRECT_PROXY_URL",
+                  value: config.requireSecret("authRedirectProxyUrl"),
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+  {
+    provider: clusterProvider,
+  },
+);
 
 const loginService = new k8s.core.v1.Service(
   loginLabels.app,
