@@ -40,7 +40,7 @@ jobs:
       - name: Create Changeset
         id: changeset
         run: |
-          content=`npm run --silent build -- --filter=...\[preview\] --dry-run=json`
+          content=`pnpm run --silent build --filter=...\[preview\] --dry-run=json`
           content="${content//$'\n'/''}"
           content="${content//$'\r'/''}"
           echo "result=$content" >> "$GITHUB_OUTPUT"
