@@ -766,15 +766,18 @@ const loginDeployment = new k8s.apps.v1.Deployment(
                   "ephemeral-storage": "1Gi",
                 },
               },
+              //livenessProbe: {
+              //  httpGet: { path: "/healthcheck", port: "http" },
+              //  initialDelaySeconds: 10,
+              //  timeoutSeconds: 5,
+              //},
+              //readinessProbe: {
+              //  httpGet: { path: "/healthcheck", port: "http" },
+              //  initialDelaySeconds: 10,
+              //  timeoutSeconds: 5,
+              //},
               livenessProbe: {
-                httpGet: { path: "/healthcheck", port: "http" },
-                initialDelaySeconds: 10,
-                timeoutSeconds: 5,
-              },
-              readinessProbe: {
-                httpGet: { path: "/healthcheck", port: "http" },
-                initialDelaySeconds: 10,
-                timeoutSeconds: 5,
+                httpGet: { path: "/", port: "http" },
               },
               env: [
                 {
