@@ -33,7 +33,7 @@ const gsa = new gcp.serviceaccount.Account(`probable-service-account-${env}`, {
 const databaseInstance = new gcp.sql.DatabaseInstance(
   `probable-db-instance-pg-${env}`,
   {
-    name: `probable-db-instance-${env}`,
+    name: `probable-db-instance-pg-${env}`,
     databaseVersion: "POSTGRES_17",
     region: "us-west1",
     settings: {
