@@ -8,7 +8,7 @@ const { APP_ENV, NEXTAUTH_URL, SENTRY_PUBLIC_DSN } = process.env;
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: `Probable Pitcher${APP_ENV !== "production" ? ` (${APP_ENV})` : ""}`,
-  slug: "probable-pitcher",
+  slug: "probable-pitchers",
   scheme: "com.probablepitcher",
   owner: "tmlamb",
   version: "2.0.0",
@@ -25,7 +25,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   assetBundlePatterns: ["**/*"],
   ios: {
-    bundleIdentifier: `com.probablepitcher${
+    bundleIdentifier: `com.triplesight.probablepitchers${
       APP_ENV !== "production" ? `.${APP_ENV}` : ""
     }`,
 

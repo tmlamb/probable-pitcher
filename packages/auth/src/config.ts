@@ -6,6 +6,7 @@ import type {
 import { skipCSRFCheck } from "@auth/core";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import Google from "next-auth/providers/google";
+import Apple from "next-auth/providers/apple";
 
 import { db } from "@probable/db/client";
 import { account, session, user } from "@probable/db/schema";
@@ -42,6 +43,10 @@ export const authConfig = {
     Google({
       clientId: env.AUTH_GOOGLE_ID,
       clientSecret: env.AUTH_GOOGLE_SECRET,
+    }),
+    Apple({
+      clientId: env.AUTH_APPLE_ID,
+      clientSecret: env.AUTH_APPLE_SECRET,
     }),
   ],
   callbacks: {
