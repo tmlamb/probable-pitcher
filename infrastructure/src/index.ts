@@ -31,6 +31,23 @@ const gsa = new gcp.serviceaccount.Account(`probable-service-account-${env}`, {
 });
 
 const databaseInstance = new gcp.sql.DatabaseInstance(
+  `probable-db-instance-${env}`,
+  {
+    name: `probable-db-instance-${env}`,
+    databaseVersion: "MYSQL_8_0",
+    region: "us-west1",
+    settings: {
+      tier: "db-f1-micro",
+      availabilityType: isProd ? "REGIONAL" : "ZONAL",
+      backupConfiguration: {
+        enabled: true,
+        binaryLogEnabled: true,
+        location: "us-east1",
+      },
+    },
+  },
+);
+const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
   `probable-db-instance-pg-${env}`,
   {
     name: `probable-db-instance-pg-${env}`,
@@ -49,19 +66,19 @@ const databaseInstance = new gcp.sql.DatabaseInstance(
 
 const databaseUser = new gcp.sql.User(`probable-db-user-${env}`, {
   name: `probable-db-user-${env}`,
-  instance: databaseInstance.name,
+  instance: pgDatabaseInstance.name,
   password: config.requireSecret("databasePassword"),
 });
 
 const database = new gcp.sql.Database(`probable-db-${env}`, {
   name: `probable-db-${env}`,
-  instance: databaseInstance.name,
+  instance: pgDatabaseInstance.name,
   charset: "utf8",
 });
 
 const databaseUrl = pulumi
   .all([
-    databaseInstance.publicIpAddress,
+    pgDatabaseInstance.publicIpAddress,
     database.name,
     databaseUser.name,
     databaseUser.password,
@@ -245,7 +262,7 @@ const migrationJob = new k8s.batch.v1.Job(
               image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
               args: [
                 "--port=3306",
-                databaseInstance.connectionName,
+                pgDatabaseInstance.connectionName,
                 "--quitquitquit",
                 "--exit-zero-on-sigterm",
               ],
@@ -342,7 +359,7 @@ const seedJob = new k8s.batch.v1.CronJob(
                   image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
                   args: [
                     "--port=3306",
-                    databaseInstance.connectionName,
+                    pgDatabaseInstance.connectionName,
                     "--quitquitquit",
                     "--exit-zero-on-sigterm",
                   ],
@@ -442,7 +459,7 @@ const playerJob = new k8s.batch.v1.CronJob(
                   image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
                   args: [
                     "--port=3306",
-                    databaseInstance.connectionName,
+                    pgDatabaseInstance.connectionName,
                     "--quitquitquit",
                     "--exit-zero-on-sigterm",
                   ],
@@ -542,7 +559,7 @@ const notifyJob = new k8s.batch.v1.CronJob(
                   image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
                   args: [
                     "--port=3306",
-                    databaseInstance.connectionName,
+                    pgDatabaseInstance.connectionName,
                     "--quitquitquit",
                     "--exit-zero-on-sigterm",
                   ],
@@ -665,7 +682,7 @@ const appDeployment = new k8s.apps.v1.Deployment(
             {
               name: "cloudsql-proxy",
               image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
-              args: ["--port=3306", databaseInstance.connectionName],
+              args: ["--port=3306", pgDatabaseInstance.connectionName],
               securityContext: {
                 runAsNonRoot: true,
               },
@@ -750,7 +767,7 @@ const loginDeployment = new k8s.apps.v1.Deployment(
                 },
               },
               livenessProbe: {
-                httpGet: { path: "/", port: "http" },
+                httpGet: { path: "/healthcheck", port: "http" },
               },
               env: [
                 {
