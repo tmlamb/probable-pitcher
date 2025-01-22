@@ -224,7 +224,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ secrets.GHCR_USER }}
+          username: ${{ github.actor }}
           password: ${{ secrets.GHCR_ACCESS_TOKEN }}
 
       - name: Build and publish db migration image
@@ -289,20 +289,20 @@ jobs:
           CHANGED_AUTH_PROXY: ${{ needs.changeset.outputs.changed-auth-proxy }}
           CHANGED_DB: ${{ needs.changeset.outputs.changed-db }}
 
-  tag-git:
-    name: Preview Tag Git
-    needs: [deploy-infra]
-    # , update-preview]
-    if:
-      always() &&
-      (needs.deploy-infra.result == 'skipped' || needs.deploy-infra.result == 'success')
-      # && (needs.update-preview.result == 'skipped' || needs.update-preview.result == 'success')
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Check out repository code"
-        uses: actions/checkout@v4
-
-      - name: "Push preview tag"
-        uses: EndBug/latest-tag@latest
-        with:
-          ref: preview
+  # tag-git:
+  #   name: Preview Tag Git
+  #   needs: [deploy-infra]
+  #   # , update-preview]
+  #   if:
+  #     always() &&
+  #     (needs.deploy-infra.result == 'skipped' || needs.deploy-infra.result == 'success')
+  #     # && (needs.update-preview.result == 'skipped' || needs.update-preview.result == 'success')
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: "Check out repository code"
+  #       uses: actions/checkout@v4
+  #
+  #     - name: "Push preview tag"
+  #       uses: EndBug/latest-tag@latest
+  #       with:
+  #         ref: preview
