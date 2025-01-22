@@ -767,7 +767,7 @@ const loginDeployment = new k8s.apps.v1.Deployment(
                 },
               },
               livenessProbe: {
-                httpGet: { path: "/healthcheck", port: "http" },
+                httpGet: { path: "/healthcheck", port: "3012" },
               },
               env: [
                 {
