@@ -339,7 +339,7 @@ jobs:
           cd apps/expo && APP_ENV=preview eas update --branch preview --message "${{ github.event.head_commit.message }}"
 
       - name: App Store Build
-        run: cd apps/expo && eas build --profile preview --platform all --non-interactive
+        run: cd apps/expo && eas build --profile preview --platform ios --non-interactive
 
   # tag-git:
   #   name: Preview Tag Git
