@@ -29,7 +29,7 @@
     "production": {
       "extends": "base",
       "env": {
-        "APP_ENV": "production"
+        "APP_ENV": "production",
         "NEXTAUTH_URL": "https://probablepitcher.com"
       }
     }
