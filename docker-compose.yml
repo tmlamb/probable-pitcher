@@ -128,6 +128,9 @@ services:
     # depends_on:
     #   auth-proxy:
     #     condition: service_started
+    depends_on:
+      ingest:
+        condition: service_completed_successfully
   integration:
     build:
       dockerfile: tests/integration/Dockerfile

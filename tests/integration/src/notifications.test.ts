@@ -113,8 +113,6 @@ async function getNotifications(sessionId: string, deviceId: string) {
   url.searchParams.append("batch", "1");
   url.searchParams.append("input", `{"0":{"json":{"deviceId":"${deviceId}"}}}`);
 
-  console.log("QUERY", url.toString());
-
   return fetch(url.toString(), {
     headers: {
       "Content-Type": "application/json",
@@ -129,8 +127,7 @@ async function getNotifications(sessionId: string, deviceId: string) {
             result?: { data: { json: Notification[] } };
           }[]
         )[0]?.result?.data.json,
-    )
-    .catch((e) => console.error("ERROR", e));
+    );
 }
 
 test("Users recieve expected notifications", async () => {
