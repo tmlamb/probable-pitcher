@@ -598,6 +598,17 @@ const appleClientSecret = pulumi
     generateSecret({ teamId, keyId, privateKey, clientId }),
   );
 
+const appleWebClientSecret = pulumi
+  .all([
+    config.requireSecret("appleTeamId"),
+    config.requireSecret("appleWebKeyId"),
+    config.requireSecret("appleWebPrivateKey"),
+    config.requireSecret("appleWebClientId"),
+  ])
+  .apply(([teamId, keyId, privateKey, clientId]) =>
+    generateSecret({ teamId, keyId, privateKey, clientId }),
+  );
+
 const appLabels = { app: `probable-nextjs-${env}` };
 
 const appDeployment = new k8s.apps.v1.Deployment(
@@ -663,7 +674,7 @@ const appDeployment = new k8s.apps.v1.Deployment(
                 },
                 {
                   name: "AUTH_APPLE_SECRET",
-                  value: config.requireSecret("appleWebClientSecret"),
+                  value: appleWebClientSecret,
                 },
                 {
                   name: "AUTH_SECRET",
@@ -737,13 +748,13 @@ const loginDeployment = new k8s.apps.v1.Deployment(
       namespace: namespaceName,
     },
     spec: {
-      //strategy: {
-      //  type: "RollingUpdate",
-      //  rollingUpdate: {
-      //    maxSurge: 1,
-      //    maxUnavailable: 1,
-      //  },
-      //},
+      strategy: {
+        type: "RollingUpdate",
+        rollingUpdate: {
+          maxSurge: 1,
+          maxUnavailable: 1,
+        },
+      },
       selector: { matchLabels: loginLabels },
       replicas: replicas,
       template: {
@@ -766,16 +777,6 @@ const loginDeployment = new k8s.apps.v1.Deployment(
                   "ephemeral-storage": "1Gi",
                 },
               },
-              //livenessProbe: {
-              //  httpGet: { path: "/healthcheck", port: "http" },
-              //  initialDelaySeconds: 10,
-              //  timeoutSeconds: 5,
-              //},
-              //readinessProbe: {
-              //  httpGet: { path: "/healthcheck", port: "http" },
-              //  initialDelaySeconds: 10,
-              //  timeoutSeconds: 5,
-              //},
               livenessProbe: {
                 httpGet: { path: "/", port: "http" },
               },
@@ -790,11 +791,11 @@ const loginDeployment = new k8s.apps.v1.Deployment(
                 },
                 {
                   name: "AUTH_APPLE_ID",
-                  value: config.requireSecret("appleClientId"),
+                  value: config.requireSecret("appleWebClientId"),
                 },
                 {
                   name: "AUTH_APPLE_SECRET",
-                  value: appleClientSecret,
+                  value: appleWebClientSecret,
                 },
                 {
                   name: "AUTH_SECRET",
