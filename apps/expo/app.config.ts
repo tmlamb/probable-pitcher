@@ -22,6 +22,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   updates: {
     fallbackToCacheTimeout: 0,
+    url: "https://u.expo.dev/abd1f73f-1027-4617-a091-abea678a0784",
+  },
+  runtimeVersion: {
+    policy: "sdkVersion",
   },
   assetBundlePatterns: ["**/*"],
   ios: {
@@ -47,7 +51,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       projectId: "abd1f73f-1027-4617-a091-abea678a0784",
     },
     apiBaseUrl: NEXTAUTH_URL,
-    nextAuthUrl: NEXTAUTH_URL,
     sentryPublicDsn: SENTRY_PUBLIC_DSN,
     appEnv: APP_ENV,
   },
