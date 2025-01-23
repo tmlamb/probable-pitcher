@@ -346,8 +346,8 @@ jobs:
           # cd apps/expo && APP_ENV=preview SENTRY_PUBLIC_DSN="${{ secrets.SENTRY_PUBLIC_DSN }}" eas update --branch preview --message "${{ github.event.head_commit.message }}"
           cd apps/expo && APP_ENV=preview eas update --branch preview --message "${{ github.event.head_commit.message }}"
 
-      - name: App Store Build
-        run: cd apps/expo && eas build --profile preview --platform ios --non-interactive
+      # - name: App Store Build
+      #   run: cd apps/expo && eas build --profile preview --platform ios --non-interactive
 
   # tag-git:
   #   name: Preview Tag Git
