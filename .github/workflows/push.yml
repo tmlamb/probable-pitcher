@@ -87,7 +87,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
-      - name: Start application-specific services using Docker Compose
+      - name: Run integration tests using Docker Compose
         run: |
           NEXTAUTH_URL=http://localhost:3000 \
           AUTH_REDIRECT_PROXY_URL=https://dev.login.probablepitcher.com/r \
@@ -299,7 +299,7 @@ jobs:
     if: |
       always() &&
       needs.changeset.result == 'success' &&
-      needs.deploy-infra.result == 'success' &&
+      (needs.deploy-infra.result == 'success' || needs.deploy-infra.result == 'skipped') &&
       needs.changeset.outputs.changed-expo
     runs-on: ubuntu-latest
     env:
