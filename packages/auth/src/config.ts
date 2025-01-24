@@ -39,6 +39,18 @@ export const authConfig = {
       }
     : {}),
   secret: env.AUTH_SECRET,
+  debug: true,
+  cookies: {
+    pkceCodeVerifier: {
+      name: "next-auth.pkce.code_verifier",
+      options: {
+        httpOnly: true,
+        sameSite: "none",
+        path: "/",
+        secure: true,
+      },
+    },
+  },
   providers: [
     Google({
       clientId: env.AUTH_GOOGLE_ID,
@@ -47,6 +59,23 @@ export const authConfig = {
     Apple({
       clientId: env.AUTH_APPLE_ID,
       clientSecret: env.AUTH_APPLE_SECRET,
+      wellKnown: "https://appleid.apple.com/.well-known/openid-configuration",
+      checks: ["pkce"],
+      token: {
+        url: `https://appleid.apple.com/auth/token`,
+      },
+      authorization: {
+        url: "https://appleid.apple.com/auth/authorize",
+        params: {
+          scope: "",
+          response_type: "code",
+          response_mode: "query",
+          state: crypto.randomUUID(),
+        },
+      },
+      client: {
+        token_endpoint_auth_method: "client_secret_post",
+      },
     }),
   ],
   callbacks: {
