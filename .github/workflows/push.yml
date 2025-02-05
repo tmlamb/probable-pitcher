@@ -143,7 +143,7 @@ jobs:
   build-nextjs:
     name: Build nextjs image
     # needs: [test, lint, format, changeset]
-    needs: [test, lint, format, changeset]
+    needs: [lint, format, changeset]
     runs-on: ubuntu-latest
     if: ${{ needs.changeset.outputs.changed-nextjs }}
     steps:
