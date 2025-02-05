@@ -20,10 +20,11 @@
   "dependencies": {
     "@auth/core": "0.34.2",
     "@auth/drizzle-adapter": "1.4.2",
+    "@better-auth/expo": "^1.1.15",
     "@probable/db": "workspace:*",
     "@t3-oss/env-nextjs": "^0.11.1",
+    "better-auth": "^1.1.15",
     "next": "^14.2.15",
-    "next-auth": "5.0.0-beta.20",
     "react": "catalog:react18",
     "react-dom": "catalog:react18",
     "zod": "catalog:"

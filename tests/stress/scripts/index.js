@@ -35,7 +35,8 @@ const params = {
     "Content-Type": "application/json",
   },
   cookies: {
-    "authjs.session-token": "1c2358f5-51e0-4be5-ae8e-312a6b9888e1",
+    "better-auth.session-token":
+      "1c2358f551e04be5ae8e312a6b9888e1.VDtI7sJQHirgwwj2O2q812EYksqph1kG%2FU9m%2F7yNbRM%3D",
   },
 };
 

@@ -1,8 +1,10 @@
-import { auth, signIn, signOut } from "@probable/auth";
+import { auth, getSession } from "@probable/auth";
 import { Button } from "@probable/ui/button";
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
 export async function AuthShowcase() {
-  const session = await auth();
+  const session = await getSession();
 
   if (!session) {
     return (
@@ -11,19 +13,16 @@ export async function AuthShowcase() {
           size="lg"
           formAction={async () => {
             "use server";
-            await signIn("google");
+            const res = await auth.api.signInSocial({
+              body: {
+                provider: "google",
+                callbackUrl: "/",
+              },
+            });
+            redirect(res.url ?? "/");
           }}
         >
           Sign in with Google
-        </Button>
-        <Button
-          size="lg"
-          formAction={async () => {
-            "use server";
-            await signIn("apple");
-          }}
-        >
-          Sign in with Apple
         </Button>
       </form>
     );
@@ -40,7 +39,9 @@ export async function AuthShowcase() {
           size="lg"
           formAction={async () => {
             "use server";
-            await signOut();
+            await auth.api.signOut({ headers: headers() });
+            // eslint-disable-next-line @typescript-eslint/only-throw-error
+            throw redirect("/");
           }}
         >
           Sign out

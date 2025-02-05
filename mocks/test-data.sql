@@ -1,365 +1,533 @@
 INSERT INTO "user" (
   id,
+  name,
   email,
   email_verified,
-  image
+  image,
+  created_at,
+  updated_at
 )
 VALUES
   (
     'e111a8dc-bcaa-4452-9371-3701a88c111e',
+    'User 1',
     'test1@example.com',
+    true,
     NULL,
-    NULL
+    '2022-08-11 15:12:11.256',
+    '2022-08-11 15:12:11.256'
   );
 
 INSERT INTO "user" (
   id,
+  name,
   email,
   email_verified,
-  image
+  image,
+  created_at,
+  updated_at
 )
 VALUES
   (
     'e222899a-2e4e-4413-aad6-15a87b69222e',
+    'User 2',
     'test2@example.com',
+    true,
     NULL,
-    NULL
+    '2022-08-11 15:12:11.256',
+    '2022-08-11 15:12:11.256'
   );
 
 INSERT INTO "user" (
   id,
+  name,
   email,
   email_verified,
-  image
+  image,
+  created_at,
+  updated_at
 )
 VALUES
   (
     'e33332a5-d6d8-469d-aae6-22c1ff53333e',
+    'User 3',
     'test3@example.com',
+    true,
     NULL,
-    NULL
+    '2022-08-11 15:12:11.256',
+    '2022-08-11 15:12:11.256'
   );
 
 INSERT INTO "user" (
   id,
+  name,
   email,
   email_verified,
-  image
+  image,
+  created_at,
+  updated_at
 )
 VALUES
   (
     'e44442e4-2962-4ed7-99ea-c64d248d444e',
+    'User 4',
     'test4@example.com',
+    true,
     NULL,
-    NULL
+    '2022-08-11 15:12:11.256',
+    '2022-08-11 15:12:11.256'
   );
 
 INSERT INTO "user" (
   id,
+  name,
   email,
   email_verified,
-  image
+  image,
+  created_at,
+  updated_at
 )
 VALUES
   (
     'e555bfa9-4dbf-42da-8f8d-348a7364555e',
+    'User 5',
     'test5@example.com',
+    true,
     NULL,
-    NULL
+    '2022-08-11 15:12:11.256',
+    '2022-08-11 15:12:11.256'
   );
 
 INSERT INTO "user" (
   id,
+  name,
   email,
   email_verified,
-  image
+  image,
+  created_at,
+  updated_at
 )
 VALUES
   (
     'e666cadc-f752-4646-ad6b-419be06f666e',
+    'User 6',
     'test6@example.com',
+    true,
     NULL,
-    NULL
+    '2022-08-11 15:12:11.256',
+    '2022-08-11 15:12:11.256'
   );
 
 INSERT INTO "user" (
   id,
+  name,
   email,
   email_verified,
-  image
+  image,
+  created_at,
+  updated_at
 )
 VALUES
   (
     'e777a9b7-2b65-4a8d-b476-6eb5fda8777e',
+    'User 7',
     'test7@example.com',
+    true,
     NULL,
-    NULL
+    '2022-08-11 15:12:11.256',
+    '2022-08-11 15:12:11.256'
   );
 
 INSERT INTO
   account (
+    id,
+    account_id,
+    provider_id,
     user_id,
-    type,
-    provider,
-    provider_account_id,
-    refresh_token,
     access_token,
-    expires_at,
-    token_type,
-    scope,
+    refresh_token,
     id_token,
-    session_state
+    access_token_expires_at,
+    refresh_token_expires_at,
+    scope,
+    password,
+    created_at,
+    updated_at
   )
 VALUES
   (
+    '2fdc40da-06a3-43ba-b6c5-b12e262007ca',
+    '1c7a6ffd-a809-4799-b53e-c138b922ea17',
+    'google',
     'e111a8dc-bcaa-4452-9371-3701a88c111e',
-    'oauth',
-    'google',
-    '123456789101112131415',
+    'ya29.a0AfH6SMB9',
     NULL,
-    'test_access_token_1',
-    1970188389,
-    'Bearer',
-    'openid',
-    'test_id_token_1',
-    NULL
+    'eyJhbGciOiJSUzI1NiIsImtpZCI6IjQwMjIzZjI',
+    '2050-08-14 15:12:11.256',
+    NULL,
+    'openid,https://www.googleapis.com/auth/userinfo.profile,https://www.googleapis.com/auth/userinfo.email',
+    NULL,
+    '2022-08-11 15:12:11.256',
+    '2022-08-11 15:12:11.256'
   );
 
 INSERT INTO
   account (
+    id,
+    account_id,
+    provider_id,
     user_id,
-    type,
-    provider,
-    provider_account_id,
-    refresh_token,
     access_token,
-    expires_at,
-    token_type,
-    scope,
+    refresh_token,
     id_token,
-    session_state
+    access_token_expires_at,
+    refresh_token_expires_at,
+    scope,
+    password,
+    created_at,
+    updated_at
   )
 VALUES
   (
+    '66864c35-bfe2-4536-9219-9e8cccddc0e0',
+    'f1009d43-0330-49a2-8445-aa63d3565cfe',
+    'google',
     'e222899a-2e4e-4413-aad6-15a87b69222e',
-    'oauth',
-    'google',
-    '123456789101112131416',
+    'ya29.a0AfH',
     NULL,
-    'test_access_token_2',
-    1970188389,
-    'Bearer',
-    'openid',
-    'test_id_token_2',
-    NULL
+    'eyJhbGciOiJSUzI1NiIsImtpZCI6IjQwMjIzZjI',
+    '2050-08-14 15:12:11.256',
+    NULL,
+    'openid,https://www.googleapis.com/auth/userinfo.profile,https://www.googleapis.com/auth/userinfo.email',
+    NULL,
+    '2022-08-11 15:12:11.256',
+    '2022-08-11 15:12:11.256'
   );
 
 INSERT INTO
   account (
+    id,
+    account_id,
+    provider_id,
     user_id,
-    type,
-    provider,
-    provider_account_id,
-    refresh_token,
     access_token,
-    expires_at,
-    token_type,
-    scope,
+    refresh_token,
     id_token,
-    session_state
+    access_token_expires_at,
+    refresh_token_expires_at,
+    scope,
+    password,
+    created_at,
+    updated_at
   )
 VALUES
   (
+    '058b66ae-a455-4e90-a34d-903d420cc3da',
+    '67f90bdb-08be-4b55-bfa6-65f71f08716d',
+    'google',
     'e33332a5-d6d8-469d-aae6-22c1ff53333e',
-    'oauth',
-    'google',
-    '123456789101112131417',
+    'ya29.a0AfH6SMB9',
     NULL,
-    'test_access_token_3',
-    1970188389,
-    'Bearer',
-    'openid',
-    'test_id_token_3',
-    NULL
+    'eyJhbGciOiJSUzI1NiIsImtpZCI6IjQwMjIzZjI',
+    '2050-08-14 15:12:11.256',
+    NULL,
+    'openid,https://www.googleapis.com/auth/userinfo.profile,https://www.googleapis.com/auth/userinfo.email',
+    NULL,
+    '2022-08-11 15:12:11.256',
+    '2022-08-11 15:12:11.256'
   );
 
 INSERT INTO
   account (
+    id,
+    account_id,
+    provider_id,
     user_id,
-    type,
-    provider,
-    provider_account_id,
-    refresh_token,
     access_token,
-    expires_at,
-    token_type,
-    scope,
+    refresh_token,
     id_token,
-    session_state
+    access_token_expires_at,
+    refresh_token_expires_at,
+    scope,
+    password,
+    created_at,
+    updated_at
   )
 VALUES
   (
+    'aab403e0-8443-4c09-a0e8-f464e3c84250',
+    'd9a3c803-14a6-46e9-9232-da284b191245',
+    'google',
     'e44442e4-2962-4ed7-99ea-c64d248d444e',
-    'oauth',
-    'google',
-    '123456789101112131418',
+    'ya29.a0AfH',
     NULL,
-    'test_access_token_4',
-    1970188389,
-    'Bearer',
-    'openid',
-    'test_id_token_4',
-    NULL
+    'eyJhbGciOiJSUzI1NiIsImtpZCI6IjQwMjIzZjI',
+    '2050-08-14 15:12:11.256',
+    NULL,
+    'openid,https://www.googleapis.com/auth/userinfo.profile,https://www.googleapis.com/auth/userinfo.email',
+    NULL,
+    '2022-08-11 15:12:11.256',
+    '2022-08-11 15:12:11.256'
   );
 
 INSERT INTO
   account (
+    id,
+    account_id,
+    provider_id,
     user_id,
-    type,
-    provider,
-    provider_account_id,
-    refresh_token,
     access_token,
-    expires_at,
-    token_type,
-    scope,
+    refresh_token,
     id_token,
-    session_state
+    access_token_expires_at,
+    refresh_token_expires_at,
+    scope,
+    password,
+    created_at,
+    updated_at
   )
 VALUES
   (
+    'aace4169-d695-4770-9995-852c391fc281',
+    '7d63fa4e-fdb4-413f-b324-63da551416b6',
+    'google',
     'e555bfa9-4dbf-42da-8f8d-348a7364555e',
-    'oauth',
-    'google',
-    '123456789101112131419',
+    'ya29.a0AfH',
     NULL,
-    'test_access_token_5',
-    1970188389,
-    'Bearer',
-    'openid',
-    'test_id_token_5',
-    NULL
+    'eyJhbGciOiJSUzI1NiIsImtpZCI6IjQwMjIzZjI',
+    '2050-08-14 15:12:11.256',
+    NULL,
+    'openid,https://www.googleapis.com/auth/userinfo.profile,https://www.googleapis.com/auth/userinfo.email',
+    NULL,
+    '2022-08-11 15:12:11.256',
+    '2022-08-11 15:12:11.256'
   );
 
 INSERT INTO
   account (
+    id,
+    account_id,
+    provider_id,
     user_id,
-    type,
-    provider,
-    provider_account_id,
-    refresh_token,
     access_token,
-    expires_at,
-    token_type,
-    scope,
+    refresh_token,
     id_token,
-    session_state
+    access_token_expires_at,
+    refresh_token_expires_at,
+    scope,
+    password,
+    created_at,
+    updated_at
   )
 VALUES
   (
-    'e666cadc-f752-4646-ad6b-419be06f666e',
-    'oauth',
+    '603da545-a077-4a70-84f3-8f22bdd07520',
+    'd1e6ad5e-8da3-4bbb-a770-ab9442133276',
     'google',
-    '123456789101112131420',
+    'e666cadc-f752-4646-ad6b-419be06f666e',
+    'ya29.a0AfH6SMB9',
     NULL,
-    'test_access_token_6',
-    1970188389,
-    'Bearer',
-    'openid',
-    'test_id_token_6',
-    NULL
+    'eyJhbGciOiJSUzI1NiIsImtpZCI6IjQwMjIzZjI',
+    '2050-08-14 15:12:11.256',
+    NULL,
+    'openid,https://www.googleapis.com/auth/userinfo.profile,https://www.googleapis.com/auth/userinfo.email',
+    NULL,
+    '2022-08-11 15:12:11.256',
+    '2022-08-11 15:12:11.256'
   );
 
 INSERT INTO
   account (
+    id,
+    account_id,
+    provider_id,
     user_id,
-    type,
-    provider,
-    provider_account_id,
-    refresh_token,
     access_token,
-    expires_at,
-    token_type,
-    scope,
+    refresh_token,
     id_token,
-    session_state
+    access_token_expires_at,
+    refresh_token_expires_at,
+    scope,
+    password,
+    created_at,
+    updated_at
   )
 VALUES
   (
+    '8994c787-ffaa-4f0f-afc7-fb75dd98dee9',
+    'da777abe-aaf1-4cc9-a0e2-1d394e702711',
+    'google',
     'e777a9b7-2b65-4a8d-b476-6eb5fda8777e',
-    'oauth',
-    'facebook',
-    '123456789101112131421',
+    'ya29.a0AfH',
     NULL,
-    'test_access_token_7',
-    1970188389,
-    'Bearer',
-    'openid',
-    'test_id_token_7',
-    NULL
+    'eyJhbGciOiJSUzI1NiIsImtpZCI6IjQwMjIzZjI',
+    '2050-08-14 15:12:11.256',
+    NULL,
+    'openid,https://www.googleapis.com/auth/userinfo.profile,https://www.googleapis.com/auth/userinfo.email',
+    NULL,
+    '2022-08-11 15:12:11.256',
+    '2022-08-11 15:12:11.256'
   );
 
 INSERT INTO
-  session (session_token, user_id, expires)
+  session (
+    id,
+    expires_at,
+    token,
+    created_at,
+    updated_at,
+    ip_address,
+    user_agent,
+    user_id
+  )
 VALUES
   (
-    '1c2358f5-51e0-4be5-ae8e-312a6b9888e1',
-    'e111a8dc-bcaa-4452-9371-3701a88c111e',
-    '2049-08-14 15:12:11.256'
+    '66598268-6638-486a-9f6a-3ace567e409e',
+    '2049-08-14 15:12:11.256',
+    '1c2358f551e04be5ae8e312a6b9888e1',
+    '2022-08-14 05:12:11.256',
+    '2022-08-14 05:12:11.256',
+    NULL,
+    NULL,
+    'e111a8dc-bcaa-4452-9371-3701a88c111e'
   );
 
 INSERT INTO
-  session (session_token, user_id, expires)
+  session (
+    id,
+    expires_at,
+    token,
+    created_at,
+    updated_at,
+    ip_address,
+    user_agent,
+    user_id
+  )
 VALUES
   (
-    '2c2358f5-51e0-4be5-ae8e-312a6b9888e2',
-    'e222899a-2e4e-4413-aad6-15a87b69222e',
-    '2049-08-14 15:12:11.256'
+    '8ce6bf10-6cbd-4184-89c8-e3457f028222',
+    '2049-08-14 15:12:11.256',
+    '2c2358f551e04be5ae8e312a6b9888e2',
+    '2022-08-14 05:12:11.256',
+    '2022-08-14 05:12:11.256',
+    NULL,
+    NULL,
+    'e222899a-2e4e-4413-aad6-15a87b69222e'
   );
 
 INSERT INTO
-  session (session_token, user_id, expires)
+  session (
+    id,
+    expires_at,
+    token,
+    created_at,
+    updated_at,
+    ip_address,
+    user_agent,
+    user_id
+  )
 VALUES
   (
-    '3c2358f5-51e0-4be5-ae8e-312a6b9888e3',
-    'e33332a5-d6d8-469d-aae6-22c1ff53333e',
-    '2049-08-14 15:12:11.256'
+    'd7225602-1da5-4d5b-9949-df6b720d28e9',
+    '2049-08-14 15:12:11.256',
+    '3c2358f551e04be5ae8e312a6b9888e3',
+    '2022-08-14 05:12:11.256',
+    '2022-08-14 05:12:11.256',
+    NULL,
+    NULL,
+    'e33332a5-d6d8-469d-aae6-22c1ff53333e'
   );
 
 INSERT INTO
-  session (session_token, user_id, expires)
+  session (
+    id,
+    expires_at,
+    token,
+    created_at,
+    updated_at,
+    ip_address,
+    user_agent,
+    user_id
+  )
 VALUES
   (
-    '4c2358f5-51e0-4be5-ae8e-312a6b9888e4',
-    'e44442e4-2962-4ed7-99ea-c64d248d444e',
-    '2049-08-14 15:12:11.256'
+    '54afdddf-462b-4527-ba49-4a17569b0eae',
+    '2049-08-14 15:12:11.256',
+    '4c2358f551e04be5ae8e312a6b9888e4',
+    '2022-08-14 05:12:11.256',
+    '2022-08-14 05:12:11.256',
+    NULL,
+    NULL,
+    'e44442e4-2962-4ed7-99ea-c64d248d444e'
   );
 
 INSERT INTO
-  session (session_token, user_id, expires)
+  session (
+    id,
+    expires_at,
+    token,
+    created_at,
+    updated_at,
+    ip_address,
+    user_agent,
+    user_id
+  )
 VALUES
   (
-    '5c2358f5-51e0-4be5-ae8e-312a6b9888e5',
-    'e555bfa9-4dbf-42da-8f8d-348a7364555e',
-    '2049-08-14 15:12:11.256'
+    '676f080a-53f2-49e3-ab9a-cf86d6ae6154',
+    '2049-08-14 15:12:11.256',
+    '5c2358f551e04be5ae8e312a6b9888e5',
+    '2022-08-14 05:12:11.256',
+    '2022-08-14 05:12:11.256',
+    NULL,
+    NULL,
+    'e555bfa9-4dbf-42da-8f8d-348a7364555e'
   );
 
 INSERT INTO
-  session (session_token, user_id, expires)
+  session (
+    id,
+    expires_at,
+    token,
+    created_at,
+    updated_at,
+    ip_address,
+    user_agent,
+    user_id
+  )
 VALUES
   (
-    '6c2358f5-51e0-4be5-ae8e-312a6b9888e6',
-    'e666cadc-f752-4646-ad6b-419be06f666e',
-    '2049-08-14 15:12:11.256'
+    '6f8395fa-5ac4-43e8-91fb-424fe962224f',
+    '2049-08-14 15:12:11.256',
+    '6c2358f551e04be5ae8e312a6b9888e6',
+    '2022-08-14 05:12:11.256',
+    '2022-08-14 05:12:11.256',
+    NULL,
+    NULL,
+    'e666cadc-f752-4646-ad6b-419be06f666e'
   );
 
 INSERT INTO
-  session (session_token, user_id, expires)
+  session (
+    id,
+    expires_at,
+    token,
+    created_at,
+    updated_at,
+    ip_address,
+    user_agent,
+    user_id
+  )
 VALUES
   (
-    '7c2358f5-51e0-4be5-ae8e-312a6b9888e7',
-    'e777a9b7-2b65-4a8d-b476-6eb5fda8777e',
-    '2049-08-14 15:12:11.256'
+    'ca0a7eb0-b96a-4292-8e3d-6e06952fd750',
+    '2049-08-14 15:12:11.256',
+    '7c2358f551e04be5ae8e312a6b9888e7',
+    '2022-08-14 05:12:11.256',
+    '2022-08-14 05:12:11.256',
+    NULL,
+    NULL,
+    'e777a9b7-2b65-4a8d-b476-6eb5fda8777e'
   );
 
 INSERT INTO

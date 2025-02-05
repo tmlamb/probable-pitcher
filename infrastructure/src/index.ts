@@ -677,16 +677,12 @@ const appDeployment = new k8s.apps.v1.Deployment(
                   value: appleWebClientSecret,
                 },
                 {
-                  name: "AUTH_SECRET",
-                  value: config.requireSecret("nextAuthSecret"),
+                  name: "BETTER_AUTH_SECRET",
+                  value: config.requireSecret("betterAuthSecret"),
                 },
                 {
-                  name: "NEXTAUTH_URL",
-                  value: config.requireSecret("nextAuthUrl"),
-                },
-                {
-                  name: "AUTH_REDIRECT_PROXY_URL",
-                  value: config.requireSecret("authRedirectProxyUrl"),
+                  name: "BETTER_AUTH_URL",
+                  value: config.requireSecret("betterAuthUrl"),
                 },
               ],
             },
@@ -731,107 +727,6 @@ const appService = new k8s.core.v1.Service(
       ],
       selector: {
         app: appLabels.app,
-      },
-    },
-  },
-  {
-    provider: clusterProvider,
-  },
-);
-
-const loginLabels = { app: `probable-auth-proxy-${env}` };
-
-const loginDeployment = new k8s.apps.v1.Deployment(
-  loginLabels.app,
-  {
-    metadata: {
-      namespace: namespaceName,
-    },
-    spec: {
-      strategy: {
-        type: "RollingUpdate",
-        rollingUpdate: {
-          maxSurge: 1,
-          maxUnavailable: 1,
-        },
-      },
-      selector: { matchLabels: loginLabels },
-      replicas: replicas,
-      template: {
-        metadata: { labels: loginLabels },
-        spec: {
-          imagePullSecrets: [{ name: regcred.metadata.apply((m) => m.name) }],
-          serviceAccountName: ksa.metadata.apply((m) => m.name),
-          containers: [
-            {
-              name: loginLabels.app,
-              image: `ghcr.io/tmlamb/probable-auth-proxy:${
-                changedAuthProxy ? imageTag : "latest"
-              }`,
-
-              ports: [{ name: "http", containerPort: 3012 }],
-              resources: {
-                requests: {
-                  cpu: "250m",
-                  memory: "512Mi",
-                  "ephemeral-storage": "1Gi",
-                },
-              },
-              livenessProbe: {
-                httpGet: { path: "/", port: "http" },
-              },
-              env: [
-                {
-                  name: "AUTH_GOOGLE_ID",
-                  value: config.requireSecret("authGoogleClientId"),
-                },
-                {
-                  name: "AUTH_GOOGLE_SECRET",
-                  value: config.requireSecret("authGoogleClientSecret"),
-                },
-                {
-                  name: "AUTH_APPLE_ID",
-                  value: config.requireSecret("appleWebClientId"),
-                },
-                {
-                  name: "AUTH_APPLE_SECRET",
-                  value: appleWebClientSecret,
-                },
-                {
-                  name: "AUTH_SECRET",
-                  value: config.requireSecret("nextAuthSecret"),
-                },
-                {
-                  name: "AUTH_REDIRECT_PROXY_URL",
-                  value: config.requireSecret("authRedirectProxyUrl"),
-                },
-              ],
-            },
-          ],
-        },
-      },
-    },
-  },
-  {
-    provider: clusterProvider,
-  },
-);
-
-const loginService = new k8s.core.v1.Service(
-  loginLabels.app,
-  {
-    metadata: {
-      namespace: namespaceName,
-    },
-    spec: {
-      ports: [
-        {
-          port: 80,
-          targetPort: 3012,
-        },
-      ],
-      selector: {
-        app: loginLabels.app,
       },
     },
   },
@@ -911,30 +806,6 @@ const ingress = new k8s.networking.v1.Ingress(
                       name: appService?.metadata?.apply((m) => m?.name),
                       port: {
                         number: appService?.spec?.ports?.[0]?.apply(
-                          (p) => p?.port,
-                        ),
-                      },
-                    },
-                  },
-                },
-              ],
-            },
-          };
-          return rule;
-        }),
-        ...loginDomains.map((domain) => {
-          const rule = {
-            host: domain,
-            http: {
-              paths: [
-                {
-                  path: "/",
-                  pathType: "Prefix",
-                  backend: {
-                    service: {
-                      name: loginService?.metadata?.apply((m) => m?.name),
-                      port: {
-                        number: loginService?.spec?.ports?.[0]?.apply(
                           (p) => p?.port,
                         ),
                       },

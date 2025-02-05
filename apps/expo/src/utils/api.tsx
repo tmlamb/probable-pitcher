@@ -7,7 +7,7 @@ import superjson from "superjson";
 import type { AppRouter } from "@probable/api";
 
 import { getBaseUrl } from "./base-url";
-import { getToken } from "./session-store";
+import { useSession } from "./auth";
 
 /**
  * A set of typesafe hooks for consuming your API.
@@ -20,6 +20,7 @@ export { type RouterInputs, type RouterOutputs } from "@probable/api";
  * Use only in _app.tsx
  */
 export function TRPCProvider(props: { children: React.ReactNode }) {
+  const { data } = useSession();
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
     api.createClient({
@@ -37,8 +38,8 @@ export function TRPCProvider(props: { children: React.ReactNode }) {
             const headers = new Map<string, string>();
             headers.set("x-trpc-source", "expo-react");
 
-            const token = getToken();
-            if (token) headers.set("Authorization", `Bearer ${token}`);
+            if (data?.session.token)
+              headers.set("Authorization", `Bearer ${data.session.token}`);
 
             return Object.fromEntries(headers);
           },

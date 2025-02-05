@@ -1,5 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import { index, pgTable, primaryKey, unique } from "drizzle-orm/pg-core";
+import { index, pgTable, unique } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import type { z } from "zod";
 
@@ -85,7 +85,7 @@ export const subscription = pgTable(
   (t) => ({
     id: t.uuid().notNull().primaryKey().defaultRandom(),
     userId: t
-      .uuid()
+      .text()
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
     pitcherId: t
@@ -155,7 +155,7 @@ export const device = pgTable(
   (t) => ({
     id: t.uuid().notNull().primaryKey().defaultRandom(),
     userId: t
-      .uuid()
+      .text()
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
     pushToken: t.varchar({ length: 1023 }).unique().notNull(),
@@ -178,15 +178,16 @@ export const selectDeviceSchema = createSelectSchema(device);
 export type Device = z.infer<typeof selectDeviceSchema>;
 
 export const user = pgTable("user", (t) => ({
-  id: t.uuid().notNull().primaryKey().defaultRandom(),
-  name: t.varchar({ length: 255 }),
-  email: t.varchar({ length: 255 }).notNull(),
-  emailVerified: t.timestamp({ mode: "date", withTimezone: true }),
-  image: t.varchar({ length: 255 }),
+  id: t.text().primaryKey(),
+  name: t.text().notNull(),
+  email: t.text().notNull().unique(),
+  emailVerified: t.boolean().notNull(),
+  image: t.text(),
+  createdAt: t.timestamp().notNull(),
+  updatedAt: t.timestamp().notNull(),
 }));
 
 export const userRelations = relations(user, ({ many }) => ({
-  accounts: many(account),
   devices: many(device),
 }));
 
@@ -194,49 +195,46 @@ export const selectUserSchema = createSelectSchema(user);
 
 export type User = z.infer<typeof selectUserSchema>;
 
-export const account = pgTable(
-  "account",
-  (t) => ({
-    userId: t
-      .uuid()
-      .notNull()
-      .references(() => user.id, { onDelete: "cascade" }),
-    type: t
-      .varchar({ length: 255 })
-      .$type<"email" | "oauth" | "oidc" | "webauthn">()
-      .notNull(),
-    provider: t.varchar({ length: 255 }).notNull(),
-    providerAccountId: t.varchar({ length: 255 }).notNull(),
-    refresh_token: t.varchar({ length: 255 }),
-    access_token: t.text(),
-    expires_at: t.integer(),
-    token_type: t.varchar({ length: 255 }),
-    scope: t.varchar({ length: 255 }),
-    id_token: t.text(),
-    session_state: t.varchar({ length: 255 }),
-  }),
-  (account) => ({
-    compoundKey: primaryKey({
-      columns: [account.provider, account.providerAccountId],
-    }),
-  }),
-);
-
-export const accountRelations = relations(account, ({ one }) => ({
-  user: one(user, { fields: [account.userId], references: [user.id] }),
+export const account = pgTable("account", (t) => ({
+  id: t.text().primaryKey(),
+  accountId: t.text().notNull(),
+  providerId: t.text().notNull(),
+  userId: t
+    .text()
+    .notNull()
+    .references(() => user.id),
+  accessToken: t.text(),
+  refreshToken: t.text(),
+  idToken: t.text(),
+  accessTokenExpiresAt: t.timestamp(),
+  refreshTokenExpiresAt: t.timestamp(),
+  scope: t.text(),
+  password: t.text(),
+  createdAt: t.timestamp().notNull(),
+  updatedAt: t.timestamp().notNull(),
 }));
 
 export const session = pgTable("session", (t) => ({
-  sessionToken: t.varchar({ length: 255 }).notNull().primaryKey(),
+  id: t.text().primaryKey(),
+  expiresAt: t.timestamp().notNull(),
+  token: t.text().notNull().unique(),
+  createdAt: t.timestamp().notNull(),
+  updatedAt: t.timestamp().notNull(),
+  ipAddress: t.text(),
+  userAgent: t.text(),
   userId: t
-    .uuid()
+    .text()
     .notNull()
-    .references(() => user.id, { onDelete: "cascade" }),
-  expires: t.timestamp({ mode: "date", withTimezone: true }).notNull(),
+    .references(() => user.id),
 }));
 
-export const sessionRelations = relations(session, ({ one }) => ({
-  user: one(user, { fields: [session.userId], references: [user.id] }),
+export const verification = pgTable("verification", (t) => ({
+  id: t.text().primaryKey(),
+  identifier: t.text().notNull(),
+  value: t.text().notNull(),
+  expiresAt: t.timestamp().notNull(),
+  createdAt: t.timestamp(),
+  updatedAt: t.timestamp(),
 }));
 
 export type QueryError = typeof Error & { code?: unknown };

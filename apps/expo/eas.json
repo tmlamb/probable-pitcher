@@ -23,14 +23,14 @@
       "distribution": "internal",
       "env": {
         "APP_ENV": "preview",
-        "NEXTAUTH_URL": "https://dev.probablepitcher.com"
+        "BETTER_AUTH_URL": "https://dev.probablepitcher.com"
       }
     },
     "production": {
       "extends": "base",
       "env": {
         "APP_ENV": "production",
-        "NEXTAUTH_URL": "https://probablepitcher.com"
+        "BETTER_AUTH_URL": "https://probablepitcher.com"
       }
     }
   },
