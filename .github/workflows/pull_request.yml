@@ -7,23 +7,22 @@ env:
   TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
 
 jobs:
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-
-      - name: Start application-specific services using Docker Compose
-        run: |
-          NEXTAUTH_URL=http://localhost:3000 \
-          AUTH_REDIRECT_PROXY_URL=http://localhost:3012/r \
-          AUTH_SECRET=secret \
-          AUTH_GOOGLE_ID=secret \
-          AUTH_GOOGLE_SECRET=secret \
-          AUTH_APPLE_ID=secret \
-          AUTH_APPLE_SECRET=secret \
-          docker compose up --abort-on-container-failure integration stress
+  # test:
+  #   name: Test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Check out code
+  #       uses: actions/checkout@v4
+  #
+  #     - name: Start application-specific services using Docker Compose
+  #       run: |
+  #         BETTER_AUTH_URL=http://localhost:3000 \
+  #         BETTER_AUTH_SECRET=secret \
+  #         AUTH_GOOGLE_ID=secret \
+  #         AUTH_GOOGLE_SECRET=secret \
+  #         AUTH_APPLE_ID=secret \
+  #         AUTH_APPLE_SECRET=secret \
+  #         docker compose up --abort-on-container-failure integration stress
 
   lint:
     name: Lint

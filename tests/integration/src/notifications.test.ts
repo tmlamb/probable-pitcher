@@ -5,7 +5,8 @@ import { Notification } from "@probable/db/schema";
 // See test-data.sql for test data
 const TEST_USER_SCENARIOS = [
   {
-    sessionId: "1c2358f5-51e0-4be5-ae8e-312a6b9888e1",
+    sessionId:
+      "1c2358f551e04be5ae8e312a6b9888e1.VDtI7sJQHirgwwj2O2q812EYksqph1kG%2FU9m%2F7yNbRM%3D",
     deviceId: "d11186c4-4d5c-4a4e-95c7-fd4c382c111d",
     notifications: [
       {
@@ -15,7 +16,8 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    sessionId: "2c2358f5-51e0-4be5-ae8e-312a6b9888e2",
+    sessionId:
+      "2c2358f551e04be5ae8e312a6b9888e2.z31FvjT6%2BnS3pVEatYpnj7l8YPqPJdcOlvFzCkCzVLI%3D",
     deviceId: "d2220614-e86b-43e5-a6ea-f4d7816a222d",
     notifications: [
       {
@@ -29,7 +31,8 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    sessionId: "3c2358f5-51e0-4be5-ae8e-312a6b9888e3",
+    sessionId:
+      "3c2358f551e04be5ae8e312a6b9888e3.9oG5MFMYg0WWBmMeqauDtIwfwMQuj%2BEJHueuu4XA9no%3D",
     deviceId: "d333ca0c-de64-4e25-9de7-bea768bc333d",
     notifications: [
       {
@@ -39,7 +42,8 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    sessionId: "3c2358f5-51e0-4be5-ae8e-312a6b9888e3",
+    sessionId:
+      "3c2358f551e04be5ae8e312a6b9888e3.9oG5MFMYg0WWBmMeqauDtIwfwMQuj%2BEJHueuu4XA9no%3D",
     deviceId: "d3232a0c-de64-4e25-9de7-bea768b2323d",
     notifications: [
       {
@@ -49,7 +53,8 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    sessionId: "4c2358f5-51e0-4be5-ae8e-312a6b9888e4",
+    sessionId:
+      "4c2358f551e04be5ae8e312a6b9888e4.dSZIw5Na8kE8GfQVvbfVvwZH%2BzK%2FDyRk7MXoEfAuEQw%3D",
     deviceId: "d444ca0c-de64-4e25-9de7-bea768b8444d",
     notifications: [
       {
@@ -59,7 +64,8 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    sessionId: "4c2358f5-51e0-4be5-ae8e-312a6b9888e4",
+    sessionId:
+      "4c2358f551e04be5ae8e312a6b9888e4.dSZIw5Na8kE8GfQVvbfVvwZH%2BzK%2FDyRk7MXoEfAuEQw%3D",
     deviceId: "d4242c0c-de64-4e25-9de7-bea768b2424d",
     notifications: [
       {
@@ -69,7 +75,8 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    sessionId: "5c2358f5-51e0-4be5-ae8e-312a6b9888e5",
+    sessionId:
+      "5c2358f551e04be5ae8e312a6b9888e5.1JZocw%2Bhe1urcGTeHrPMwnSB2VjmEnzWM08kyKnhja0%3D",
     deviceId: "d555ca0c-de64-4e25-9de7-bea768bc555d",
     notifications: [
       {
@@ -79,7 +86,8 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    sessionId: "5c2358f5-51e0-4be5-ae8e-312a6b9888e5",
+    sessionId:
+      "5c2358f551e04be5ae8e312a6b9888e5.1JZocw%2Bhe1urcGTeHrPMwnSB2VjmEnzWM08kyKnhja0%3D",
     deviceId: "d5252a0c-de64-4e25-9de7-bea768b2525d",
     notifications: [
       {
@@ -89,12 +97,14 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    sessionId: "6c2358f5-51e0-4be5-ae8e-312a6b9888e6",
+    sessionId:
+      "6c2358f551e04be5ae8e312a6b9888e6.YgmHtdzORXUVrgrKfUwZPkIYMShsPhML4Y9cR9ZGnsc%3D",
     deviceId: "d666ca0c-de64-4e25-9de7-bea768bc666d",
     notifications: [],
   },
   {
-    sessionId: "7c2358f5-51e0-4be5-ae8e-312a6b9888e7",
+    sessionId:
+      "7c2358f551e04be5ae8e312a6b9888e7.vTwAArqdkKQqMhxFlz%2FCEARpRw04VDTO8a9a7d7ehIU%3D",
     deviceId: "d777aa0c-de64-4e25-9de7-bea768ba777d",
     notifications: [
       {
@@ -116,7 +126,7 @@ async function getNotifications(sessionId: string, deviceId: string) {
   return fetch(url.toString(), {
     headers: {
       "Content-Type": "application/json",
-      cookie: `authjs.session-token=${sessionId}`,
+      cookie: `better-auth.session-token=${sessionId}`,
     },
   })
     .then((r) => r.json())

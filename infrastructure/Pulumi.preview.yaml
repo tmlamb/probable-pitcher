@@ -34,15 +34,11 @@ config:
     - dev.probablepitcher.com
   probable-pitcher:loginDomains:
     - dev.login.probablepitcher.com
-  probable-pitcher:nextAuthExpoUrl:
-    secure: AAABAOKBSytJI+/MdpyEs8YNyWaZmMTtNLvTQFjfHMAmymumzv9CHRtcp09q6JEIREJav0iu8aaFDfOWotdv1eT53fNKEYqUfScXqERS
-  probable-pitcher:nextAuthSecret:
+  probable-pitcher:betterAuthSecret:
     secure: AAABACa9S7W/Q2EVs4M5bDLw7Mudj3+NCVeN3GQ/Pt+iCj1/9iO+/AF7XuQR+xhdPIen7t21fxSt/oetuAcrqvQaFU+IKQ/jhtf6zw==
-  probable-pitcher:nextAuthUrl:
+  probable-pitcher:betterAuthUrl:
     secure: AAABAM4qV2HsKkhJ7rb/4jT1Kka7LnymYjWrfeOdZvSQlDuZHfm55zNw34uY2Jt1drORh9uwy9IG5UpaesvH
   probable-pitcher:nextjsReplicas: "1"
-  probable-pitcher:authRedirectProxyUrl:
-    secure: AAABAH49cXedoQeMbjUbARpadEGW8NIq1oIILi3DzcVCrLL273Eo9ciKeQNN/jGRQ82ho78/dm/ybumy9uijKgbqRtnlPu8=
   probable-pitcher:expoApiUrl:
     secure: AAABADTlZ/JlVhOpWxSJNFwosByFmNVsP/6zAev+QfC2nQ1pw1BFmXkhEytUNpB3
   probable-pitcher:baseApiUrl:

@@ -17,19 +17,19 @@ services:
       interval: 10s
       retries: 10
       timeout: 2s
-  # pgadmin:
-  #   image: dpage/pgadmin4
-  #   container_name: pgadmin4_container
-  #   restart: always
-  #   ports:
-  #     - "8888:80"
-  #   environment:
-  #     - PGADMIN_DEFAULT_EMAIL=user-name@domain-name.com
-  #     - PGADMIN_DEFAULT_PASSWORD=strong-password
-  #   networks:
-  #     - probablenet
-  #   volumes:
-  #     - pgadmin-data:/var/lib/pgadmin
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=user-name@domain-name.com
+      - PGADMIN_DEFAULT_PASSWORD=strong-password
+    networks:
+      - probablenet
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
   migrate:
     build:
       dockerfile: packages/db/Dockerfile
@@ -107,13 +107,12 @@ services:
   nextjs:
     environment:
       - DATABASE_URL=postgres://postgres:password@db:5432/probable-pitcher
-      - NEXTAUTH_URL=${NEXTAUTH_URL}
-      - AUTH_REDIRECT_PROXY_URL=${AUTH_REDIRECT_PROXY_URL}
-      - AUTH_SECRET=${AUTH_SECRET}
       - AUTH_GOOGLE_ID=${AUTH_GOOGLE_ID}
       - AUTH_GOOGLE_SECRET=${AUTH_GOOGLE_SECRET}
       - AUTH_APPLE_ID=${AUTH_APPLE_ID}
       - AUTH_APPLE_SECRET=${AUTH_APPLE_SECRET}
+      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
+      - BETTER_AUTH_URL=${BETTER_AUTH_URL}
     build:
       dockerfile: apps/nextjs/Dockerfile
     healthcheck:
@@ -141,18 +140,18 @@ services:
         condition: service_healthy
     networks:
       - probablenet
-  stress:
-    image: grafana/k6
-    environment:
-      API_URL: http://nextjs:3000
-    depends_on:
-      nextjs:
-        condition: service_healthy
-    volumes:
-      - ./tests/stress/scripts:/scripts
-    command: run /scripts/index.js
-    networks:
-      - probablenet
+  # stress:
+  #   image: grafana/k6
+  #   environment:
+  #     API_URL: http://nextjs:3000
+  #   depends_on:
+  #     nextjs:
+  #       condition: service_healthy
+  #   volumes:
+  #     - ./tests/stress/scripts:/scripts
+  #   command: run /scripts/index.js
+  #   networks:
+  #     - probablenet
 volumes:
   pgdata:
   pgadmin-data:

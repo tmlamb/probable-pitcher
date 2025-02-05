@@ -5,17 +5,20 @@ import { Pitcher } from "@probable/db/schema";
 // See test-data.sql for test data
 const TEST_SEARCH_SCENARIOS = [
   {
-    sessionId: "1c2358f5-51e0-4be5-ae8e-312a6b9888e1",
+    sessionId:
+      "1c2358f551e04be5ae8e312a6b9888e1.VDtI7sJQHirgwwj2O2q812EYksqph1kG%2FU9m%2F7yNbRM%3D",
     searchTerms: ["Miles"],
     pitchersExpected: 17,
   },
   {
-    sessionId: "2c2358f5-51e0-4be5-ae8e-312a6b9888e2",
+    sessionId:
+      "2c2358f551e04be5ae8e312a6b9888e2.z31FvjT6%2BnS3pVEatYpnj7l8YPqPJdcOlvFzCkCzVLI%3D",
     searchTerms: ["Blaze", "Porter"],
     pitchersExpected: 18,
   },
   {
-    sessionId: "3c2358f5-51e0-4be5-ae8e-312a6b9888e3",
+    sessionId:
+      "3c2358f551e04be5ae8e312a6b9888e3.9oG5MFMYg0WWBmMeqauDtIwfwMQuj%2BEJHueuu4XA9no%3D",
     searchTerms: ["Roll", "Fizzlebeef"],
     pitchersExpected: 0,
   },

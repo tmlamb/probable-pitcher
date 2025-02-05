@@ -7,7 +7,7 @@ import { FlashList } from "@shopify/flash-list";
 
 import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
-import { useSignIn, useSignOut, useUser } from "~/utils/auth";
+import { signIn, signOut, useUser } from "~/utils/auth";
 
 function NotificationCard(props: {
   notification: RouterOutputs["notification"]["byDeviceId"][number];
@@ -100,8 +100,6 @@ function NotificationCard(props: {
 
 function MobileAuth() {
   const user = useUser();
-  const signIn = useSignIn();
-  const signOut = useSignOut();
 
   return (
     <>
@@ -109,7 +107,13 @@ function MobileAuth() {
         {user?.name ?? "Not logged in"}
       </Text>
       <Button
-        onPress={() => (user ? signOut() : signIn())}
+        onPress={() =>
+          user
+            ? signOut()
+            : signIn.social({
+                provider: "google",
+              })
+        }
         title={user ? "Sign Out" : "Sign In With Google"}
         color={"#5B65E9"}
       />
