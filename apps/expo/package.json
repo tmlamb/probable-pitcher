@@ -23,6 +23,7 @@
     "@trpc/client": "catalog:",
     "@trpc/react-query": "catalog:",
     "@trpc/server": "catalog:",
+    "better-auth": "^1.1.15",
     "expo": "~52.0.27",
     "expo-constants": "~17.0.4",
     "expo-dev-client": "~5.0.10",
