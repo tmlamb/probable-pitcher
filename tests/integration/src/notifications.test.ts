@@ -126,7 +126,7 @@ async function getNotifications(sessionId: string, deviceId: string) {
   return fetch(url.toString(), {
     headers: {
       "Content-Type": "application/json",
-      cookie: `better-auth.session-token=${sessionId}`,
+      cookie: `probable-pitcher.session-token=${sessionId}`,
     },
   })
     .then((r) => r.json())

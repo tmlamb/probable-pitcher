@@ -29,7 +29,9 @@ export const auth = betterAuth({
     level: "debug",
     disabled: false,
   },
-  //cookiePrefix: "probable-pitcher",
+  advanced: {
+    cookiePrefix: "probable-pitcher",
+  },
 });
 
 export type Session = typeof auth.$Infer.Session;

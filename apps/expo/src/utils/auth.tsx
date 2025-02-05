@@ -15,7 +15,7 @@ export const authClient = createAuthClient({
   baseURL: getBaseUrl(),
 });
 
-export const { signIn, signOut, useSession } = authClient;
+export const { signIn, signOut } = authClient;
 
 export const useUser = () => {
   const { data: session } = api.auth.getSession.useQuery();

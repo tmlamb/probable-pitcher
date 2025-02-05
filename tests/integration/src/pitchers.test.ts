@@ -38,7 +38,7 @@ async function getPitchers(sessionId: string, searchTerms: string[]) {
   return fetch(url.toString(), {
     headers: {
       "Content-Type": "application/json",
-      cookie: `authjs.session-token=${sessionId}`,
+      cookie: `probable-pitcher.session-token=${sessionId}`,
     },
   })
     .then((r) => r.json())
