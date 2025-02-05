@@ -20,7 +20,11 @@ export const auth = betterAuth({
       redirectURI: `https://dev.probablepitcher.com/api/auth/callback/google`,
     },
   },
-  trustedOrigins: ["probablepitcher://"],
+  trustedOrigins: [
+    "probablepitcher://",
+    "https://dev.probablepitcher.com",
+    "https://probablepitcher.com",
+  ],
   logger: {
     level: "debug",
     disabled: false,
