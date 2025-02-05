@@ -32,8 +32,6 @@ config:
     secure: AAABAPSKsxH9iMER4uU8hputFHXNY04l99qCStTDhJcTqs89OC3+3Hi0YAiWL1SAwG0k9sURT3IMPS+EptDvOJE0bKiayzHTScWYsERtU56O1D4km1OaZe9mt/z7xRhwOzjXMEQeWuzRI7kk5cSL9g+W5H/8htKmEV3rQguGZ35DHOGzJJ1haDGjQVF7M9MWMry811UDz7W7lKpVqQe0wD3Uy16kUzvZXZ1KopfZq6Q=
   probable-pitcher:domains:
     - dev.probablepitcher.com
-  probable-pitcher:loginDomains:
-    - dev.login.probablepitcher.com
   probable-pitcher:betterAuthSecret:
     secure: AAABACa9S7W/Q2EVs4M5bDLw7Mudj3+NCVeN3GQ/Pt+iCj1/9iO+/AF7XuQR+xhdPIen7t21fxSt/oetuAcrqvQaFU+IKQ/jhtf6zw==
   probable-pitcher:betterAuthUrl:

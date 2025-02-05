@@ -9,12 +9,10 @@ const env = pulumi.getStack();
 const imageTag = process.env.DEPLOY_COMMIT_TAG || "latest";
 const changedNextjs = process.env.CHANGED_NEXTJS === "true" || false;
 const changedIngest = process.env.CHANGED_INGEST === "true" || false;
-const changedAuthProxy = process.env.CHANGED_AUTH_PROXY === "true" || false;
 const changedDatabase = process.env.CHANGED_DB === "true" || false;
 const isProd = env === "production";
 
 const domains = config.requireObject<string[]>("domains");
-const loginDomains = config.requireObject<string[]>("loginDomains");
 const replicas = config.requireNumber("nextjsReplicas");
 
 const projectCloudSql = new gcp.projects.Service(
@@ -749,7 +747,7 @@ const managedCertificate = new k8s.apiextensions.CustomResource(
       namespace: namespaceName,
     },
     spec: {
-      domains: [...domains, ...loginDomains],
+      domains: [...domains],
     },
   },
   {
