@@ -7,7 +7,6 @@ export const authClient = createAuthClient({
   plugins: [
     expoClient({
       scheme: "probablepitcher",
-      storagePrefix: "probablepitcher",
       storage: SecureStore,
     }),
   ],

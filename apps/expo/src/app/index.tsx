@@ -107,14 +107,14 @@ function MobileAuth() {
       </Text>
       <Button
         onPress={() =>
-          session?.user
+          session
             ? signOut()
             : signIn.social({
                 provider: "google",
                 callbackURL: "/",
               })
         }
-        title={session?.user ? "Sign Out" : "Sign In With Google"}
+        title={session ? "Sign Out" : "Sign In With Google"}
         color={"#5B65E9"}
       />
     </>
