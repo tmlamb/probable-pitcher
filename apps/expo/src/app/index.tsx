@@ -117,6 +117,18 @@ function MobileAuth() {
         title={session ? "Sign Out" : "Sign In With Google"}
         color={"#5B65E9"}
       />
+      <Button
+        onPress={() =>
+          session
+            ? signOut()
+            : signIn.social({
+                provider: "apple",
+                callbackURL: "/",
+              })
+        }
+        title={session ? "Sign Out" : "Sign In With Apple"}
+        color={"#5B65E9"}
+      />
     </>
   );
 }

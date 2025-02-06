@@ -19,6 +19,11 @@ export const auth = betterAuth({
       clientSecret: env.AUTH_GOOGLE_SECRET,
       redirectURI: `https://dev.probablepitcher.com/api/auth/callback/google`,
     },
+    apple: {
+      clientId: env.AUTH_APPLE_ID,
+      clientSecret: env.AUTH_APPLE_SECRET,
+      redirectURI: `https://dev.probablepitcher.com/api/auth/callback/apple`,
+    },
   },
   trustedOrigins: [
     "probablepitcher://",

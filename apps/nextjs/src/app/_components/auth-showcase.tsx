@@ -15,6 +15,21 @@ export async function AuthShowcase() {
             "use server";
             const res = await auth.api.signInSocial({
               body: {
+                provider: "apple",
+                callbackUrl: "/",
+              },
+            });
+            redirect(res.url ?? "/");
+          }}
+        >
+          Sign in with Apple
+        </Button>
+        <Button
+          size="lg"
+          formAction={async () => {
+            "use server";
+            const res = await auth.api.signInSocial({
+              body: {
                 provider: "google",
                 callbackUrl: "/",
               },
