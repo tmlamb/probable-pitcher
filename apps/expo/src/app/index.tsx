@@ -1,4 +1,3 @@
-//import { useState } from "react";
 import React from "react";
 import { Button, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -104,7 +103,7 @@ function MobileAuth() {
   return (
     <>
       <Text className="pb-2 text-center text-xl font-semibold text-white">
-        {session?.user?.name ?? "Not logged in"}
+        {session?.user.name ?? "Not logged in"}
       </Text>
       <Button
         onPress={() =>
