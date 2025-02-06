@@ -259,7 +259,7 @@ const migrationJob = new k8s.batch.v1.Job(
               name: "cloudsql-proxy",
               image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
               args: [
-                "--port=3306",
+                "--port=5432",
                 pgDatabaseInstance.connectionName,
                 "--quitquitquit",
                 "--exit-zero-on-sigterm",
@@ -356,7 +356,7 @@ const seedJob = new k8s.batch.v1.CronJob(
                   name: "cloudsql-proxy",
                   image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
                   args: [
-                    "--port=3306",
+                    "--port=5432",
                     pgDatabaseInstance.connectionName,
                     "--quitquitquit",
                     "--exit-zero-on-sigterm",
@@ -456,7 +456,7 @@ const playerJob = new k8s.batch.v1.CronJob(
                   name: "cloudsql-proxy",
                   image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
                   args: [
-                    "--port=3306",
+                    "--port=5432",
                     pgDatabaseInstance.connectionName,
                     "--quitquitquit",
                     "--exit-zero-on-sigterm",
@@ -556,7 +556,7 @@ const notifyJob = new k8s.batch.v1.CronJob(
                   name: "cloudsql-proxy",
                   image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
                   args: [
-                    "--port=3306",
+                    "--port=5432",
                     pgDatabaseInstance.connectionName,
                     "--quitquitquit",
                     "--exit-zero-on-sigterm",
@@ -687,7 +687,7 @@ const appDeployment = new k8s.apps.v1.Deployment(
             {
               name: "cloudsql-proxy",
               image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
-              args: ["--port=3306", pgDatabaseInstance.connectionName],
+              args: ["--port=5432", pgDatabaseInstance.connectionName],
               securityContext: {
                 runAsNonRoot: true,
               },
