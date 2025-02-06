@@ -17,7 +17,6 @@ export const auth = betterAuth({
     google: {
       clientId: env.AUTH_GOOGLE_ID,
       clientSecret: env.AUTH_GOOGLE_SECRET,
-      redirectURI: `https://dev.probablepitcher.com/api/auth/callback/google`,
     },
   },
   trustedOrigins: [

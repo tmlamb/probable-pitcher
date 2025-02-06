@@ -112,7 +112,6 @@ function MobileAuth() {
             ? signOut()
             : signIn.social({
                 provider: "google",
-                callbackUrl: "/",
               })
         }
         title={user ? "Sign Out" : "Sign In With Google"}
