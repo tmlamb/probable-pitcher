@@ -3,6 +3,8 @@ import { Button, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, Stack } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
+import * as AppleAuthentication from "expo-apple-authentication";
+import * as AuthSession from "expo-auth-session";
 
 import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
@@ -128,6 +130,37 @@ function MobileAuth() {
         }
         title={session ? "Sign Out" : "Sign In With Apple"}
         color={"#5B65E9"}
+      />
+      <AppleAuthentication.AppleAuthenticationButton
+        buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+        buttonStyle={
+          //colorScheme === "dark"
+          //? AppleAuthentication.AppleAuthenticationButtonStyle.WHITE
+          //: AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
+          AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
+        }
+        cornerRadius={5}
+        onPress={async () => {
+          try {
+            const credential = await AppleAuthentication.signInAsync({
+              requestedScopes: [
+                AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+                AppleAuthentication.AppleAuthenticationScope.EMAIL,
+              ],
+            });
+            console.log("CREDENTIAL", credential);
+            // signed in
+          } catch (e) {
+            if (e.code === "ERR_REQUEST_CANCELED") {
+              console.log("CANCELED");
+              // signed in
+              // handle that the user canceled the sign-in flow
+            } else {
+              console.log("OTHER ERROR", e);
+              // handle other errors
+            }
+          }
+        }}
       />
     </>
   );

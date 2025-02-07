@@ -32,7 +32,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     bundleIdentifier: `com.triplesight.probablepitchers${
       APP_ENV !== "production" ? `.${APP_ENV}` : ""
     }`,
-
+    usesAppleSignIn: true,
     supportsTablet: true,
   },
   android: {
@@ -58,5 +58,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     tsconfigPaths: true,
     typedRoutes: true,
   },
-  plugins: ["expo-router", "expo-secure-store"],
+  plugins: [
+    "expo-router",
+    "expo-secure-store",
+    "expo-apple-authentication",
+    "expo-localization",
+  ],
 });
