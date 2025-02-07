@@ -668,10 +668,18 @@ const appDeployment = new k8s.apps.v1.Deployment(
                 },
                 {
                   name: "AUTH_APPLE_ID",
-                  value: config.requireSecret("appleWebClientId"),
+                  value: config.requireSecret("appleClientId"),
                 },
                 {
                   name: "AUTH_APPLE_SECRET",
+                  value: appleClientSecret,
+                },
+                {
+                  name: "AUTH_APPLE_WEB_ID",
+                  value: config.requireSecret("appleWebClientId"),
+                },
+                {
+                  name: "AUTH_APPLE_WEB_SECRET",
                   value: appleWebClientSecret,
                 },
                 {

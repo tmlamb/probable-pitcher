@@ -17,12 +17,13 @@ export const auth = betterAuth({
     google: {
       clientId: env.AUTH_GOOGLE_ID,
       clientSecret: env.AUTH_GOOGLE_SECRET,
-      redirectURI: `https://dev.probablepitcher.com/api/auth/callback/google`,
+      redirectURI: "https://dev.probablepitcher.com/api/auth/callback/google",
     },
     apple: {
-      clientId: env.AUTH_APPLE_ID,
+      clientId: env.AUTH_APPLE_WEB_ID,
       clientSecret: env.AUTH_APPLE_SECRET,
-      redirectURI: `https://dev.probablepitcher.com/api/auth/callback/apple`,
+      appBundleIdentifier: env.AUTH_APPLE_ID,
+      redirectURI: "https://dev.probablepitcher.com/api/auth/callback/apple",
     },
   },
   trustedOrigins: [
