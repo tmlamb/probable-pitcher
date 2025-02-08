@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, Stack } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
 import * as AppleAuthentication from "expo-apple-authentication";
+import type { CodedError } from "expo-modules-core";
 
 import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
@@ -122,6 +123,7 @@ function MobileAuth() {
       <AppleAuthentication.AppleAuthenticationButton
         buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
         buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+        style={{ width: 200, height: 64 }} // You must choose default size
         cornerRadius={5}
         onPress={async () => {
           try {
@@ -131,24 +133,40 @@ function MobileAuth() {
                 AppleAuthentication.AppleAuthenticationScope.EMAIL,
               ],
             });
+
+            if (credential.identityToken === null) {
+              console.log("null identity token");
+              return null;
+            }
+            await authClient.signIn.social({
+              provider: "apple",
+              idToken: {
+                token: credential.identityToken, // Apple ID Token,
+                //nonce: "", // Nonce (optional)
+                //accessToken: "", // Access Token (optional)
+              },
+            });
             console.log("CREDENTIAL", credential);
             // signed in
           } catch (e: unknown) {
             console.log("OTHER ERROR", e);
-            //if (
-            //  e.code === "ERR_REQUEST_CANCELED"
-            //) {
-            //  console.log("CANCELED");
-            //  // handle that the user canceled the sign-in flow
-            //} else {
-            //  console.log("OTHER ERROR", e);
-            //  // handle other errors
-            //}
+            if (isCodedError(e) && e.code === "ERR_REQUEST_CANCELED") {
+              console.log("CANCELED");
+              return null;
+            } else {
+              console.log("OTHER ERROR", e);
+            }
           }
         }}
       />
     </>
   );
+}
+
+function isCodedError(
+  possibleCodedError: unknown,
+): possibleCodedError is CodedError {
+  return !!possibleCodedError && !!(possibleCodedError as CodedError).code;
 }
 
 export default function Index() {
