@@ -2,14 +2,13 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "@probable/db/client"; // your drizzle instance
 import { env } from "../env";
-import { oAuthProxy } from "better-auth/plugins";
 import { expo } from "@better-auth/expo";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
   }),
-  plugins: [oAuthProxy(), expo()],
+  plugins: [expo()],
   emailAndPassword: {
     enabled: false,
   },
