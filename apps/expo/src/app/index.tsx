@@ -1,3 +1,4 @@
+import "expo-dev-client";
 import React from "react";
 import { Button, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -118,26 +119,9 @@ function MobileAuth() {
         title={session ? "Sign Out" : "Sign In With Google"}
         color={"#5B65E9"}
       />
-      <Button
-        onPress={() =>
-          session
-            ? signOut()
-            : signIn.social({
-                provider: "apple",
-                callbackURL: "/",
-              })
-        }
-        title={session ? "Sign Out" : "Sign In With Apple"}
-        color={"#5B65E9"}
-      />
       <AppleAuthentication.AppleAuthenticationButton
         buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
-        buttonStyle={
-          //colorScheme === "dark"
-          //? AppleAuthentication.AppleAuthenticationButtonStyle.WHITE
-          //: AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
-          AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
-        }
+        buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
         cornerRadius={5}
         onPress={async () => {
           try {
@@ -149,15 +133,17 @@ function MobileAuth() {
             });
             console.log("CREDENTIAL", credential);
             // signed in
-          } catch (e) {
-            if (e.code === "ERR_REQUEST_CANCELED") {
-              console.log("CANCELED");
-              // signed in
-              // handle that the user canceled the sign-in flow
-            } else {
-              console.log("OTHER ERROR", e);
-              // handle other errors
-            }
+          } catch (e: unknown) {
+            console.log("OTHER ERROR", e);
+            //if (
+            //  e.code === "ERR_REQUEST_CANCELED"
+            //) {
+            //  console.log("CANCELED");
+            //  // handle that the user canceled the sign-in flow
+            //} else {
+            //  console.log("OTHER ERROR", e);
+            //  // handle other errors
+            //}
           }
         }}
       />
