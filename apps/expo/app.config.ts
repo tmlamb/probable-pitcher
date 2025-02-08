@@ -3,7 +3,7 @@ import * as dotenv from "dotenv";
 
 dotenv.config({ path: "../../.env" });
 
-const { APP_ENV, BETTER_AUTH_URL, SENTRY_PUBLIC_DSN } = process.env;
+const { APP_ENV, EXPO_BETTER_AUTH_URL, SENTRY_PUBLIC_DSN } = process.env;
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
@@ -50,7 +50,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     eas: {
       projectId: "abd1f73f-1027-4617-a091-abea678a0784",
     },
-    apiBaseUrl: BETTER_AUTH_URL,
+    apiBaseUrl: EXPO_BETTER_AUTH_URL,
     sentryPublicDsn: SENTRY_PUBLIC_DSN,
     appEnv: APP_ENV,
   },
