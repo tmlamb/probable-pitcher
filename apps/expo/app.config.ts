@@ -3,7 +3,13 @@ import * as dotenv from "dotenv";
 
 dotenv.config({ path: "../../.env" });
 
-const { APP_ENV, EXPO_BETTER_AUTH_URL, SENTRY_PUBLIC_DSN } = process.env;
+const {
+  APP_ENV,
+  EXPO_BETTER_AUTH_URL,
+  SENTRY_PUBLIC_DSN,
+  SENTRY_PROJECT,
+  SENTRY_ORG,
+} = process.env;
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
@@ -63,5 +69,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     "expo-secure-store",
     "expo-apple-authentication",
     "expo-localization",
+    [
+      "@sentry/react-native/expo",
+      {
+        url: "https://sentry.io/",
+        project: SENTRY_PROJECT,
+        organization: SENTRY_ORG,
+      },
+    ],
   ],
 });

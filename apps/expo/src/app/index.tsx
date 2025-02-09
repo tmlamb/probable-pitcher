@@ -10,6 +10,19 @@ import type { CodedError } from "expo-modules-core";
 import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
 import { authClient, signIn, signOut } from "~/utils/auth";
+import Constants from "expo-constants";
+import * as Sentry from "@sentry/react-native";
+
+const { sentryPublicDsn, appEnv } = Constants.expoConfig?.extra ?? {};
+if (sentryPublicDsn) {
+  Sentry.init({
+    dsn: String(sentryPublicDsn),
+    debug: appEnv !== "production",
+
+    // uncomment the line below to enable Spotlight (https://spotlightjs.com)
+    // spotlight: __DEV__,
+  });
+}
 
 function NotificationCard(props: {
   notification: RouterOutputs["notification"]["byDeviceId"][number];
@@ -212,6 +225,12 @@ export default function Index() {
           )}
         />
         {/*<CreatePost />*/}
+        <Button
+          title="Try!"
+          onPress={() => {
+            Sentry.captureException(new Error("First error"));
+          }}
+        />
       </View>
     </SafeAreaView>
   );

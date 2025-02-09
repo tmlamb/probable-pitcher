@@ -323,7 +323,7 @@ jobs:
       - name: Publish Live App Update
         run:
           # cd apps/expo && APP_ENV=preview SENTRY_PUBLIC_DSN="${{ secrets.SENTRY_PUBLIC_DSN }}" eas update --branch preview --message "${{ github.event.head_commit.message }}"
-          cd apps/expo && APP_ENV=preview EXPO_BETTER_AUTH_URL="https://dev.probablepitcher.com" eas update --branch preview --message "${{ github.event.head_commit.message }}"
+          cd apps/expo && APP_ENV=preview SENTRY_ORG="${{ secrets.SENTRY_ORG }}" SENTRY_PROJECT="${{ secrets.SENTRY_PROJECT }}" SENTRY_PUBLIC_DSN="${{ secrets.SENTRY_PUBLIC_DSN }}" EXPO_BETTER_AUTH_URL="https://dev.probablepitcher.com" eas update --branch preview --message "${{ github.event.head_commit.message }}"
 
           # cd apps/expo && APP_ENV=preview eas update --branch preview --message "${{ github.event.head_commit.message }}"
 
