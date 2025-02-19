@@ -341,7 +341,7 @@ const seedJob = new k8s.batch.v1.CronJob(
 
                   command: ["sh", "-c"],
                   args: [
-                    "node apps/ingest/index.js; curl -s http://localhost:9091/quitquitquit",
+                    "tsx apps/ingest/src/index.ts; curl -s http://localhost:9091/quitquitquit",
                   ],
 
                   resources: {
@@ -441,7 +441,7 @@ const playerJob = new k8s.batch.v1.CronJob(
 
                   command: ["sh", "-c"],
                   args: [
-                    "node apps/ingest/index.js; curl -s http://localhost:9091/quitquitquit",
+                    "tsx apps/ingest/src/index.ts; curl -s http://localhost:9091/quitquitquit",
                   ],
 
                   resources: {
@@ -541,7 +541,7 @@ const notifyJob = new k8s.batch.v1.CronJob(
 
                   command: ["sh", "-c"],
                   args: [
-                    "node apps/ingest/index.js; curl -s http://localhost:9091/quitquitquit",
+                    "tsx apps/ingest/src/index.ts; curl -s http://localhost:9091/quitquitquit",
                   ],
 
                   resources: {
