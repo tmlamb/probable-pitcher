@@ -80,9 +80,9 @@ import { api } from "~/trpc/react";
 //}
 
 export function NotificationList() {
-  const [notifications] = api.notification.byDeviceId.useSuspenseQuery({
-    deviceId: "d11186c4-4d5c-4a4e-95c7-fd4c382c111d",
-  });
+  const [notifications] = api.notification.byDeviceId.useSuspenseQuery(
+    "d11186c4-4d5c-4a4e-95c7-fd4c382c111d",
+  );
 
   if (notifications.length === 0) {
     return (

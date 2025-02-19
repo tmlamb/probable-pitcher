@@ -1,10 +1,11 @@
 import { TRPCError } from "@trpc/server";
 import type { TRPCRouterRecord } from "@trpc/server";
 
-import { eq } from "@probable/db";
+import { and, eq } from "@probable/db";
 import { createDeviceSchema, device } from "@probable/db/schema";
 
 import { protectedProcedure } from "../trpc";
+import { z } from "zod";
 
 export const deviceRouter = {
   byUserId: protectedProcedure.query(({ ctx }) => {
@@ -35,5 +36,43 @@ export const deviceRouter = {
 
           return ctx.db.insert(device).values(input);
         });
+    }),
+  update: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        pushToken: z.string(),
+        timezone: z.string(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      return ctx.db
+        .update(device)
+        .set({
+          pushToken: input.pushToken,
+          timezone: input.timezone,
+        })
+        .where(
+          and(eq(device.id, input.id), eq(device.userId, ctx.session.user.id)),
+        );
+    }),
+  byPushToken: protectedProcedure
+    .input(z.string())
+    .query(async ({ ctx, input: pushToken }) => {
+      return ctx.db.query.device.findFirst({
+        where: eq(device.pushToken, pushToken),
+      });
+    }),
+  toggleNotifications: protectedProcedure
+    .input(z.object({ id: z.string(), enabled: z.boolean() }))
+    .mutation(async ({ ctx, input: { id: deviceId, enabled } }) => {
+      return ctx.db
+        .update(device)
+        .set({
+          notificationsEnabled: enabled,
+        })
+        .where(
+          and(eq(device.id, deviceId), eq(device.userId, ctx.session.user.id)),
+        );
     }),
 } satisfies TRPCRouterRecord;

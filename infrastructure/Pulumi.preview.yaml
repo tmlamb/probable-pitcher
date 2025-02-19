@@ -40,7 +40,7 @@ config:
   probable-pitcher:expoApiUrl:
     secure: AAABADTlZ/JlVhOpWxSJNFwosByFmNVsP/6zAev+QfC2nQ1pw1BFmXkhEytUNpB3
   probable-pitcher:baseApiUrl:
-    secure: AAABAOV/bhN29s5r3FZgrFpBd6CNjimQMQTy6ebyyyaNH3CXeslCmobHRng26nezpXB7
+    secure: AAABAIzjnTtvIRONNTYUxEmyp6ZZR2hydRVdEaacEzcjFsvTMPJr3BsBIVFLm9gQhQL4Qgw+AndVqT0DwBBrKnLFmyvKCfsyv1UfDxFY
   probable-pitcher:appleWebPrivateKey:
     secure: AAABAEevhD0P/gqOFaf+YIjRb9PEwtmU/rRlGY+p3BDuFg5taHvj4eQlN1Q/3YtKYmos2k8fhXPjE5JX5oZ5mo5BHKjNYL0NgOVuQEyol5hvNyTi/Dv0QbAyLeeTQ2PYXMH9vMn+ys2QIIBaD0ddkch0ShZZ6oKMnMba8mjrr/EEQvgeBmJTc0TTGxtMg6ROf0JRKGhDMtWPdJfPokQfvO4ysssvAwG+lP+G32qFIwEXz5a5kRMSNYS4vI4uVbBXbKhQLczS8RX0QiTGWw1XYNupABpQHl+Jn3ZSm/d/+8jLxEUXHkNE8fAUUJyGNLGxi3NY/G8Iu4a1n+VAO5aRMQ564bugHzfo4GLgz1oBH0kJ639jv8QJM5w/a3z1wANt4g==
   probable-pitcher:appleWebKeyId:

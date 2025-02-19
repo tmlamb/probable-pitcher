@@ -6,7 +6,7 @@ import { api } from "~/utils/api";
 export default function Notification() {
   const { id } = useGlobalSearchParams();
   if (!id || typeof id !== "string") throw new Error("unreachable");
-  const { data } = api.notification.byDeviceId.useQuery({ deviceId: id });
+  const { data } = api.notification.byDeviceId.useQuery(id);
 
   if (!data) return null;
 

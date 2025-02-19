@@ -1,18 +1,10 @@
 const { FileStore } = require("metro-cache");
-const { withNativeWind } = require("nativewind/metro");
 const path = require("path");
 
-const {
-  getSentryExpoConfig
-} = require("@sentry/react-native/metro");
+const { getSentryExpoConfig } = require("@sentry/react-native/metro");
 
 const config = withTurborepoManagedCache(
-  withMonorepoPaths(
-    withNativeWind(getSentryExpoConfig(__dirname), {
-      input: "./src/styles.css",
-      configPath: "./tailwind.config.ts",
-    }),
-  ),
+  withMonorepoPaths(getSentryExpoConfig(__dirname)),
 );
 
 // XXX: Resolve our exports in workspace packages

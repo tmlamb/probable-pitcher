@@ -8,15 +8,15 @@ import { protectedProcedure } from "../trpc";
 
 export const pitcherRouter = {
   byFuzzyName: protectedProcedure
-    .input(z.object({ name: z.string() }))
-    .query(({ ctx, input }) => {
-      const query = input.name.trim().replace(/%20/g, " | ");
+    .input(z.string())
+    .query(({ ctx, input: name }) => {
+      const nameQuery = name.trim().replace(/%20/g, " | ");
 
       return ctx.db
         .select()
         .from(pitcher)
         .where(
-          sql`to_tsvector('english', ${pitcher.name}) @@ to_tsquery('english', ${query})`,
+          sql`to_tsvector('english', ${pitcher.name}) @@ to_tsquery('english', ${nameQuery})`,
         );
     }),
 } satisfies TRPCRouterRecord;

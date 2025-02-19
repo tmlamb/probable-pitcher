@@ -10,9 +10,9 @@ import {
 
 export default function HomePage() {
   // You can await this here if you don't want to show Suspense fallback below
-  void api.notification.byDeviceId.prefetch({
-    deviceId: "d11186c4-4d5c-4a4e-95c7-fd4c382c111d",
-  });
+  void api.notification.byDeviceId.prefetch(
+    "d11186c4-4d5c-4a4e-95c7-fd4c382c111d",
+  );
 
   return (
     <HydrateClient>
