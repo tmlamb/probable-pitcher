@@ -76,10 +76,11 @@ const pitchersResponse = z.object({
 export async function getPitchers(date: string): Promise<Pitcher[]> {
   return fetch(`${process.env.BASE_API_URL}/pitchers?date=${date}`)
     .then((res) => {
-      console.log("Response data:", res);
-      return res.json();
+      console.log("Response:", res);
+      return res.text();
     })
     .then((data) => {
+      console.log("Response text:", data);
       const { pitchers } = pitchersResponse.parse(data);
       return pitchers;
     })
