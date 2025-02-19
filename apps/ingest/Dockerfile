@@ -46,6 +46,10 @@ RUN pnpm build --filter @probable/ingest
 ########################
 
 FROM node:23-alpine AS runner
+
+RUN apk update
+RUN apk add curl
+
 WORKDIR /probable-pitcher
 
 RUN npm -g install tsx@^4
