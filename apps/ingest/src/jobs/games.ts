@@ -45,6 +45,8 @@ export async function ingestGames(ingestDate: Date) {
       ? await client.pitcher.byRef(away.pitcher.ref)
       : null;
 
+    console.debug("Upserting game: ", game);
+
     await client.game.upsert({
       ref,
       date: new Date(date),
