@@ -21,6 +21,7 @@
     "@bacons/text-decoder": "^0.0.0",
     "@better-auth/expo": "1.2.5-beta.4",
     "@expo/metro-config": "^0.19.9",
+    "@probable/ui": "workspace:*",
     "@sentry/react-native": "^6.3.0",
     "@shopify/flash-list": "1.7.3",
     "@tanstack/react-query": "catalog:",

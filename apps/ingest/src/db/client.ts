@@ -8,7 +8,12 @@ import {
   notification,
   subscription,
 } from "@probable/db/schema";
-import type { Team, Pitcher, Game, Notification } from "@probable/db/schema";
+import type {
+  TeamRef,
+  PitcherRef,
+  GameRef,
+  Notification,
+} from "@probable/db/schema";
 import { eq, between, and, inArray, isNull } from "@probable/db";
 
 export const client = {
@@ -18,7 +23,7 @@ export const client = {
         where: eq(team.ref, ref),
       });
     },
-    upsert: ({ ref, name, abbreviation }: Team) => {
+    upsert: ({ ref, name, abbreviation }: TeamRef) => {
       return db
         .insert(team)
         .values({
@@ -47,7 +52,7 @@ export const client = {
         where: eq(pitcher.ref, ref),
       });
     },
-    upsert: ({ ref, name, teamId, number }: Pitcher) => {
+    upsert: ({ ref, name, teamId, number }: PitcherRef) => {
       return db
         .insert(pitcher)
         .values({
@@ -82,7 +87,7 @@ export const client = {
         },
       });
     },
-    upsert: ({ ref, date, homePitcherId, awayPitcherId }: Game) => {
+    upsert: ({ ref, date, homePitcherId, awayPitcherId }: GameRef) => {
       return db
         .insert(game)
         .values({

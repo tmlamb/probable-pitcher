@@ -11,7 +11,7 @@ import Animated, {
 } from "react-native-reanimated";
 import type { ClassInput } from "twrnc";
 import tw from "~/utils/tailwind";
-import Button from "./Button";
+import Button from "./PressableThemed";
 import TextThemed from "./TextThemed";
 import TextInputThemed from "./TextInputThemed";
 

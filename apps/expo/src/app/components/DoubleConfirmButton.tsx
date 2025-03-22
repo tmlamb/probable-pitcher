@@ -3,7 +3,7 @@ import { View } from "react-native";
 import Animated, { RollInRight, RollOutRight } from "react-native-reanimated";
 import type { ClassInput } from "twrnc";
 import tw from "~/utils/tailwind";
-import Button from "./Button";
+import Button from "./PressableThemed";
 
 interface Props {
   style?: ClassInput;

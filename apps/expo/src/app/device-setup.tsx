@@ -5,7 +5,7 @@ import TextThemed from "./components/TextThemed";
 import { registerForPushNotifications } from "./hooks/use-notifications";
 import { router } from "expo-router";
 import tw from "~/utils/tailwind";
-import Button from "./components/Button";
+import Button from "./components/PressableThemed";
 import Background from "./components/Background";
 import Card from "./components/Card";
 

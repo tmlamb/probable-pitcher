@@ -16,7 +16,8 @@ export const teamRelations = relations(team, ({ many }) => ({
 
 export const createTeamSchema = createInsertSchema(team);
 
-export type Team = z.infer<typeof createTeamSchema>;
+export type TeamRef = z.infer<typeof createTeamSchema>;
+export type Team = Omit<TeamRef, "ref">;
 
 export const pitcher = pgTable(
   "pitcher",
@@ -48,7 +49,8 @@ export const pitcherRelations = relations(pitcher, ({ one, many }) => ({
 
 export const createPitcherSchema = createInsertSchema(pitcher);
 
-export type Pitcher = z.infer<typeof createPitcherSchema>;
+export type PitcherRef = z.infer<typeof createPitcherSchema>;
+export type Pitcher = Omit<PitcherRef, "ref">;
 
 export const game = pgTable("game", (t) => ({
   id: t.uuid().notNull().primaryKey().defaultRandom(),
@@ -78,7 +80,8 @@ export const gameRelations = relations(game, ({ one, many }) => ({
 
 export const createGameSchema = createInsertSchema(game);
 
-export type Game = z.infer<typeof createGameSchema>;
+export type GameRef = z.infer<typeof createGameSchema>;
+export type Game = Omit<GameRef, "ref">;
 
 export const subscription = pgTable(
   "subscription",

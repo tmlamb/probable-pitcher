@@ -7,7 +7,10 @@ import * as ExpoNotifications from "expo-notifications";
 import { PermissionStatus } from "expo-modules-core";
 import useNotifications from "../hooks/use-notifications";
 import { variantClasses as backgroundClasses } from "../components/Background";
-import { variantClasses as textClasses } from "../components/TextThemed";
+import {
+  variantClasses as textClasses,
+  variantClasses,
+} from "../components/TextThemed";
 
 // This is the main layout of the app
 // It wraps your pages with the providers they need
@@ -42,7 +45,7 @@ export default function AppLayout() {
   if (isPending) {
     return (
       <ActivityIndicator
-        style={tw`mt-9 h-[86.48px] text-primary-foreground`}
+        style={tw.style("mt-9 h-[86.48px]", variantClasses.primary)}
         size="large"
       />
     );
@@ -59,8 +62,8 @@ export default function AppLayout() {
   return (
     <Stack
       screenOptions={{
-        headerStyle: tw.style(backgroundClasses.default),
         headerTitleStyle: tw.style(textClasses.default),
+        headerTransparent: true,
 
         //contentStyle: {
         //  backgroundColor: colorScheme == "dark" ? "#09090B" : "#FFFFFF",
@@ -68,6 +71,7 @@ export default function AppLayout() {
       }}
     >
       <Stack.Screen name="index" options={{ headerTitle: "" }} />
+      <Stack.Screen name="settings" options={{ headerTitle: "Settings" }} />
     </Stack>
   );
 }
