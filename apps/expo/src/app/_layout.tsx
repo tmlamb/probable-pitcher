@@ -2,10 +2,10 @@ import "@bacons/text-decoder/install";
 import * as Sentry from "@sentry/react-native";
 import Constants from "expo-constants";
 import { Slot } from "expo-router";
-import { StatusBar } from "expo-status-bar";
+import { useDeviceContext } from "twrnc";
 
 import { TRPCProvider } from "~/utils/api";
-import "../styles.css";
+import tw from "~/utils/tailwind";
 
 const { sentryPublicDsn, appEnv } = Constants.expoConfig?.extra ?? {};
 if (sentryPublicDsn) {
@@ -21,17 +21,24 @@ if (sentryPublicDsn) {
 // This is the main layout of the app
 // It wraps your pages with the providers they need
 export default function RootLayout() {
+  useDeviceContext(tw);
+
+  //if (Platform.OS === "android") {
+  // Necessary for localization of date times on Android?
+  //require("@formatjs/intl-getcanonicallocales/polyfill").default;
+  //require("@formatjs/intl-locale/polyfill").default;
+  //require("@formatjs/intl-pluralrules/polyfill").default;
+  //require("@formatjs/intl-pluralrules/locale-data/en").default;
+  //require("@formatjs/intl-numberformat/polyfill").default;
+  //require("@formatjs/intl-numberformat/locale-data/en").default;
+  //require("@formatjs/intl-datetimeformat/polyfill").default;
+  //require("@formatjs/intl-datetimeformat/locale-data/en").default;
+  //require("@formatjs/intl-datetimeformat/add-all-tz").default;
+  //}
+
   return (
     <TRPCProvider>
       <Slot />
-      <StatusBar style="light" />
     </TRPCProvider>
   );
 }
-//<LinearGradient
-//  className="h-full"
-//  //#D28769, #75a66b
-//  colors={["rgb(210, 135, 105)", "rgb(117, 166, 107)"]}
-//  end={{ x: 0.25, y: 0.4 }}
-//  locations={[0.4, 0.5]}
-//>

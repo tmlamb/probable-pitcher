@@ -160,7 +160,7 @@ export const device = pgTable(
       .references(() => user.id, { onDelete: "cascade" }),
     pushToken: t.varchar({ length: 1023 }).unique().notNull(),
     timezone: t.varchar({ length: 255 }).notNull(),
-    notificationsEnabled: t.boolean().default(true),
+    notificationsEnabled: t.boolean(),
   }),
   (t) => ({
     uniqueUserPerPushToken: unique().on(t.pushToken, t.userId),
@@ -172,7 +172,9 @@ export const deviceRelations = relations(device, ({ one, many }) => ({
   notifications: many(notification),
 }));
 
-export const createDeviceSchema = createInsertSchema(device);
+export const createDeviceSchema = createInsertSchema(device).omit({
+  userId: true,
+});
 export const selectDeviceSchema = createSelectSchema(device);
 
 export type Device = z.infer<typeof selectDeviceSchema>;

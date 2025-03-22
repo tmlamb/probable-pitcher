@@ -34,7 +34,9 @@ export const deviceRouter = {
             }
           }
 
-          return ctx.db.insert(device).values(input);
+          return ctx.db
+            .insert(device)
+            .values({ ...input, userId: ctx.session.user.id });
         });
     }),
   update: protectedProcedure
@@ -59,9 +61,11 @@ export const deviceRouter = {
   byPushToken: protectedProcedure
     .input(z.string())
     .query(async ({ ctx, input: pushToken }) => {
-      return ctx.db.query.device.findFirst({
-        where: eq(device.pushToken, pushToken),
-      });
+      return (
+        ctx.db.query.device.findFirst({
+          where: eq(device.pushToken, pushToken),
+        }) || null
+      );
     }),
   toggleNotifications: protectedProcedure
     .input(z.object({ id: z.string(), enabled: z.boolean() }))

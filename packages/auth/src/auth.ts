@@ -38,6 +38,12 @@ export const auth = betterAuth({
   advanced: {
     cookiePrefix: "probable-pitcher",
   },
+  account: {
+    accountLinking: {
+      enabled: true,
+      trustedProviders: ["google", "apple"],
+    },
+  },
 });
 
 export type Session = typeof auth.$Infer.Session;

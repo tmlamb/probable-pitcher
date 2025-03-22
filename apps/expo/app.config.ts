@@ -73,8 +73,17 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       "@sentry/react-native/expo",
       {
         url: "https://sentry.io/",
-        project: SENTRY_PROJECT,
-        organization: SENTRY_ORG,
+        project: "probable-pitchers",
+        organization: "tom-lamb",
+      },
+    ],
+    [
+      "expo-asset",
+      {
+        assets: [
+          "./assets/adaptive-icon.png",
+          "./assets/google-signin-neutral.png",
+        ],
       },
     ],
   ],

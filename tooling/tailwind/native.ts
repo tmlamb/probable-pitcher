@@ -4,8 +4,8 @@ import base from "./base";
 
 export default {
   content: base.content,
-  darkMode: base.darkMode,
-  theme: base.theme,
-  //presets: [base],
+  presets: [base],
+  theme: {},
+
   //theme: {},
 } satisfies Config;

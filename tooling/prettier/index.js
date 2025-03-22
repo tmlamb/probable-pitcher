@@ -11,9 +11,10 @@ const config = {
     "prettier-plugin-tailwindcss",
   ],
   tailwindConfig: fileURLToPath(
-    new URL("../../tooling/tailwind/web.ts", import.meta.url),
+    new URL("../../tooling/tailwind/base.ts", import.meta.url),
   ),
-  tailwindFunctions: ["cn", "cva"],
+  tailwindFunctions: ["cn", "cva", "tw", "tw.style"],
+  tailwindAttributes: ["className", "class", "style"],
   importOrder: [
     "<TYPES>",
     "^(react/(.*)$)|^(react$)|^(react-native(.*)$)",

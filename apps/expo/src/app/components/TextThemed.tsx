@@ -5,12 +5,12 @@ import type { ClassInput } from "twrnc";
 import tw from "~/utils/tailwind";
 
 export const variantClasses = {
-  default: "text-foreground",
-  primary: "text-primary-foreground",
-  secondary: "text-secondary-foreground",
-  accent: "text-accent-foreground",
-  muted: "text-muted-foreground",
-  alert: "text-destructive-foreground",
+  default: "text-slate-950 dark:text-slate-50",
+  primary: "text-sky-700 dark:text-sky-300",
+  secondary: "text-white",
+  accent: "text-green-700 dark:text-green-300",
+  muted: "text-slate-600 dark:text-slate-400",
+  alert: "text-red-700 dark:text-red-300",
 };
 
 interface TextThemedProps {
@@ -28,12 +28,12 @@ export default function TextThemed({
   variant = "default",
   numberOfLines,
   accessibilityRole,
-  accessible,
+  accessible = true,
 }: TextThemedProps) {
   return (
     <Text
       numberOfLines={numberOfLines}
-      style={tw.style(style, variantClasses[variant])}
+      style={tw.style("text-lg", style, variantClasses[variant])}
       accessibilityRole={accessibilityRole}
       accessible={accessible}
     >
