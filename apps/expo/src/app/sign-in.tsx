@@ -13,8 +13,8 @@ import {
 import { useAppColorScheme } from "twrnc";
 import { authClient } from "~/utils/auth";
 import tw from "~/utils/tailwind";
-import TextThemed from "./components/TextThemed";
-import Background from "./components/Background";
+import TextThemed from "../components/TextThemed";
+import Background from "../components/Background";
 import { StatusBar } from "expo-status-bar";
 
 export default function SignIn() {

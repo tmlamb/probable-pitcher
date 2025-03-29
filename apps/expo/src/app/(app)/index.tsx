@@ -6,13 +6,13 @@ import type {
   StyleProp,
   ViewStyle,
 } from "react-native";
-import { ActivityIndicator, Pressable, Text, View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { api } from "~/utils/api";
 import { formatInTimeZone } from "date-fns-tz";
 import tw from "~/utils/tailwind";
 import * as Sentry from "@sentry/react-native";
-import Background from "../components/Background";
+import Background from "../../components/Background";
 import type { PitcherSubscription } from "@probable/ui";
 import { subscriptionSchedule } from "@probable/ui";
 import type { AnimatedStyle } from "react-native-reanimated";
@@ -29,11 +29,12 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import TextThemed, { variantClasses } from "../components/TextThemed";
+import TextThemed, { variantClasses } from "../../components/TextThemed";
 import type { ClassInput } from "twrnc";
-import PressableThemed from "../components/PressableThemed";
-import Card from "../components/Card";
-import SearchInput from "../components/SearchInput";
+import PressableThemed from "../../components/PressableThemed";
+import Card from "../../components/Card";
+import SearchInput from "../../components/SearchInput";
+import { Link, Stack } from "expo-router";
 
 export default function Index() {
   const subscriptionQuery = api.subscription.byUserId.useQuery();
@@ -238,6 +239,25 @@ export default function Index() {
 
   return (
     <Background>
+      <Stack.Screen
+        options={{
+          headerLeft: () => (
+            <>
+              <Link
+                asChild
+                href="/settings"
+                //style={tw`py-6 pl-3 pr-8 -my-6 -ml-4 flex flex-row items-center`}
+              >
+                <PressableThemed accessibilityLabel="Navigate to Application Settings">
+                  <TextThemed variant="primary">
+                    <AntDesign name="setting" size={24} />
+                  </TextThemed>
+                </PressableThemed>
+              </Link>
+            </>
+          ),
+        }}
+      />
       <SafeAreaView>
         <Animated.FlatList
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment

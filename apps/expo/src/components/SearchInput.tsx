@@ -39,7 +39,7 @@ export default function SearchInput({
     () => ({
       width: searchFilterWidth.value,
     }),
-    [searchFilterWidth.value],
+    [],
   );
 
   const searchComponentMarginTop = useSharedValue(0);
@@ -53,7 +53,7 @@ export default function SearchInput({
       alignItems: "center",
       justifyContent: "space-between",
     }),
-    [searchComponentMarginTop.value],
+    [],
   );
 
   return (

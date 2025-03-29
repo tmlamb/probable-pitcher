@@ -5,12 +5,12 @@ import { ActivityIndicator } from "react-native";
 import tw from "~/utils/tailwind";
 import * as ExpoNotifications from "expo-notifications";
 import { PermissionStatus } from "expo-modules-core";
-import useNotifications from "../hooks/use-notifications";
-import { variantClasses as backgroundClasses } from "../components/Background";
+import useNotifications from "../../hooks/use-notifications";
+import { variantClasses as backgroundClasses } from "../../components/Background";
 import {
   variantClasses as textClasses,
   variantClasses,
-} from "../components/TextThemed";
+} from "../../components/TextThemed";
 
 // This is the main layout of the app
 // It wraps your pages with the providers they need

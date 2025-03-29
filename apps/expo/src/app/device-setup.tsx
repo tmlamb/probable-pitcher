@@ -1,13 +1,13 @@
 import React from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import TextThemed from "./components/TextThemed";
-import { registerForPushNotifications } from "./hooks/use-notifications";
+import TextThemed from "../components/TextThemed";
+import { registerForPushNotifications } from "../hooks/use-notifications";
 import { router } from "expo-router";
 import tw from "~/utils/tailwind";
-import Button from "./components/PressableThemed";
-import Background from "./components/Background";
-import Card from "./components/Card";
+import Button from "../components/PressableThemed";
+import Background from "../components/Background";
+import Card from "../components/Card";
 
 export default function DeviceSetup() {
   return (

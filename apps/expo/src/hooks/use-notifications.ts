@@ -27,6 +27,7 @@ export default function useNotifications({ enabled }: { enabled: boolean }) {
     if (enabled) handleNotificationSetup();
 
     const listener = AppState.addEventListener("change", (nextAppState) => {
+      console.log("AppState change detected");
       if (
         /inactive|background/.exec(appState.current) &&
         nextAppState === "active"
@@ -56,7 +57,7 @@ export default function useNotifications({ enabled }: { enabled: boolean }) {
     onSettled: () => apiUtils.device.byPushToken.invalidate(),
   });
 
-  const { data: device, isSuccess: deviceFetched } =
+  const { data: device, isFetched: deviceFetched } =
     api.device.byPushToken.useQuery(expoPushToken ?? "", {
       enabled: !!expoPushToken,
     });

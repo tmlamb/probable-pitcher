@@ -32,4 +32,4 @@ USER root
 ARG DATABASE_URL
 
 WORKDIR /probable-pitcher/packages/db
-CMD ["pnpm", "run", "push"]
+CMD ["sh", "-c", "pnpm run push && pnpm run migrate"]

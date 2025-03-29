@@ -1,50 +1,51 @@
 import { AntDesign } from "@expo/vector-icons";
 import React from "react";
 import { Linking, View } from "react-native";
-import LinkButton from "../components/LinkButton";
-import Background from "~/app/components/Background";
+import Background from "~/components/Background";
 import tw from "~/utils/tailwind";
+import { Link } from "expo-router";
+import PressableThemed from "~/components/PressableThemed";
+import Card from "~/components/Card";
+import TextThemed from "~/components/TextThemed";
 
 export const Settings = () => {
+  console.log("settings index!");
   return (
     <Background>
       <View style={tw`flex-1 justify-between`}>
         <View>
-          <LinkButton
-            to={{ screen: "Notifications" }}
-            accessibilityLabel="Navigate to notification settings screen"
-          >
-            <ThemedView style={tw`rounded-t-xl border-b-2`}>
-              <PrimaryText>Notifications</PrimaryText>
-              <SecondaryText>
-                <AntDesign name="notification" size={24} />
-              </SecondaryText>
-            </ThemedView>
-          </LinkButton>
-          <LinkButton
-            to={{ screen: "Account" }}
-            accessibilityLabel="Navigate to account settings screen"
-          >
-            <ThemedView style={tw`border-b-2`}>
-              <PrimaryText>Account</PrimaryText>
-              <SecondaryText>
-                <AntDesign name="user" size={24} />
-              </SecondaryText>
-            </ThemedView>
-          </LinkButton>
-          <LinkButton
-            to={{ screen: "Support" }}
-            accessibilityLabel="Navigate to support screen"
-          >
-            <ThemedView style={tw`rounded-b-xl`}>
-              <PrimaryText>Support</PrimaryText>
-              <SecondaryText>
-                <AntDesign name="customerservice" size={24} />
-              </SecondaryText>
-            </ThemedView>
-          </LinkButton>
+          <Link href="./notifications" asChild>
+            <PressableThemed accessibilityLabel="Navigate to notification settings screen">
+              <Card style={tw`rounded-b-none border-b-2`}>
+                <TextThemed>Notifications</TextThemed>
+                <TextThemed variant="muted">
+                  <AntDesign name="notification" size={24} />
+                </TextThemed>
+              </Card>
+            </PressableThemed>
+          </Link>
+          <Link href="./account" asChild>
+            <PressableThemed accessibilityLabel="Navigate to account settings screen">
+              <Card style={tw`rounded-none border-b-2`}>
+                <TextThemed>Account</TextThemed>
+                <TextThemed variant="muted">
+                  <AntDesign name="user" size={24} />
+                </TextThemed>
+              </Card>
+            </PressableThemed>
+          </Link>
+          <Link href="./support" asChild>
+            <PressableThemed accessibilityLabel="Navigate to support screen">
+              <Card style={tw`rounded-t-none`}>
+                <TextThemed>Support</TextThemed>
+                <TextThemed variant="muted">
+                  <AntDesign name="customerservice" size={24} />
+                </TextThemed>
+              </Card>
+            </PressableThemed>
+          </Link>
         </View>
-        <ButtonContainer
+        <PressableThemed
           onPress={() =>
             Linking.openURL(
               "https://github.com/tmlamb/probable-pitchers/issues",
@@ -54,11 +55,13 @@ export const Settings = () => {
           accessibilityLabel="Open Application Feedback Page In Browser"
           style={tw`flex-row justify-center items-center self-center py-2`}
         >
-          <SecondaryText style={tw`mr-2`}>
+          <TextThemed variant="muted" style={tw`mr-2`}>
             <AntDesign name="github" size={16} />
-          </SecondaryText>
-          <SpecialText style={tw`self-center`}>Feedback?</SpecialText>
-        </ButtonContainer>
+          </TextThemed>
+          <TextThemed variant="primary" style={tw`self-center`}>
+            Feedback?
+          </TextThemed>
+        </PressableThemed>
       </View>
     </Background>
   );

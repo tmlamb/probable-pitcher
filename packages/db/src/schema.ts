@@ -1,5 +1,5 @@
-import { relations, sql } from "drizzle-orm";
-import { index, pgTable, unique } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import { pgTable, unique } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import type { z } from "zod";
 
@@ -32,10 +32,11 @@ export const pitcher = pgTable(
     number: t.text(),
   }),
   (t) => ({
-    nameSearchIndex: index("name_search_index").using(
-      "gin",
-      sql`to_tsvector('english', ${t.name})`,
-    ),
+    //nameSearchIndex: index("name_search_index").using(
+    //  "gin",
+    //  sql`to_tsvector('english', ${t.name})`,
+    //),
+    //nameSearchIndez: index("name_search_index").using("gin", t.name),
   }),
 );
 
