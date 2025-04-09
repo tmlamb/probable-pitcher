@@ -119,22 +119,15 @@ async function getNotifications(apiKey: string, deviceId: string) {
       "x-api-key": apiKey,
     },
   })
-    .then((r) => {
-      console.log("RESPONSE", r);
-      return r.text();
-    })
-    .then((text) => {
-      console.log("TEXT", text);
-      return [];
-    });
-  //.then(
-  //  (json) =>
-  //    (
-  //      JSON.parse(JSON.stringify(json)) as {
-  //        result?: { data: { json: Notification[] } };
-  //      }[]
-  //    )[0]?.result?.data.json,
-  //);
+    .then((r) => r.json())
+    .then(
+      (json) =>
+        (
+          JSON.parse(JSON.stringify(json)) as {
+            result?: { data: { json: Notification[] } };
+          }[]
+        )[0]?.result?.data.json,
+    );
 }
 
 test("Users recieve expected notifications", async () => {
@@ -147,21 +140,21 @@ test("Users recieve expected notifications", async () => {
       `No notification data for user apiKey ${apiKey} with device ${deviceId}`,
     ).not.toBeUndefined();
 
-    //expect(
-    //  notificationsRecieved?.length,
-    //  `Number of recieved notifications (${notificationsRecieved?.length}) doesn't match number of expected notifications (${notificationsExpected.length}) for user apiKey ${apiKey} with device ${deviceId}`,
-    //).toBe(notificationsExpected.length);
-    //notificationsRecieved?.forEach((recieved) => {
-    //  expect(
-    //    notificationsExpected.some(
-    //      (expected) =>
-    //        expected.gameId === recieved.gameId &&
-    //        expected.sent === !!recieved.sentOn,
-    //    ),
-    //    `Recieved notification not matched for user apiKey ${apiKey} with device ${deviceId}. Expected: ${JSON.stringify(
-    //      notificationsExpected,
-    //    )}, Recieved: ${JSON.stringify(recieved)}`,
-    //  ).toBe(true);
-    //});
+    expect(
+      notificationsRecieved?.length,
+      `Number of recieved notifications (${notificationsRecieved?.length}) doesn't match number of expected notifications (${notificationsExpected.length}) for user apiKey ${apiKey} with device ${deviceId}`,
+    ).toBe(notificationsExpected.length);
+    notificationsRecieved?.forEach((recieved) => {
+      expect(
+        notificationsExpected.some(
+          (expected) =>
+            expected.gameId === recieved.gameId &&
+            expected.sent === !!recieved.sentOn,
+        ),
+        `Recieved notification not matched for user apiKey ${apiKey} with device ${deviceId}. Expected: ${JSON.stringify(
+          notificationsExpected,
+        )}, Recieved: ${JSON.stringify(recieved)}`,
+      ).toBe(true);
+    });
   }
 });
