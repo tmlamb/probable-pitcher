@@ -99,6 +99,7 @@ services:
       - AUTH_APPLE_WEB_SECRET=${AUTH_APPLE_WEB_SECRET}
       - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
       - BETTER_AUTH_URL=${BETTER_AUTH_URL}
+      - NODE_ENV=development
     build:
       dockerfile: apps/nextjs/Dockerfile
     healthcheck:
