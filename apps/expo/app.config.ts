@@ -24,7 +24,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   splash: {
     image: "./assets/splash.png",
     resizeMode: "contain",
-    backgroundColor: "#fff",
+    backgroundColor: "#ffffff",
   },
   updates: {
     fallbackToCacheTimeout: 0,
@@ -48,7 +48,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 
     adaptiveIcon: {
       foregroundImage: "./assets/adaptive-icon.png",
-      backgroundColor: "#fff",
+      backgroundColor: "#ffffff",
     },
     googleServicesFile: "./google-services.json",
   },
