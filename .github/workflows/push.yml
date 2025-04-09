@@ -88,7 +88,7 @@ jobs:
           AUTH_GOOGLE_SECRET=secret \
           AUTH_APPLE_ID=secret \
           AUTH_APPLE_SECRET=secret \
-          docker compose up --abort-on-container-failure integration stress
+          docker compose up --abort-on-container-failure nextjs integration stress
 
   lint:
     name: Lint
