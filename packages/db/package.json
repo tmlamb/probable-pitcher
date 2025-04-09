@@ -31,15 +31,15 @@
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint",
     "push": "pnpm with-env drizzle-kit push",
-    "generate": "pnpm with-env drizzle-kit generate --custom",
+    "generate": "pnpm with-env drizzle-kit generate",
     "migrate": "pnpm with-env drizzle-kit migrate",
     "studio": "pnpm with-env drizzle-kit studio",
     "typecheck": "tsc --noemit --emitdeclarationonly false",
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
-    "drizzle-orm": "^0.35.1",
-    "drizzle-zod": "^0.5.1",
+    "drizzle-orm": "^0.41.0",
+    "drizzle-zod": "^0.7.1",
     "pg": "^8.13.1",
     "zod": "catalog:"
   },
@@ -49,7 +49,7 @@
     "@probable/tsconfig": "workspace:*",
     "@types/pg": "^8.11.10",
     "dotenv-cli": "^7.4.2",
-    "drizzle-kit": "^0.26.2",
+    "drizzle-kit": "^0.30.6",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"

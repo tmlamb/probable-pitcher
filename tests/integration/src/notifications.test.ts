@@ -5,8 +5,7 @@ import { Notification } from "@probable/db/schema";
 // See test-data.sql for test data
 const TEST_USER_SCENARIOS = [
   {
-    sessionId:
-      "1c2358f551e04be5ae8e312a6b9888e1.VDtI7sJQHirgwwj2O2q812EYksqph1kG%2FU9m%2F7yNbRM%3D",
+    apiKey: "UAWNAsCXrOGywTkhgmwYLAHRggUNsscZfNgqOSsDEFWyubjEmKqCZzkLShePujgL",
     deviceId: "d11186c4-4d5c-4a4e-95c7-fd4c382c111d",
     notifications: [
       {
@@ -16,8 +15,7 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    sessionId:
-      "2c2358f551e04be5ae8e312a6b9888e2.z31FvjT6%2BnS3pVEatYpnj7l8YPqPJdcOlvFzCkCzVLI%3D",
+    apiKey: "PNaqyECFFEIFDxDwWYhcHagbumnAmWrqlFJJzTzrgAvHsatlpknEaURqdJbnAdnv",
     deviceId: "d2220614-e86b-43e5-a6ea-f4d7816a222d",
     notifications: [
       {
@@ -31,8 +29,7 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    sessionId:
-      "3c2358f551e04be5ae8e312a6b9888e3.9oG5MFMYg0WWBmMeqauDtIwfwMQuj%2BEJHueuu4XA9no%3D",
+    apiKey: "WgmQgbZUdBHPQPCrbfpxywxrMgggoEiLsPBnyhMRdasbghJqCUqLHfmsLRSgdbKL",
     deviceId: "d333ca0c-de64-4e25-9de7-bea768bc333d",
     notifications: [
       {
@@ -42,8 +39,7 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    sessionId:
-      "3c2358f551e04be5ae8e312a6b9888e3.9oG5MFMYg0WWBmMeqauDtIwfwMQuj%2BEJHueuu4XA9no%3D",
+    apiKey: "WgmQgbZUdBHPQPCrbfpxywxrMgggoEiLsPBnyhMRdasbghJqCUqLHfmsLRSgdbKL",
     deviceId: "d3232a0c-de64-4e25-9de7-bea768b2323d",
     notifications: [
       {
@@ -53,8 +49,7 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    sessionId:
-      "4c2358f551e04be5ae8e312a6b9888e4.dSZIw5Na8kE8GfQVvbfVvwZH%2BzK%2FDyRk7MXoEfAuEQw%3D",
+    apiKey: "dsbxHIzxAbprmNsRlanEAjsJPdbeJrdeMjJGkmcwarfkCzcbIkazxRajbVNuNNqT",
     deviceId: "d444ca0c-de64-4e25-9de7-bea768b8444d",
     notifications: [
       {
@@ -64,8 +59,7 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    sessionId:
-      "4c2358f551e04be5ae8e312a6b9888e4.dSZIw5Na8kE8GfQVvbfVvwZH%2BzK%2FDyRk7MXoEfAuEQw%3D",
+    apiKey: "dsbxHIzxAbprmNsRlanEAjsJPdbeJrdeMjJGkmcwarfkCzcbIkazxRajbVNuNNqT",
     deviceId: "d4242c0c-de64-4e25-9de7-bea768b2424d",
     notifications: [
       {
@@ -75,8 +69,7 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    sessionId:
-      "5c2358f551e04be5ae8e312a6b9888e5.1JZocw%2Bhe1urcGTeHrPMwnSB2VjmEnzWM08kyKnhja0%3D",
+    apiKey: "wdKXjGAEMdECAlqTvyXgYYhMJacVtwZJCSkWNAaxDRimmAnnyhiphArMTvOLzmxu",
     deviceId: "d555ca0c-de64-4e25-9de7-bea768bc555d",
     notifications: [
       {
@@ -86,8 +79,7 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    sessionId:
-      "5c2358f551e04be5ae8e312a6b9888e5.1JZocw%2Bhe1urcGTeHrPMwnSB2VjmEnzWM08kyKnhja0%3D",
+    apiKey: "wdKXjGAEMdECAlqTvyXgYYhMJacVtwZJCSkWNAaxDRimmAnnyhiphArMTvOLzmxu",
     deviceId: "d5252a0c-de64-4e25-9de7-bea768b2525d",
     notifications: [
       {
@@ -97,14 +89,12 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    sessionId:
-      "6c2358f551e04be5ae8e312a6b9888e6.YgmHtdzORXUVrgrKfUwZPkIYMShsPhML4Y9cR9ZGnsc%3D",
+    apiKey: "eXsPBEzyXPDlODBTBrNwPPPeVLiLDnnFMBONnqcjGbvXdxbzZClUGZiEjPbFlnRM",
     deviceId: "d666ca0c-de64-4e25-9de7-bea768bc666d",
     notifications: [],
   },
   {
-    sessionId:
-      "7c2358f551e04be5ae8e312a6b9888e7.vTwAArqdkKQqMhxFlz%2FCEARpRw04VDTO8a9a7d7ehIU%3D",
+    apiKey: "lHiMkubbPFxEJsTSMfpsNmYuNMRvMklAXWlNSFjfPplHOyZEnsBnBeHuYgbuVUDo",
     deviceId: "d777aa0c-de64-4e25-9de7-bea768ba777d",
     notifications: [
       {
@@ -115,18 +105,18 @@ const TEST_USER_SCENARIOS = [
   },
 ] as const;
 
-async function getNotifications(sessionId: string, deviceId: string) {
+async function getNotifications(apiKey: string, deviceId: string) {
   const url = new URL(
     `${process.env.VITE_API_URL}/api/trpc/notification.byDeviceId`,
   );
 
   url.searchParams.append("batch", "1");
-  url.searchParams.append("input", `{"0":{"json":{"deviceId":"${deviceId}"}}}`);
+  url.searchParams.append("input", `{"0":{"json":"${deviceId}"}}`);
 
   return fetch(url.toString(), {
     headers: {
       "Content-Type": "application/json",
-      cookie: `probable-pitcher.session-token=${sessionId}`,
+      "x-api-key": apiKey,
     },
   })
     .then((r) => r.json())
@@ -142,17 +132,17 @@ async function getNotifications(sessionId: string, deviceId: string) {
 
 test("Users recieve expected notifications", async () => {
   for (const user of TEST_USER_SCENARIOS) {
-    const { sessionId, deviceId, notifications: notificationsExpected } = user;
-    const notificationsRecieved = await getNotifications(sessionId, deviceId);
+    const { apiKey, deviceId, notifications: notificationsExpected } = user;
+    const notificationsRecieved = await getNotifications(apiKey, deviceId);
 
     expect(
       notificationsRecieved,
-      `No notification data for user session ${sessionId} with device ${deviceId}`,
+      `No notification data for user apiKey ${apiKey} with device ${deviceId}`,
     ).not.toBeUndefined();
 
     expect(
       notificationsRecieved?.length,
-      `Number of recieved notifications (${notificationsRecieved?.length}) doesn't match number of expected notifications (${notificationsExpected.length}) for user session ${sessionId} with device ${deviceId}`,
+      `Number of recieved notifications (${notificationsRecieved?.length}) doesn't match number of expected notifications (${notificationsExpected.length}) for user apiKey ${apiKey} with device ${deviceId}`,
     ).toBe(notificationsExpected.length);
     notificationsRecieved?.forEach((recieved) => {
       expect(
@@ -161,7 +151,7 @@ test("Users recieve expected notifications", async () => {
             expected.gameId === recieved.gameId &&
             expected.sent === !!recieved.sentOn,
         ),
-        `Recieved notification not matched for user session ${sessionId} with device ${deviceId}. Expected: ${JSON.stringify(
+        `Recieved notification not matched for user apiKey ${apiKey} with device ${deviceId}. Expected: ${JSON.stringify(
           notificationsExpected,
         )}, Recieved: ${JSON.stringify(recieved)}`,
       ).toBe(true);

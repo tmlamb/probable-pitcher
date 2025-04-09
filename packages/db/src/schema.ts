@@ -7,7 +7,7 @@ export const team = pgTable("team", (t) => ({
   id: t.uuid().notNull().primaryKey().defaultRandom(),
   ref: t.integer().notNull().unique(),
   name: t.varchar({ length: 255 }).unique().notNull(),
-  abbreviation: t.varchar({ length: 7 }),
+  abbreviation: t.varchar({ length: 7 }).unique(),
 }));
 
 export const teamRelations = relations(team, ({ many }) => ({
@@ -19,26 +19,16 @@ export const createTeamSchema = createInsertSchema(team);
 export type TeamRef = z.infer<typeof createTeamSchema>;
 export type Team = Omit<TeamRef, "ref">;
 
-export const pitcher = pgTable(
-  "pitcher",
-  (t) => ({
-    id: t.uuid().notNull().primaryKey().defaultRandom(),
-    ref: t.integer().notNull().unique(),
-    name: t.varchar({ length: 127 }).notNull(),
-    teamId: t
-      .uuid()
-      .notNull()
-      .references(() => team.id, { onDelete: "restrict" }),
-    number: t.text(),
-  }),
-  (t) => ({
-    //nameSearchIndex: index("name_search_index").using(
-    //  "gin",
-    //  sql`to_tsvector('english', ${t.name})`,
-    //),
-    //nameSearchIndez: index("name_search_index").using("gin", t.name),
-  }),
-);
+export const pitcher = pgTable("pitcher", (t) => ({
+  id: t.uuid().notNull().primaryKey().defaultRandom(),
+  ref: t.integer().notNull().unique(),
+  name: t.varchar({ length: 127 }).notNull(),
+  teamId: t
+    .uuid()
+    .notNull()
+    .references(() => team.id, { onDelete: "restrict" }),
+  number: t.text(),
+}));
 
 export const pitcherRelations = relations(pitcher, ({ one, many }) => ({
   team: one(team, { fields: [pitcher.teamId], references: [team.id] }),
@@ -241,6 +231,37 @@ export const verification = pgTable("verification", (t) => ({
   expiresAt: t.timestamp().notNull(),
   createdAt: t.timestamp(),
   updatedAt: t.timestamp(),
+}));
+
+export const apikey = pgTable("apikey", (t) => ({
+  id: t.text().primaryKey(),
+  name: t.text(),
+  start: t.text(),
+  prefix: t.text(),
+  key: t.text().notNull(),
+  userId: t
+    .text()
+    .notNull()
+    .references(() => user.id),
+  refillInterval: t.integer(),
+  refillAmount: t.integer(),
+  lastRefillAt: t.timestamp(),
+  enabled: t.boolean().notNull(),
+  rateLimitEnabled: t.boolean().notNull(),
+  rateLimitTimeWindow: t.integer(),
+  rateLimitMax: t.integer(),
+  requestCount: t.integer().notNull(),
+  remaining: t.integer(),
+  lastRequest: t.timestamp(),
+  expiresAt: t.timestamp(),
+  createdAt: t.timestamp().notNull(),
+  updatedAt: t.timestamp().notNull(),
+  permissions: t.text(),
+  metadata: t.jsonb(),
+}));
+
+export const keyRelations = relations(apikey, ({ one }) => ({
+  user: one(user, { fields: [apikey.userId], references: [user.id] }),
 }));
 
 export type QueryError = typeof Error & { code?: unknown };

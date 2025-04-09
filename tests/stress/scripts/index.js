@@ -33,10 +33,8 @@ const names = [
 const params = {
   headers: {
     "Content-Type": "application/json",
-  },
-  cookies: {
-    "probable-pitcher.session-token":
-      "1c2358f551e04be5ae8e312a6b9888e1.VDtI7sJQHirgwwj2O2q812EYksqph1kG%2FU9m%2F7yNbRM%3D",
+    "x-api-key":
+      "UAWNAsCXrOGywTkhgmwYLAHRggUNsscZfNgqOSsDEFWyubjEmKqCZzkLShePujgL",
   },
 };
 
@@ -52,7 +50,7 @@ export default function () {
   url.searchParams.append("batch", "1");
   url.searchParams.append(
     "input",
-    `{"0":{"json":{"name":"${searchTerms.join("%20")}"}}}`,
+    `{"0":{"json":"${searchTerms.join("%20")}"}}`,
   );
   const response = http.get(url.toString(), params);
 

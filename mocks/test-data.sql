@@ -370,164 +370,346 @@ VALUES
   );
 
 INSERT INTO
-  session (
+  apikey (
     id,
+    name,
+    start,
+    prefix,
+    key,
+    user_id,
+    refill_interval,
+    refill_amount,
+    last_refill_at,
+    enabled,
+    rate_limit_enabled,
+    rate_limit_time_window,
+    rate_limit_max,
+    request_count,
+    remaining,
+    last_request,
     expires_at,
-    token,
     created_at,
     updated_at,
-    ip_address,
-    user_agent,
-    user_id
+    permissions,
+    metadata
   )
 VALUES
   (
-    '66598268-6638-486a-9f6a-3ace567e409e',
-    '2049-08-14 15:12:11.256',
-    '1c2358f551e04be5ae8e312a6b9888e1',
-    '2022-08-14 05:12:11.256',
-    '2022-08-14 05:12:11.256',
+    '3UK0YMAyxnSSwnjlIMEfrQdLRziCBa0d',
+    NULL,
+    'UAWNAs',
+    NULL,
+    'NFrWIcI8StC51HBJm5tQJjqlEGNH4TaVmw8hySh4304',
+    'e111a8dc-bcaa-4452-9371-3701a88c111e',
     NULL,
     NULL,
-    'e111a8dc-bcaa-4452-9371-3701a88c111e'
+    NULL,
+    true,
+    false,
+    86400000,
+    10,
+    0,
+    NULL,
+    NULL,
+    NULL,
+    '2025-04-09T01:01:09.794Z',
+    '2025-04-09T01:01:09.794Z',
+    NULL,
+    NULL
   );
 
 INSERT INTO
-  session (
+  apikey (
     id,
+    name,
+    start,
+    prefix,
+    key,
+    user_id,
+    refill_interval,
+    refill_amount,
+    last_refill_at,
+    enabled,
+    rate_limit_enabled,
+    rate_limit_time_window,
+    rate_limit_max,
+    request_count,
+    remaining,
+    last_request,
     expires_at,
-    token,
     created_at,
     updated_at,
-    ip_address,
-    user_agent,
-    user_id
+    permissions,
+    metadata
   )
 VALUES
   (
-    '8ce6bf10-6cbd-4184-89c8-e3457f028222',
-    '2049-08-14 15:12:11.256',
-    '2c2358f551e04be5ae8e312a6b9888e2',
-    '2022-08-14 05:12:11.256',
-    '2022-08-14 05:12:11.256',
+    'NarLxYPUSMeLbzh54DpIN5KVZcmEjhf9',
+    NULL,
+    'PNaqyE',
+    NULL,
+    'Tm12neit_DMY9UVP5cTM3859JfIICNXQdAdE4ctp52U',
+    'e222899a-2e4e-4413-aad6-15a87b69222e',
     NULL,
     NULL,
-    'e222899a-2e4e-4413-aad6-15a87b69222e'
+    NULL,
+    true,
+    false,
+    86400000,
+    10,
+    0,
+    NULL,
+    NULL,
+    NULL,
+    '2025-04-09T01:01:09.794Z',
+    '2025-04-09T01:01:09.794Z',
+    NULL,
+    NULL
   );
 
 INSERT INTO
-  session (
+  apikey (
     id,
+    name,
+    start,
+    prefix,
+    key,
+    user_id,
+    refill_interval,
+    refill_amount,
+    last_refill_at,
+    enabled,
+    rate_limit_enabled,
+    rate_limit_time_window,
+    rate_limit_max,
+    request_count,
+    remaining,
+    last_request,
     expires_at,
-    token,
     created_at,
     updated_at,
-    ip_address,
-    user_agent,
-    user_id
+    permissions,
+    metadata
   )
 VALUES
   (
-    'd7225602-1da5-4d5b-9949-df6b720d28e9',
-    '2049-08-14 15:12:11.256',
-    '3c2358f551e04be5ae8e312a6b9888e3',
-    '2022-08-14 05:12:11.256',
-    '2022-08-14 05:12:11.256',
+    'hqINsYQUtF2m4Z9gHq2MYjjdlRK7fupl',
+    NULL,
+    'WgmQgb',
+    NULL,
+    'stVDzLmYvatWCITzlU1lVaMd9pV6ilPnnVdmCwaYyQA',
+    'e33332a5-d6d8-469d-aae6-22c1ff53333e',
     NULL,
     NULL,
-    'e33332a5-d6d8-469d-aae6-22c1ff53333e'
+    NULL,
+    true,
+    false,
+    86400000,
+    10,
+    0,
+    NULL,
+    NULL,
+    NULL,
+    '2025-04-09T01:01:09.794Z',
+    '2025-04-09T01:01:09.794Z',
+    NULL,
+    NULL
   );
 
 INSERT INTO
-  session (
+  apikey (
     id,
+    name,
+    start,
+    prefix,
+    key,
+    user_id,
+    refill_interval,
+    refill_amount,
+    last_refill_at,
+    enabled,
+    rate_limit_enabled,
+    rate_limit_time_window,
+    rate_limit_max,
+    request_count,
+    remaining,
+    last_request,
     expires_at,
-    token,
     created_at,
     updated_at,
-    ip_address,
-    user_agent,
-    user_id
+    permissions,
+    metadata
   )
 VALUES
   (
-    '54afdddf-462b-4527-ba49-4a17569b0eae',
-    '2049-08-14 15:12:11.256',
-    '4c2358f551e04be5ae8e312a6b9888e4',
-    '2022-08-14 05:12:11.256',
-    '2022-08-14 05:12:11.256',
+    'tEWcvuIx6VA3h5RFpFqWyN8q7NiaEOQK',
+    NULL,
+    'dsbxHI',
+    NULL,
+    'xfS8S6lInN_5foS3S2HclXNPOjelnwUPP0s4s0HA1gM',
+    'e44442e4-2962-4ed7-99ea-c64d248d444e',
     NULL,
     NULL,
-    'e44442e4-2962-4ed7-99ea-c64d248d444e'
+    NULL,
+    true,
+    false,
+    86400000,
+    10,
+    0,
+    NULL,
+    NULL,
+    NULL,
+    '2025-04-09T01:01:09.794Z',
+    '2025-04-09T01:01:09.794Z',
+    NULL,
+    NULL
   );
 
 INSERT INTO
-  session (
+  apikey (
     id,
+    name,
+    start,
+    prefix,
+    key,
+    user_id,
+    refill_interval,
+    refill_amount,
+    last_refill_at,
+    enabled,
+    rate_limit_enabled,
+    rate_limit_time_window,
+    rate_limit_max,
+    request_count,
+    remaining,
+    last_request,
     expires_at,
-    token,
     created_at,
     updated_at,
-    ip_address,
-    user_agent,
-    user_id
+    permissions,
+    metadata
   )
 VALUES
   (
-    '676f080a-53f2-49e3-ab9a-cf86d6ae6154',
-    '2049-08-14 15:12:11.256',
-    '5c2358f551e04be5ae8e312a6b9888e5',
-    '2022-08-14 05:12:11.256',
-    '2022-08-14 05:12:11.256',
+    '1r82uTBprhZ122awH9I6Q1DTWkJ8LeaG',
+    NULL,
+    'wdKXjG',
+    NULL,
+    'a5Dm-SYsxQyKZWjCxwXj0adH4Qt_1u5B_XBH8lL60Ac',
+    'e555bfa9-4dbf-42da-8f8d-348a7364555e',
     NULL,
     NULL,
-    'e555bfa9-4dbf-42da-8f8d-348a7364555e'
+    NULL,
+    true,
+    false,
+    86400000,
+    10,
+    0,
+    NULL,
+    NULL,
+    NULL,
+    '2025-04-09T01:01:09.794Z',
+    '2025-04-09T01:01:09.794Z',
+    NULL,
+    NULL
   );
 
 INSERT INTO
-  session (
+  apikey (
     id,
+    name,
+    start,
+    prefix,
+    key,
+    user_id,
+    refill_interval,
+    refill_amount,
+    last_refill_at,
+    enabled,
+    rate_limit_enabled,
+    rate_limit_time_window,
+    rate_limit_max,
+    request_count,
+    remaining,
+    last_request,
     expires_at,
-    token,
     created_at,
     updated_at,
-    ip_address,
-    user_agent,
-    user_id
+    permissions,
+    metadata
   )
 VALUES
   (
-    '6f8395fa-5ac4-43e8-91fb-424fe962224f',
-    '2049-08-14 15:12:11.256',
-    '6c2358f551e04be5ae8e312a6b9888e6',
-    '2022-08-14 05:12:11.256',
-    '2022-08-14 05:12:11.256',
+    'XpyNw52pEsi9UduWHHnsqHX0knhZjrby',
+    NULL,
+    'eXsPBE',
+    NULL,
+    'uM8BNioKq5Li5KYdnaFTCy6X67jiVDkc1do4NFAcalQ',
+    'e666cadc-f752-4646-ad6b-419be06f666e',
     NULL,
     NULL,
-    'e666cadc-f752-4646-ad6b-419be06f666e'
+    NULL,
+    true,
+    false,
+    86400000,
+    10,
+    0,
+    NULL,
+    NULL,
+    NULL,
+    '2025-04-09T01:01:09.794Z',
+    '2025-04-09T01:01:09.794Z',
+    NULL,
+    NULL
   );
 
 INSERT INTO
-  session (
+  apikey (
     id,
+    name,
+    start,
+    prefix,
+    key,
+    user_id,
+    refill_interval,
+    refill_amount,
+    last_refill_at,
+    enabled,
+    rate_limit_enabled,
+    rate_limit_time_window,
+    rate_limit_max,
+    request_count,
+    remaining,
+    last_request,
     expires_at,
-    token,
     created_at,
     updated_at,
-    ip_address,
-    user_agent,
-    user_id
+    permissions,
+    metadata
   )
 VALUES
   (
-    'ca0a7eb0-b96a-4292-8e3d-6e06952fd750',
-    '2049-08-14 15:12:11.256',
-    '7c2358f551e04be5ae8e312a6b9888e7',
-    '2022-08-14 05:12:11.256',
-    '2022-08-14 05:12:11.256',
+    'FkvV1xuxm6mIVuDfA76kFKu2yWdSoTpL',
+    NULL,
+    'lHiMku',
+    NULL,
+    'qq_wYfr1Et71QjZVo52LRSJpnCyiJf6zj11a9sTr_64',
+    'e777a9b7-2b65-4a8d-b476-6eb5fda8777e',
     NULL,
     NULL,
-    'e777a9b7-2b65-4a8d-b476-6eb5fda8777e'
+    NULL,
+    true,
+    false,
+    86400000,
+    10,
+    0,
+    NULL,
+    NULL,
+    NULL,
+    '2025-04-09T01:01:09.794Z',
+    '2025-04-09T01:01:09.794Z',
+    NULL,
+    NULL
   );
 
 INSERT INTO
