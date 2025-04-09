@@ -6,7 +6,6 @@ import tw from "~/utils/tailwind";
 import * as ExpoNotifications from "expo-notifications";
 import { PermissionStatus } from "expo-modules-core";
 import useNotifications from "../../hooks/use-notifications";
-import { variantClasses as backgroundClasses } from "../../components/Background";
 import {
   variantClasses as textClasses,
   variantClasses,

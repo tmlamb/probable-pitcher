@@ -41,7 +41,7 @@ export const Notifications = () => {
         Sentry.captureException("Error toggling notifications", err);
       },
       onSettled: () => {
-        utils.device.byPushToken.invalidate(expoPushToken);
+        utils.device.byPushToken.invalidate(expoPushToken).catch(console.error);
       },
     });
 
@@ -53,13 +53,17 @@ export const Notifications = () => {
   const appState = useRef(AppState.currentState);
 
   function checkStatus() {
-    ExpoNotifications.getPermissionsAsync().then(({ status }) => {
-      setPushPermissionStatus(status);
-    });
+    ExpoNotifications.getPermissionsAsync()
+      .then(({ status }) => {
+        setPushPermissionStatus(status);
+      })
+      .catch(console.error);
 
-    ExpoNotifications.getExpoPushTokenAsync().then(({ data: token }) => {
-      setExpoPushToken(token);
-    });
+    ExpoNotifications.getExpoPushTokenAsync()
+      .then(({ data: token }) => {
+        setExpoPushToken(token);
+      })
+      .catch(console.error);
   }
 
   useEffect(() => {
@@ -67,7 +71,7 @@ export const Notifications = () => {
 
     const listener = AppState.addEventListener("change", (nextAppState) => {
       if (
-        appState.current.match(/inactive|background/) &&
+        /inactive|background/.exec(appState.current) &&
         nextAppState === "active"
       ) {
         checkStatus();
@@ -119,7 +123,7 @@ export const Notifications = () => {
             </TextThemed>
             <PressableThemed
               style={tw`mx-4 mt-1.5`}
-              onPress={Linking.openSettings}
+              //onPress={Linking.openSettings}
             >
               <TextThemed variant="primary" style={tw`text-sm`}>
                 Open Application Settings
