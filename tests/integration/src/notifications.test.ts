@@ -119,7 +119,10 @@ async function getNotifications(apiKey: string, deviceId: string) {
       "x-api-key": apiKey,
     },
   })
-    .then((r) => r.json())
+    .then((r) => {
+      console.log("RESPONSE", r);
+      return r.json();
+    })
     .then(
       (json) =>
         (
