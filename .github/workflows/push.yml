@@ -73,22 +73,22 @@ jobs:
         run: |
           echo "result=true" >> "$GITHUB_OUTPUT"
 
-  # test:
-  #   name: Test
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Check out code
-  #       uses: actions/checkout@v4
-  #
-  #     - name: Run integration tests using Docker Compose
-  #       run: |
-  #         BETTER_AUTH_URL=http://localhost:3000 \
-  #         BETTER_AUTH_SECRET=secret \
-  #         AUTH_GOOGLE_ID=secret \
-  #         AUTH_GOOGLE_SECRET=secret \
-  #         AUTH_APPLE_ID=secret \
-  #         AUTH_APPLE_SECRET=secret \
-  #         docker compose up --abort-on-container-failure integration stress
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Run integration tests using Docker Compose
+        run: |
+          BETTER_AUTH_URL=http://localhost:3000 \
+          BETTER_AUTH_SECRET=secret \
+          AUTH_GOOGLE_ID=secret \
+          AUTH_GOOGLE_SECRET=secret \
+          AUTH_APPLE_ID=secret \
+          AUTH_APPLE_SECRET=secret \
+          docker compose up --abort-on-container-failure integration stress
 
   lint:
     name: Lint
@@ -142,8 +142,7 @@ jobs:
 
   build-nextjs:
     name: Build nextjs image
-    # needs: [test, lint, format, changeset]
-    needs: [lint, format, changeset]
+    needs: [test, lint, format, changeset]
     runs-on: ubuntu-latest
     if: ${{ needs.changeset.outputs.changed-nextjs }}
     steps:
@@ -164,8 +163,7 @@ jobs:
 
   build-ingest:
     name: Build ingest image
-    # needs: [test, lint, format, changeset]
-    needs: [lint, format, changeset]
+    needs: [test, lint, format, changeset]
     runs-on: ubuntu-latest
     if: ${{ needs.changeset.outputs.changed-ingest }}
     steps:
@@ -186,8 +184,7 @@ jobs:
 
   build-migration:
     name: Build Migration image
-    # needs: [test, lint, format, changeset]
-    needs: [lint, format, changeset]
+    needs: [test, lint, format, changeset]
     runs-on: ubuntu-latest
     if: ${{ needs.changeset.outputs.changed-db }}
     steps:
@@ -208,24 +205,21 @@ jobs:
 
   deploy-infra:
     name: Deploy Preview Infrastructure
-    # needs:
-    #   [
-    #     test,
-    #     format,
-    #     lint,
-    #     changeset,
-    #     build-nextjs,
-    #     build-ingest,
-    #     build-migration,
-    #   ]
     needs:
-      [format, lint, changeset, build-nextjs, build-ingest, build-migration]
+      [
+        test,
+        format,
+        lint,
+        changeset,
+        build-nextjs,
+        build-ingest,
+        build-migration,
+      ]
     if: always() &&
-      (needs.format.result == 'success' && needs.lint.result == 'success') &&
+      (needs.test.result == 'success' && needs.format.result == 'success' && needs.lint.result == 'success') &&
       (needs.build-migration.result == 'skipped' || needs.build-migration.result == 'success') &&
       (needs.build-nextjs.result == 'skipped' || needs.build-nextjs.result == 'success') &&
       (needs.build-ingest.result == 'skipped' || needs.build-ingest.result == 'success')
-    # (needs.test.result == 'success' && needs.format.result == 'success' && needs.lint.result == 'success') &&
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -275,15 +269,13 @@ jobs:
 
   update-preview:
     name: Update Preview Mobile App
-    # needs: [test, format, lint, changeset, deploy-infra]
-    needs: [format, lint, changeset, deploy-infra]
+    needs: [test, format, lint, changeset, deploy-infra]
     if: |
       always() &&
       needs.changeset.result == 'success' &&
-      (needs.format.result == 'success' && needs.lint.result == 'success') &&
+      (needs.test.result == 'success' && needs.format.result == 'success' && needs.lint.result == 'success') &&
       (needs.deploy-infra.result == 'success' || needs.deploy-infra.result == 'skipped') &&
       needs.changeset.outputs.changed-expo
-    # (needs.test.result == 'success' && needs.format.result == 'success' && needs.lint.result == 'success') &&
     runs-on: ubuntu-latest
     env:
       CHANGED_EXPO: ${{ needs.changeset.outputs.changed-expo }}
