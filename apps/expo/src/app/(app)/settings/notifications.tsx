@@ -1,7 +1,7 @@
 import { PermissionStatus } from "expo-modules-core";
 import * as ExpoNotifications from "expo-notifications";
 import React, { useEffect, useRef, useState } from "react";
-import { AppState, Linking, Switch, View } from "react-native";
+import { AppState, Switch, View } from "react-native";
 import * as Sentry from "@sentry/react-native";
 import { api } from "~/utils/api";
 import Background from "~/components/Background";
