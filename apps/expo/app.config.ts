@@ -5,10 +5,11 @@ dotenv.config({ path: "../../.env" });
 
 const {
   APP_ENV,
-  EXPO_BETTER_AUTH_URL,
+  BETTER_AUTH_URL,
   SENTRY_PUBLIC_DSN,
   SENTRY_PROJECT,
   SENTRY_ORG,
+  EXPO_UPDATE_URL,
 } = process.env;
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
@@ -28,7 +29,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   updates: {
     fallbackToCacheTimeout: 0,
-    url: "https://u.expo.dev/abd1f73f-1027-4617-a091-abea678a0784",
+    url: EXPO_UPDATE_URL,
   },
   runtimeVersion: {
     policy: "sdkVersion",
@@ -56,7 +57,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     eas: {
       projectId: "abd1f73f-1027-4617-a091-abea678a0784",
     },
-    apiBaseUrl: EXPO_BETTER_AUTH_URL,
+    apiBaseUrl: BETTER_AUTH_URL,
     sentryPublicDsn: SENTRY_PUBLIC_DSN,
     appEnv: APP_ENV,
   },
@@ -73,8 +74,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       "@sentry/react-native/expo",
       {
         url: "https://sentry.io/",
-        project: "probable-pitchers",
-        organization: "tom-lamb",
+        project: SENTRY_PROJECT,
+        organization: SENTRY_ORG,
       },
     ],
     [

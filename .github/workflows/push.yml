@@ -281,6 +281,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CHANGED_EXPO: ${{ needs.changeset.outputs.changed-expo }}
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+      SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
     steps:
       - name: Check for EXPO_TOKEN
         run: |
@@ -316,10 +319,9 @@ jobs:
 
       - name: Publish Live App Update
         run:
-          # cd apps/expo && APP_ENV=preview SENTRY_PUBLIC_DSN="${{ secrets.SENTRY_PUBLIC_DSN }}" eas update --branch preview --message "${{ github.event.head_commit.message }}"
-          cd apps/expo && APP_ENV=preview SENTRY_ORG="${{ secrets.SENTRY_ORG }}" SENTRY_PROJECT="${{ secrets.SENTRY_PROJECT }}" SENTRY_PUBLIC_DSN="${{ secrets.SENTRY_PUBLIC_DSN }}" EXPO_BETTER_AUTH_URL="https://dev.probablepitcher.com" eas update --branch preview --message "${{ github.event.head_commit.message }}"
+          # cd apps/expo && APP_ENV=preview SENTRY_AUTH_TOKEN="${{ secrets.SENTRY_AUTH_TOKEN }}" SENTRY_ORG="${{ secrets.SENTRY_ORG }}" SENTRY_PROJECT="${{ secrets.SENTRY_PROJECT }}" SENTRY_PUBLIC_DSN="${{ secrets.SENTRY_PUBLIC_DSN }}" BETTER_AUTH_URL="https://dev.probablepitcher.com" EXPO_UPDATE_URL="${{ secrets.EXPO_UPDATE_URL }}" eas update --branch preview --message "${{ github.event.head_commit.message }}"
 
-          # cd apps/expo && APP_ENV=preview eas update --branch preview --message "${{ github.event.head_commit.message }}"
+          cd apps/expo && APP_ENV=preview eas update --branch preview --message "${{ github.event.head_commit.message }}"
 
       # - name: App Store Build
       #   run: cd apps/expo && eas build --profile preview --platform ios --non-interactive

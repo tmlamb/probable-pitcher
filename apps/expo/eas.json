@@ -1,6 +1,6 @@
 {
   "cli": {
-    "version": ">= 4.1.2"
+    "appVersionSource": "remote"
   },
   "build": {
     "base": {
@@ -27,6 +27,7 @@
       }
     },
     "production": {
+      "autoIncrement": true,
       "extends": "base",
       "env": {
         "APP_ENV": "production",
