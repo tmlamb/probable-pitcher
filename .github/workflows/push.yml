@@ -314,11 +314,11 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
-      - name: Publish Live App Update
-        run: cd apps/expo && SENTRY_PUBLIC_DSN="{{ secrets.SENTRY_PUBLIC_DSN }}" SENTRY_PROJECT="{{ secrets.SENTRY_PROJECT }}" SENTRY_ORG="{{ secrets.SENTRY_ORG }}" APP_ENV=preview BETTER_AUTH_URL="https://dev.probablepitcher.com" EXPO_UPDATE_URL="{{ secrets.EXPO_UPDATE_RUL }}" eas update --branch preview --message "${{ github.event.head_commit.message }}"
+      # - name: Publish Live App Update
+      #   run: cd apps/expo && SENTRY_PUBLIC_DSN="{{ secrets.SENTRY_PUBLIC_DSN }}" SENTRY_PROJECT="{{ secrets.SENTRY_PROJECT }}" SENTRY_ORG="{{ secrets.SENTRY_ORG }}" APP_ENV=preview BETTER_AUTH_URL="https://dev.probablepitcher.com" EXPO_PROJECT_ID="{{ secrets.EXPO_PROJECT_ID }}" eas update --branch preview --message "${{ github.event.head_commit.message }}"
 
-      # - name: App Store Build
-      #   run: cd apps/expo && eas build --profile preview --platform ios --non-interactive
+      - name: App Store Build
+        run: cd apps/expo && eas build --profile preview --platform ios --non-interactive
 
   tag-git:
     name: Preview Tag Git

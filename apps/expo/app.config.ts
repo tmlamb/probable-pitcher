@@ -9,7 +9,7 @@ const {
   SENTRY_PUBLIC_DSN,
   SENTRY_PROJECT,
   SENTRY_ORG,
-  EXPO_UPDATE_URL,
+  EXPO_PROJECT_ID,
 } = process.env;
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
@@ -29,7 +29,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   updates: {
     fallbackToCacheTimeout: 0,
-    url: EXPO_UPDATE_URL,
+    url: `https://u.expo.dev/${EXPO_PROJECT_ID}`,
   },
   runtimeVersion: {
     policy: "sdkVersion",
@@ -51,11 +51,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       foregroundImage: "./assets/adaptive-icon.png",
       backgroundColor: "#ffffff",
     },
-    googleServicesFile: "./google-services.json",
+    //googleServicesFile: "./google-services.json",
   },
   extra: {
     eas: {
-      projectId: "abd1f73f-1027-4617-a091-abea678a0784",
+      projectId: EXPO_PROJECT_ID,
     },
     apiBaseUrl: BETTER_AUTH_URL,
     sentryPublicDsn: SENTRY_PUBLIC_DSN,
