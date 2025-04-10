@@ -51,7 +51,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       foregroundImage: "./assets/adaptive-icon.png",
       backgroundColor: "#ffffff",
     },
-    //googleServicesFile: "./google-services.json",
+    googleServicesFile: "./google-services.json",
   },
   extra: {
     eas: {
