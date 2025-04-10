@@ -284,6 +284,7 @@ jobs:
       SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
       SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+      EXPO_UPDATE_URL: ${{ secrets.EXPO_UPDATE_URL }}
     steps:
       - name: Check for EXPO_TOKEN
         run: |
@@ -319,7 +320,7 @@ jobs:
 
       - name: Publish Live App Update
         run:
-          # cd apps/expo && APP_ENV=preview SENTRY_AUTH_TOKEN="${{ secrets.SENTRY_AUTH_TOKEN }}" SENTRY_ORG="${{ secrets.SENTRY_ORG }}" SENTRY_PROJECT="${{ secrets.SENTRY_PROJECT }}" SENTRY_PUBLIC_DSN="${{ secrets.SENTRY_PUBLIC_DSN }}" BETTER_AUTH_URL="https://dev.probablepitcher.com" EXPO_UPDATE_URL="${{ secrets.EXPO_UPDATE_URL }}" eas update --branch preview --message "${{ github.event.head_commit.message }}"
+          # cd apps/expo && APP_ENV=preview BETTER_AUTH_URL="https://dev.probablepitcher.com" eas update --branch preview --message "${{ github.event.head_commit.message }}"
 
           cd apps/expo && APP_ENV=preview eas update --branch preview --message "${{ github.event.head_commit.message }}"
 
