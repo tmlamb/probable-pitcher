@@ -244,7 +244,7 @@ const migrationJob = new k8s.batch.v1.Job(
 
               command: ["sh", "-c"],
               args: [
-                "pnpm run push; curl -s http://localhost:9091/quitquitquit",
+                "pnpm run push && pnpm run migrate; curl -s http://localhost:9091/quitquitquit",
               ],
 
               resources: {
