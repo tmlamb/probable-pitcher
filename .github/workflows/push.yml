@@ -314,12 +314,11 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
-      # - name: Publish Live App Update
-      #   run:
-      #     cd apps/expo && APP_ENV=preview BETTER_AUTH_URL="https://dev.probablepitcher.com" eas update --branch preview --message "${{ github.event.head_commit.message }}"
+      - name: Publish Live App Update
+        run: cd apps/expo && APP_ENV=preview BETTER_AUTH_URL="https://dev.probablepitcher.com" eas update --branch preview --message "${{ github.event.head_commit.message }}"
 
-      - name: App Store Build
-        run: cd apps/expo && eas build --profile preview --platform ios --non-interactive
+      # - name: App Store Build
+      #   run: cd apps/expo && eas build --profile preview --platform ios --non-interactive
 
   tag-git:
     name: Preview Tag Git
