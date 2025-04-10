@@ -65,7 +65,8 @@
     "INGEST_JOBS",
     "INGEST_DATE",
     "BASE_API_URL",
-    "EXPO_API_URL"
+    "EXPO_API_URL",
+    "EXPO_PROJECT_ID"
   ],
   "globalPassThroughEnv": ["NODE_ENV", "CI", "npm_lifecycle_event"]
 }
