@@ -68,22 +68,22 @@ const databaseUser = new gcp.sql.User(`probable-db-user-${env}`, {
   password: config.requireSecret("databasePassword"),
 });
 
-//const database = new gcp.sql.Database(`probable-db-${env}`, {
-//  name: `probable-db-${env}`,
-//  instance: pgDatabaseInstance.name,
-//  charset: "utf8",
-//});
+const database = new gcp.sql.Database(`probable-db-${env}`, {
+  name: `probable-db-${env}`,
+  instance: pgDatabaseInstance.name,
+  charset: "utf8",
+});
 
-//const databaseUrl = pulumi
-//  .all([
-//    pgDatabaseInstance.publicIpAddress,
-//    database.name,
-//    databaseUser.name,
-//    databaseUser.password,
-//  ])
-//  .apply(([ipAddress, database, username, password]) => {
-//    return `postgres://${username}:${password}@${ipAddress}/${database}`;
-//  });
+const databaseUrl = pulumi
+  .all([
+    pgDatabaseInstance.publicIpAddress,
+    database.name,
+    databaseUser.name,
+    databaseUser.password,
+  ])
+  .apply(([ipAddress, database, username, password]) => {
+    return `postgres://${username}:${password}@${ipAddress}/${database}`;
+  });
 
 export const clusterProvider = new k8s.Provider(`probable-pitchers-${env}`, {
   kubeconfig: process.env.KUBECONFIG,
@@ -184,26 +184,26 @@ export const regcred = new k8s.core.v1.Secret(
   { provider: clusterProvider },
 );
 
-//const dbcred = new k8s.core.v1.Secret(
-//  `probable-dbcred-${env}`,
-//  {
-//    metadata: {
-//      namespace: namespaceName,
-//    },
-//    type: "Opaque",
-//    data: pulumi
-//      .all([databaseUser.name, databaseUser.password, database.name])
-//      .apply(([username, password, databaseName]) => ({
-//        username: btoa(username),
-//        password: btoa(password!),
-//        database: btoa(databaseName),
-//        databaseUrl: btoa(
-//          `postgres://${username}:${password}@127.0.0.1:5432/${databaseName}`,
-//        ),
-//      })),
-//  },
-//  { provider: clusterProvider },
-//);
+const dbcred = new k8s.core.v1.Secret(
+  `probable-dbcred-${env}`,
+  {
+    metadata: {
+      namespace: namespaceName,
+    },
+    type: "Opaque",
+    data: pulumi
+      .all([databaseUser.name, databaseUser.password, database.name])
+      .apply(([username, password, databaseName]) => ({
+        username: btoa(username),
+        password: btoa(password!),
+        database: btoa(databaseName),
+        databaseUrl: btoa(
+          `postgres://${username}:${password}@127.0.0.1:5432/${databaseName}`,
+        ),
+      })),
+  },
+  { provider: clusterProvider },
+);
 
 const migrationLabels = { app: `probable-migration-${env}` };
 
@@ -235,7 +235,7 @@ const migrationJob = new k8s.batch.v1.Job(
                   name: "DATABASE_URL",
                   valueFrom: {
                     secretKeyRef: {
-                      //name: dbcred.metadata.apply((m) => m.name),
+                      name: dbcred.metadata.apply((m) => m.name),
                       key: "databaseUrl",
                     },
                   },
@@ -320,7 +320,7 @@ const seedJob = new k8s.batch.v1.CronJob(
                       name: "DATABASE_URL",
                       valueFrom: {
                         secretKeyRef: {
-                          //name: dbcred.metadata.apply((m) => m.name),
+                          name: dbcred.metadata.apply((m) => m.name),
                           key: "databaseUrl",
                         },
                       },
@@ -420,7 +420,7 @@ const playerJob = new k8s.batch.v1.CronJob(
                       name: "DATABASE_URL",
                       valueFrom: {
                         secretKeyRef: {
-                          //name: dbcred.metadata.apply((m) => m.name),
+                          name: dbcred.metadata.apply((m) => m.name),
                           key: "databaseUrl",
                         },
                       },
@@ -520,7 +520,7 @@ const notifyJob = new k8s.batch.v1.CronJob(
                       name: "DATABASE_URL",
                       valueFrom: {
                         secretKeyRef: {
-                          //name: dbcred.metadata.apply((m) => m.name),
+                          name: dbcred.metadata.apply((m) => m.name),
                           key: "databaseUrl",
                         },
                       },
@@ -653,7 +653,7 @@ const appDeployment = new k8s.apps.v1.Deployment(
                   name: "DATABASE_URL",
                   valueFrom: {
                     secretKeyRef: {
-                      //name: dbcred.metadata.apply((m) => m.name),
+                      name: dbcred.metadata.apply((m) => m.name),
                       key: "databaseUrl",
                     },
                   },
