@@ -281,10 +281,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CHANGED_EXPO: ${{ needs.changeset.outputs.changed-expo }}
-      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-      SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-      SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-      EXPO_UPDATE_URL: ${{ secrets.EXPO_UPDATE_URL }}
     steps:
       - name: Check for EXPO_TOKEN
         run: |
@@ -339,3 +335,5 @@ jobs:
         uses: EndBug/latest-tag@latest
         with:
           ref: preview
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
