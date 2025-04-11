@@ -12,6 +12,8 @@ const {
   EXPO_PROJECT_ID,
 } = process.env;
 
+console.error("EXPO_PROJECT_ID", EXPO_PROJECT_ID);
+
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: `Probable Pitcher${APP_ENV !== "production" ? ` (${APP_ENV})` : ""}`,
