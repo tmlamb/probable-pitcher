@@ -13,7 +13,6 @@ const {
 } = process.env;
 
 export default ({ config }: ConfigContext): ExpoConfig => {
-  console.error("EXPO_PROJECT_ID", EXPO_PROJECT_ID);
   return {
     ...config,
     name: `Probable Pitcher${APP_ENV !== "production" ? ` (${APP_ENV})` : ""}`,
@@ -31,7 +30,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     },
     updates: {
       fallbackToCacheTimeout: 0,
-      url: `https://u.expo.dev/${EXPO_PROJECT_ID}`,
+      url: "https://u.expo.dev/abd1f73f-1027-4617-a091-abea678a0784",
     },
     runtimeVersion: {
       policy: "sdkVersion",
@@ -57,7 +56,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     },
     extra: {
       eas: {
-        projectId: EXPO_PROJECT_ID,
+        projectId: "abd1f73f-1027-4617-a091-abea678a0784",
       },
       apiBaseUrl: BETTER_AUTH_URL,
       sentryPublicDsn: SENTRY_PUBLIC_DSN,
