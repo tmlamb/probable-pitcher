@@ -9,7 +9,6 @@ const {
   SENTRY_PUBLIC_DSN,
   SENTRY_PROJECT,
   SENTRY_ORG,
-  EXPO_PROJECT_ID,
 } = process.env;
 
 export default ({ config }: ConfigContext): ExpoConfig => {
