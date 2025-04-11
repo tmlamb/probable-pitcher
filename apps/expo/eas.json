@@ -11,7 +11,7 @@
       }
     },
     "development": {
-      "environemnt": "development",
+      "environment": "development",
       "extends": "base",
       "developmentClient": true,
       "distribution": "internal",
@@ -20,7 +20,7 @@
       }
     },
     "preview": {
-      "environemnt": "preview",
+      "environment": "preview",
       "extends": "base",
       "distribution": "internal",
       "env": {
@@ -29,7 +29,7 @@
       }
     },
     "production": {
-      "environemnt": "production",
+      "environment": "production",
       "autoIncrement": true,
       "extends": "base",
       "env": {
