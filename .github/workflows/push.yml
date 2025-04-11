@@ -315,7 +315,7 @@ jobs:
         run: pnpm install
 
       - name: Publish Live App Update
-        run: cd apps/expo && SENTRY_PUBLIC_DSN="{{ secrets.SENTRY_PUBLIC_DSN }}" SENTRY_PROJECT="{{ secrets.SENTRY_PROJECT }}" SENTRY_ORG="{{ secrets.SENTRY_ORG }}" APP_ENV=preview BETTER_AUTH_URL="https://dev.probablepitcher.com" EXPO_PROJECT_ID="{{ secrets.EXPO_PROJECT_ID }}" eas update --environment preview --branch preview --message "${{ github.event.head_commit.message }}"
+        run: cd apps/expo && APP_ENV=preview BETTER_AUTH_URL="https://dev.probablepitcher.com" eas update --environment preview --branch preview --message "${{ github.event.head_commit.message }}"
 
       # - name: App Store Build
       #   run: cd apps/expo && eas build --profile preview --platform ios --non-interactive
