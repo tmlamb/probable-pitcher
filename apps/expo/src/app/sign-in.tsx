@@ -26,7 +26,7 @@ export default function SignIn() {
   ]);
 
   const insets = useSafeAreaInsets();
-  // TODO add color scheme toggle to login page
+  // TODO add color scheme toggle to sign-in page
   const [colorScheme] = useAppColorScheme(tw);
 
   return (
