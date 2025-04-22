@@ -66,6 +66,7 @@ export default function SignIn() {
                 try {
                   await authClient.signIn.social({
                     provider: "google",
+                    callbackURL: "/",
                   });
                   router.replace("/");
                 } catch (e: unknown) {
