@@ -21,6 +21,7 @@
     },
     "preview": {
       "environment": "preview",
+      "channel": "preview",
       "extends": "base",
       "distribution": "internal",
       "env": {
@@ -30,6 +31,7 @@
     },
     "production": {
       "environment": "production",
+      "channel": "production",
       "autoIncrement": true,
       "extends": "base",
       "env": {
