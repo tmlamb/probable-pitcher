@@ -5,8 +5,8 @@ import type { ClassInput } from "twrnc";
 import tw from "~/utils/tailwind";
 
 export const variantClasses = {
-  default: "bg-slate-50 dark:bg-slate-950 flex-1 px-3",
-  modal: "bg-white dark:bg-black flex-1 px-3",
+  default: "bg-slate-50 dark:bg-slate-950",
+  modal: "bg-white dark:bg-black",
 };
 //py-1.5 px-3 flex-row items-center justify-between
 interface BackgroundProps {
@@ -28,7 +28,7 @@ export default function ThemedView({
 }: BackgroundProps) {
   return (
     <View
-      style={tw.style("", style, variantClasses[variant])}
+      style={tw.style("flex-1", style, variantClasses[variant])}
       accessible={accessible}
       accessibilityLabel={accessibilityLabel}
       accessibilityState={accessibilityState}

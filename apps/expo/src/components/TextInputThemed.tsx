@@ -7,7 +7,7 @@ import type {
   TextInputKeyPressEventData,
   ViewStyle,
 } from "react-native";
-import { TextInput } from "react-native";
+import { TextInput, View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import type { ClassInput } from "twrnc";
 import tw from "~/utils/tailwind";
@@ -79,9 +79,10 @@ export default function TextInputThemed({
     onChangeText?.(normalizedText);
   };
 
+  //<View style={tw`relative w-full bg-transparent`}>
   return (
-    <Card style={tw.style("relative py-0", style)}>
-      <Card style={tw`px-0 py-1.5 relative w-full bg-transparent`}>
+    <Card style={tw.style("relative p-0 mx-0", style)}>
+      <Card style={tw.style("w-full flex-row p-0 mx-0 relative")}>
         {leftIcon ??
           (label && (
             <Animated.View
@@ -113,7 +114,7 @@ export default function TextInputThemed({
           value={value ? nbspReplace(value) : value}
           style={tw.style(
             variantClasses.default,
-            "w-full pb-[2.8px] pt-[2.5px] android:py-[.15px] z-20 pr-0 text-lg leading-tight tracking-normal",
+            "w-full py-1.5 pl-8 z-20 pr-0 text-lg leading-tight tracking-normal",
             textInputStyle,
           )}
           placeholder={placeholder}

@@ -3,6 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Dimensions, Keyboard } from "react-native";
 import Animated, {
+  Easing,
   FadeInRight,
   FadeOutRight,
   useAnimatedStyle,
@@ -11,7 +12,7 @@ import Animated, {
 } from "react-native-reanimated";
 import type { ClassInput } from "twrnc";
 import tw from "~/utils/tailwind";
-import Button from "./PressableThemed";
+import PressableThemed from "./PressableThemed";
 import TextThemed from "./TextThemed";
 import TextInputThemed from "./TextInputThemed";
 
@@ -65,7 +66,7 @@ export default function SearchInput({
           setSearchComponentWidth(roundedWidth);
           searchFilterWidth.value = withTiming(
             roundedWidth - (searchText ? cancelButtonWidth : 0),
-            { duration: 250 },
+            { duration: 400 },
           );
         }
       }}
@@ -75,10 +76,10 @@ export default function SearchInput({
           onFocus={() => {
             searchFilterWidth.value = withTiming(
               searchComponentWidth - cancelButtonWidth,
-              { duration: 250 },
+              { duration: 200 },
             );
-            searchComponentMarginTop.value = withTiming(-24, {
-              duration: 250,
+            searchComponentMarginTop.value = withTiming(0, {
+              duration: 400,
             });
             setShowCancelButton(true);
             navigation.setOptions({
@@ -89,10 +90,11 @@ export default function SearchInput({
           onBlur={() => {
             if (!searchText) {
               searchFilterWidth.value = withTiming(searchComponentWidth, {
-                duration: 250,
+                duration: 300,
+                easing: Easing.inOut(Easing.ease),
               });
               searchComponentMarginTop.value = withTiming(0, {
-                duration: 250,
+                duration: 400,
               });
               setShowCancelButton(false);
               navigation.setOptions({
@@ -106,10 +108,10 @@ export default function SearchInput({
             setSearchText(text);
           }}
           value={searchText ?? ""}
-          style={tw.style("rounded-xl px-3")}
+          style={tw.style("rounded-xl")}
           leftIcon={
             <>
-              <TextThemed variant="secondary" style={tw`-ml-1.5 mr-1.5`}>
+              <TextThemed variant="muted" style={tw`absolute ml-2`}>
                 <AntDesign name="search1" size={18} />
               </TextThemed>
             </>
@@ -120,8 +122,9 @@ export default function SearchInput({
       </Animated.View>
       {showCancelButton && (
         <Animated.View
-          entering={FadeInRight.delay(0)}
-          exiting={FadeOutRight.duration(100)}
+          key="cancelbutton"
+          entering={FadeInRight.duration(150)}
+          exiting={FadeOutRight.duration(200)}
           onLayout={(event) => {
             const roundedWidth = Math.round(event.nativeEvent.layout.width);
             if (cancelButtonWidth !== roundedWidth) {
@@ -129,19 +132,21 @@ export default function SearchInput({
               searchFilterWidth.value = withTiming(
                 searchComponentWidth - roundedWidth,
                 {
-                  duration: 250,
+                  duration: 400,
+                  easing: Easing.inOut(Easing.ease),
                 },
               );
             }
           }}
         >
-          <Button
+          <PressableThemed
             onPress={() => {
               searchFilterWidth.value = withTiming(searchComponentWidth, {
-                duration: 250,
+                duration: 300,
+                easing: Easing.inOut(Easing.ease),
               });
               searchComponentMarginTop.value = withTiming(0, {
-                duration: 250,
+                duration: 400,
               });
               onChange(undefined);
               setSearchText(undefined);
@@ -160,7 +165,7 @@ export default function SearchInput({
             >
               Done
             </TextThemed>
-          </Button>
+          </PressableThemed>
         </Animated.View>
       )}
     </Animated.View>

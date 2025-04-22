@@ -3,6 +3,7 @@ import * as Sentry from "@sentry/react-native";
 import Constants from "expo-constants";
 import { Slot } from "expo-router";
 import { useDeviceContext } from "twrnc";
+import Background from "~/components/Background";
 
 import { TRPCProvider } from "~/utils/api";
 import tw from "~/utils/tailwind";
@@ -38,7 +39,9 @@ export default function RootLayout() {
 
   return (
     <TRPCProvider>
-      <Slot />
+      <Background>
+        <Slot />
+      </Background>
     </TRPCProvider>
   );
 }

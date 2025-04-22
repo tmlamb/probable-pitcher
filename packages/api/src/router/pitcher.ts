@@ -25,7 +25,7 @@ export const pitcherRouter = {
             sql`similarity(${pitcher.name}, ${name}) > 0.25`,
             ilike(pitcher.name, `%${name}%`),
             ilike(team.name, `%${name}%`),
-            eq(team.abbreviation, name),
+            eq(team.abbreviation, name.toUpperCase()),
           ),
         )
         .orderBy(sql`similarity(${pitcher.name}, ${name}) DESC`)

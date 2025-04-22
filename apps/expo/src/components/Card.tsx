@@ -6,7 +6,7 @@ import tw from "~/utils/tailwind";
 
 const variantClasses = {
   default:
-    "bg-slate-100 border-slate-200 dark:bg-slate-900 dark:border-slate-800",
+    "bg-slate-200 border-slate-300 dark:bg-slate-800 dark:border-slate-600",
   primary: "bg-sky-600",
 };
 //py-1.5 px-3 flex-row items-center justify-between
@@ -19,7 +19,7 @@ interface CardProps {
   accessibilityState?: AccessibilityState;
 }
 
-export default function ThemedView({
+export default function Card({
   children,
   style,
   variant = "default",
@@ -30,7 +30,7 @@ export default function ThemedView({
   return (
     <View
       style={tw.style(
-        "px-4 py-2 flex-row items-center justify-between rounded-xl",
+        "px-3 py-2 mx-3 flex-row items-center justify-between rounded-xl",
         style,
         variantClasses[variant],
       )}

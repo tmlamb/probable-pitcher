@@ -7,7 +7,6 @@ import type {
   ViewStyle,
 } from "react-native";
 import { ActivityIndicator, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { api } from "~/utils/api";
 import { formatInTimeZone } from "date-fns-tz";
 import tw from "~/utils/tailwind";
@@ -29,7 +28,10 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import TextThemed, { variantClasses } from "../../components/TextThemed";
+import TextThemed, {
+  variantClasses as textClasses,
+} from "../../components/TextThemed";
+import { variantClasses as backgroundClasses } from "../../components/Background";
 import type { ClassInput } from "twrnc";
 import PressableThemed from "../../components/PressableThemed";
 import Card from "../../components/Card";
@@ -116,8 +118,8 @@ export default function Index() {
       Sentry.captureException(err);
     },
     onSettled: () => {
-      utils.subscription.byUserId.invalidate().catch((e) => console.log(e));
-      utils.pitcher.byFuzzyName.invalidate().catch((e) => console.log(e));
+      utils.subscription.byUserId.invalidate().catch(console.error);
+      utils.pitcher.byFuzzyName.invalidate().catch(console.error);
     },
   });
 
@@ -139,8 +141,8 @@ export default function Index() {
       Sentry.captureException(err);
     },
     onSettled: () => {
-      utils.subscription.byUserId.invalidate().catch((e) => console.log(e));
-      utils.pitcher.byFuzzyName.invalidate().catch((e) => console.log(e));
+      utils.subscription.byUserId.invalidate().catch(console.error);
+      utils.pitcher.byFuzzyName.invalidate().catch(console.error);
     },
   });
 
@@ -229,7 +231,7 @@ export default function Index() {
           exiting={FadeOut}
         >
           <ActivityIndicator
-            style={tw.style(variantClasses.primary)}
+            style={tw.style(textClasses.primary)}
             size="large"
           />
         </Animated.View>
@@ -246,7 +248,7 @@ export default function Index() {
               <Link
                 asChild
                 href="/settings"
-                //style={tw`py-6 pl-3 pr-8 -my-6 -ml-4 flex flex-row items-center`}
+                style={tw`pr-6 py-3 -ml-1 flex flex-row items-center`}
               >
                 <PressableThemed accessibilityLabel="Navigate to Application Settings">
                   <TextThemed variant="primary">
@@ -256,174 +258,193 @@ export default function Index() {
               </Link>
             </>
           ),
+          headerRight: () =>
+            !!subscriptionQuery.data?.length &&
+            (isEditing ? (
+              <PressableThemed
+                onPress={() => setIsEditing((isEditing) => !isEditing)}
+                style={tw`pl-6 py-3 flex flex-row items-center`}
+                accessibilityLabel="Disable edit mode"
+              >
+                <TextThemed variant="primary" style={tw`font-bold`}>
+                  Done
+                </TextThemed>
+              </PressableThemed>
+            ) : (
+              <PressableThemed
+                onPress={() => setIsEditing((isEditing) => !isEditing)}
+                style={tw`pl-6 py-3 flex flex-row items-center`}
+                accessibilityLabel="Enable edit mode"
+              >
+                <TextThemed variant="primary">Edit</TextThemed>
+              </PressableThemed>
+            )),
         }}
       />
-      <SafeAreaView>
-        <Animated.FlatList
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore - there is a type bug in Reanimated 2.9.x
-          itemLayoutAnimation={LinearTransition.duration(175)}
-          keyExtractor={(item) => {
-            if (typeof item === "string") {
-              return item;
-            }
-            return String(item.id);
-          }}
-          contentContainerStyle={tw.style(isSearchActive ? "pb-96" : "pb-48")}
-          data={subscribedAndAvailablePitchers}
-          keyboardShouldPersistTaps="handled"
-          stickyHeaderIndices={[0]}
-          stickyHeaderHiddenOnScroll={!isSearchActive}
-          onScroll={(event) => handleScroll(event)}
-          ListHeaderComponent={
-            <View
-              style={tw.style(
-                "px-3 bg-slate-50 dark:bg-black",
-                isSearchActive && isScrolling
-                  ? "bg-opacity-80"
-                  : "bg-opacity-100",
-              )}
-            >
-              <Animated.View layout={LinearTransition.duration(250)}>
-                <TextThemed
-                  style={tw.style(
-                    isSearchActive ? "text-transparent" : "",
-                    "text-4xl font-bold tracking-tight mt-6 mb-3",
-                  )}
-                  accessibilityRole="header"
-                >
-                  Probable Pitcher
-                </TextThemed>
-              </Animated.View>
+      <Animated.FlatList
+        itemLayoutAnimation={LinearTransition.duration(175)}
+        keyExtractor={(item) => {
+          if (typeof item === "string") {
+            return item;
+          }
+          return String(item.id);
+        }}
+        contentContainerStyle={tw.style(isSearchActive ? "pb-96" : "pb-48")}
+        data={subscribedAndAvailablePitchers}
+        keyboardShouldPersistTaps="handled"
+        stickyHeaderIndices={[0]}
+        stickyHeaderHiddenOnScroll={!isSearchActive}
+        onScroll={(event) => handleScroll(event)}
+        ListHeaderComponent={
+          <View
+            style={tw.style(
+              backgroundClasses.default,
+              isSearchActive || isScrolling
+                ? "bg-opacity-80"
+                : "bg-opacity-100",
+            )}
+          >
+            <Animated.View layout={LinearTransition.duration(400)}>
+              <TextThemed
+                style={tw.style(
+                  isSearchActive ? "text-transparent" : "mt-8",
+                  "text-4xl font-bold tracking-tight mb-3 pl-3",
+                )}
+                accessibilityRole="header"
+              >
+                Probable Pitcher
+              </TextThemed>
+            </Animated.View>
+            <View style={tw`mx-3`}>
               <SearchInput
                 onChange={(text) => setSearchFilter(text ?? "")}
                 onActive={() => setIsSearchActive(true)}
                 onCancel={() => setIsSearchActive(false)}
               />
             </View>
-          }
-          renderItem={({ index, item }) => {
-            if (typeof item === "string") {
-              return (
-                <Animated.View
-                  entering={FadeIn}
-                  exiting={FadeOut}
-                  style={tw`flex-row justify-between mt-3 mb-1 mx-6`}
-                >
-                  <TextThemed variant="muted" style={tw`uppercase text-sm`}>
-                    {item}
-                  </TextThemed>
-                  {index === 0 &&
-                    (searchQuery.isFetching ||
-                      (!searchQuery.isSuccess && !!searchFilter) ||
-                      subscribeMutation.isPending ||
-                      unsubscribeMutation.isPending ||
-                      subscriptionQuery.isFetching) && (
-                      <Animated.View
-                        entering={FadeIn}
-                        exiting={FadeOut}
-                        style={tw`-mr-1`}
-                      >
-                        <ActivityIndicator size="small" />
-                      </Animated.View>
-                    )}
-                </Animated.View>
-              );
-            } else {
-              return (
-                <Animated.View entering={FadeIn} exiting={FadeOut}>
-                  <PitcherCard
-                    subscribeHandler={() => {
-                      if (item.id) {
-                        subscribeMutation.mutate({
-                          pitcherId: item.id,
-                        });
-                      }
-                    }}
-                    unsubscribeHandler={
-                      isEditing || isSearchActive
-                        ? () =>
-                            item.subscription
-                              ? unsubscribeMutation.mutate({
-                                  subscriptionId: item.subscription.id,
-                                })
-                              : undefined
-                        : undefined
+          </View>
+        }
+        renderItem={({ index, item }) => {
+          if (typeof item === "string") {
+            return (
+              <Animated.View
+                entering={FadeIn}
+                exiting={FadeOut}
+                style={tw`flex-row justify-between mt-3 mb-1 mx-6`}
+              >
+                <TextThemed variant="muted" style={tw`uppercase text-sm`}>
+                  {item}
+                </TextThemed>
+                {index === 0 &&
+                  (searchQuery.isFetching ||
+                    (!searchQuery.isSuccess && !!searchFilter) ||
+                    subscribeMutation.isPending ||
+                    unsubscribeMutation.isPending ||
+                    subscriptionQuery.isFetching) && (
+                    <Animated.View
+                      entering={FadeIn}
+                      exiting={FadeOut}
+                      style={tw`-mr-1`}
+                    >
+                      <ActivityIndicator size="small" />
+                    </Animated.View>
+                  )}
+              </Animated.View>
+            );
+          } else {
+            return (
+              <Animated.View entering={FadeIn} exiting={FadeOut}>
+                <PitcherCard
+                  subscribeHandler={() => {
+                    if (item.id) {
+                      subscribeMutation.mutate({
+                        pitcherId: item.id,
+                      });
                     }
-                    pitcher={item}
-                    disabled={pauseMutations}
-                    style={tw.style(
-                      "border-b-2",
-                      typeof subscribedAndAvailablePitchers[index - 1] ===
+                  }}
+                  unsubscribeHandler={
+                    isEditing || isSearchActive
+                      ? () =>
+                          item.subscription
+                            ? unsubscribeMutation.mutate({
+                                subscriptionId: item.subscription.id,
+                              })
+                            : undefined
+                      : undefined
+                  }
+                  pitcher={item}
+                  disabled={pauseMutations}
+                  style={tw.style(
+                    "border-b-2 rounded-none",
+                    typeof subscribedAndAvailablePitchers[index - 1] ===
+                      "string"
+                      ? "rounded-t-xl"
+                      : undefined,
+                    !subscribedAndAvailablePitchers[index + 1] ||
+                      typeof subscribedAndAvailablePitchers[index + 1] ===
                         "string"
-                        ? "rounded-t-xl"
-                        : undefined,
-                      !subscribedAndAvailablePitchers[index + 1] ||
-                        typeof subscribedAndAvailablePitchers[index + 1] ===
-                          "string"
-                        ? "border-b-0 rounded-b-xl"
-                        : undefined,
-                    )}
-                    buttonStyle={style}
-                  />
-                </Animated.View>
-              );
-            }
-          }}
-          ListEmptyComponent={
-            <>
-              {searchQuery.isSuccess && (
-                <Animated.View entering={FadeIn.delay(150)} exiting={FadeOut}>
+                      ? "border-b-0 rounded-b-xl"
+                      : undefined,
+                  )}
+                  buttonStyle={style}
+                />
+              </Animated.View>
+            );
+          }
+        }}
+        ListEmptyComponent={
+          <>
+            {searchQuery.isSuccess && (
+              <Animated.View entering={FadeIn.delay(150)} exiting={FadeOut}>
+                <TextThemed
+                  variant="muted"
+                  style={tw`mt-3 mb-6 mx-6 text-sm`}
+                  accessibilityRole="summary"
+                >
+                  No pitchers found. Try changing your search.
+                </TextThemed>
+              </Animated.View>
+            )}
+            {searchQuery.isLoading ? (
+              <Animated.View
+                style={tw`pt-6`}
+                entering={FadeIn}
+                exiting={FadeOut}
+              >
+                <ActivityIndicator
+                  style={tw.style(textClasses.primary)}
+                  size="large"
+                />
+              </Animated.View>
+            ) : (
+              !searchQuery.isSuccess && (
+                <Animated.View entering={FadeIn} exiting={FadeOut}>
                   <TextThemed
                     variant="muted"
                     style={tw`mt-3 mb-6 mx-6 text-sm`}
                     accessibilityRole="summary"
                   >
-                    No pitchers found. Try changing your search.
+                    Search for your favorite pitcher to add them to your list of
+                    subscriptions.
                   </TextThemed>
                 </Animated.View>
-              )}
-              {searchQuery.isLoading ? (
-                <Animated.View
-                  style={tw`pt-6`}
-                  entering={FadeIn}
-                  exiting={FadeOut}
+              )
+            )}
+            {searchQuery.isError && (
+              <Animated.View entering={FadeIn.delay(150)} exiting={FadeOut}>
+                <TextThemed
+                  variant="alert"
+                  style={tw`mt-3 mb-6 mx-6 text-sm`}
+                  accessibilityRole="alert"
                 >
-                  <ActivityIndicator
-                    style={tw.style(variantClasses.primary)}
-                    size="large"
-                  />
-                </Animated.View>
-              ) : (
-                !searchQuery.isSuccess && (
-                  <Animated.View entering={FadeIn} exiting={FadeOut}>
-                    <TextThemed
-                      variant="muted"
-                      style={tw`mt-3 mb-6 mx-6 text-sm`}
-                      accessibilityRole="summary"
-                    >
-                      Search for your favorite pitcher to add them to your list
-                      of subscriptions.
-                    </TextThemed>
-                  </Animated.View>
-                )
-              )}
-              {searchQuery.isError && (
-                <Animated.View entering={FadeIn.delay(150)} exiting={FadeOut}>
-                  <TextThemed
-                    variant="alert"
-                    style={tw`mt-3 mb-6 mx-6 text-sm`}
-                    accessibilityRole="alert"
-                  >
-                    An error occurred while performing your search. Please try
-                    again later.
-                  </TextThemed>
-                </Animated.View>
-              )}
-            </>
-          }
-        />
-      </SafeAreaView>
+                  An error occurred while performing your search. Please try
+                  again later.
+                </TextThemed>
+              </Animated.View>
+            )}
+          </>
+        }
+      />
     </Background>
   );
 }
@@ -483,7 +504,7 @@ const PitcherCard = ({
 }) => {
   return (
     <>
-      <Card style={tw.style("relative mx-3", style)}>
+      <Card style={tw.style("relative", style)}>
         {pitcher.subscription && unsubscribeHandler && (
           <Animated.View entering={FadeInLeft} exiting={FadeOutLeft}>
             <PressableThemed

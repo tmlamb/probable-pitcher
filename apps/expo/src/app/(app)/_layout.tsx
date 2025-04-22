@@ -6,10 +6,8 @@ import tw from "~/utils/tailwind";
 import * as ExpoNotifications from "expo-notifications";
 import { PermissionStatus } from "expo-modules-core";
 import useNotifications from "../../hooks/use-notifications";
-import {
-  variantClasses as textClasses,
-  variantClasses,
-} from "../../components/TextThemed";
+import { variantClasses as textClasses } from "../../components/TextThemed";
+import { variantClasses as backgroundClasses } from "~/components/Background";
 
 // This is the main layout of the app
 // It wraps your pages with the providers they need
@@ -44,7 +42,7 @@ export default function AppLayout() {
   if (isPending) {
     return (
       <ActivityIndicator
-        style={tw.style("mt-9 h-[86.48px]", variantClasses.primary)}
+        style={tw.style("mt-9 h-[86.48px]", textClasses.primary)}
         size="large"
       />
     );
@@ -62,15 +60,29 @@ export default function AppLayout() {
     <Stack
       screenOptions={{
         headerTitleStyle: tw.style(textClasses.default),
-        headerTransparent: true,
-
-        //contentStyle: {
-        //  backgroundColor: colorScheme == "dark" ? "#09090B" : "#FFFFFF",
-        //},
+        headerTransparent: false,
+        headerStyle: tw.style(backgroundClasses.default),
+        headerShadowVisible: false,
+        headerTintColor: tw.style(textClasses.primary).color?.toString(),
       }}
     >
       <Stack.Screen name="index" options={{ headerTitle: "" }} />
-      <Stack.Screen name="settings" options={{ headerTitle: "Settings" }} />
+      <Stack.Screen
+        name="settings/index"
+        options={{ headerTitle: "Settings", headerBackTitle: "Back" }}
+      />
+      <Stack.Screen
+        name="settings/notifications"
+        options={{ headerTitle: "Notifications" }}
+      />
+      <Stack.Screen
+        name="settings/account"
+        options={{ headerTitle: "Account" }}
+      />
+      <Stack.Screen
+        name="settings/support"
+        options={{ headerTitle: "Support" }}
+      />
     </Stack>
   );
 }

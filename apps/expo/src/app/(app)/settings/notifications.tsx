@@ -1,7 +1,7 @@
 import { PermissionStatus } from "expo-modules-core";
 import * as ExpoNotifications from "expo-notifications";
 import React, { useEffect, useRef, useState } from "react";
-import { AppState, Switch, View } from "react-native";
+import { AppState, Linking, Switch } from "react-native";
 import * as Sentry from "@sentry/react-native";
 import { api } from "~/utils/api";
 import Background from "~/components/Background";
@@ -10,7 +10,7 @@ import Card from "~/components/Card";
 import TextThemed, { variantClasses } from "~/components/TextThemed";
 import PressableThemed from "~/components/PressableThemed";
 
-export const Notifications = () => {
+export default function Notifications() {
   const utils = api.useUtils();
 
   const [expoPushToken, setExpoPushToken] = useState<string>();
@@ -87,51 +87,49 @@ export const Notifications = () => {
 
   return (
     <Background>
-      <View style={tw`flex-1 px-4 py-6`}>
-        <Card>
-          <TextThemed>Notifications Enabled</TextThemed>
-          <Switch
-            trackColor={{
-              true: String(tw.style(variantClasses.primary).color),
-              false: String(tw.style(variantClasses.muted).color),
-            }}
-            ios_backgroundColor={String(tw.style(variantClasses.muted).color)}
-            onValueChange={() =>
-              device
-                ? toggleNotifications({
-                    id: device.id,
-                    enabled: !device.notificationsEnabled,
-                  })
-                : undefined
-            }
-            value={!!device?.notificationsEnabled && permissionGranted}
-            disabled={
-              !deviceFetched || !permissionGranted || !device || isPending
-            }
-          />
-        </Card>
-        {!permissionGranted && (
-          <>
-            <TextThemed
-              variant="muted"
-              style={tw`mx-4 mt-1.5 text-sm`}
-              accessibilityRole="summary"
-            >
-              Permission to receive notifications from this app has been denied
-              in your device&apos;s settings. To receive Probable Pitcher
-              alerts, allow this app to send notifications.
+      <Card style={tw`mt-8`}>
+        <TextThemed>Notifications Enabled</TextThemed>
+        <Switch
+          trackColor={{
+            true: String(tw.style(variantClasses.primary).color),
+            false: String(tw.style(variantClasses.muted).color),
+          }}
+          ios_backgroundColor={String(tw.style(variantClasses.muted).color)}
+          onValueChange={() =>
+            device
+              ? toggleNotifications({
+                  id: device.id,
+                  enabled: !device.notificationsEnabled,
+                })
+              : undefined
+          }
+          value={!!device?.notificationsEnabled && permissionGranted}
+          disabled={
+            !deviceFetched || !permissionGranted || !device || isPending
+          }
+        />
+      </Card>
+      {!permissionGranted && (
+        <>
+          <TextThemed
+            variant="muted"
+            style={tw`mx-4 mt-1.5 text-sm`}
+            accessibilityRole="summary"
+          >
+            Permission to receive notifications from this app has been denied in
+            your device&apos;s settings. To receive Probable Pitcher alerts,
+            allow this app to send notifications.
+          </TextThemed>
+          <PressableThemed
+            style={tw`mx-4 mt-1.5`}
+            onPress={() => Linking.openSettings().catch(console.error)}
+          >
+            <TextThemed variant="primary" style={tw`text-sm`}>
+              Open Application Settings
             </TextThemed>
-            <PressableThemed
-              style={tw`mx-4 mt-1.5`}
-              //onPress={Linking.openSettings}
-            >
-              <TextThemed variant="primary" style={tw`text-sm`}>
-                Open Application Settings
-              </TextThemed>
-            </PressableThemed>
-          </>
-        )}
-      </View>
+          </PressableThemed>
+        </>
+      )}
     </Background>
   );
-};
+}

@@ -8,13 +8,12 @@ import PressableThemed from "~/components/PressableThemed";
 import Card from "~/components/Card";
 import TextThemed from "~/components/TextThemed";
 
-export const Settings = () => {
-  console.log("settings index!");
+export default function Settings() {
   return (
     <Background>
-      <View style={tw`flex-1 justify-between`}>
+      <View style={tw`mt-8 flex-1 justify-between`}>
         <View>
-          <Link href="./notifications" asChild>
+          <Link href="/settings/notifications" asChild>
             <PressableThemed accessibilityLabel="Navigate to notification settings screen">
               <Card style={tw`rounded-b-none border-b-2`}>
                 <TextThemed>Notifications</TextThemed>
@@ -24,7 +23,7 @@ export const Settings = () => {
               </Card>
             </PressableThemed>
           </Link>
-          <Link href="./account" asChild>
+          <Link href="/settings/account" asChild>
             <PressableThemed accessibilityLabel="Navigate to account settings screen">
               <Card style={tw`rounded-none border-b-2`}>
                 <TextThemed>Account</TextThemed>
@@ -34,7 +33,7 @@ export const Settings = () => {
               </Card>
             </PressableThemed>
           </Link>
-          <Link href="./support" asChild>
+          <Link href="/settings/support" asChild>
             <PressableThemed accessibilityLabel="Navigate to support screen">
               <Card style={tw`rounded-t-none`}>
                 <TextThemed>Support</TextThemed>
@@ -65,4 +64,4 @@ export const Settings = () => {
       </View>
     </Background>
   );
-};
+}

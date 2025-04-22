@@ -14,17 +14,6 @@ import { auth } from "@probable/auth";
 import { db } from "@probable/db/client";
 
 /**
- * Isomorphic Session getter for API requests
- * - Expo requests will have a session token in the Authorization header
- * - Next.js requests will have a session token in cookies
- */
-//const isomorphicGetSession = async (headers: Headers) => {
-//  const authToken = headers.get("Authorization") ?? null;
-//  if (authToken) return validateToken(authToken);
-//  return auth();
-//};
-
-/**
  * 1. CONTEXT
  *
  * This section defines the "contexts" that are available in the backend API.
@@ -36,22 +25,6 @@ import { db } from "@probable/db/client";
  *
  * @see https://trpc.io/docs/server/context
  */
-//export const createTRPCContext = async (opts: {
-//  headers: Headers;
-//  session: Session | null;
-//}) => {
-//  const authToken = opts.headers.get("Authorization") ?? null;
-//  const session = await isomorphicGetSession(opts.headers);
-//
-//  const source = opts.headers.get("x-trpc-source") ?? "unknown";
-//  console.log(">>> tRPC Request from", source, "by", session?.user);
-//
-//  return {
-//    session,
-//    db,
-//    token: authToken,
-//  };
-//};
 export const createTRPCContext = async (opts: { headers: Headers }) => {
   const session = await auth.api.getSession({
     headers: opts.headers,
