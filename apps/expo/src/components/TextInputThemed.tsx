@@ -7,7 +7,7 @@ import type {
   TextInputKeyPressEventData,
   ViewStyle,
 } from "react-native";
-import { TextInput, View } from "react-native";
+import { TextInput } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import type { ClassInput } from "twrnc";
 import tw from "~/utils/tailwind";
