@@ -19,7 +19,9 @@ export default function Account() {
     ?.map(({ providerId }) => capitalizeFirstLetter(providerId))
     .join(", ");
 
-  const { mutate: deleteAccount } = api.user.delete.useMutation({});
+  const { mutate: deleteAccount } = api.user.delete.useMutation({
+    onSuccess: () => authClient.signOut(),
+  });
 
   return (
     <Background>
@@ -56,7 +58,6 @@ export default function Account() {
             <PressableThemed
               onPress={() => {
                 deleteAccount();
-                authClient.signOut().catch(console.error);
               }}
             >
               <TextThemed variant="alert" style={tw`px-4 py-3 -my-3`}>
