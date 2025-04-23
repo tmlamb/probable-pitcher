@@ -198,7 +198,7 @@ export const account = pgTable("account", (t) => ({
   userId: t
     .text()
     .notNull()
-    .references(() => user.id, { onDelete: "no action" }),
+    .references(() => user.id, { onDelete: "cascade" }),
   accessToken: t.text(),
   refreshToken: t.text(),
   idToken: t.text(),
