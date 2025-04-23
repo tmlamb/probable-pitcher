@@ -40,6 +40,7 @@ import { Link, Stack } from "expo-router";
 
 export default function Home() {
   const subscriptionQuery = api.subscription.byUserId.useQuery();
+  api.useUtils().account.byUserId.prefetch().catch(console.error);
 
   if (subscriptionQuery.isError) {
     Sentry.captureException(
