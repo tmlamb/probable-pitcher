@@ -9,6 +9,9 @@ const {
   SENTRY_PUBLIC_DSN,
   SENTRY_PROJECT,
   SENTRY_ORG,
+  IOS_BUNDLE_ID,
+  ANDROID_PACKAGE_NAME,
+  EXPO_OWNER,
 } = process.env;
 
 export default ({ config }: ConfigContext): ExpoConfig => {
@@ -17,7 +20,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     name: `Probable Pitcher${APP_ENV !== "production" ? ` (${APP_ENV})` : ""}`,
     slug: "probable-pitchers",
     scheme: "probablepitcher",
-    owner: "tmlamb",
+    owner: EXPO_OWNER,
     version: "2.0.0",
     orientation: "portrait",
     icon: "./assets/icon.png",
@@ -36,14 +39,14 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     },
     assetBundlePatterns: ["**/*"],
     ios: {
-      bundleIdentifier: `com.triplesight.probablepitchers${
+      bundleIdentifier: `${IOS_BUNDLE_ID}${
         APP_ENV !== "production" ? `.${APP_ENV}` : ""
       }`,
       usesAppleSignIn: true,
       supportsTablet: true,
     },
     android: {
-      package: `com.probablepitcher${
+      package: `${ANDROID_PACKAGE_NAME}${
         APP_ENV !== "production" ? `.${APP_ENV}` : ""
       }`,
 

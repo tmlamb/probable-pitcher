@@ -38,7 +38,7 @@ import Card from "../../components/Card";
 import SearchInput from "../../components/SearchInput";
 import { Link, Stack } from "expo-router";
 
-export default function Index() {
+export default function Home() {
   const subscriptionQuery = api.subscription.byUserId.useQuery();
 
   if (subscriptionQuery.isError) {
@@ -248,7 +248,7 @@ export default function Index() {
               <Link
                 asChild
                 href="/settings"
-                style={tw`pr-6 py-3 -ml-1 flex flex-row items-center`}
+                style={tw`pr-6 py-3 -ml-1 -mt-1 flex flex-row items-center`}
               >
                 <PressableThemed accessibilityLabel="Navigate to Application Settings">
                   <TextThemed variant="primary">

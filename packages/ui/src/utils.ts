@@ -75,3 +75,30 @@ export const subscriptionSchedule = (
     .map((data, nextGameDay) => ({ nextGameDay, data }))
     .value();
 };
+
+export const faqs = [
+  {
+    question: "How does the Probable Pitcher service work?",
+    answer:
+      "Probable Pitcher is a service that sends you a notification on the days your favorite pitchers are scheduled to start.",
+  },
+  {
+    question: "What types of notifications will I receive?",
+    answer:
+      "You will receive one notification on the morning of days where one or more pitchers you are subscribed to are scheduled to start. You may receive additional notifications throughout the day if there are late lineup changes for a pitcher you are subscribed to.",
+  },
+  {
+    question: "Why am I not receiving notifications?",
+    answer:
+      "Check your application settings and confirm notifications are enabled. Our service makes a best effort to send you notifications, but we cannot guarantee that you will receive them.",
+  },
+  {
+    question: "How do I stop receiving notifications?",
+    answer:
+      "You can remove pitchers you no longer wish to recieve notifications for using the Edit button on the homepage. You can also disable all notifications in the application settings.",
+  },
+];
+
+export function capitalizeFirstLetter(word: string) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}

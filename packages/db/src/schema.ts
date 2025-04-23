@@ -154,7 +154,7 @@ export const device = pgTable(
       .references(() => user.id, { onDelete: "cascade" }),
     pushToken: t.varchar({ length: 1023 }).unique().notNull(),
     timezone: t.varchar({ length: 255 }).notNull(),
-    notificationsEnabled: t.boolean(),
+    notificationsEnabled: t.boolean().default(true).notNull(),
   }),
   (t) => ({
     uniqueUserPerPushToken: unique().on(t.pushToken, t.userId),
@@ -198,7 +198,7 @@ export const account = pgTable("account", (t) => ({
   userId: t
     .text()
     .notNull()
-    .references(() => user.id),
+    .references(() => user.id, { onDelete: "no action" }),
   accessToken: t.text(),
   refreshToken: t.text(),
   idToken: t.text(),
@@ -221,7 +221,7 @@ export const session = pgTable("session", (t) => ({
   userId: t
     .text()
     .notNull()
-    .references(() => user.id),
+    .references(() => user.id, { onDelete: "cascade" }),
 }));
 
 export const verification = pgTable("verification", (t) => ({
@@ -242,7 +242,7 @@ export const apikey = pgTable("apikey", (t) => ({
   userId: t
     .text()
     .notNull()
-    .references(() => user.id),
+    .references(() => user.id, { onDelete: "cascade" }),
   refillInterval: t.integer(),
   refillAmount: t.integer(),
   lastRefillAt: t.timestamp(),

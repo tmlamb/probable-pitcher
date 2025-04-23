@@ -38,7 +38,7 @@ export default function DoubleConfirm({
           entering={RollInRight.springify().stiffness(50).damping(6).mass(0.3)}
           exiting={RollOutRight.springify().stiffness(50).damping(6).mass(0.3)}
           style={[
-            tw.style("absolute items-center justify-center h-full right-0"),
+            tw.style("absolute items-center justify-center h-full right-2.5"),
           ]}
           accessible
           accessibilityLabel={`${accessibilityLabel}`}

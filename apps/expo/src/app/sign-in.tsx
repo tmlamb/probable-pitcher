@@ -16,6 +16,8 @@ import tw from "~/utils/tailwind";
 import TextThemed from "../components/TextThemed";
 import Background from "../components/Background";
 import { StatusBar } from "expo-status-bar";
+// @ts-ignore
+import googleSignInNeutral from "../../assets/google-signin-neutral.png";
 
 export default function SignIn() {
   const [assets] = useAssets([
@@ -46,6 +48,7 @@ export default function SignIn() {
           source={assets?.[0]}
         />
         <Background
+          variant="modal"
           style={tw`pb-16 px-3 rounded-t-3xl h-3/4 -mb-[${insets.bottom}], shadow-2xl flex gap-8 justify-end`}
         >
           <View style={tw`flex gap-4 justify-center grow`}>
@@ -78,7 +81,8 @@ export default function SignIn() {
                 alt="Sign in with Google"
                 style={tw`h-1/2`}
                 contentFit="contain"
-                source={assets?.[1]}
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                source={googleSignInNeutral}
               />
             </Pressable>
             <AppleAuthentication.AppleAuthenticationButton

@@ -1,6 +1,7 @@
 import { AntDesign } from "@expo/vector-icons";
 import React from "react";
-import { Linking, View } from "react-native";
+import { View } from "react-native";
+import * as Application from "expo-application";
 import Background from "~/components/Background";
 import tw from "~/utils/tailwind";
 import { Link } from "expo-router";
@@ -44,23 +45,10 @@ export default function Settings() {
             </PressableThemed>
           </Link>
         </View>
-        <PressableThemed
-          onPress={() =>
-            Linking.openURL(
-              "https://github.com/tmlamb/probable-pitchers/issues",
-            )
-          }
-          accessibilityRole="link"
-          accessibilityLabel="Open Application Feedback Page In Browser"
-          style={tw`flex-row justify-center items-center self-center py-2`}
-        >
-          <TextThemed variant="muted" style={tw`mr-2`}>
-            <AntDesign name="github" size={16} />
-          </TextThemed>
-          <TextThemed variant="primary" style={tw`self-center`}>
-            Feedback?
-          </TextThemed>
-        </PressableThemed>
+        <TextThemed variant="muted" style={tw`self-center text-base pb-5`}>
+          Probable Pitcher v{Application.nativeApplicationVersion}b
+          {Application.nativeBuildVersion}
+        </TextThemed>
       </View>
     </Background>
   );

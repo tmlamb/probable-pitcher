@@ -1,6 +1,6 @@
 import { AntDesign } from "@expo/vector-icons";
-import { authClient } from "~/utils/auth";
 import { ActivityIndicator, View } from "react-native";
+import { authClient } from "~/utils/auth";
 import PressableThemed from "~/components/PressableThemed";
 import DoubleConfirm from "~/components/DoubleConfirmButton";
 import Card from "~/components/Card";
@@ -8,13 +8,16 @@ import TextThemed from "~/components/TextThemed";
 import tw from "~/utils/tailwind";
 import { api } from "~/utils/api";
 import Background from "~/components/Background";
+import { capitalizeFirstLetter } from "@probable/ui";
 
 export default function Account() {
   const { data: accounts } = api.account.byUserId.useQuery(undefined, {
     staleTime: Infinity,
   });
 
-  const provider = accounts?.[0]?.providerId;
+  const providers = accounts
+    ?.map(({ providerId }) => capitalizeFirstLetter(providerId))
+    .join();
 
   const { mutate: deleteAccount } = api.user.delete.useMutation({});
 
@@ -22,10 +25,10 @@ export default function Account() {
     <Background>
       <View style={tw`flex-1 mt-8`}>
         <Card style={tw`border-b-2 rounded-t-xl rounded-b-none`}>
-          <TextThemed style={tw``}>Identity Provider</TextThemed>
-          {provider ? (
+          <TextThemed style={tw``}>Identity Providers</TextThemed>
+          {providers ? (
             <TextThemed variant="muted" style={tw`capitalize`}>
-              {provider}
+              {providers}
             </TextThemed>
           ) : (
             <ActivityIndicator size="small" />

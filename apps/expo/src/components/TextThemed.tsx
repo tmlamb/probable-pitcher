@@ -6,11 +6,11 @@ import tw from "~/utils/tailwind";
 
 export const variantClasses = {
   default: "text-slate-950 dark:text-slate-50",
-  primary: "text-sky-700 dark:text-sky-300",
+  primary: "text-sky-600 dark:text-sky-300",
   secondary: "text-white",
   accent: "text-green-700 dark:text-green-300",
-  muted: "text-slate-600 dark:text-slate-400",
-  alert: "text-red-700 dark:text-red-300",
+  muted: "text-slate-500 dark:text-slate-400",
+  alert: "text-red-600 dark:text-red-400",
 };
 
 interface TextThemedProps {
