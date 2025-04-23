@@ -17,7 +17,7 @@ export default function Account() {
 
   const providers = accounts
     ?.map(({ providerId }) => capitalizeFirstLetter(providerId))
-    .join();
+    .join(", ");
 
   const { mutate: deleteAccount } = api.user.delete.useMutation({});
 
