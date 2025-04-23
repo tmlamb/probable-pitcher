@@ -1,6 +1,6 @@
 import React from "react";
 import * as AppleAuthentication from "expo-apple-authentication";
-import { useAssets } from "expo-asset";
+//import { useAssets } from "expo-asset";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import type { CodedError } from "expo-modules-core";
@@ -18,14 +18,17 @@ import Background from "../components/Background";
 import { StatusBar } from "expo-status-bar";
 // @ts-expect-error image import
 import googleSignInNeutral from "../../assets/google-signin-neutral.png";
+// @ts-expect-error image import
+import adaptiveIcon from "../../assets/adaptive-icon.png";
+import { api } from "~/utils/api";
 
 export default function SignIn() {
-  const [assets] = useAssets([
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    require("../../assets/adaptive-icon.png"),
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    require("../../assets/google-signin-neutral.png"),
-  ]);
+  //const [assets] = useAssets([
+  //  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  //  require("../../assets/adaptive-icon.png"),
+  //  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  //  require("../../assets/google-signin-neutral.png"),
+  //]);
 
   const insets = useSafeAreaInsets();
   // TODO add color scheme toggle to sign-in page
@@ -45,7 +48,9 @@ export default function SignIn() {
         <Image
           alt=""
           style={tw`mb-6 h-44 aspect-square mx-auto`}
-          source={assets?.[0]}
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          source={adaptiveIcon}
+          //source={assets?.[0]}
         />
         <Background
           variant="modal"
@@ -71,6 +76,7 @@ export default function SignIn() {
                     provider: "google",
                     callbackURL: "/",
                   });
+                  api.useUtils().invalidate().catch(console.error);
                   router.replace("/");
                 } catch (e: unknown) {
                   console.error("Unexpected error during Google sign-in", e);
@@ -116,6 +122,7 @@ export default function SignIn() {
                       //accessToken: // Access Token (optional)
                     },
                   });
+                  api.useUtils().invalidate().catch(console.error);
                   router.replace("/");
                 } catch (e: unknown) {
                   if (isCodedError(e) && e.code === "ERR_REQUEST_CANCELED") {
