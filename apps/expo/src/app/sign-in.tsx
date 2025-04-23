@@ -20,7 +20,6 @@ import { StatusBar } from "expo-status-bar";
 import googleSignInNeutral from "../../assets/google-signin-neutral.png";
 // @ts-expect-error image import
 import adaptiveIcon from "../../assets/adaptive-icon.png";
-import { api } from "~/utils/api";
 
 export default function SignIn() {
   //const [assets] = useAssets([
@@ -76,7 +75,6 @@ export default function SignIn() {
                     provider: "google",
                     callbackURL: "/",
                   });
-                  api.useUtils().invalidate().catch(console.error);
                   router.replace("/");
                 } catch (e: unknown) {
                   console.error("Unexpected error during Google sign-in", e);
@@ -122,7 +120,6 @@ export default function SignIn() {
                       //accessToken: // Access Token (optional)
                     },
                   });
-                  api.useUtils().invalidate().catch(console.error);
                   router.replace("/");
                 } catch (e: unknown) {
                   if (isCodedError(e) && e.code === "ERR_REQUEST_CANCELED") {
