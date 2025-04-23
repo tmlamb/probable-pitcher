@@ -16,7 +16,7 @@ import tw from "~/utils/tailwind";
 import TextThemed from "../components/TextThemed";
 import Background from "../components/Background";
 import { StatusBar } from "expo-status-bar";
-// @ts-expect-error
+// @ts-expect-error image import
 import googleSignInNeutral from "../../assets/google-signin-neutral.png";
 
 export default function SignIn() {
