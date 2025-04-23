@@ -260,7 +260,7 @@ export const apikey = pgTable("apikey", (t) => ({
   metadata: t.jsonb(),
 }));
 
-export const keyRelations = relations(apikey, ({ one }) => ({
+export const apiKeyRelations = relations(apikey, ({ one }) => ({
   user: one(user, { fields: [apikey.userId], references: [user.id] }),
 }));
 
