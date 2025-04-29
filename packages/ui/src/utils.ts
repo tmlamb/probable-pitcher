@@ -85,7 +85,7 @@ export const faqs = [
   {
     question: "What types of notifications will I receive?",
     answer:
-      "You will receive one notification on the morning of days where one or more pitchers you are subscribed to are scheduled to start. You may receive additional notifications throughout the day if there are late lineup changes for a pitcher you are subscribed to.",
+      "You will receive one notification in the morning on days where one or more pitchers you are subscribed to are scheduled to start. You may receive additional notifications throughout the day if there are late lineup changes for a pitcher you are subscribed to.",
   },
   {
     question: "Why am I not receiving notifications?",

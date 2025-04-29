@@ -36,7 +36,9 @@ export default function AppLayout() {
 
   useNotifications({
     enabled:
-      !!session && pushPermissionStatus !== PermissionStatus.UNDETERMINED,
+      !!session &&
+      !!pushPermissionStatus &&
+      pushPermissionStatus !== PermissionStatus.UNDETERMINED,
   });
 
   if (isPending) {

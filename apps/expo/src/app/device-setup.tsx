@@ -13,15 +13,15 @@ export default function DeviceSetup() {
   return (
     <Background>
       <SafeAreaView style={tw`py-6 flex-1 flex justify-end`}>
-        <View style={tw`flex gap-4 justify-center grow`}>
+        <View style={tw`flex gap-4 px-3 justify-center grow`}>
           <TextThemed style={tw`text-2xl font-semibold`}>
             Want to get game-day alerts?
           </TextThemed>
           <TextThemed>
             Probable Pitcher notifies you in the morning on days when a pitcher
             you follow is scheduled to start. You'll only get one notification
-            per day (unless there is a late schedule change), and you can opt
-            out at any time.
+            per day, unless there is a late schedule change for a pitcher you
+            follow.
           </TextThemed>
           <TextThemed>
             Select <TextThemed style={tw`font-bold`}>“Allow”</TextThemed> on the

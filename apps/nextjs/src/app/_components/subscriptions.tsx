@@ -80,9 +80,10 @@ import { api } from "~/trpc/react";
 //}
 
 export function NotificationList() {
-  const [notifications] = api.notification.byDeviceId.useSuspenseQuery(
-    "d11186c4-4d5c-4a4e-95c7-fd4c382c111d",
-  );
+  // const [notifications] = api.notification.byDeviceId.useSuspenseQuery(
+  //   "d11186c4-4d5c-4a4e-95c7-fd4c382c111d",
+  // );
+  const notifications: { id: string }[] = [];
 
   if (notifications.length === 0) {
     return (
@@ -100,9 +101,9 @@ export function NotificationList() {
 
   return (
     <div className="flex w-full flex-col gap-4">
-      {notifications.map((n) => {
-        return <NotificationCard key={n.id} notification={n} />;
-      })}
+      {/* {notifications.map((n) => { */}
+      {/*   return <NotificationCard key={n.id} notification={n} />; */}
+      {/* })} */}
     </div>
   );
 }

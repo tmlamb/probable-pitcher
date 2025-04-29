@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import { api, HydrateClient } from "~/trpc/server";
+import { HydrateClient } from "~/trpc/server";
 import { AuthShowcase } from "./_components/auth-showcase";
 import {
   //CreatePostForm,
@@ -10,9 +10,9 @@ import {
 
 export default function HomePage() {
   // You can await this here if you don't want to show Suspense fallback below
-  void api.notification.byDeviceId.prefetch(
-    "d11186c4-4d5c-4a4e-95c7-fd4c382c111d",
-  );
+  // void api.notification.byDeviceId.prefetch(
+  //   "d11186c4-4d5c-4a4e-95c7-fd4c382c111d",
+  // );
 
   return (
     <HydrateClient>
