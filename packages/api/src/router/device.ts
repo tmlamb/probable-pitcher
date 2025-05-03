@@ -61,9 +61,11 @@ export const deviceRouter = {
   byPushToken: protectedProcedure
     .input(z.string())
     .query(async ({ ctx, input: pushToken }) => {
-      return ctx.db.query.device.findFirst({
-        where: eq(device.pushToken, pushToken),
-      });
+      return ctx.db.query.device
+        .findFirst({
+          where: eq(device.pushToken, pushToken),
+        })
+        .then((result) => result ?? null);
     }),
   toggleNotifications: protectedProcedure
     .input(z.object({ id: z.string(), enabled: z.boolean() }))
