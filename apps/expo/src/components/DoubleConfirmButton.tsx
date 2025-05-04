@@ -3,7 +3,7 @@ import { View } from "react-native";
 import Animated, { RollInRight, RollOutRight } from "react-native-reanimated";
 import type { ClassInput } from "twrnc";
 import tw from "~/utils/tailwind";
-import Button from "./PressableThemed";
+import PressableThemed from "./PressableThemed";
 
 interface Props {
   style?: ClassInput;
@@ -23,7 +23,7 @@ export default function DoubleConfirm({
   // TODO wrap {second} in another PressableThemed
   return (
     <View style={tw.style("relative", style)}>
-      <Button
+      <PressableThemed
         onPress={() => {
           setToggle(!toggle);
         }}
@@ -32,7 +32,7 @@ export default function DoubleConfirm({
         } button to ${accessibilityLabel}`}
       >
         {first}
-      </Button>
+      </PressableThemed>
       {toggle && (
         <Animated.View
           entering={RollInRight.springify().stiffness(50).damping(6).mass(0.3)}
