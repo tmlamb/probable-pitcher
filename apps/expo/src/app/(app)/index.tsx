@@ -47,11 +47,6 @@ export default function Home() {
 
   const subscriptionQuery = useQuery(trpc.subscription.byUserId.queryOptions());
 
-  //TODO: Invalid this on signout rather than prefetching every time?
-  queryClient
-    .prefetchQuery(trpc.account.byUserId.pathFilter())
-    .catch(console.error);
-
   if (subscriptionQuery.isError) {
     Sentry.captureException(
       `Error fetching subscriptions on homepage: ${JSON.stringify(subscriptionQuery.error)}`,

@@ -1,6 +1,6 @@
 import { ActivityIndicator, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { capitalizeFirstLetter } from "@probable/ui";
 
@@ -14,6 +14,8 @@ import { authClient } from "~/utils/auth";
 import tw from "~/utils/tailwind";
 
 export default function Account() {
+  const queryClient = useQueryClient();
+
   const { data: accounts } = useQuery(
     trpc.account.byUserId.queryOptions(undefined, {
       staleTime: Infinity,
@@ -44,7 +46,13 @@ export default function Account() {
           )}
         </Card>
         <PressableThemed
-          onPress={() => authClient.signOut()}
+          onPress={async () => {
+            await authClient.signOut().finally(() => {
+              queryClient
+                .invalidateQueries(trpc.pathFilter())
+                .catch(console.error);
+            });
+          }}
           accessibilityLabel={"Logout"}
         >
           <Card style={tw.style("rounded-b-xl rounded-t-none")}>
@@ -65,6 +73,9 @@ export default function Account() {
             <PressableThemed
               onPress={() => {
                 deleteAccount();
+                queryClient
+                  .invalidateQueries(trpc.pathFilter())
+                  .catch(console.error);
               }}
             >
               <TextThemed variant="alert" style={tw`-my-3 px-4 py-3`}>

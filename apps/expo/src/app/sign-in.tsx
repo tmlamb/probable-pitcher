@@ -11,8 +11,10 @@ import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { useQueryClient } from "@tanstack/react-query";
 import { useAppColorScheme } from "twrnc";
 
+import { trpc } from "~/utils/api";
 import { authClient } from "~/utils/auth";
 import tw from "~/utils/tailwind";
 // @ts-expect-error image import
@@ -23,6 +25,7 @@ import Background from "../components/Background";
 import TextThemed from "../components/TextThemed";
 
 export default function SignIn() {
+  const queryClient = useQueryClient();
   // TODO figure out assets
   //const [assets] = useAssets([
   //  // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -77,6 +80,9 @@ export default function SignIn() {
                     provider: "google",
                     callbackURL: "/",
                   });
+                  queryClient
+                    .invalidateQueries(trpc.pathFilter())
+                    .catch(console.error);
                   router.replace("/");
                 } catch (e: unknown) {
                   console.error("Unexpected error during Google sign-in", e);
@@ -122,6 +128,9 @@ export default function SignIn() {
                       //accessToken: // Access Token (optional)
                     },
                   });
+                  queryClient
+                    .invalidateQueries(trpc.pathFilter())
+                    .catch(console.error);
                   router.replace("/");
                 } catch (e: unknown) {
                   if (isCodedError(e) && e.code === "ERR_REQUEST_CANCELED") {
