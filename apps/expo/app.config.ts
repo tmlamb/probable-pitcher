@@ -23,6 +23,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     owner: EXPO_OWNER,
     version: "2.0.0",
     orientation: "portrait",
+    //TODO Light/dark icons? https://github.com/t3-oss/create-t3-turbo/commit/aba3d2225c56658c6186e81af1ac3849f21c8eed#diff-a2420547ef7506d96953bbf6e1c0fc6a7d771120fdf1b7eeb2a30fc91118ca5fR14-R19
     icon: "./assets/icon.png",
     userInterfaceStyle: "automatic",
     splash: {
@@ -34,6 +35,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       fallbackToCacheTimeout: 0,
       url: "https://u.expo.dev/abd1f73f-1027-4617-a091-abea678a0784",
     },
+    newArchEnabled: true,
     runtimeVersion: {
       policy: "sdkVersion",
     },
@@ -44,6 +46,9 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       }`,
       usesAppleSignIn: true,
       supportsTablet: true,
+      infoPlist: {
+        ITSAppUsesNonExemptEncryption: false,
+      },
     },
     android: {
       package: `${ANDROID_PACKAGE_NAME}${
@@ -55,6 +60,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         backgroundColor: "#ffffff",
       },
       googleServicesFile: "./google-services.json",
+      edgeToEdgeEnabled: true,
     },
     extra: {
       eas: {
@@ -69,6 +75,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       typedRoutes: true,
     },
     plugins: [
+      "expo-web-browser",
+      "expo-notifications",
       "expo-router",
       "expo-secure-store",
       "expo-apple-authentication",
@@ -90,6 +98,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
           ],
         },
       ],
+      //TODO expo splash screen? https://github.com/t3-oss/create-t3-turbo/commit/aba3d2225c56658c6186e81af1ac3849f21c8eed#diff-a2420547ef7506d96953bbf6e1c0fc6a7d771120fdf1b7eeb2a30fc91118ca5fR14-R19
     ],
   };
 };

@@ -2,7 +2,7 @@
 #        PRUNER        #
 ########################
 
-FROM node:23-alpine AS pruner
+FROM node:22-alpine AS pruner
 RUN apk update
 
 WORKDIR /probable-pitcher
@@ -17,10 +17,10 @@ RUN turbo prune @probable/ingest --docker
 #        BUILDER       #
 ########################
 
-FROM node:23-alpine AS builder
+FROM node:22-alpine AS builder
 RUN apk update
 
-RUN npm -g install pnpm@^9
+RUN npm -g install pnpm@^10
 
 WORKDIR /probable-pitcher
 
@@ -45,7 +45,7 @@ RUN pnpm build --filter @probable/ingest
 #        RUNNER        #
 ########################
 
-FROM node:23-alpine AS runner
+FROM node:22-alpine AS runner
 
 RUN apk update
 RUN apk add curl

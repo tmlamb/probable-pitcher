@@ -1,54 +1,63 @@
-import { PermissionStatus } from "expo-modules-core";
-import * as ExpoNotifications from "expo-notifications";
 import React, { useEffect, useRef, useState } from "react";
 import { AppState, Linking, Switch } from "react-native";
+import { PermissionStatus } from "expo-modules-core";
+import * as ExpoNotifications from "expo-notifications";
 import * as Sentry from "@sentry/react-native";
-import { api } from "~/utils/api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
 import Background from "~/components/Background";
-import tw from "~/utils/tailwind";
 import Card from "~/components/Card";
-import TextThemed, { variantClasses } from "~/components/TextThemed";
 import PressableThemed from "~/components/PressableThemed";
+import TextThemed, { variantClasses } from "~/components/TextThemed";
+import { trpc } from "~/utils/api";
+import tw from "~/utils/tailwind";
 
 export default function Notifications() {
-  const utils = api.useUtils();
-
+  const queryClient = useQueryClient();
   const [expoPushToken, setExpoPushToken] = useState<string>();
   const [pushPermissionStatus, setPushPermissionStatus] =
     useState<PermissionStatus | null>(null);
 
-  const { mutate: toggleNotifications, isPending } =
-    api.device.toggleNotifications.useMutation({
+  const { mutate: toggleNotifications, isPending } = useMutation(
+    trpc.device.toggleNotifications.mutationOptions({
       scope: { id: "device" },
       onMutate: async ({ enabled }) => {
-        await utils.device.byPushToken.cancel(expoPushToken);
-        const currentDevice = utils.device.byPushToken.getData(expoPushToken);
-        utils.device.byPushToken.setData(expoPushToken ?? "", (old) =>
-          old
-            ? {
-                ...old,
-                enabled,
-              }
-            : undefined,
+        await queryClient.cancelQueries(trpc.device.byPushToken.pathFilter());
+        const currentDevice = queryClient.getQueryData(
+          trpc.device.byPushToken.queryKey(expoPushToken),
+        );
+        queryClient.setQueryData(
+          trpc.device.byPushToken.queryKey(expoPushToken ?? ""),
+          (old) =>
+            old
+              ? {
+                  ...old,
+                  enabled,
+                }
+              : undefined,
         );
         return { currentDevice };
       },
       onError: (err, _, context) => {
-        utils.device.byPushToken.setData(
-          expoPushToken ?? "",
+        queryClient.setQueryData(
+          trpc.device.byPushToken.queryKey(expoPushToken ?? ""),
           context?.currentDevice,
         );
         Sentry.captureException("Error toggling notifications", err);
       },
       onSettled: () => {
-        utils.device.byPushToken.invalidate(expoPushToken).catch(console.error);
+        queryClient
+          .invalidateQueries(trpc.device.byPushToken.pathFilter())
+          .catch(console.error);
       },
-    });
+    }),
+  );
 
-  const { data: device, isSuccess: deviceFetched } =
-    api.device.byPushToken.useQuery(expoPushToken ?? "", {
+  const { data: device, isSuccess: deviceFetched } = useQuery(
+    trpc.device.byPushToken.queryOptions(expoPushToken ?? "", {
       enabled: !!expoPushToken && !isPending,
-    });
+    }),
+  );
 
   const appState = useRef(AppState.currentState);
 
@@ -91,10 +100,12 @@ export default function Notifications() {
         <TextThemed>Notifications Enabled</TextThemed>
         <Switch
           trackColor={{
-            true: String(tw.style(variantClasses.primary).color),
-            false: String(tw.style(variantClasses.muted).color),
+            true: String(tw.style(variantClasses.primary).color as string),
+            false: String(tw.style(variantClasses.muted).color as string),
           }}
-          ios_backgroundColor={String(tw.style(variantClasses.muted).color)}
+          ios_backgroundColor={String(
+            tw.style(variantClasses.muted).color as string,
+          )}
           onValueChange={() =>
             device
               ? toggleNotifications({

@@ -1,32 +1,39 @@
-import { AntDesign } from "@expo/vector-icons";
 import { ActivityIndicator, View } from "react-native";
-import { authClient } from "~/utils/auth";
-import PressableThemed from "~/components/PressableThemed";
-import DoubleConfirm from "~/components/DoubleConfirmButton";
-import Card from "~/components/Card";
-import TextThemed from "~/components/TextThemed";
-import tw from "~/utils/tailwind";
-import { api } from "~/utils/api";
-import Background from "~/components/Background";
+import { AntDesign } from "@expo/vector-icons";
+import { useMutation, useQuery } from "@tanstack/react-query";
+
 import { capitalizeFirstLetter } from "@probable/ui";
 
+import Background from "~/components/Background";
+import Card from "~/components/Card";
+import DoubleConfirm from "~/components/DoubleConfirmButton";
+import PressableThemed from "~/components/PressableThemed";
+import TextThemed from "~/components/TextThemed";
+import { trpc } from "~/utils/api";
+import { authClient } from "~/utils/auth";
+import tw from "~/utils/tailwind";
+
 export default function Account() {
-  const { data: accounts } = api.account.byUserId.useQuery(undefined, {
-    staleTime: Infinity,
-  });
+  const { data: accounts } = useQuery(
+    trpc.account.byUserId.queryOptions(undefined, {
+      staleTime: Infinity,
+    }),
+  );
 
   const providers = accounts
     ?.map(({ providerId }) => capitalizeFirstLetter(providerId))
     .join(", ");
 
-  const { mutate: deleteAccount } = api.user.delete.useMutation({
-    onSuccess: () => authClient.signOut(),
-  });
+  const { mutate: deleteAccount } = useMutation(
+    trpc.user.delete.mutationOptions({
+      onSuccess: () => authClient.signOut(),
+    }),
+  );
 
   return (
     <Background>
-      <View style={tw`flex-1 mt-8`}>
-        <Card style={tw`border-b-2 rounded-t-xl rounded-b-none`}>
+      <View style={tw`mt-8 flex-1`}>
+        <Card style={tw`rounded-b-none rounded-t-xl border-b-2`}>
           <TextThemed style={tw``}>Identity Providers</TextThemed>
           {providers ? (
             <TextThemed variant="muted" style={tw`capitalize`}>
@@ -60,7 +67,7 @@ export default function Account() {
                 deleteAccount();
               }}
             >
-              <TextThemed variant="alert" style={tw`px-4 py-3 -my-3`}>
+              <TextThemed variant="alert" style={tw`-my-3 px-4 py-3`}>
                 <AntDesign name="minuscircle" size={15} />
               </TextThemed>
             </PressableThemed>

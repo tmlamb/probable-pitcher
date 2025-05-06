@@ -1,11 +1,11 @@
-import "@bacons/text-decoder/install";
-import * as Sentry from "@sentry/react-native";
 import Constants from "expo-constants";
 import { Slot } from "expo-router";
+import * as Sentry from "@sentry/react-native";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { useDeviceContext } from "twrnc";
-import Background from "~/components/Background";
 
-import { TRPCProvider } from "~/utils/api";
+import Background from "~/components/Background";
+import { queryClient } from "~/utils/api";
 import tw from "~/utils/tailwind";
 
 const { sentryPublicDsn, appEnv } = Constants.expoConfig?.extra ?? {};
@@ -24,6 +24,8 @@ if (sentryPublicDsn) {
 export default function RootLayout() {
   useDeviceContext(tw);
 
+  //TODO Fetch updates in background! https://expo.dev/changelog/sdk-53#improved-background-tasks
+
   //if (Platform.OS === "android") {
   // Necessary for localization of date times on Android?
   //require("@formatjs/intl-getcanonicallocales/polyfill").default;
@@ -38,10 +40,10 @@ export default function RootLayout() {
   //}
 
   return (
-    <TRPCProvider>
+    <QueryClientProvider client={queryClient}>
       <Background>
         <Slot />
       </Background>
-    </TRPCProvider>
+    </QueryClientProvider>
   );
 }

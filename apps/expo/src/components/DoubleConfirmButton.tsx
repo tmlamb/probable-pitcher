@@ -1,14 +1,15 @@
+import type { ClassInput } from "twrnc";
 import React from "react";
 import { View } from "react-native";
 import Animated, { RollInRight, RollOutRight } from "react-native-reanimated";
-import type { ClassInput } from "twrnc";
+
 import tw from "~/utils/tailwind";
 import PressableThemed from "./PressableThemed";
 
 interface Props {
   style?: ClassInput;
-  first: JSX.Element;
-  second: JSX.Element;
+  first: React.ReactNode;
+  second: React.ReactNode;
   accessibilityLabel: string;
 }
 
@@ -38,7 +39,7 @@ export default function DoubleConfirm({
           entering={RollInRight.springify().stiffness(50).damping(6).mass(0.3)}
           exiting={RollOutRight.springify().stiffness(50).damping(6).mass(0.3)}
           style={[
-            tw.style("absolute items-center justify-center h-full right-2.5"),
+            tw.style("absolute right-2.5 h-full items-center justify-center"),
           ]}
           accessible
           accessibilityLabel={`${accessibilityLabel}`}

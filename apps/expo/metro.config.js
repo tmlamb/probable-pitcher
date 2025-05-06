@@ -1,15 +1,11 @@
 const { FileStore } = require("metro-cache");
-const path = require("path");
+const path = require("node:path");
 
 const { getSentryExpoConfig } = require("@sentry/react-native/metro");
 
 const config = withTurborepoManagedCache(
   withMonorepoPaths(getSentryExpoConfig(__dirname)),
 );
-
-// XXX: Resolve our exports in workspace packages
-// https://github.com/expo/expo/issues/26926
-config.resolver.unstable_enablePackageExports = true;
 
 module.exports = config;
 
@@ -21,6 +17,7 @@ module.exports = config;
  * @param {import('expo/metro-config').MetroConfig} config
  * @returns {import('expo/metro-config').MetroConfig}
  */
+//TODO remove this? https://github.com/t3-oss/create-t3-turbo/commit/aba3d2225c56658c6186e81af1ac3849f21c8eed#diff-98bae604a14b7cbdc8e69e0fa94880c6102ed04632f79b2b5f19bf9055e49015R9
 function withMonorepoPaths(config) {
   const projectRoot = __dirname;
   const workspaceRoot = path.resolve(projectRoot, "../..");

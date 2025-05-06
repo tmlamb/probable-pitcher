@@ -1,7 +1,6 @@
-import { AntDesign } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import type { ClassInput } from "twrnc";
 import React from "react";
-import { Dimensions, Keyboard } from "react-native";
+import { Dimensions, Keyboard, View } from "react-native";
 import Animated, {
   Easing,
   FadeInRight,
@@ -10,11 +9,13 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import type { ClassInput } from "twrnc";
+import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+
 import tw from "~/utils/tailwind";
 import PressableThemed from "./PressableThemed";
-import TextThemed from "./TextThemed";
 import TextInputThemed from "./TextInputThemed";
+import TextThemed from "./TextThemed";
 
 interface Props {
   onChange: (text?: string) => void;
@@ -47,127 +48,137 @@ export default function SearchInput({
   const searchComponentStyle = useAnimatedStyle(
     () => ({
       marginTop: searchComponentMarginTop.value,
-      marginBottom: 12,
-      width: "100%",
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
     }),
     [],
   );
 
   return (
     <Animated.View
-      style={tw.style("mb-9", style, searchComponentStyle)}
+      style={tw.style(style, searchComponentStyle)}
       onLayout={(event) => {
         const roundedWidth = Math.round(event.nativeEvent.layout.width);
         if (roundedWidth !== searchComponentWidth) {
           setSearchComponentWidth(roundedWidth);
-          searchFilterWidth.value = withTiming(
-            roundedWidth - (searchText ? cancelButtonWidth : 0),
-            { duration: 400 },
+          searchFilterWidth.set(() =>
+            withTiming(roundedWidth - (searchText ? cancelButtonWidth : 0), {
+              duration: 400,
+            }),
           );
         }
       }}
     >
-      <Animated.View style={searchFilterStyle}>
-        <TextInputThemed
-          onFocus={() => {
-            searchFilterWidth.value = withTiming(
-              searchComponentWidth - cancelButtonWidth,
-              { duration: 200 },
-            );
-            searchComponentMarginTop.value = withTiming(0, {
-              duration: 400,
-            });
-            setShowCancelButton(true);
-            navigation.setOptions({
-              headerShown: false,
-            });
-            onActive();
-          }}
-          onBlur={() => {
-            if (!searchText) {
-              searchFilterWidth.value = withTiming(searchComponentWidth, {
-                duration: 300,
-                easing: Easing.inOut(Easing.ease),
+      <View
+        style={tw`mb-3 flex w-full flex-row flex-nowrap items-center justify-between`}
+      >
+        <Animated.View style={searchFilterStyle}>
+          <TextInputThemed
+            onFocus={() => {
+              searchFilterWidth.set(() => {
+                return withTiming(searchComponentWidth - cancelButtonWidth, {
+                  duration: 200,
+                });
               });
-              searchComponentMarginTop.value = withTiming(0, {
-                duration: 400,
-              });
-              setShowCancelButton(false);
-              navigation.setOptions({
-                headerShown: true,
-              });
-              onCancel();
-            }
-          }}
-          onChangeText={(text) => {
-            onChange(text);
-            setSearchText(text);
-          }}
-          value={searchText ?? ""}
-          style={tw.style("rounded-xl")}
-          leftIcon={
-            <>
-              <TextThemed variant="muted" style={tw`absolute ml-2`}>
-                <AntDesign name="search1" size={18} />
-              </TextThemed>
-            </>
-          }
-          placeholder="Search"
-          accessibilityLabel="Filter list of pitchers by name"
-        />
-      </Animated.View>
-      {showCancelButton && (
-        <Animated.View
-          key="cancelbutton"
-          entering={FadeInRight.duration(150)}
-          exiting={FadeOutRight.duration(200)}
-          onLayout={(event) => {
-            const roundedWidth = Math.round(event.nativeEvent.layout.width);
-            if (cancelButtonWidth !== roundedWidth) {
-              setCancelButtonWidth(roundedWidth);
-              searchFilterWidth.value = withTiming(
-                searchComponentWidth - roundedWidth,
-                {
+              searchComponentMarginTop.set(() =>
+                withTiming(0, {
                   duration: 400,
-                  easing: Easing.inOut(Easing.ease),
-                },
+                }),
               );
-            }
-          }}
-        >
-          <PressableThemed
-            onPress={() => {
-              searchFilterWidth.value = withTiming(searchComponentWidth, {
-                duration: 300,
-                easing: Easing.inOut(Easing.ease),
-              });
-              searchComponentMarginTop.value = withTiming(0, {
-                duration: 400,
-              });
-              onChange(undefined);
-              setSearchText(undefined);
-              setShowCancelButton(false);
+              setShowCancelButton(true);
               navigation.setOptions({
-                headerShown: true,
+                headerShown: false,
               });
-              onCancel();
-              Keyboard.dismiss();
+              onActive();
             }}
-            accessibilityLabel="Clear search filter"
-          >
-            <TextThemed
-              variant="primary"
-              style={tw`pl-3 font-bold text-lg tracking-tight`}
-            >
-              Done
-            </TextThemed>
-          </PressableThemed>
+            onBlur={() => {
+              if (!searchText) {
+                searchFilterWidth.set(() =>
+                  withTiming(searchComponentWidth, {
+                    duration: 300,
+                    easing: Easing.inOut(Easing.ease),
+                  }),
+                );
+                searchComponentMarginTop.set(() =>
+                  withTiming(0, {
+                    duration: 400,
+                  }),
+                );
+                setShowCancelButton(false);
+                navigation.setOptions({
+                  headerShown: true,
+                });
+                onCancel();
+              }
+            }}
+            onChangeText={(text) => {
+              onChange(text);
+              setSearchText(text);
+            }}
+            value={searchText ?? ""}
+            style={tw.style("rounded-xl")}
+            leftIcon={
+              <>
+                <TextThemed variant="muted" style={tw`absolute ml-2`}>
+                  <AntDesign name="search1" size={18} />
+                </TextThemed>
+              </>
+            }
+            placeholder="Search"
+            accessibilityLabel="Filter list of pitchers by name"
+          />
         </Animated.View>
-      )}
+        {showCancelButton && (
+          <Animated.View
+            key="cancelbutton"
+            entering={FadeInRight.duration(150)}
+            exiting={FadeOutRight.duration(200)}
+            style={tw``}
+            onLayout={(event) => {
+              const roundedWidth = Math.round(event.nativeEvent.layout.width);
+              if (cancelButtonWidth !== roundedWidth) {
+                setCancelButtonWidth(roundedWidth);
+                searchFilterWidth.set(() =>
+                  withTiming(searchComponentWidth - roundedWidth, {
+                    duration: 400,
+                    easing: Easing.inOut(Easing.ease),
+                  }),
+                );
+              }
+            }}
+          >
+            <PressableThemed
+              onPress={() => {
+                searchFilterWidth.set(() =>
+                  withTiming(searchComponentWidth, {
+                    duration: 300,
+                    easing: Easing.inOut(Easing.ease),
+                  }),
+                );
+                searchComponentMarginTop.set(() =>
+                  withTiming(0, {
+                    duration: 400,
+                  }),
+                );
+                onChange(undefined);
+                setSearchText(undefined);
+                setShowCancelButton(false);
+                navigation.setOptions({
+                  headerShown: true,
+                });
+                onCancel();
+                Keyboard.dismiss();
+              }}
+              accessibilityLabel="Clear search filter"
+            >
+              <TextThemed
+                variant="primary"
+                style={tw`pl-3 text-lg font-bold tracking-tight`}
+              >
+                Done
+              </TextThemed>
+            </PressableThemed>
+          </Animated.View>
+        )}
+      </View>
     </Animated.View>
   );
 }

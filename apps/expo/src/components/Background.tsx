@@ -1,14 +1,15 @@
-import React from "react";
 import type { AccessibilityState } from "react-native";
-import { View } from "react-native";
 import type { ClassInput } from "twrnc";
+import React from "react";
+import { View } from "react-native";
+
 import tw from "~/utils/tailwind";
 
 export const variantClasses = {
   default: "bg-slate-50 dark:bg-slate-950",
   modal: "bg-white dark:bg-black",
 };
-//py-1.5 px-3 flex-row items-center justify-between
+
 interface BackgroundProps {
   children: React.ReactNode;
   style?: ClassInput;
@@ -18,7 +19,7 @@ interface BackgroundProps {
   accessibilityState?: AccessibilityState;
 }
 
-export default function ThemedView({
+export default function Background({
   children,
   style,
   variant = "default",

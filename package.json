@@ -2,10 +2,10 @@
   "name": "probable-pitcher",
   "private": true,
   "engines": {
-    "node": ">=23.1.0",
-    "pnpm": "^9.12.2"
+    "node": ">=22.14.0",
+    "pnpm": ">=9.15.4"
   },
-  "packageManager": "pnpm@9.12.2",
+  "packageManager": "pnpm@10.6.3",
   "scripts": {
     "build": "turbo run build",
     "clean": "git clean -xdf node_modules out",
@@ -26,9 +26,9 @@
   },
   "devDependencies": {
     "@probable/prettier-config": "workspace:*",
-    "@turbo/gen": "^2.1.3",
+    "@turbo/gen": "^2.5.1",
     "prettier": "catalog:",
-    "turbo": "^2.1.3",
+    "turbo": "^2.5.1",
     "typescript": "catalog:"
   },
   "prettier": "@probable/prettier-config"

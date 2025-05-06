@@ -1,7 +1,7 @@
+import type { z } from "zod";
 import { relations } from "drizzle-orm";
 import { pgTable, unique } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
-import type { z } from "zod";
 
 export const team = pgTable("team", (t) => ({
   id: t.uuid().notNull().primaryKey().defaultRandom(),
@@ -87,9 +87,7 @@ export const subscription = pgTable(
       .notNull()
       .references(() => pitcher.id, { onDelete: "restrict" }),
   }),
-  (t) => ({
-    uniquePitcherSubPerUser: unique().on(t.userId, t.pitcherId),
-  }),
+  (t) => [unique().on(t.userId, t.pitcherId)],
 );
 
 export const subscriptionRelations = relations(subscription, ({ one }) => ({
@@ -123,9 +121,7 @@ export const notification = pgTable(
       .references(() => pitcher.id, { onDelete: "restrict" }),
     sentOn: t.timestamp({ mode: "date", withTimezone: true }),
   }),
-  (t) => ({
-    uniqueGamePitcherPerDevice: unique().on(t.deviceId, t.gameId, t.pitcherId),
-  }),
+  (t) => [unique().on(t.deviceId, t.gameId, t.pitcherId)],
 );
 
 export const notificationRelations = relations(notification, ({ one }) => ({
@@ -156,9 +152,7 @@ export const device = pgTable(
     timezone: t.varchar({ length: 255 }).notNull(),
     notificationsEnabled: t.boolean().default(true).notNull(),
   }),
-  (t) => ({
-    uniqueUserPerPushToken: unique().on(t.pushToken, t.userId),
-  }),
+  (t) => [unique().on(t.pushToken, t.userId)],
 );
 
 export const deviceRelations = relations(device, ({ one, many }) => ({

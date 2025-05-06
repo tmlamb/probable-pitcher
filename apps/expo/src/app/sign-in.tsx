@@ -1,27 +1,29 @@
-import React from "react";
-import * as AppleAuthentication from "expo-apple-authentication";
-//import { useAssets } from "expo-asset";
-import { Image } from "expo-image";
-import { LinearGradient } from "expo-linear-gradient";
 import type { CodedError } from "expo-modules-core";
-import { router } from "expo-router";
+import React from "react";
 import { Pressable, View } from "react-native";
 import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
+import * as AppleAuthentication from "expo-apple-authentication";
+//import { useAssets } from "expo-asset";
+import { Image } from "expo-image";
+import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import { useAppColorScheme } from "twrnc";
+
 import { authClient } from "~/utils/auth";
 import tw from "~/utils/tailwind";
-import TextThemed from "../components/TextThemed";
-import Background from "../components/Background";
-import { StatusBar } from "expo-status-bar";
-// @ts-expect-error image import
-import googleSignInNeutral from "../../assets/google-signin-neutral.png";
 // @ts-expect-error image import
 import adaptiveIcon from "../../assets/adaptive-icon.png";
+// @ts-expect-error image import
+import googleSignInNeutral from "../../assets/google-signin-neutral.png";
+import Background from "../components/Background";
+import TextThemed from "../components/TextThemed";
 
 export default function SignIn() {
+  // TODO figure out assets
   //const [assets] = useAssets([
   //  // eslint-disable-next-line @typescript-eslint/no-require-imports
   //  require("../../assets/adaptive-icon.png"),
@@ -43,24 +45,24 @@ export default function SignIn() {
       locations={[0.35, 0.45]}
     >
       <StatusBar style="light" />
-      <SafeAreaView style={tw`flex-1 flex justify-end`}>
+      <SafeAreaView style={tw`flex flex-1 justify-end`}>
         <Image
           alt=""
-          style={tw`mb-6 h-44 aspect-square mx-auto`}
+          style={tw`mx-auto mb-6 aspect-square h-44`}
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           source={adaptiveIcon}
           //source={assets?.[0]}
         />
         <Background
           variant="modal"
-          style={tw`pb-16 px-3 rounded-t-3xl h-3/4 -mb-[${insets.bottom}], shadow-2xl flex gap-8 justify-end`}
+          style={tw`h-3/4 rounded-t-3xl px-3 pb-16 -mb-[${insets.bottom}], flex justify-end gap-8 shadow-2xl`}
         >
-          <View style={tw`flex gap-4 justify-center grow`}>
-            <TextThemed style={tw`text-4xl font-semibold text-center px-8`}>
+          <View style={tw`flex grow justify-center gap-4`}>
+            <TextThemed style={tw`px-8 text-center text-4xl font-semibold`}>
               Welcome to Probable Pitcher
             </TextThemed>
             <TextThemed
-              style={tw`text-center text-base text-muted-foreground`}
+              style={tw`text-muted-foreground text-center text-base`}
               variant="muted"
             >
               Sign in with an identity provider to get started.
@@ -68,7 +70,7 @@ export default function SignIn() {
           </View>
           <View style={tw`flex gap-8`}>
             <Pressable
-              style={tw`active:opacity-10 h-[44px] flex justify-center rounded-xl bg-[#f2f2f2] shadow-sm`}
+              style={tw`flex h-[44px] justify-center rounded-xl bg-[#f2f2f2] shadow-sm active:opacity-10`}
               onPress={async () => {
                 try {
                   await authClient.signIn.social({
@@ -98,7 +100,7 @@ export default function SignIn() {
                   ? AppleAuthentication.AppleAuthenticationButtonStyle.WHITE
                   : AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
               }
-              style={tw`mx-auto h-[44px] w-full active:opacity-10 rounded-xl overflow-hidden`}
+              style={tw`mx-auto h-[44px] w-full overflow-hidden rounded-xl active:opacity-10`}
               onPress={async () => {
                 try {
                   const credential = await AppleAuthentication.signInAsync({

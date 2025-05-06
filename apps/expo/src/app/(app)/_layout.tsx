@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Redirect, Stack } from "expo-router";
-import { authClient } from "~/utils/auth";
 import { ActivityIndicator } from "react-native";
-import tw from "~/utils/tailwind";
-import * as ExpoNotifications from "expo-notifications";
 import { PermissionStatus } from "expo-modules-core";
-import useNotifications from "../../hooks/use-notifications";
-import { variantClasses as textClasses } from "../../components/TextThemed";
+import * as ExpoNotifications from "expo-notifications";
+import { Redirect, Stack } from "expo-router";
+
 import { variantClasses as backgroundClasses } from "~/components/Background";
+import { authClient } from "~/utils/auth";
+import tw from "~/utils/tailwind";
+import { variantClasses as textClasses } from "../../components/TextThemed";
+import useNotifications from "../../hooks/use-notifications";
 
 // This is the main layout of the app
 // It wraps your pages with the providers they need
@@ -65,7 +66,7 @@ export default function AppLayout() {
         headerTransparent: false,
         headerStyle: tw.style(backgroundClasses.default),
         headerShadowVisible: false,
-        headerTintColor: tw.style(textClasses.primary).color?.toString(),
+        headerTintColor: String(tw.style(textClasses.primary).color as string),
       }}
     >
       <Stack.Screen name="index" options={{ headerTitle: "" }} />

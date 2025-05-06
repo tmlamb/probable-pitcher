@@ -23,7 +23,7 @@
     "@probable/db": "workspace:*",
     "@probable/validators": "workspace:*",
     "@trpc/server": "catalog:",
-    "superjson": "2.2.1",
+    "superjson": "2.2.2",
     "zod": "catalog:"
   },
   "devDependencies": {

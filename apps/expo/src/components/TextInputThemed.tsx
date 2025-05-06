@@ -1,4 +1,3 @@
-import React from "react";
 import type {
   ColorValue,
   KeyboardTypeOptions,
@@ -7,12 +6,14 @@ import type {
   TextInputKeyPressEventData,
   ViewStyle,
 } from "react-native";
+import type { ClassInput } from "twrnc";
+import React from "react";
 import { TextInput } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import type { ClassInput } from "twrnc";
+
 import tw from "~/utils/tailwind";
-import TextThemed, { variantClasses } from "./TextThemed";
 import Card from "./Card";
+import TextThemed, { variantClasses } from "./TextThemed";
 
 interface TextInputThemedProps {
   onChangeText?: (text: string) => void;
@@ -79,10 +80,9 @@ export default function TextInputThemed({
     onChangeText?.(normalizedText);
   };
 
-  //<View style={tw`relative w-full bg-transparent`}>
   return (
-    <Card style={tw.style("relative p-0 mx-0", style)}>
-      <Card style={tw.style("w-full flex-row p-0 mx-0 relative")}>
+    <Card style={tw.style("relative mx-0 p-0", style)}>
+      <Card style={tw.style("relative mx-0 w-full flex-row p-0")}>
         {leftIcon ??
           (label && (
             <Animated.View
@@ -95,7 +95,7 @@ export default function TextInputThemed({
                   <TextThemed
                     variant="muted"
                     style={tw.style(
-                      "leading-tight text-lg tracking-tight pl-0",
+                      "pl-0 text-lg leading-tight tracking-tight",
                       labelStyle,
                     )}
                     accessible={false}
@@ -114,7 +114,7 @@ export default function TextInputThemed({
           value={value ? nbspReplace(value) : value}
           style={tw.style(
             variantClasses.default,
-            "w-full py-1.5 pl-8 z-20 pr-0 text-lg leading-tight tracking-normal",
+            "z-20 w-full py-1.5 pl-8 pr-0 text-lg leading-tight tracking-normal",
             textInputStyle,
           )}
           placeholder={placeholder}

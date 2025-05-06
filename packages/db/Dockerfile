@@ -3,7 +3,7 @@
 ########################
 
 # Install dependencies only when needed
-FROM node:23-alpine AS deps
+FROM node:22-alpine AS deps
 RUN apk update
 WORKDIR /probable-pitcher
 
@@ -18,7 +18,7 @@ COPY turbo.json ./turbo.json
 
 RUN apk add --no-cache curl
 
-RUN npm -g install pnpm@^9
+RUN npm -g install pnpm@^10
 
 RUN pnpm install
 

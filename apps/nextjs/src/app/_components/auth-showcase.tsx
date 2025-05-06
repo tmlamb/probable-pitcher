@@ -1,7 +1,8 @@
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+
 import { auth, getSession } from "@probable/auth";
 import { Button } from "@probable/ui/button";
-import { redirect } from "next/navigation";
-import { headers } from "next/headers";
 
 export async function AuthShowcase() {
   const session = await getSession();
@@ -16,7 +17,6 @@ export async function AuthShowcase() {
             const res = await auth.api.signInSocial({
               body: {
                 provider: "apple",
-                callbackUrl: "/",
               },
             });
             redirect(res.url ?? "/");
@@ -31,7 +31,6 @@ export async function AuthShowcase() {
             const res = await auth.api.signInSocial({
               body: {
                 provider: "google",
-                callbackUrl: "/",
               },
             });
             redirect(res.url ?? "/");
@@ -54,7 +53,7 @@ export async function AuthShowcase() {
           size="lg"
           formAction={async () => {
             "use server";
-            await auth.api.signOut({ headers: headers() });
+            await auth.api.signOut({ headers: await headers() });
             // eslint-disable-next-line @typescript-eslint/only-throw-error
             throw redirect("/");
           }}
