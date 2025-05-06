@@ -1,13 +1,14 @@
-import { AntDesign } from "@expo/vector-icons";
 import React from "react";
 import { View } from "react-native";
 import * as Application from "expo-application";
-import Background from "~/components/Background";
-import tw from "~/utils/tailwind";
 import { Link } from "expo-router";
-import PressableThemed from "~/components/PressableThemed";
+import { AntDesign } from "@expo/vector-icons";
+
+import Background from "~/components/Background";
 import Card from "~/components/Card";
+import PressableThemed from "~/components/PressableThemed";
 import TextThemed from "~/components/TextThemed";
+import tw from "~/utils/tailwind";
 
 export default function Settings() {
   return (
@@ -45,7 +46,7 @@ export default function Settings() {
             </PressableThemed>
           </Link>
         </View>
-        <TextThemed variant="muted" style={tw`self-center text-base pb-5`}>
+        <TextThemed variant="muted" style={tw`self-center pb-5 text-base`}>
           Probable Pitcher v{Application.nativeApplicationVersion}b
           {Application.nativeBuildVersion}
         </TextThemed>

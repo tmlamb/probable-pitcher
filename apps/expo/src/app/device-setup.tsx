@@ -1,19 +1,20 @@
 import React from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import TextThemed from "../components/TextThemed";
-import { registerForPushNotifications } from "../hooks/use-notifications";
 import { router } from "expo-router";
+
 import tw from "~/utils/tailwind";
-import Button from "../components/PressableThemed";
 import Background from "../components/Background";
 import Card from "../components/Card";
+import Button from "../components/PressableThemed";
+import TextThemed from "../components/TextThemed";
+import { registerForPushNotifications } from "../hooks/use-notifications";
 
 export default function DeviceSetup() {
   return (
     <Background>
-      <SafeAreaView style={tw`py-6 flex-1 flex justify-end`}>
-        <View style={tw`flex gap-4 px-3 justify-center grow`}>
+      <SafeAreaView style={tw`flex flex-1 justify-end py-6`}>
+        <View style={tw`flex grow justify-center gap-4 px-3`}>
           <TextThemed style={tw`text-2xl font-semibold`}>
             Want to get game-day alerts?
           </TextThemed>

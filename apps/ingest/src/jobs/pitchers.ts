@@ -1,7 +1,8 @@
 import { formatISO } from "date-fns";
+
+import type { Pitcher } from "../services/base-api.js";
 import { client } from "../db/client.js";
 import { getPitchers } from "../services/base-api.js";
-import type { Pitcher } from "../services/base-api.js";
 
 export async function ingestPitchers(ingestDate: Date) {
   const date = formatISO(ingestDate, { representation: "date" });

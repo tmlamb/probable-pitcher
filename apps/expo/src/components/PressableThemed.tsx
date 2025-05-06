@@ -1,7 +1,8 @@
-import React from "react";
 import type { PressableProps, View } from "react-native";
-import { Pressable } from "react-native";
 import type { ClassInput } from "twrnc";
+import React from "react";
+import { Pressable } from "react-native";
+
 import tw from "~/utils/tailwind";
 
 export const variantClasses = {

@@ -1,6 +1,6 @@
-import { createAuthClient } from "better-auth/client";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { createAuthClient } from "better-auth/client";
 
 export const client = createAuthClient();
 

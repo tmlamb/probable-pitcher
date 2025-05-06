@@ -1,4 +1,3 @@
-import type { Game, Pitcher, Subscription } from "@probable/db/schema";
 import {
   add,
   format,
@@ -9,6 +8,8 @@ import {
   min,
 } from "date-fns";
 import _ from "lodash";
+
+import type { Game, Pitcher, Subscription } from "@probable/db/schema";
 
 function nextGameDate(
   pitcher: Pitcher & {

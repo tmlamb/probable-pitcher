@@ -3,6 +3,7 @@
 import type { RouterOutputs } from "@probable/api";
 //import { CreatePostSchema } from "@probable/db/schema";
 import { cn } from "@probable/ui";
+
 //import { Button } from "@probable/ui/button";
 //import {
 //  Form,
@@ -124,9 +125,9 @@ export function NotificationCard(props: {
   //});
 
   return (
-    <div className="flex flex-row rounded-lg bg-muted p-4">
+    <div className="bg-muted flex flex-row rounded-lg p-4">
       <div className="flex-grow">
-        <h2 className="text-2xl font-bold text-primary">
+        <h2 className="text-primary text-2xl font-bold">
           {props.notification.id}
         </h2>
         <p className="mt-2 text-sm">{props.notification.gameId}</p>
@@ -149,11 +150,11 @@ export function NotificationCard(props: {
 export function NotificationSkeleton(props: { pulse?: boolean }) {
   const { pulse = true } = props;
   return (
-    <div className="flex flex-row rounded-lg bg-muted p-4">
+    <div className="bg-muted flex flex-row rounded-lg p-4">
       <div className="flex-grow">
         <h2
           className={cn(
-            "w-1/4 rounded bg-primary text-2xl font-bold",
+            "bg-primary w-1/4 rounded text-2xl font-bold",
             pulse && "animate-pulse",
           )}
         >

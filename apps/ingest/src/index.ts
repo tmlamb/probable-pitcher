@@ -1,5 +1,4 @@
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../../.env" });
 
 import { ingestGames } from "./jobs/games.js";
 import {
@@ -8,6 +7,8 @@ import {
 } from "./jobs/notifications.js";
 import { ingestPitchers } from "./jobs/pitchers.js";
 import { ingestTeams } from "./jobs/teams.js";
+
+dotenv.config({ path: "../../.env" });
 
 const { INGEST_JOBS: ingestJobs, INGEST_DATE } = process.env;
 

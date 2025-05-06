@@ -1,7 +1,8 @@
 import { add, formatISO } from "date-fns";
+
+import { client } from "../db/client.js";
 import { getGames } from "../services/base-api.js";
 import { processPitcher } from "./pitchers.js";
-import { client } from "../db/client.js";
 
 export async function ingestGames(ingestDate: Date) {
   const games = await Promise.all([

@@ -3,9 +3,9 @@ import { Suspense } from "react";
 import { HydrateClient } from "~/trpc/server";
 import { AuthShowcase } from "./_components/auth-showcase";
 import {
+  NotificationList,
   //CreatePostForm,
   NotificationSkeleton,
-  NotificationList,
 } from "./_components/subscriptions";
 
 export default function HomePage() {

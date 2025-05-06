@@ -1,9 +1,11 @@
+import { expo } from "@better-auth/expo";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { db } from "@probable/db/client"; // your drizzle instance
-import { env } from "../env";
-import { expo } from "@better-auth/expo";
 import { apiKey } from "better-auth/plugins";
+
+import { db } from "@probable/db/client"; // your drizzle instance
+
+import { env } from "../env";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {

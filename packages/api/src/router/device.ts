@@ -1,11 +1,11 @@
-import { TRPCError } from "@trpc/server";
 import type { TRPCRouterRecord } from "@trpc/server";
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
 import { and, eq } from "@probable/db";
 import { createDeviceSchema, device } from "@probable/db/schema";
 
 import { protectedProcedure } from "../trpc";
-import { z } from "zod";
 
 export const deviceRouter = {
   byUserId: protectedProcedure.query(({ ctx }) => {
