@@ -30,7 +30,7 @@ export default function Support() {
         <PressableThemed
           onPress={() =>
             Linking.openURL(
-              "https://github.com/tmlamb/probable-pitchers/issues/",
+              "https://github.com/tmlamb/probable-pitcher/issues/",
             )
           }
           accessibilityRole="link"
