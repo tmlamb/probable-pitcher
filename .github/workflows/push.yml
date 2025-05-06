@@ -26,13 +26,13 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9.12.2
+          version: 10.6.3
           run_install: false
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: 23
+          node-version: 22
           cache: "pnpm"
 
       - name: Install Dependencies
@@ -99,13 +99,13 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9.12.2
+          version: 10.6.3
           run_install: false
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: 23
+          node-version: 22
           cache: "pnpm"
 
       - name: Install Dependencies
@@ -124,13 +124,13 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9.12.2
+          version: 10.6.3
           run_install: false
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: 23
+          node-version: 22
           cache: "pnpm"
 
       - name: Install Dependencies
@@ -227,13 +227,13 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9.12.2
+          version: 10.6.3
           run_install: false
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: 23
+          node-version: 22
           cache: "pnpm"
 
       - name: Authenticate to Google Cloud
@@ -292,13 +292,13 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9.12.2
+          version: 10.6.3
           run_install: false
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: 23
+          node-version: 22
           cache: "pnpm"
 
       - name: Setup Expo
