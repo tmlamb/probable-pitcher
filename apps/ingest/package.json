@@ -18,9 +18,9 @@
   },
   "dependencies": {
     "@probable/db": "workspace:*",
-    "date-fns": "^4.1.0",
-    "date-fns-tz": "^3.2.0",
-    "node-fetch": "^3.3.2",
+    "date-fns": "4.1.0",
+    "date-fns-tz": "3.2.0",
+    "node-fetch": "3.3.2",
     "zod": "catalog:"
   },
   "devDependencies": {
@@ -28,7 +28,7 @@
     "@probable/prettier-config": "workspace:*",
     "@probable/tsconfig": "workspace:*",
     "prettier": "catalog:",
-    "tsx": "^4.19.2",
+    "tsx": "4.19.2",
     "typescript": "catalog:"
   },
   "prettier": "@probable/prettier-config"
