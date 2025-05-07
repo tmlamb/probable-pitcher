@@ -22,7 +22,7 @@ export const auth = betterAuth({
       //redirectURI: "https://dev.probablepitcher.com/api/auth/callback/google",
     },
     apple: {
-      clientId: env.AUTH_APPLE_WEB_ID,
+      clientId: env.AUTH_APPLE_ID,
       clientSecret: env.AUTH_APPLE_SECRET,
       appBundleIdentifier: env.AUTH_APPLE_ID,
       //redirectURI: "https://dev.probablepitcher.com/api/auth/callback/apple",
