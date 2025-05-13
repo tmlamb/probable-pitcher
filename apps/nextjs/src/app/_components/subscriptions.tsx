@@ -3,7 +3,8 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 //import { CreatePostSchema } from "@probable/db/schema";
-import { cn, PitcherSubscription, subscriptionSchedule } from "@probable/ui";
+import type { PitcherSubscription } from "@probable/ui";
+import { cn, subscriptionSchedule } from "@probable/ui";
 
 import { useTRPC } from "~/trpc/react";
 
