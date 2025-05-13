@@ -21,7 +21,7 @@ export async function AuthShowcase() {
             });
             console.log("debug apple resp", res);
             console.log("debug apple resp string", JSON.stringify(res));
-            redirect(res.url ?? "/");
+            //redirect(res.url ?? "/");
           }}
         >
           Sign in with Apple
