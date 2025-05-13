@@ -2,7 +2,6 @@ import { Suspense } from "react";
 
 import { HydrateClient } from "~/trpc/server";
 import AppleClientSignin from "./_components/apple-signin";
-import { AuthShowcase } from "./_components/auth-showcase";
 import {
   SubscriptionList,
   //CreatePostForm,
