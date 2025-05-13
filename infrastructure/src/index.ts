@@ -1,8 +1,9 @@
 import * as gcp from "@pulumi/gcp";
 import * as k8s from "@pulumi/kubernetes";
 import * as pulumi from "@pulumi/pulumi";
-import { containerRegistry } from "./config";
+
 import { generateSecret } from "./apple";
+import { containerRegistry } from "./config";
 
 const config = new pulumi.Config();
 const env = pulumi.getStack();
@@ -596,17 +597,6 @@ const appleClientSecret = pulumi
     generateSecret({ teamId, keyId, privateKey, clientId }),
   );
 
-const appleWebClientSecret = pulumi
-  .all([
-    config.requireSecret("appleTeamId"),
-    config.requireSecret("appleWebKeyId"),
-    config.requireSecret("appleWebPrivateKey"),
-    config.requireSecret("appleWebClientId"),
-  ])
-  .apply(([teamId, keyId, privateKey, clientId]) =>
-    generateSecret({ teamId, keyId, privateKey, clientId }),
-  );
-
 const appLabels = { app: `probable-nextjs-${env}` };
 
 const appDeployment = new k8s.apps.v1.Deployment(
@@ -673,14 +663,6 @@ const appDeployment = new k8s.apps.v1.Deployment(
                 {
                   name: "AUTH_APPLE_SECRET",
                   value: appleClientSecret,
-                },
-                {
-                  name: "AUTH_APPLE_WEB_ID",
-                  value: config.requireSecret("appleWebClientId"),
-                },
-                {
-                  name: "AUTH_APPLE_WEB_SECRET",
-                  value: appleWebClientSecret,
                 },
                 {
                   name: "BETTER_AUTH_SECRET",
