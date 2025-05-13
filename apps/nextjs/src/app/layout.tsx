@@ -26,11 +26,6 @@ export const metadata: Metadata = {
     url: "https://probablepitcher.com",
     siteName: "Probable Pitcher",
   },
-  //twitter: {
-  //  card: "summary_large_image",
-  //  site: "",
-  //  creator: "",
-  //},
 };
 
 export const viewport: Viewport = {
