@@ -19,6 +19,8 @@ export async function AuthShowcase() {
                 provider: "apple",
               },
             });
+            console.log("res", res);
+            console.log("res string", JSON.stringify(res));
             redirect(res.url ?? "/");
           }}
         >
