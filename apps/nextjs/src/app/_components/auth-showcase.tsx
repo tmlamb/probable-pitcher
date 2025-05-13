@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { auth, getSession } from "@probable/auth";
+import { auth, authClient, getSession } from "@probable/auth";
 import { Button } from "@probable/ui/button";
 
 export async function AuthShowcase() {
@@ -14,14 +14,17 @@ export async function AuthShowcase() {
           size="lg"
           formAction={async () => {
             "use server";
-            const res = await auth.api.signInSocial({
-              body: {
-                provider: "apple",
-              },
+            // const res = await auth.api.signInSocial({
+            //   body: {
+            //     provider: "apple",
+            //   },
+            // });
+            const data = await authClient.signIn.social({
+              provider: "apple",
             });
-            console.log("res", res);
-            console.log("res string", JSON.stringify(res));
-            redirect(res.url ?? "/");
+            console.log("debug apple resp", data);
+            console.log("debug apple resp string", JSON.stringify(data));
+            redirect(data?.data?.url ?? "/");
           }}
         >
           Sign in with Apple
@@ -35,6 +38,8 @@ export async function AuthShowcase() {
                 provider: "google",
               },
             });
+            console.log("debug google resp", res);
+            console.log("debug google resp string", JSON.stringify(res));
             redirect(res.url ?? "/");
           }}
         >

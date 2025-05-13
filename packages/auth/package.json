@@ -6,7 +6,8 @@
   "exports": {
     ".": {
       "react-server": "./src/index.rsc.ts",
-      "default": "./src/index.ts"
+      "default": "./src/index.ts",
+      "client": "./src/client.ts"
     },
     "./env": "./env.ts"
   },

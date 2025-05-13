@@ -8,3 +8,5 @@ export const getSession = async () =>
   });
 
 export * from "./auth";
+
+export * from "./client";
