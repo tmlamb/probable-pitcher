@@ -9,5 +9,4 @@ export const getSession = async () =>
   });
 
 export * from "./auth";
-export * from "./client";
 //TODO cleanup some of these deletable files in auth, like this one
