@@ -3,9 +3,9 @@ import { Suspense } from "react";
 import { HydrateClient } from "~/trpc/server";
 import { AuthShowcase } from "./_components/auth-showcase";
 import {
-  NotificationList,
+  SubscriptionList,
   //CreatePostForm,
-  NotificationSkeleton,
+  SubscriptionSkeleton,
 } from "./_components/subscriptions";
 
 export default function HomePage() {
@@ -28,13 +28,13 @@ export default function HomePage() {
             <Suspense
               fallback={
                 <div className="flex w-full flex-col gap-4">
-                  <NotificationSkeleton />
-                  <NotificationSkeleton />
-                  <NotificationSkeleton />
+                  <SubscriptionSkeleton />
+                  <SubscriptionSkeleton />
+                  <SubscriptionSkeleton />
                 </div>
               }
             >
-              <NotificationList />
+              <SubscriptionList />
             </Suspense>
           </div>
         </div>

@@ -1,8 +1,12 @@
 "use client";
 
+import { useSuspenseQuery } from "@tanstack/react-query";
+
 import type { RouterOutputs } from "@probable/api";
 //import { CreatePostSchema } from "@probable/db/schema";
-import { cn } from "@probable/ui";
+import { cn, PitcherSubscription, subscriptionSchedule } from "@probable/ui";
+
+import { useTRPC } from "~/trpc/react";
 
 //import { Button } from "@probable/ui/button";
 //import {
@@ -78,37 +82,52 @@ import { cn } from "@probable/ui";
 //  );
 //}
 
-export function NotificationList() {
+export function SubscriptionList() {
   // const [notifications] = api.notification.byDeviceId.useSuspenseQuery(
   //   "d11186c4-4d5c-4a4e-95c7-fd4c382c111d",
   // );
-  const notifications: { id: string }[] = [];
+  const trpc = useTRPC();
+  const { data: subscriptions } = useSuspenseQuery(
+    trpc.subscription.byUserId.queryOptions(),
+  );
 
-  if (notifications.length === 0) {
+  if (subscriptions.length === 0) {
     return (
       <div className="relative flex w-full flex-col gap-4">
-        <NotificationSkeleton pulse={false} />
-        <NotificationSkeleton pulse={false} />
-        <NotificationSkeleton pulse={false} />
+        <SubscriptionSkeleton pulse={false} />
+        <SubscriptionSkeleton pulse={false} />
+        <SubscriptionSkeleton pulse={false} />
 
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/10">
-          <p className="text-2xl font-bold text-white">No posts yet</p>
+          <p className="text-2xl font-bold text-white">No subscriptions yet</p>
         </div>
       </div>
     );
   }
 
+  const schedule = subscriptionSchedule(subscriptions);
+
   return (
     <div className="flex w-full flex-col gap-4">
-      {/* {notifications.map((n) => { */}
-      {/*   return <NotificationCard key={n.id} notification={n} />; */}
-      {/* })} */}
+      {schedule.map(({ nextGameDay, data }) => {
+        return (
+          <div>
+            <h2>{nextGameDay}</h2>
+            {data.map((subscription) => (
+              <PitcherSubscriptionCard
+                key={subscription.id}
+                subscription={subscription}
+              />
+            ))}
+          </div>
+        );
+      })}
     </div>
   );
 }
 
-export function NotificationCard(props: {
-  notification: RouterOutputs["notification"]["byDeviceId"][number];
+export function PitcherSubscriptionCard(props: {
+  subscription: PitcherSubscription;
 }) {
   //const utils = api.useUtils();
   //const deletePost = api.post.delete.useMutation({
@@ -128,11 +147,10 @@ export function NotificationCard(props: {
     <div className="bg-muted flex flex-row rounded-lg p-4">
       <div className="flex-grow">
         <h2 className="text-primary text-2xl font-bold">
-          {props.notification.id}
+          {props.subscription.name}
         </h2>
-        <p className="mt-2 text-sm">{props.notification.gameId}</p>
-        <p className="mt-2 text-sm">{props.notification.pitcherId}</p>
-        <p className="mt-2 text-sm">{props.notification.deviceId}</p>
+        <p className="mt-2 text-sm">{props.subscription.number}</p>
+        <p className="mt-2 text-sm">{props.subscription.team.abbreviation}</p>
       </div>
       {/*<div>
         <Button
@@ -147,7 +165,7 @@ export function NotificationCard(props: {
   );
 }
 
-export function NotificationSkeleton(props: { pulse?: boolean }) {
+export function SubscriptionSkeleton(props: { pulse?: boolean }) {
   const { pulse = true } = props;
   return (
     <div className="bg-muted flex flex-row rounded-lg p-4">
