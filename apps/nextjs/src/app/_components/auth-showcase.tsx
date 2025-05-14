@@ -1,5 +1,5 @@
 import { headers } from "next/headers";
-import { redirect, RedirectType } from "next/navigation";
+import { redirect } from "next/navigation";
 
 import { auth, getSession } from "@probable/auth";
 import { Button } from "@probable/ui/button";
