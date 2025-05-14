@@ -22,15 +22,16 @@ export async function AuthShowcase() {
             });
             console.log("debug apple resp", res);
             console.log("debug apple resp string", JSON.stringify(res));
-            const urlWithPercentEncodedPlusSigns = res.url?.replace(
-              /\+/g,
-              "%2B",
-            );
-            console.log(
-              "debug apple encoded url",
-              urlWithPercentEncodedPlusSigns,
-            );
-            redirect(urlWithPercentEncodedPlusSigns ?? "/");
+            // const urlWithPercentEncodedPlusSigns = res.url?.replace(
+            //   /\+/g,
+            //   "%2B",
+            // );
+            // console.log(
+            //   "debug apple encoded url",
+            //   urlWithPercentEncodedPlusSigns,
+            // );
+            // redirect(urlWithPercentEncodedPlusSigns ?? "/");
+            redirect(res.url ?? "/");
           }}
         >
           Sign in with Apple
