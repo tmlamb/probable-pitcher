@@ -591,7 +591,7 @@ const appleClientSecret = pulumi
     config.requireSecret("appleTeamId"),
     config.requireSecret("appleKeyId"),
     config.requireSecret("applePrivateKey"),
-    config.requireSecret("appleClientId"),
+    config.requireSecret("appleServiceId"),
   ])
   .apply(([teamId, keyId, privateKey, clientId]) =>
     generateSecret({ teamId, keyId, privateKey, clientId }),
