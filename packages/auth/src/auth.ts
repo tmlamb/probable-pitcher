@@ -33,6 +33,7 @@ export const auth = betterAuth({
     "https://dev.probablepitcher.com",
     "https://probablepitcher.com",
     "http://localhost:3000",
+    "https://appleid.apple.com",
   ],
   logger: {
     level: "debug",
