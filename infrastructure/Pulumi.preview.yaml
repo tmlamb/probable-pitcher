@@ -37,3 +37,5 @@ config:
     secure: AAABADTlZ/JlVhOpWxSJNFwosByFmNVsP/6zAev+QfC2nQ1pw1BFmXkhEytUNpB3
   probable-pitcher:baseApiUrl:
     secure: AAABAIzjnTtvIRONNTYUxEmyp6ZZR2hydRVdEaacEzcjFsvTMPJr3BsBIVFLm9gQhQL4Qgw+AndVqT0DwBBrKnLFmyvKCfsyv1UfDxFY
+  probable-pitcher:appleServiceId:
+    secure: AAABAO86iTZx6Z70QzxJ+M2/qfumVu+5xOf/dPTrrP7Yo3grsVw//x9mm6GQoWwC6GA3ruVBnVL4w4DroXQ=
