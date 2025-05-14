@@ -22,7 +22,15 @@ export async function AuthShowcase() {
             });
             console.log("debug apple resp", res);
             console.log("debug apple resp string", JSON.stringify(res));
-            redirect(res.url ?? "/", RedirectType.replace);
+            const urlWithPercentEncodedPlusSigns = res.url?.replace(
+              /\+/g,
+              "%20",
+            );
+            console.log(
+              "debug apple encoded url",
+              urlWithPercentEncodedPlusSigns,
+            );
+            redirect(urlWithPercentEncodedPlusSigns ?? "/");
           }}
         >
           Sign in with Apple
