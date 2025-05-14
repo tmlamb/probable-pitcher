@@ -1,0 +1,131 @@
+name: Production Release
+on:
+  release:
+    types: [published]
+
+jobs:
+  tag-images:
+    name: Tag Images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_ACCESS_TOKEN }}
+
+      - name: Tag nextjs image for release version
+        run: |
+          docker pull ghcr.io/tmlamb/probable-nextjs:latest
+          docker tag ghcr.io/tmlamb/probable-nextjs:latest ghcr.io/tmlamb/probable-nextjs:${{ github.ref_name }}
+          docker push ghcr.io/tmlamb/probable-nextjs:${{ github.ref_name }}
+
+      - name: Tag ingest image for release version
+        run: |
+          docker pull ghcr.io/tmlamb/probable-ingest:latest
+          docker tag ghcr.io/tmlamb/probable-ingest:latest ghcr.io/tmlamb/probable-ingest:${{ github.ref_name }}
+          docker push ghcr.io/tmlamb/probable-ingest:${{ github.ref_name }}
+
+      - name: Tag migration image for release version
+        run: |
+          docker pull ghcr.io/tmlamb/probable-migration:latest
+          docker tag ghcr.io/tmlamb/probable-migration:latest ghcr.io/tmlamb/probable-migration:${{ github.ref_name }}
+          docker push ghcr.io/tmlamb/probable-migration:${{ github.ref_name }}
+
+  deploy-infra:
+    name: Update Infrastructure
+    needs: tag-images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.6.3
+          run_install: false
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: "${{ secrets.GCP_CREDENTIALS_PROD }}"
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Get GKR Credentials
+        uses: google-github-actions/get-gke-credentials@v2
+        with:
+          cluster_name: probable-pitcher
+          location: us-west1
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Update production stack
+        uses: pulumi/actions@v6
+        with:
+          command: up
+          stack-name: production
+          work-dir: infrastructure
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+          DEPLOY_COMMIT_TAG: ${{ github.ref_name }}
+          CHANGED_INGEST: "true"
+          CHANGED_NEXTJS: "true"
+          CHANGED_DB: "true"
+
+  update-production:
+    name: Update Production App
+    needs: deploy-infra
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Run semver-diff
+        id: semver-diff
+        uses: tj-actions/semver-diff@v2.1.0
+
+      - name: Show release type
+        run: |
+          echo "Release type: ${{ steps.semver-diff.outputs.release_type }}"
+
+      - name: Check for EXPO_TOKEN
+        run: |
+          if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then
+            echo "You must provide an EXPO_TOKEN secret linked to this project's Expo account in this repo's secrets. Learn more: https://docs.expo.dev/eas-update/github-actions"
+            exit 1
+          fi
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+
+      - name: Setup Expo
+        uses: expo/expo-github-action@v8
+        with:
+          expo-version: latest
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Publish Live Update
+        if: ${{ steps.semver-diff.outputs.release_type == 'patch' }}
+        run: cd apps/expo && APP_ENV=production BETTER_AUTH_URL="https://probablepitcher.com" eas update --environment production --branch production --message "${{ github.event.release_name }}"
+
+      - name: App Store Build
+        if: ${{ steps.semver-diff.outputs.release_type == 'major' || steps.semver-diff.outputs.release_type == 'minor' }}
+        run: cd apps/expo && eas build --profile production --platform all --non-interactive

@@ -7,7 +7,6 @@ import { Button } from "@probable/ui/button";
 export async function AuthShowcase() {
   const session = await getSession();
 
-  console.log("debug session", session);
   if (!session) {
     return (
       <form>
@@ -20,17 +19,6 @@ export async function AuthShowcase() {
                 provider: "apple",
               },
             });
-            console.log("debug apple resp", res);
-            console.log("debug apple resp string", JSON.stringify(res));
-            // const urlWithPercentEncodedPlusSigns = res.url?.replace(
-            //   /\+/g,
-            //   "%2B",
-            // );
-            // console.log(
-            //   "debug apple encoded url",
-            //   urlWithPercentEncodedPlusSigns,
-            // );
-            // redirect(urlWithPercentEncodedPlusSigns ?? "/");
             redirect(res.url ?? "/");
           }}
         >
@@ -45,8 +33,6 @@ export async function AuthShowcase() {
                 provider: "google",
               },
             });
-            console.log("debug google resp", res);
-            console.log("debug google resp string", JSON.stringify(res));
             redirect(res.url ?? "/");
           }}
         >
