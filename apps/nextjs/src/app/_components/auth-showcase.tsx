@@ -24,7 +24,7 @@ export async function AuthShowcase() {
             console.log("debug apple resp string", JSON.stringify(res));
             const urlWithPercentEncodedPlusSigns = res.url?.replace(
               /\+/g,
-              "%20",
+              "%2B",
             );
             console.log(
               "debug apple encoded url",
