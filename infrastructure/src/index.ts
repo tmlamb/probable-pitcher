@@ -657,6 +657,10 @@ const appDeployment = new k8s.apps.v1.Deployment(
                   value: config.requireSecret("authGoogleClientSecret"),
                 },
                 {
+                  name: "AUTH_APPLE_ID",
+                  value: config.requireSecret("appleClientId"),
+                },
+                {
                   name: "AUTH_APPLE_BUNDLE_ID",
                   value: config.requireSecret("appleClientId"),
                 },
