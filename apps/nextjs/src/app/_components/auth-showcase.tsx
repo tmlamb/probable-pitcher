@@ -1,5 +1,5 @@
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 
 import { auth, getSession } from "@probable/auth";
 import { Button } from "@probable/ui/button";
@@ -7,6 +7,7 @@ import { Button } from "@probable/ui/button";
 export async function AuthShowcase() {
   const session = await getSession();
 
+  console.log("debug session", session);
   if (!session) {
     return (
       <form>
@@ -21,7 +22,7 @@ export async function AuthShowcase() {
             });
             console.log("debug apple resp", res);
             console.log("debug apple resp string", JSON.stringify(res));
-            //redirect(res.url ?? "/");
+            redirect(res.url ?? "/", RedirectType.push);
           }}
         >
           Sign in with Apple
