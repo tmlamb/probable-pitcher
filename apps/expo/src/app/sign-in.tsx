@@ -24,6 +24,7 @@ import googleSignInNeutral from "../../assets/google-signin-neutral.png";
 import Background from "../components/Background";
 import TextThemed from "../components/TextThemed";
 
+// Redesign this ugly page
 export default function SignIn() {
   const queryClient = useQueryClient();
   // TODO figure out assets
@@ -38,14 +39,18 @@ export default function SignIn() {
   // TODO add color scheme toggle to sign-in page
   const [colorScheme] = useAppColorScheme(tw);
 
+  // colors={["#c3875b", "#789d7c", "#a6cbb0"]}
   return (
     <LinearGradient
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      colors={
+        colorScheme === "dark"
+          ? ["#6b3a12", "#49654c", "#668369"]
+          : ["#c3875b", "#789d7c", "#a6cbb0"]
+      }
+      locations={[0, 0.4, 1]}
       style={tw`flex-1`}
-      //#D28769, #75a66b
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      colors={[tw.color("bg-yellow-700")!, tw.color("bg-green-700")!]}
-      end={{ x: 0.25, y: 0.4 }}
-      locations={[0.35, 0.45]}
     >
       <StatusBar style="light" />
       <SafeAreaView style={tw`flex flex-1 justify-end`}>
@@ -68,7 +73,7 @@ export default function SignIn() {
               style={tw`text-muted-foreground text-center text-base`}
               variant="muted"
             >
-              Sign in with an identity provider to get started.
+              Sign in with one of the options below to start
             </TextThemed>
           </View>
           <View style={tw`flex gap-8`}>

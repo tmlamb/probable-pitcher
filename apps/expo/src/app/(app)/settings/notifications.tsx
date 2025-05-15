@@ -94,6 +94,7 @@ export default function Notifications() {
 
   const permissionGranted = pushPermissionStatus === PermissionStatus.GRANTED;
 
+  // TODO Speed with Switch feedback
   return (
     <Background>
       <Card style={tw`mt-8`}>

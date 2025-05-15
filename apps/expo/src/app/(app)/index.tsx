@@ -428,7 +428,7 @@ export default function Home() {
                   style={tw`mx-6 mb-6 mt-3 text-sm`}
                   accessibilityRole="summary"
                 >
-                  No pitchers found. Try changing your search.
+                  No pitchers found, try changing your search
                 </TextThemed>
               </Animated.View>
             )}
@@ -452,7 +452,7 @@ export default function Home() {
                     accessibilityRole="summary"
                   >
                     Search for your favorite pitcher to add them to your list of
-                    subscriptions.
+                    subscriptions
                   </TextThemed>
                 </Animated.View>
               )
@@ -464,8 +464,8 @@ export default function Home() {
                   style={tw`mx-6 mb-6 mt-3 text-sm`}
                   accessibilityRole="alert"
                 >
-                  An error occurred while performing your search. Please try
-                  again later.
+                  An error occurred while performing your search, please try
+                  again later
                 </TextThemed>
               </Animated.View>
             )}

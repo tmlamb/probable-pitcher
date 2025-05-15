@@ -10,8 +10,6 @@ import tw from "~/utils/tailwind";
 import { variantClasses as textClasses } from "../../components/TextThemed";
 import useNotifications from "../../hooks/use-notifications";
 
-// This is the main layout of the app
-// It wraps your pages with the providers they need
 export default function AppLayout() {
   const { data: session, isPending } = authClient.useSession();
 

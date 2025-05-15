@@ -6,6 +6,7 @@ import { pitcher, team } from "@probable/db/schema";
 
 import { protectedProcedure } from "../trpc";
 
+// TODO Account for similarity in team name based search when ordering
 export const pitcherRouter = {
   byFuzzyName: protectedProcedure
     .input(z.string())
