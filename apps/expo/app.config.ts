@@ -23,7 +23,6 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     owner: EXPO_OWNER,
     version: "2.0.0",
     orientation: "portrait",
-    icon: "./assets/icon-light.png",
     userInterfaceStyle: "automatic",
     updates: {
       fallbackToCacheTimeout: 0,
@@ -52,10 +51,10 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       package: `${ANDROID_PACKAGE_NAME}${
         APP_ENV !== "production" ? `.${APP_ENV}` : ""
       }`,
-
+      icon: "./assets/icon-light.png",
       adaptiveIcon: {
-        foregroundImage: "./assets/adaptive-icon.png",
-        backgroundColor: "#ffffff",
+        foregroundImage: "./assets/adaptive-icon-light.png",
+        backgroundColor: "#789d7c",
       },
       googleServicesFile: "./google-services.json",
       edgeToEdgeEnabled: true,
@@ -84,7 +83,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
           backgroundColor: "#789d7c",
           image: "./assets/icon-light.png",
           dark: {
-            backgroundColor: "#49654c",
+            backgroundColor: "#567259",
             image: "./assets/icon-dark.png",
           },
         },
@@ -102,7 +101,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         "expo-asset",
         {
           assets: [
-            "./assets/adaptive-icon.png",
+            "./assets/adaptive-icon-light.png",
+            "./assets/adaptive-icon-dark.png",
             "./assets/google-signin-neutral.png",
           ],
         },

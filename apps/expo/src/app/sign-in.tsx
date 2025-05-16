@@ -6,7 +6,6 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import * as AppleAuthentication from "expo-apple-authentication";
-//import { useAssets } from "expo-asset";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
@@ -17,36 +16,24 @@ import { useAppColorScheme } from "twrnc";
 import { trpc } from "~/utils/api";
 import { authClient } from "~/utils/auth";
 import tw from "~/utils/tailwind";
-// @ts-expect-error image import
-import adaptiveIcon from "../../assets/adaptive-icon.png";
-// @ts-expect-error image import
-import googleSignInNeutral from "../../assets/google-signin-neutral.png";
 import Background from "../components/Background";
 import TextThemed from "../components/TextThemed";
 
 // Redesign this ugly page
 export default function SignIn() {
   const queryClient = useQueryClient();
-  // TODO figure out assets
-  //const [assets] = useAssets([
-  //  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  //  require("../../assets/adaptive-icon.png"),
-  //  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  //  require("../../assets/google-signin-neutral.png"),
-  //]);
 
   const insets = useSafeAreaInsets();
   // TODO add color scheme toggle to sign-in page
   const [colorScheme] = useAppColorScheme(tw);
 
-  // colors={["#c3875b", "#789d7c", "#a6cbb0"]}
   return (
     <LinearGradient
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       colors={
         colorScheme === "dark"
-          ? ["#6b3a12", "#49654c", "#668369"]
+          ? ["#965e32", "#567259", "#789d7c"]
           : ["#c3875b", "#789d7c", "#a6cbb0"]
       }
       locations={[0, 0.4, 1]}
@@ -54,13 +41,23 @@ export default function SignIn() {
     >
       <StatusBar style="light" />
       <SafeAreaView style={tw`flex flex-1 justify-end`}>
-        <Image
-          alt=""
-          style={tw`mx-auto mb-6 aspect-square h-44`}
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          source={adaptiveIcon}
-          //source={assets?.[0]}
-        />
+        {colorScheme === "dark" ? (
+          <Image
+            alt=""
+            style={tw`mx-auto mb-6 aspect-square h-44`}
+            source={{
+              uri: "adaptive-icon-dark",
+            }}
+          />
+        ) : (
+          <Image
+            alt=""
+            style={tw`mx-auto mb-6 aspect-square h-44`}
+            source={{
+              uri: "adaptive-icon-light",
+            }}
+          />
+        )}
         <Background
           variant="modal"
           style={tw`h-3/4 rounded-t-3xl px-3 pb-16 -mb-[${insets.bottom}], flex justify-end gap-8 shadow-2xl`}
@@ -98,8 +95,7 @@ export default function SignIn() {
                 alt="Sign in with Google"
                 style={tw`h-1/2`}
                 contentFit="contain"
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                source={googleSignInNeutral}
+                source={{ uri: "google-signin-neutral" }}
               />
             </Pressable>
             <AppleAuthentication.AppleAuthenticationButton
@@ -128,9 +124,7 @@ export default function SignIn() {
                   await authClient.signIn.social({
                     provider: "apple",
                     idToken: {
-                      token: credential.identityToken, // Apple ID Token,
-                      //nonce: // Nonce (optional)
-                      //accessToken: // Access Token (optional)
+                      token: credential.identityToken,
                     },
                   });
                   queryClient
