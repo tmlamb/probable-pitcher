@@ -4,7 +4,7 @@ import type {
   PitcherRef,
   TeamRef,
 } from "@probable/db/schema";
-import { and, between, desc, eq, inArray, isNull } from "@probable/db";
+import { and, between, eq, inArray, isNull } from "@probable/db";
 import { db } from "@probable/db/client";
 import {
   device,
@@ -181,7 +181,6 @@ export const client = {
             },
           },
         },
-        orderBy: [desc(game.date)],
       });
     },
   },

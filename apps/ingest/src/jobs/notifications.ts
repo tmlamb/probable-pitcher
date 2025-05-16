@@ -48,9 +48,9 @@ export async function ingestNotifications(ingestStartTime: Date) {
             });
           } catch (e) {
             if (
-              e instanceof Error
-              //e instanceof QueryError &&
-              //e.code === "23505" // unique constraint violation, notification already ingested
+              e instanceof Error &&
+              "code" in e &&
+              e.code === "23505" // unique constraint violation, notification already ingested
             ) {
               console.warn("Duplicate notifications cannot be created: ", e);
             } else {
