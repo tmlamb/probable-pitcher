@@ -3,7 +3,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { apiKey } from "better-auth/plugins";
 
-import { db } from "@probable/db/client"; // your drizzle instance
+import { db } from "@probable/db/client";
 
 import { env } from "../env";
 
@@ -19,13 +19,11 @@ export const auth = betterAuth({
     google: {
       clientId: env.AUTH_GOOGLE_ID,
       clientSecret: env.AUTH_GOOGLE_SECRET,
-      //redirectURI: "https://dev.probablepitcher.com/api/auth/callback/google",
     },
     apple: {
       clientId: env.AUTH_APPLE_SERVICE_ID,
       clientSecret: env.AUTH_APPLE_SECRET,
       appBundleIdentifier: env.AUTH_APPLE_BUNDLE_ID,
-      //redirectURI: "https://dev.probablepitcher.com/api/auth/callback/apple",
     },
   },
   trustedOrigins: [

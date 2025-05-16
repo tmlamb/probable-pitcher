@@ -36,6 +36,9 @@ export default function Notifications() {
                 }
               : undefined,
         );
+        queryClient
+          .invalidateQueries(trpc.device.byPushToken.pathFilter())
+          .catch(console.error);
         return { currentDevice };
       },
       onError: (err, _, context) => {
@@ -55,7 +58,7 @@ export default function Notifications() {
 
   const { data: device, isSuccess: deviceFetched } = useQuery(
     trpc.device.byPushToken.queryOptions(expoPushToken ?? "", {
-      enabled: !!expoPushToken && !isPending,
+      enabled: !!expoPushToken,
     }),
   );
 
@@ -94,7 +97,6 @@ export default function Notifications() {
 
   const permissionGranted = pushPermissionStatus === PermissionStatus.GRANTED;
 
-  // TODO Speed with Switch feedback
   return (
     <Background>
       <Card style={tw`mt-8`}>

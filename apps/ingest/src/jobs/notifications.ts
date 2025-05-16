@@ -112,7 +112,6 @@ export async function sendNotifications(sendStartTime: Date) {
     const fulfilled = new Set<string>();
     const messages: string[] = [];
 
-    // TODO: Push notifications in ascending order of game time (cases seen where they are sent with later game time first)
     for (const notification of device.notifications) {
       const localizedGameTime = formatInTimeZone(
         notification.game.date,

@@ -4,7 +4,7 @@ import type {
   PitcherRef,
   TeamRef,
 } from "@probable/db/schema";
-import { and, between, eq, inArray, isNull } from "@probable/db";
+import { and, between, desc, eq, inArray, isNull } from "@probable/db";
 import { db } from "@probable/db/client";
 import {
   device,
@@ -155,83 +155,7 @@ export const client = {
         where: eq(user.id, userId),
       });
     },
-    //withPendingNotifications: () => {
-    //  const start = new Date();
-    //  const hour = Number(format(start, "H"));
-    //  const end = add(hour < 6 ? start : endOfToday(), { hours: 6 });
-    //  const notificationsPendingToday = {
-    //    AND: [
-    //      {
-    //        sentOn: null,
-    //      },
-    //      {
-    //        game: {
-    //          date: {
-    //            gte: start,
-    //            lte: end,
-    //          },
-    //        },
-    //      },
-    //    ],
-    //  };
-    //
-    //  return prisma.device.findMany({
-    //    select: {
-    //      id: true,
-    //      notifications: {
-    //        include: {
-    //          game: true,
-    //          pitcher: true,
-    //        },
-    //        // limits the notifications to those that are pending today
-    //        where: notificationsPendingToday,
-    //      },
-    //      timezone: true,
-    //      pushToken: true,
-    //    },
-    //    where: {
-    //      notificationsEnabled: true,
-    //      notifications: {
-    //        // limits the devices to those that have notifications pending today
-    //        some: notificationsPendingToday,
-    //      },
-    //    },
-    //  });
-    //},
     withPendingNotificationsInRange: (start: Date, end: Date) => {
-      //return db
-      //  .select()
-      //  .from(device)
-      //  .innerJoin(
-      //    notification,
-      //    and(
-      //      eq(device.id, notification.deviceId),
-      //      isNull(notification.sentOn),
-      //      //between(game.date, start, end),
-      //    ),
-      //  )
-      //  .innerJoin(
-      //    game,
-      //    and(eq(game.id, notification.gameId), between(game.date, start, end)),
-      //  )
-      //  .where(eq(device.notificationsEnabled, true));
-
-      //db.query.device.findMany({
-      //  where: and(eq(device.notificationsEnabled, true)),
-      //  with: {
-      //    notifications: {
-      //      where: between(game.date, start, end),
-      //      columns: {
-      //        sentOn: false,
-      //      },
-      //      with: {
-      //        game: true,
-      //        pitcher: true,
-      //      },
-      //    },
-      //  },
-      //});
-
       return db.query.device.findMany({
         where: and(
           eq(device.notificationsEnabled, true),
@@ -257,6 +181,7 @@ export const client = {
             },
           },
         },
+        orderBy: [desc(game.date)],
       });
     },
   },
