@@ -43,8 +43,9 @@ export default function AppLayout() {
   if (isPending) {
     return (
       <ActivityIndicator
-        style={tw.style("mt-9 h-[86.48px]", textClasses.primary)}
+        style={tw.style("absolute m-auto w-full")}
         size="large"
+        color={tw.style(textClasses.default).color as string}
       />
     );
   }

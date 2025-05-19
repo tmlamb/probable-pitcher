@@ -1,6 +1,7 @@
 import * as dotenv from "dotenv";
 
 import { ingestGames } from "./jobs/games.js";
+import { ingestMigrationData } from "./jobs/migrations.js";
 import {
   ingestNotifications,
   sendNotifications,
@@ -42,5 +43,11 @@ if (ingestJobs) {
     console.info("----------SENDING NOTIFICATIONS START----------");
     await sendNotifications(ingestDate);
     console.info("----------SENDING NOTIFICATIONS END----------");
+  }
+
+  if (ingestJobs.includes("migrations")) {
+    console.info("----------INGESTING MIGRATIONS START----------");
+    await ingestMigrationData();
+    console.info("----------INGESTING MIGRATIONS END----------");
   }
 }

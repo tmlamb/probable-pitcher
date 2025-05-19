@@ -204,6 +204,10 @@ export const account = pgTable("account", (t) => ({
   updatedAt: t.timestamp().notNull(),
 }));
 
+export const selectAccountSchema = createSelectSchema(account);
+
+export type Account = z.infer<typeof selectAccountSchema>;
+
 export const session = pgTable("session", (t) => ({
   id: t.text().primaryKey(),
   expiresAt: t.timestamp().notNull(),

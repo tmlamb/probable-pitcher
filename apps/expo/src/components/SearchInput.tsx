@@ -3,6 +3,7 @@ import React from "react";
 import { Dimensions, Keyboard, View } from "react-native";
 import Animated, {
   Easing,
+  FadeIn,
   FadeInRight,
   FadeOutRight,
   useAnimatedStyle,
@@ -62,6 +63,7 @@ export default function SearchInput({
           searchFilterWidth.set(() =>
             withTiming(roundedWidth - (searchText ? cancelButtonWidth : 0), {
               duration: 400,
+              easing: Easing.inOut(Easing.ease),
             }),
           );
         }
@@ -75,12 +77,14 @@ export default function SearchInput({
             onFocus={() => {
               searchFilterWidth.set(() => {
                 return withTiming(searchComponentWidth - cancelButtonWidth, {
-                  duration: 200,
+                  duration: 300,
+                  easing: Easing.inOut(Easing.ease),
                 });
               });
               searchComponentMarginTop.set(() =>
                 withTiming(0, {
-                  duration: 400,
+                  duration: 200,
+                  easing: Easing.inOut(Easing.ease),
                 }),
               );
               setShowCancelButton(true);
@@ -93,13 +97,14 @@ export default function SearchInput({
               if (!searchText) {
                 searchFilterWidth.set(() =>
                   withTiming(searchComponentWidth, {
-                    duration: 300,
+                    duration: 200,
                     easing: Easing.inOut(Easing.ease),
                   }),
                 );
                 searchComponentMarginTop.set(() =>
                   withTiming(0, {
                     duration: 400,
+                    easing: Easing.inOut(Easing.ease),
                   }),
                 );
                 setShowCancelButton(false);
@@ -129,9 +134,9 @@ export default function SearchInput({
         {showCancelButton && (
           <Animated.View
             key="cancelbutton"
-            entering={FadeInRight.duration(150)}
-            exiting={FadeOutRight.duration(200)}
-            style={tw``}
+            entering={FadeIn.duration(200)
+              .delay(200)
+              .easing(Easing.inOut(Easing.ease))}
             onLayout={(event) => {
               const roundedWidth = Math.round(event.nativeEvent.layout.width);
               if (cancelButtonWidth !== roundedWidth) {
@@ -149,13 +154,14 @@ export default function SearchInput({
               onPress={() => {
                 searchFilterWidth.set(() =>
                   withTiming(searchComponentWidth, {
-                    duration: 300,
+                    duration: 200,
                     easing: Easing.inOut(Easing.ease),
                   }),
                 );
                 searchComponentMarginTop.set(() =>
                   withTiming(0, {
-                    duration: 400,
+                    duration: 200,
+                    easing: Easing.inOut(Easing.ease),
                   }),
                 );
                 onChange(undefined);

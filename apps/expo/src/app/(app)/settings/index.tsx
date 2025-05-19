@@ -10,6 +10,7 @@ import PressableThemed from "~/components/PressableThemed";
 import TextThemed from "~/components/TextThemed";
 import tw from "~/utils/tailwind";
 
+// TODO add color theme toggle to settings screen
 export default function Settings() {
   return (
     <Background>

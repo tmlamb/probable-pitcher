@@ -21,7 +21,6 @@ export default function DoubleConfirm({
 }: Props) {
   const [toggle, setToggle] = React.useState(false);
 
-  // TODO wrap {second} in another PressableThemed
   return (
     <View style={tw.style("relative", style)}>
       <PressableThemed

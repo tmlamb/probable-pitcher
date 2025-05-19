@@ -1,6 +1,7 @@
 import type { CodedError } from "expo-modules-core";
 import React from "react";
 import { Pressable, View } from "react-native";
+import Animated, { FadeInUp } from "react-native-reanimated";
 import {
   SafeAreaView,
   useSafeAreaInsets,
@@ -19,7 +20,6 @@ import tw from "~/utils/tailwind";
 import Background from "../components/Background";
 import TextThemed from "../components/TextThemed";
 
-// Redesign this ugly page
 export default function SignIn() {
   const queryClient = useQueryClient();
 
@@ -28,122 +28,121 @@ export default function SignIn() {
   const [colorScheme] = useAppColorScheme(tw);
 
   return (
-    <LinearGradient
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      colors={
-        colorScheme === "dark"
-          ? ["#965e32", "#567259", "#789d7c"]
-          : ["#c3875b", "#789d7c", "#a6cbb0"]
-      }
-      locations={[0, 0.4, 1]}
-      style={tw`flex-1`}
-    >
-      <StatusBar style="light" />
-      <SafeAreaView style={tw`flex flex-1 justify-end`}>
-        {colorScheme === "dark" ? (
-          <Image
-            alt=""
-            style={tw`mx-auto mb-6 aspect-square h-44`}
-            source={{
-              uri: "adaptive-icon-dark",
-            }}
-          />
-        ) : (
-          <Image
-            alt=""
-            style={tw`mx-auto mb-6 aspect-square h-44`}
-            source={{
-              uri: "adaptive-icon-light",
-            }}
-          />
-        )}
-        <Background
-          variant="modal"
-          style={tw`h-3/4 rounded-t-3xl px-3 pb-16 -mb-[${insets.bottom}], flex justify-end gap-8 shadow-2xl`}
-        >
-          <View style={tw`flex grow justify-center gap-4`}>
-            <TextThemed style={tw`px-8 text-center text-4xl font-semibold`}>
-              Welcome to Probable Pitcher
-            </TextThemed>
-            <TextThemed
-              style={tw`text-muted-foreground text-center text-base`}
-              variant="muted"
-            >
-              Sign in with one of the options below to start
-            </TextThemed>
-          </View>
-          <View style={tw`flex gap-8`}>
-            <Pressable
-              style={tw`flex h-[44px] justify-center rounded-xl bg-[#f2f2f2] shadow-sm active:opacity-10`}
-              onPress={async () => {
-                try {
-                  await authClient.signIn.social({
-                    provider: "google",
-                    callbackURL: "/",
-                  });
-                  queryClient
-                    .invalidateQueries(trpc.pathFilter())
-                    .catch(console.error);
-                  router.replace("/");
-                } catch (e: unknown) {
-                  console.error("Unexpected error during Google sign-in", e);
-                }
-              }}
-            >
-              <Image
-                alt="Sign in with Google"
-                style={tw`h-1/2`}
-                contentFit="contain"
-                source={{ uri: "google-signin-neutral" }}
-              />
-            </Pressable>
-            <AppleAuthentication.AppleAuthenticationButton
-              buttonType={
-                AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN
-              }
-              buttonStyle={
-                colorScheme === "dark"
-                  ? AppleAuthentication.AppleAuthenticationButtonStyle.WHITE
-                  : AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
-              }
-              style={tw`mx-auto h-[44px] w-full overflow-hidden rounded-xl active:opacity-10`}
-              onPress={async () => {
-                try {
-                  const credential = await AppleAuthentication.signInAsync({
-                    requestedScopes: [
-                      AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-                      AppleAuthentication.AppleAuthenticationScope.EMAIL,
-                    ],
-                  });
-
-                  if (credential.identityToken === null) {
-                    console.error("null identity token");
-                    return null;
-                  }
-                  await authClient.signIn.social({
-                    provider: "apple",
-                    idToken: {
-                      token: credential.identityToken,
-                    },
-                  });
-                  queryClient
-                    .invalidateQueries(trpc.pathFilter())
-                    .catch(console.error);
-                  router.replace("/");
-                } catch (e: unknown) {
-                  if (isCodedError(e) && e.code === "ERR_REQUEST_CANCELED") {
-                    return null;
-                  } else {
-                    console.error("Unexpected error during Apple sign-in", e);
-                  }
-                }
+    <Animated.View entering={FadeInUp} style={tw`flex-1`}>
+      <LinearGradient
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        colors={
+          colorScheme === "dark"
+            ? ["#965e32", "#567259", "#789d7c"]
+            : ["#c3875b", "#789d7c", "#a6cbb0"]
+        }
+        locations={[0, 0.4, 1]}
+        style={tw`flex-1`}
+      >
+        <StatusBar style="light" />
+        <SafeAreaView style={tw`flex flex-1 justify-end`}>
+          {colorScheme === "dark" ? (
+            <Image
+              alt=""
+              style={tw`mx-auto mb-6 aspect-square h-44`}
+              source={{
+                uri: "adaptive-icon-dark",
               }}
             />
-          </View>
-        </Background>
-      </SafeAreaView>
-    </LinearGradient>
+          ) : (
+            <Image
+              alt=""
+              style={tw`mx-auto mb-6 aspect-square h-44`}
+              source={{
+                uri: "adaptive-icon-light",
+              }}
+            />
+          )}
+          <Background
+            variant="modal"
+            style={tw`h-3/4 rounded-t-3xl px-3 pb-16 -mb-[${insets.bottom}], flex justify-end gap-8 shadow-2xl`}
+          >
+            <View style={tw`flex grow justify-center gap-4`}>
+              <TextThemed style={tw`px-8 text-center text-4xl font-semibold`}>
+                Welcome to Probable Pitcher
+              </TextThemed>
+              <TextThemed style={tw`text-center text-base`} variant="muted">
+                Sign in with one of the options below to start
+              </TextThemed>
+            </View>
+            <View style={tw`flex gap-8`}>
+              <Pressable
+                style={tw`flex h-[44px] justify-center rounded-xl bg-[#f2f2f2] shadow-sm active:opacity-10`}
+                onPress={async () => {
+                  try {
+                    await authClient.signIn.social({
+                      provider: "google",
+                      callbackURL: "/",
+                    });
+                    queryClient
+                      .invalidateQueries(trpc.pathFilter())
+                      .catch(console.error);
+                    router.replace("/");
+                  } catch (e: unknown) {
+                    console.error("Unexpected error during Google sign-in", e);
+                  }
+                }}
+              >
+                <Image
+                  alt="Sign in with Google"
+                  style={tw`h-1/2`}
+                  contentFit="contain"
+                  source={{ uri: "google-signin-neutral" }}
+                />
+              </Pressable>
+              <AppleAuthentication.AppleAuthenticationButton
+                buttonType={
+                  AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN
+                }
+                buttonStyle={
+                  colorScheme === "dark"
+                    ? AppleAuthentication.AppleAuthenticationButtonStyle.WHITE
+                    : AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
+                }
+                style={tw`mx-auto h-[44px] w-full overflow-hidden rounded-xl active:opacity-10`}
+                onPress={async () => {
+                  try {
+                    const credential = await AppleAuthentication.signInAsync({
+                      requestedScopes: [
+                        AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+                        AppleAuthentication.AppleAuthenticationScope.EMAIL,
+                      ],
+                    });
+
+                    if (credential.identityToken === null) {
+                      console.error("null identity token");
+                      return null;
+                    }
+                    await authClient.signIn.social({
+                      provider: "apple",
+                      idToken: {
+                        token: credential.identityToken,
+                      },
+                    });
+                    queryClient
+                      .invalidateQueries(trpc.pathFilter())
+                      .catch(console.error);
+                    router.replace("/");
+                  } catch (e: unknown) {
+                    if (isCodedError(e) && e.code === "ERR_REQUEST_CANCELED") {
+                      return null;
+                    } else {
+                      console.error("Unexpected error during Apple sign-in", e);
+                    }
+                  }
+                }}
+              />
+            </View>
+          </Background>
+        </SafeAreaView>
+      </LinearGradient>
+    </Animated.View>
   );
 }
 

@@ -26,6 +26,7 @@ import { AntDesign } from "@expo/vector-icons";
 import * as Sentry from "@sentry/react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { formatInTimeZone } from "date-fns-tz";
+import { useAppColorScheme } from "twrnc";
 
 import type { PitcherSubscription } from "@probable/ui";
 import { subscriptionSchedule } from "@probable/ui";
@@ -253,18 +254,11 @@ export default function Home() {
 
   if (subscriptionQuery.isLoading) {
     return (
-      <Background>
-        <Animated.View
-          style={tw`absolute h-screen w-screen justify-center`}
-          entering={FadeIn}
-          exiting={FadeOut}
-        >
-          <ActivityIndicator
-            style={tw.style(textClasses.primary)}
-            size="large"
-          />
-        </Animated.View>
-      </Background>
+      <ActivityIndicator
+        style={tw.style("absolute m-auto w-full")}
+        size="large"
+        color={tw.style(textClasses.default).color as string}
+      />
     );
   }
 
@@ -273,11 +267,7 @@ export default function Home() {
       <Stack.Screen
         options={{
           headerLeft: () => (
-            <Link
-              asChild
-              href="/settings"
-              style={tw`-mt-1 ml-0 flex w-12 flex-row items-center py-3 pr-6`}
-            >
+            <Link asChild href="/settings" style={tw`absolute left-0`}>
               <PressableThemed accessibilityLabel="Navigate to Application Settings">
                 <TextThemed variant="primary">
                   <AntDesign name="setting" size={24} />
@@ -290,7 +280,7 @@ export default function Home() {
             (isEditing ? (
               <PressableThemed
                 onPress={() => setIsEditing((isEditing) => !isEditing)}
-                style={tw`flex h-12 w-20 flex-row items-center py-3 pl-6`}
+                style={tw`absolute right-0 h-12 justify-center`}
                 accessibilityLabel="Disable edit mode"
               >
                 <TextThemed variant="primary" style={tw`font-bold`}>
@@ -300,7 +290,7 @@ export default function Home() {
             ) : (
               <PressableThemed
                 onPress={() => setIsEditing((isEditing) => !isEditing)}
-                style={tw`flex h-12 w-14 flex-row items-center py-3 pl-6`}
+                style={tw`absolute right-0 h-12 justify-center`}
                 accessibilityLabel="Enable edit mode"
               >
                 <TextThemed variant="primary">Edit</TextThemed>
@@ -309,6 +299,7 @@ export default function Home() {
         }}
       />
       <Animated.FlatList
+        entering={FadeIn}
         itemLayoutAnimation={LinearTransition.duration(175)}
         keyExtractor={(item) => {
           if (typeof item === "string") {

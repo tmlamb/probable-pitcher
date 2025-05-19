@@ -2,7 +2,9 @@ import React from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
+import { useQueryClient } from "@tanstack/react-query";
 
+import { trpc } from "~/utils/api";
 import tw from "~/utils/tailwind";
 import Background from "../components/Background";
 import Card from "../components/Card";
@@ -11,6 +13,8 @@ import TextThemed from "../components/TextThemed";
 import { registerForPushNotifications } from "../hooks/use-notifications";
 
 export default function DeviceSetup() {
+  const queryClient = useQueryClient();
+  queryClient.prefetchQuery(trpc.subscription.byUserId.queryOptions());
   return (
     <Background>
       <SafeAreaView style={tw`flex flex-1 justify-end py-6`}>
