@@ -21,7 +21,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { Link, Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
 import * as Sentry from "@sentry/react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -44,6 +44,7 @@ import TextThemed, {
 
 export default function Home() {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const subscriptionQuery = useQuery(trpc.subscription.byUserId.queryOptions());
 
@@ -266,20 +267,22 @@ export default function Home() {
       <Stack.Screen
         options={{
           headerLeft: () => (
-            <Link asChild href="/settings" style={tw`absolute left-0`}>
-              <PressableThemed accessibilityLabel="Navigate to Application Settings">
-                <TextThemed variant="primary">
-                  <AntDesign name="setting" size={24} />
-                </TextThemed>
-              </PressableThemed>
-            </Link>
+            <PressableThemed
+              onPress={() => router.navigate("/settings")}
+              accessibilityLabel="Navigate to Application Settings"
+              style={tw``}
+            >
+              <TextThemed variant="primary">
+                <AntDesign name="setting" size={24} />
+              </TextThemed>
+            </PressableThemed>
           ),
           headerRight: () =>
             !!subscriptionQuery.data?.length &&
             (isEditing ? (
               <PressableThemed
                 onPress={() => setIsEditing((isEditing) => !isEditing)}
-                style={tw`absolute right-0 h-12 justify-center`}
+                style={tw`-ml-3.5`}
                 accessibilityLabel="Disable edit mode"
               >
                 <TextThemed variant="primary" style={tw`font-bold`}>
@@ -289,7 +292,7 @@ export default function Home() {
             ) : (
               <PressableThemed
                 onPress={() => setIsEditing((isEditing) => !isEditing)}
-                style={tw`absolute right-0 h-12 justify-center`}
+                style={tw``}
                 accessibilityLabel="Enable edit mode"
               >
                 <TextThemed variant="primary">Edit</TextThemed>
