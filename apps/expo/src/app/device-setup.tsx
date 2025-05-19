@@ -14,7 +14,9 @@ import { registerForPushNotifications } from "../hooks/use-notifications";
 
 export default function DeviceSetup() {
   const queryClient = useQueryClient();
-  queryClient.prefetchQuery(trpc.subscription.byUserId.queryOptions());
+  queryClient
+    .prefetchQuery(trpc.subscription.byUserId.queryOptions())
+    .catch(console.error);
   return (
     <Background>
       <SafeAreaView style={tw`flex flex-1 justify-end py-6`}>

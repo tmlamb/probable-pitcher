@@ -26,7 +26,6 @@ import { AntDesign } from "@expo/vector-icons";
 import * as Sentry from "@sentry/react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { formatInTimeZone } from "date-fns-tz";
-import { useAppColorScheme } from "twrnc";
 
 import type { PitcherSubscription } from "@probable/ui";
 import { subscriptionSchedule } from "@probable/ui";

@@ -14,7 +14,7 @@ export async function ingestMigrationData() {
         id: legacyUser.id,
         name: legacyUser.email,
         email: legacyUser.email,
-        emailVerified: !!legacyUser.emailVerified?.length,
+        emailVerified: !!legacyUser.emailVerified.length,
         image: legacyUser.image,
         createdAt: new Date(),
         updatedAt: new Date(),

@@ -1,8 +1,7 @@
-import { z } from "zod";
+import type { z } from "zod";
 
 import type {
   Account,
-  Device,
   GameRef,
   Notification,
   PitcherRef,
@@ -23,6 +22,11 @@ import {
   team,
   user,
 } from "@probable/db/schema";
+
+export const migrateDeviceSchema = selectDeviceSchema.omit({ id: true });
+export const migrateSubscriptionSchema = selectSubscriptionSchema.omit({
+  id: true,
+});
 
 export const client = {
   team: {
@@ -213,6 +217,3 @@ export const client = {
     },
   },
 };
-
-const migrateDeviceSchema = selectDeviceSchema.omit({ id: true });
-const migrateSubscriptionSchema = selectSubscriptionSchema.omit({ id: true });

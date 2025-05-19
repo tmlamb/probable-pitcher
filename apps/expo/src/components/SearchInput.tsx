@@ -4,8 +4,6 @@ import { Dimensions, Keyboard, View } from "react-native";
 import Animated, {
   Easing,
   FadeIn,
-  FadeInRight,
-  FadeOutRight,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
