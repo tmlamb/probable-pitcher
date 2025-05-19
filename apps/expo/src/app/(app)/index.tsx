@@ -252,28 +252,10 @@ export default function Home() {
     }
   };
 
-  if (subscriptionQuery.isLoading) {
-    return (
-      <Background>
-        <Stack.Screen
-          options={{
-            headerTransparent: true,
-          }}
-        />
-        <ActivityIndicator
-          style={tw.style("m-auto h-screen w-full")}
-          size="large"
-          color={tw.style(textClasses.default).color as string}
-        />
-      </Background>
-    );
-  }
-
   return (
     <Background>
       <Stack.Screen
         options={{
-          headerTransparent: false,
           headerLeft: () => (
             <PressableThemed
               onPress={() => router.navigate("/settings")}
