@@ -254,11 +254,18 @@ export default function Home() {
 
   if (subscriptionQuery.isLoading) {
     return (
-      <ActivityIndicator
-        style={tw.style("absolute m-auto w-full")}
-        size="large"
-        color={tw.style(textClasses.default).color as string}
-      />
+      <Background>
+        <Stack.Screen
+          options={{
+            headerTransparent: true,
+          }}
+        />
+        <ActivityIndicator
+          style={tw.style("m-auto h-screen w-full")}
+          size="large"
+          color={tw.style(textClasses.default).color as string}
+        />
+      </Background>
     );
   }
 
@@ -266,13 +273,14 @@ export default function Home() {
     <Background>
       <Stack.Screen
         options={{
+          headerTransparent: false,
           headerLeft: () => (
             <PressableThemed
               onPress={() => router.navigate("/settings")}
               accessibilityLabel="Navigate to Application Settings"
-              style={tw``}
+              style={tw`w-4 pr-6`}
             >
-              <TextThemed variant="primary">
+              <TextThemed variant="primary" style={tw`w-4 pr-6`}>
                 <AntDesign name="setting" size={24} />
               </TextThemed>
             </PressableThemed>

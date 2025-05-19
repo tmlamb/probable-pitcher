@@ -43,7 +43,7 @@ export default function AppLayout() {
   if (isPending) {
     return (
       <ActivityIndicator
-        style={tw.style("absolute m-auto w-full")}
+        style={tw.style("absolute m-auto h-full w-full")}
         size="large"
         color={tw.style(textClasses.default).color as string}
       />

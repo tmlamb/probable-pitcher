@@ -69,16 +69,15 @@ export default function RootLayout() {
   //}
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Background
-        key={forceRenderKey}
-        style={tw.style(
-          colorScheme.current === "dark" ? "bg-[#567259]" : "bg-[#789d7c]",
-          "justify-center",
-        )}
-      >
+    <Background
+      key={forceRenderKey}
+      style={tw.style(
+        colorScheme.current === "dark" ? "bg-[#567259]" : "bg-[#789d7c]",
+      )}
+    >
+      <QueryClientProvider client={queryClient}>
         <Slot />
-      </Background>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </Background>
   );
 }
