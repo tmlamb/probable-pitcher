@@ -7,7 +7,7 @@ import type {
 import type { AnimatedStyle } from "react-native-reanimated";
 import type { ClassInput } from "twrnc";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import Animated, {
   Easing,
   FadeIn,
@@ -252,42 +252,54 @@ export default function Home() {
     }
   };
 
+  const showLoadingIndicator =
+    subscriptionQuery.isLoading || searchQuery.isFetching;
+
   return (
     <Background>
       <Stack.Screen
         options={{
           headerLeft: () => (
-            <PressableThemed
-              onPress={() => router.navigate("/settings")}
-              accessibilityLabel="Navigate to Application Settings"
-              style={tw`w-4 pr-6`}
+            <View
+              style={tw`-ml-3 h-12 w-12 flex-row items-center justify-start`}
             >
-              <TextThemed variant="primary" style={tw`w-4 pr-6`}>
-                <AntDesign name="setting" size={24} />
-              </TextThemed>
-            </PressableThemed>
-          ),
-          headerRight: () =>
-            !!subscriptionQuery.data?.length &&
-            (isEditing ? (
               <PressableThemed
-                onPress={() => setIsEditing((isEditing) => !isEditing)}
-                style={tw`-ml-3.5`}
-                accessibilityLabel="Disable edit mode"
+                onPress={() => router.navigate("/settings")}
+                accessibilityLabel="Navigate to Application Settings"
+                style={tw`h-full w-full items-start justify-center pl-2`}
               >
-                <TextThemed variant="primary" style={tw`font-bold`}>
-                  Done
+                <TextThemed variant="primary" style={tw``}>
+                  <AntDesign name="setting" size={24} />
                 </TextThemed>
               </PressableThemed>
-            ) : (
-              <PressableThemed
-                onPress={() => setIsEditing((isEditing) => !isEditing)}
-                style={tw``}
-                accessibilityLabel="Enable edit mode"
-              >
-                <TextThemed variant="primary">Edit</TextThemed>
-              </PressableThemed>
-            )),
+            </View>
+          ),
+          headerRight: () => (
+            <View style={tw`-mr-3 h-12 w-16 flex-row items-center justify-end`}>
+              {!!subscriptionQuery.data?.length &&
+                (isEditing ? (
+                  <PressableThemed
+                    onPress={() => setIsEditing((isEditing) => !isEditing)}
+                    style={tw`h-full w-full items-end justify-center pr-2`}
+                    accessibilityLabel="Disable edit mode"
+                  >
+                    <TextThemed variant="primary" style={tw`font-bold`}>
+                      Done
+                    </TextThemed>
+                  </PressableThemed>
+                ) : (
+                  <PressableThemed
+                    onPress={() => setIsEditing((isEditing) => !isEditing)}
+                    style={tw`h-full w-full items-end justify-center pr-2`}
+                    accessibilityLabel="Enable edit mode"
+                  >
+                    <TextThemed variant="primary" style={tw``}>
+                      Edit
+                    </TextThemed>
+                  </PressableThemed>
+                ))}
+            </View>
+          ),
         }}
       />
       <Animated.FlatList
@@ -404,7 +416,25 @@ export default function Home() {
         }}
         ListEmptyComponent={
           <View>
-            {searchQuery.isSuccess && (
+            {showLoadingIndicator ? (
+              <Animated.View entering={FadeIn} exiting={FadeOut}>
+                <ActivityIndicator
+                  style={tw.style("mt-11", textClasses.primary)}
+                  size="large"
+                />
+              </Animated.View>
+            ) : subscriptionQuery.isError ? (
+              <Animated.View entering={FadeIn.delay(150)} exiting={FadeOut}>
+                <TextThemed
+                  variant="alert"
+                  style={tw`mx-6 mb-6 mt-3 text-sm`}
+                  accessibilityRole="alert"
+                >
+                  An error occurred while loading your subscriptions, please try
+                  again later
+                </TextThemed>
+              </Animated.View>
+            ) : searchQuery.isSuccess ? (
               <Animated.View entering={FadeIn.delay(150)} exiting={FadeOut}>
                 <TextThemed
                   variant="muted"
@@ -414,33 +444,7 @@ export default function Home() {
                   No pitchers found, try changing your search
                 </TextThemed>
               </Animated.View>
-            )}
-            {searchQuery.isLoading ? (
-              <Animated.View
-                style={tw`pt-6`}
-                entering={FadeIn}
-                exiting={FadeOut}
-              >
-                <ActivityIndicator
-                  style={tw.style(textClasses.primary)}
-                  size="large"
-                />
-              </Animated.View>
-            ) : (
-              !searchQuery.isSuccess && (
-                <Animated.View entering={FadeIn} exiting={FadeOut}>
-                  <TextThemed
-                    variant="muted"
-                    style={tw`mx-6 mb-6 mt-3 text-sm`}
-                    accessibilityRole="summary"
-                  >
-                    Search for your favorite pitcher to add them to your list of
-                    subscriptions
-                  </TextThemed>
-                </Animated.View>
-              )
-            )}
-            {searchQuery.isError && (
+            ) : searchQuery.isError ? (
               <Animated.View entering={FadeIn.delay(150)} exiting={FadeOut}>
                 <TextThemed
                   variant="alert"
@@ -449,6 +453,17 @@ export default function Home() {
                 >
                   An error occurred while performing your search, please try
                   again later
+                </TextThemed>
+              </Animated.View>
+            ) : (
+              <Animated.View entering={FadeIn} exiting={FadeOut}>
+                <TextThemed
+                  variant="muted"
+                  style={tw`mx-6 mb-6 mt-3 text-sm`}
+                  accessibilityRole="summary"
+                >
+                  Search for your favorite pitcher to add them to your list of
+                  subscriptions
                 </TextThemed>
               </Animated.View>
             )}
