@@ -7,7 +7,7 @@ import type {
 import type { AnimatedStyle } from "react-native-reanimated";
 import type { ClassInput } from "twrnc";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Pressable, Text, View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import Animated, {
   Easing,
   FadeIn,
