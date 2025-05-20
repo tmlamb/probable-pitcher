@@ -132,6 +132,6 @@ jobs:
         if: ${{ steps.semver-diff.outputs.release_type == 'patch' }}
         run: cd apps/expo && APP_ENV=production BETTER_AUTH_URL="https://probablepitcher.com" eas update --environment production --branch production --message "${{ github.event.release_name }}"
 
-      - name: App Store Build
-        if: ${{ steps.semver-diff.outputs.release_type == 'major' || steps.semver-diff.outputs.release_type == 'minor' }}
-        run: cd apps/expo && eas build --profile production --platform all --non-interactive
+      # - name: App Store Build
+      #   if: ${{ steps.semver-diff.outputs.release_type == 'major' || steps.semver-diff.outputs.release_type == 'minor' }}
+      #   run: cd apps/expo && eas build --profile production --platform all --non-interactive
