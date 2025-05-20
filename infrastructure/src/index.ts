@@ -428,7 +428,7 @@ const playerJob = new k8s.batch.v1.CronJob(
                     },
                     {
                       name: "INGEST_JOBS",
-                      value: "pitchers,games,migrations",
+                      value: "pitchers,games",
                     },
                     {
                       name: "BASE_API_URL",

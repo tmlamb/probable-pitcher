@@ -88,6 +88,9 @@ jobs:
     needs: deploy-infra
     runs-on: ubuntu-latest
     steps:
+      - name: Dump GitHub context
+        run: echo '${{ toJson(github.event) }}'
+
       - name: Check out code
         uses: actions/checkout@v4
 
