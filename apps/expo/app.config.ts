@@ -43,17 +43,17 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         ITSAppUsesNonExemptEncryption: false,
       },
       icon: {
-        light: "./assets/icon-light.png",
-        dark: "./assets/icon-dark.png",
+        light: "./assets/icon_light.png",
+        dark: "./assets/icon_dark.png",
       },
     },
     android: {
       package: `${ANDROID_PACKAGE_NAME}${
         APP_ENV !== "production" ? `.${APP_ENV}` : ""
       }`,
-      icon: "./assets/icon-light.png",
+      icon: "./assets/icon_light.png",
       adaptiveIcon: {
-        foregroundImage: "./assets/adaptive-icon-light.png",
+        foregroundImage: "./assets/adaptive_icon_light.png",
         backgroundColor: "#789d7c",
       },
       googleServicesFile: "./google-services.json",
@@ -73,7 +73,15 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     },
     plugins: [
       "expo-web-browser",
-      "expo-notifications",
+      [
+        "expo-notifications",
+        {
+          icon: "./assets/notification_icon.png",
+          color: "#ffffff",
+          defaultChannel: "default",
+          enableBackgroundRemoteNotifications: false,
+        },
+      ],
       "expo-router",
       "expo-secure-store",
       "expo-apple-authentication",
@@ -81,10 +89,10 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         "expo-splash-screen",
         {
           backgroundColor: "#789d7c",
-          image: "./assets/icon-light.png",
+          image: "./assets/icon_light.png",
           dark: {
             backgroundColor: "#567259",
-            image: "./assets/icon-dark.png",
+            image: "./assets/icon_dark.png",
           },
         },
       ],
@@ -101,9 +109,9 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         "expo-asset",
         {
           assets: [
-            "./assets/adaptive-icon-light.png",
-            "./assets/adaptive-icon-dark.png",
-            "./assets/google-signin-neutral.png",
+            "./assets/adaptive_icon_light.png",
+            "./assets/adaptive_icon_dark.png",
+            "./assets/google_signin_neutral.png",
           ],
         },
       ],

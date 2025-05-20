@@ -1,5 +1,5 @@
 import type { CodedError } from "expo-modules-core";
-import React from "react";
+import React, { useEffect } from "react";
 import { Pressable, View } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import {
@@ -22,6 +22,13 @@ import TextThemed from "../components/TextThemed";
 
 export default function SignIn() {
   const queryClient = useQueryClient();
+  const { data: session, isPending } = authClient.useSession();
+
+  useEffect(() => {
+    if (!isPending && session) {
+      router.replace("/");
+    }
+  }, [isPending, session]);
 
   const insets = useSafeAreaInsets();
   // TODO add color scheme toggle to sign-in page
@@ -47,7 +54,7 @@ export default function SignIn() {
               alt=""
               style={tw`mx-auto mb-6 aspect-square h-44`}
               source={{
-                uri: "adaptive-icon-dark",
+                uri: "adaptive_icon_dark",
               }}
             />
           ) : (
@@ -55,7 +62,7 @@ export default function SignIn() {
               alt=""
               style={tw`mx-auto mb-6 aspect-square h-44`}
               source={{
-                uri: "adaptive-icon-light",
+                uri: "adaptive_icon_light",
               }}
             />
           )}
@@ -93,7 +100,7 @@ export default function SignIn() {
                   alt="Sign in with Google"
                   style={tw`h-1/2`}
                   contentFit="contain"
-                  source={{ uri: "google-signin-neutral" }}
+                  source={{ uri: "google_signin_neutral" }}
                 />
               </Pressable>
               <AppleAuthentication.AppleAuthenticationButton

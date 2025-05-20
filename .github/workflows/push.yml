@@ -315,9 +315,6 @@ jobs:
       - name: Publish Live App Update
         run: cd apps/expo && APP_ENV=preview BETTER_AUTH_URL="https://dev.probablepitcher.com" eas update --environment preview --branch preview --message "${{ github.event.head_commit.message }}"
 
-      # - name: App Store Build
-      #   run: cd apps/expo && eas build --profile preview --platform ios --non-interactive
-
   tag-git:
     name: Preview Tag Git
     needs: [deploy-infra, update-preview]
