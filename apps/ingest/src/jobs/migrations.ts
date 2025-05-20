@@ -38,7 +38,7 @@ export async function ingestMigrationData() {
         accessToken: legacyAccount.access_token,
         refreshToken: legacyAccount.refresh_token,
         idToken: legacyAccount.id_token,
-        accessTokenExpiresAt: new Date(legacyAccount.expires_at),
+        accessTokenExpiresAt: new Date(Number(legacyAccount.expires_at)),
         refreshTokenExpiresAt: null,
         scope: legacyAccount.scope,
         password: null,
