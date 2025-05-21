@@ -148,10 +148,14 @@ export async function registerForPushNotifications() {
       return;
     }
 
-    const projectId =
-      Constants?.expoConfig?.extra?.eas?.projectId ??
-      Constants?.easConfig?.projectId;
-    token = (await ExpoNotifications.getExpoPushTokenAsync({ projectId })).data;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const projectId: string =
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      Constants.expoConfig?.extra?.eas?.projectId ??
+      Constants.easConfig?.projectId;
+
+    const token = (await ExpoNotifications.getExpoPushTokenAsync({ projectId }))
+      .data;
 
     if (!token) {
       Sentry.captureException(
