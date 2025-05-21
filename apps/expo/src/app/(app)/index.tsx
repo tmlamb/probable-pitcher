@@ -7,7 +7,7 @@ import type {
 import type { AnimatedStyle } from "react-native-reanimated";
 import type { ClassInput } from "twrnc";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, RefreshControl, View } from "react-native";
 import Animated, {
   Easing,
   FadeIn,
@@ -304,6 +304,12 @@ export default function Home() {
       />
       <Animated.FlatList
         entering={FadeIn}
+        refreshControl={
+          <RefreshControl
+            refreshing={subscriptionQuery.isRefetching}
+            onRefresh={subscriptionQuery.refetch}
+          />
+        }
         itemLayoutAnimation={LinearTransition.duration(175)}
         keyExtractor={(item) => {
           if (typeof item === "string") {
@@ -358,9 +364,7 @@ export default function Home() {
                   {item}
                 </TextThemed>
                 {index === 0 &&
-                  (searchQuery.isFetching ||
-                    (!searchQuery.isSuccess && !!searchFilter) ||
-                    subscribeMutation.isPending ||
+                  (subscribeMutation.isPending ||
                     unsubscribeMutation.isPending ||
                     subscriptionQuery.isFetching) && (
                     <Animated.View
