@@ -54,7 +54,6 @@ export default function SearchInput({
 
   return (
     <Animated.View
-      collapsable={false}
       style={tw.style(style, searchComponentStyle)}
       onLayout={(event) => {
         const roundedWidth = Math.round(event.nativeEvent.layout.width);
@@ -70,10 +69,9 @@ export default function SearchInput({
       }}
     >
       <View
-        collapsable={false}
         style={tw`mb-3 flex w-full flex-row flex-nowrap items-center justify-between`}
       >
-        <Animated.View collapsable={false} style={searchFilterStyle}>
+        <Animated.View style={searchFilterStyle}>
           <TextInputThemed
             onFocus={() => {
               searchFilterWidth.set(() => {

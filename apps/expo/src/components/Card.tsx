@@ -18,7 +18,6 @@ interface CardProps {
   accessible?: boolean;
   accessibilityLabel?: string;
   accessibilityState?: AccessibilityState;
-  collapsable?: boolean;
 }
 
 export default function Card({
@@ -28,7 +27,6 @@ export default function Card({
   accessible = false,
   accessibilityLabel,
   accessibilityState,
-  collapsable = true,
 }: CardProps) {
   return (
     <View
@@ -40,7 +38,6 @@ export default function Card({
       accessible={accessible}
       accessibilityLabel={accessibilityLabel}
       accessibilityState={accessibilityState}
-      collapsable={collapsable}
     >
       {children}
     </View>
