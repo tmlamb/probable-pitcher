@@ -154,8 +154,7 @@ export async function registerForPushNotifications() {
       Constants.expoConfig?.extra?.eas?.projectId ??
       Constants.easConfig?.projectId;
 
-    const token = (await ExpoNotifications.getExpoPushTokenAsync({ projectId }))
-      .data;
+    token = (await ExpoNotifications.getExpoPushTokenAsync({ projectId })).data;
 
     if (!token) {
       Sentry.captureException(
