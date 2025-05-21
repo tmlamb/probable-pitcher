@@ -1,5 +1,6 @@
 import React from "react";
 import { View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Application from "expo-application";
 import { Link } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
@@ -12,6 +13,7 @@ import tw from "~/utils/tailwind";
 
 // TODO add color theme toggle to settings screen
 export default function Settings() {
+  const insets = useSafeAreaInsets();
   return (
     <Background>
       <View style={tw`mt-8 flex-1 justify-between`}>
@@ -47,7 +49,10 @@ export default function Settings() {
             </PressableThemed>
           </Link>
         </View>
-        <TextThemed variant="muted" style={tw`self-center pb-5 text-base`}>
+        <TextThemed
+          variant="muted"
+          style={tw`self-center mb-[${insets.bottom}] text-base`}
+        >
           Probable Pitcher v{Application.nativeApplicationVersion}b
           {Application.nativeBuildVersion}
         </TextThemed>

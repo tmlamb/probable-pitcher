@@ -11,7 +11,7 @@ import { variantClasses as textClasses } from "../../components/TextThemed";
 import useNotifications from "../../hooks/use-notifications";
 
 export default function AppLayout() {
-  const { data: session, isPending } = authClient.useSession();
+  const session = authClient.useSession();
 
   const [pushPermissionStatus, setPushPermissionStatus] =
     useState<PermissionStatus | null>(null);
@@ -35,12 +35,12 @@ export default function AppLayout() {
 
   useNotifications({
     enabled:
-      !!session &&
+      !!session.data &&
       !!pushPermissionStatus &&
       pushPermissionStatus !== PermissionStatus.UNDETERMINED,
   });
 
-  if (isPending) {
+  if (session.isPending) {
     return (
       <ActivityIndicator
         style={tw.style("absolute m-auto h-full w-full")}
@@ -50,7 +50,7 @@ export default function AppLayout() {
     );
   }
 
-  if (!session) {
+  if (!session.data) {
     return <Redirect href="/sign-in" />;
   }
 

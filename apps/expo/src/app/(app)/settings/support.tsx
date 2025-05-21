@@ -1,4 +1,5 @@
 import { Linking, ScrollView, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AntDesign } from "@expo/vector-icons";
 
 import { faqs } from "@probable/ui";
@@ -9,6 +10,7 @@ import TextThemed from "~/components/TextThemed";
 import tw from "~/utils/tailwind";
 
 export default function Support() {
+  const insets = useSafeAreaInsets();
   return (
     <Background>
       <ScrollView contentContainerStyle={tw`flex-1 justify-between px-3 pt-6`}>
@@ -35,7 +37,7 @@ export default function Support() {
           }
           accessibilityRole="link"
           accessibilityLabel="Open Application Feedback Page In Browser"
-          style={tw`mb-2 flex-row items-center justify-center self-center py-3`}
+          style={tw`mb-[${insets.bottom}] flex-row items-center justify-center self-center`}
         >
           <TextThemed variant="muted" style={tw`mr-2`}>
             <AntDesign name="github" size={16} />

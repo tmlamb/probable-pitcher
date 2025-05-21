@@ -136,7 +136,7 @@ export async function registerForPushNotifications() {
   if (Platform.OS === "android") {
     ExpoNotifications.setNotificationChannelAsync("default", {
       name: "default",
-      importance: ExpoNotifications.AndroidImportance.MAX,
+      importance: ExpoNotifications.AndroidImportance.DEFAULT,
       vibrationPattern: [0, 250, 250, 250],
       lightColor: "#FF231F7C",
     }).catch((error) => {
