@@ -1,5 +1,4 @@
 import type { CodedError } from "expo-modules-core";
-import React, { useEffect, useLayoutEffect } from "react";
 import { Pressable, View } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import {
@@ -80,6 +79,11 @@ export default function SignIn() {
                     await authClient.signIn.social({
                       provider: "google",
                       callbackURL: "/",
+                      fetchOptions: {
+                        onSuccess: () => {
+                          router.replace("/");
+                        },
+                      },
                     });
                     queryClient
                       .invalidateQueries(trpc.pathFilter())
