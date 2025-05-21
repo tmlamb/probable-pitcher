@@ -70,7 +70,7 @@ export default function SearchInput({
       <View
         style={tw`mb-3 flex w-full flex-row flex-nowrap items-center justify-between`}
       >
-        <Animated.View style={searchFilterStyle}>
+        <Animated.View collapsable={false} style={searchFilterStyle}>
           <TextInputThemed
             onFocus={() => {
               searchFilterWidth.set(() => {
