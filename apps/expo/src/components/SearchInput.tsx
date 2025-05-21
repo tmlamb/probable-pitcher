@@ -69,6 +69,7 @@ export default function SearchInput({
       }}
     >
       <View
+        collapsable={false}
         style={tw`mb-3 flex w-full flex-row flex-nowrap items-center justify-between`}
       >
         <Animated.View collapsable={false} style={searchFilterStyle}>

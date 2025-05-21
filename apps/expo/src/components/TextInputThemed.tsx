@@ -81,8 +81,11 @@ export default function TextInputThemed({
   };
 
   return (
-    <Card style={tw.style("relative mx-0 p-0", style)}>
-      <Card style={tw.style("relative mx-0 w-full flex-row p-0")}>
+    <Card collapsable={false} style={tw.style("relative mx-0 p-0", style)}>
+      <Card
+        collapsable={false}
+        style={tw.style("relative mx-0 w-full flex-row p-0")}
+      >
         {leftIcon ??
           (label && (
             <Animated.View
