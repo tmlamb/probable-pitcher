@@ -25,7 +25,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     orientation: "portrait",
     userInterfaceStyle: "automatic",
     updates: {
-      fallbackToCacheTimeout: 0,
+      fallbackToCacheTimeout: 10000,
       url: "https://u.expo.dev/abd1f73f-1027-4617-a091-abea678a0784",
     },
     newArchEnabled: true,
