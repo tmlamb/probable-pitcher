@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Appearance, AppState } from "react-native";
+import { Appearance, AppState, Platform, UIManager } from "react-native";
 import Constants from "expo-constants";
 import { Slot, useFocusEffect } from "expo-router";
 import * as Sentry from "@sentry/react-native";
@@ -8,6 +8,7 @@ import { useDeviceContext } from "twrnc";
 
 import Background from "~/components/Background";
 import { queryClient } from "~/utils/api";
+import { authClient } from "~/utils/auth";
 import tw from "~/utils/tailwind";
 
 const { sentryPublicDsn, appEnv } = Constants.expoConfig?.extra ?? {};
@@ -21,8 +22,16 @@ if (sentryPublicDsn) {
   });
 }
 
+if (Platform.OS === "android") {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
+
 export default function RootLayout() {
   useDeviceContext(tw);
+
+  const session = authClient.useSession();
 
   const [forceRenderKey, setForceRenderKey] = useState(0);
   const colorScheme = useRef(Appearance.getColorScheme());
@@ -59,7 +68,11 @@ export default function RootLayout() {
     <Background
       key={forceRenderKey}
       style={tw.style(
-        colorScheme.current === "dark" ? "bg-[#567259]" : "bg-[#789d7c]",
+        !session.data
+          ? colorScheme.current === "dark"
+            ? "bg-[#567259]"
+            : "bg-[#789d7c]"
+          : null,
       )}
     >
       <QueryClientProvider client={queryClient}>
