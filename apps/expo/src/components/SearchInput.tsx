@@ -88,9 +88,9 @@ export default function SearchInput({
                 }),
               );
               setShowCancelButton(true);
-              navigation.setOptions({
-                headerShown: false,
-              });
+              // navigation.setOptions({
+              //   headerShown: false,
+              // });
               onActive();
             }}
             onBlur={() => {
@@ -108,9 +108,9 @@ export default function SearchInput({
                   }),
                 );
                 setShowCancelButton(false);
-                navigation.setOptions({
-                  headerShown: true,
-                });
+                // navigation.setOptions({
+                //   headerShown: true,
+                // });
                 onCancel();
               }
             }}
@@ -167,9 +167,9 @@ export default function SearchInput({
                 onChange(undefined);
                 setSearchText(undefined);
                 setShowCancelButton(false);
-                navigation.setOptions({
-                  headerShown: true,
-                });
+                // navigation.setOptions({
+                //   headerShown: true,
+                // });
                 onCancel();
                 Keyboard.dismiss();
               }}
