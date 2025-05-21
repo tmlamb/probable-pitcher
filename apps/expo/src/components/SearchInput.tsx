@@ -53,6 +53,7 @@ export default function SearchInput({
 
   return (
     <Animated.View
+      collapsable={false}
       style={tw.style(style, searchComponentStyle)}
       onLayout={(event) => {
         const roundedWidth = Math.round(event.nativeEvent.layout.width);
