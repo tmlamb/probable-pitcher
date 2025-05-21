@@ -79,6 +79,7 @@ export default function SignIn() {
                   try {
                     await authClient.signIn.social({
                       provider: "google",
+                      callbackURL: "/",
                       fetchOptions: {
                         onSuccess: () => {
                           router.replace("/");
