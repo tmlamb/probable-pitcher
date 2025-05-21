@@ -106,7 +106,7 @@ export default function useNotifications({ enabled }: { enabled: boolean }) {
       notificationListener.current?.remove();
       responseListener.current?.remove();
     };
-  }, []);
+  }, [router]);
 }
 
 export async function registerForPushNotifications() {
