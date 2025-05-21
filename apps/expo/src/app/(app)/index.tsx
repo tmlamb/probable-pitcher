@@ -311,7 +311,7 @@ export default function Home() {
               onRefresh={subscriptionQuery.refetch}
             />
           ) : (
-            <></>
+            <React.Fragment />
           )
         }
         itemLayoutAnimation={LinearTransition.duration(175)}
