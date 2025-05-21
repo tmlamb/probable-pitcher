@@ -9,7 +9,8 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+
+// import { useNavigation } from "@react-navigation/native";
 
 import tw from "~/utils/tailwind";
 import PressableThemed from "./PressableThemed";
@@ -29,7 +30,7 @@ export default function SearchInput({
   onCancel,
   style,
 }: Props) {
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   const [searchText, setSearchText] = React.useState<string>();
   const [showCancelButton, setShowCancelButton] = React.useState(false);
   const [searchComponentWidth, setSearchComponentWidth] =
