@@ -8,6 +8,18 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { trpc } from "~/utils/api";
 
+ExpoNotifications.setNotificationHandler({
+  handleNotification: async () => {
+    return Promise.resolve({
+      shouldShowBanner: true,
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: true,
+      shouldShowList: true,
+    });
+  },
+});
+
 export default function useNotifications({ enabled }: { enabled: boolean }) {
   const [expoPushToken, setExpoPushToken] = useState<string>();
   const [, setNotification] = useState(false);
@@ -123,6 +135,18 @@ export async function registerForPushNotifications() {
     if (finalStatus !== ExpoNotifications.PermissionStatus.GRANTED) {
       return;
     }
+
+    if (Platform.OS === "android") {
+      ExpoNotifications.setNotificationChannelAsync("default", {
+        name: "default",
+        importance: ExpoNotifications.AndroidImportance.DEFAULT,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: "#FF231F7C",
+      }).catch((error) => {
+        Sentry.captureException(error);
+      });
+    }
+
     token = (await ExpoNotifications.getExpoPushTokenAsync()).data;
 
     if (!token) {
@@ -134,15 +158,5 @@ export async function registerForPushNotifications() {
     Alert.alert("Must use physical device for Push Notifications");
   }
 
-  if (Platform.OS === "android") {
-    ExpoNotifications.setNotificationChannelAsync("default", {
-      name: "default",
-      importance: ExpoNotifications.AndroidImportance.DEFAULT,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: "#FF231F7C",
-    }).catch((error) => {
-      Sentry.captureException(error);
-    });
-  }
   return token;
 }

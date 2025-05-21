@@ -37,6 +37,8 @@ export default function SignIn() {
     function checkAuth() {
       if (session.data) {
         router.replace("/");
+      } else {
+        queryClient.invalidateQueries(trpc.pathFilter()).catch(console.error);
       }
     }
 
