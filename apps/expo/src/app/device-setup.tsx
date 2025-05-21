@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { trpc } from "~/utils/api";
@@ -14,6 +14,7 @@ import { registerForPushNotifications } from "../hooks/use-notifications";
 
 export default function DeviceSetup() {
   const queryClient = useQueryClient();
+  const router = useRouter();
   queryClient
     .prefetchQuery(trpc.subscription.byUserId.queryOptions())
     .catch(console.error);

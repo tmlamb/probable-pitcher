@@ -9,7 +9,7 @@ import * as AppleAuthentication from "expo-apple-authentication";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { Platform } from "expo-modules-core";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAppColorScheme } from "twrnc";
@@ -22,6 +22,7 @@ import TextThemed from "../components/TextThemed";
 
 export default function SignIn() {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const insets = useSafeAreaInsets();
   // TODO add color scheme toggle to sign-in page
@@ -78,7 +79,6 @@ export default function SignIn() {
                   try {
                     await authClient.signIn.social({
                       provider: "google",
-                      callbackURL: "/",
                       fetchOptions: {
                         onSuccess: () => {
                           router.replace("/");

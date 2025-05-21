@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Alert, AppState, Platform } from "react-native";
 import * as Device from "expo-device";
 import * as ExpoNotifications from "expo-notifications";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import * as Sentry from "@sentry/react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -11,6 +11,7 @@ import { trpc } from "~/utils/api";
 export default function useNotifications({ enabled }: { enabled: boolean }) {
   const [expoPushToken, setExpoPushToken] = useState<string>();
   const [, setNotification] = useState(false);
+  const router = useRouter();
 
   const appState = useRef(AppState.currentState);
   const notificationListener =
