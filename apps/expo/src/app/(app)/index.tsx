@@ -305,10 +305,14 @@ export default function Home() {
       <Animated.FlatList
         entering={FadeIn}
         refreshControl={
-          <RefreshControl
-            refreshing={subscriptionQuery.isRefetching}
-            onRefresh={subscriptionQuery.refetch}
-          />
+          !isSearchActive ? (
+            <RefreshControl
+              refreshing={subscriptionQuery.isRefetching}
+              onRefresh={subscriptionQuery.refetch}
+            />
+          ) : (
+            <></>
+          )
         }
         itemLayoutAnimation={LinearTransition.duration(175)}
         keyExtractor={(item) => {
@@ -358,23 +362,11 @@ export default function Home() {
               <Animated.View
                 entering={FadeIn}
                 exiting={FadeOut}
-                style={tw`mx-6 mb-1 mt-3 flex-row justify-between`}
+                style={tw`mx-6 mb-1 mt-3`}
               >
                 <TextThemed variant="muted" style={tw`text-sm uppercase`}>
                   {item}
                 </TextThemed>
-                {index === 0 &&
-                  (subscribeMutation.isPending ||
-                    unsubscribeMutation.isPending ||
-                    subscriptionQuery.isFetching) && (
-                    <Animated.View
-                      entering={FadeIn}
-                      exiting={FadeOut}
-                      style={tw`-mr-1`}
-                    >
-                      <ActivityIndicator size="small" />
-                    </Animated.View>
-                  )}
               </Animated.View>
             );
           } else {
