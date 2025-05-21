@@ -1,5 +1,6 @@
 import type { CodedError } from "expo-modules-core";
-import { Pressable, View } from "react-native";
+import { useEffect, useRef } from "react";
+import { AppState, Pressable, View } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import {
   SafeAreaView,
@@ -27,6 +28,34 @@ export default function SignIn() {
   const insets = useSafeAreaInsets();
   // TODO add color scheme toggle to sign-in page
   const [colorScheme] = useAppColorScheme(tw);
+
+  const appState = useRef(AppState.currentState);
+
+  const session = authClient.useSession();
+
+  useEffect(() => {
+    function checkAuth() {
+      if (session.data) {
+        router.replace("/");
+      }
+    }
+
+    checkAuth();
+
+    const listener = AppState.addEventListener("change", (nextAppState) => {
+      if (
+        /inactive|background/.exec(appState.current) &&
+        nextAppState === "active"
+      ) {
+        checkAuth();
+      }
+      appState.current = nextAppState;
+    });
+
+    return () => {
+      listener.remove();
+    };
+  });
 
   return (
     <Animated.View entering={FadeInUp} style={tw`flex-1`}>

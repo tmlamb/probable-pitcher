@@ -55,19 +55,6 @@ export default function RootLayout() {
 
   //TODO Fetch updates in background! https://expo.dev/changelog/sdk-53#improved-background-tasks
 
-  //if (Platform.OS === "android") {
-  // Necessary for localization of date times on Android?
-  //require("@formatjs/intl-getcanonicallocales/polyfill").default;
-  //require("@formatjs/intl-locale/polyfill").default;
-  //require("@formatjs/intl-pluralrules/polyfill").default;
-  //require("@formatjs/intl-pluralrules/locale-data/en").default;
-  //require("@formatjs/intl-numberformat/polyfill").default;
-  //require("@formatjs/intl-numberformat/locale-data/en").default;
-  //require("@formatjs/intl-datetimeformat/polyfill").default;
-  //require("@formatjs/intl-datetimeformat/locale-data/en").default;
-  //require("@formatjs/intl-datetimeformat/add-all-tz").default;
-  //}
-
   return (
     <Background
       key={forceRenderKey}
