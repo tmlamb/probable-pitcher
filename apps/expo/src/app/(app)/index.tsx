@@ -348,7 +348,8 @@ export default function Home() {
         stickyHeaderHiddenOnScroll={!isSearchActive}
         onScroll={(event) => handleScroll(event)}
         ListHeaderComponent={
-          <View
+          <Animated.View
+            layout={LinearTransition.duration(400)}
             style={tw.style(
               backgroundClasses.default,
               isSearchActive || isScrolling
@@ -356,17 +357,15 @@ export default function Home() {
                 : "bg-opacity-100",
             )}
           >
-            <Animated.View layout={LinearTransition.duration(400)}>
-              <TextThemed
-                style={tw.style(
-                  isSearchActive ? "mt-2 text-transparent" : "mt-8",
-                  "mb-3 pl-3 text-4xl font-bold tracking-tight",
-                )}
-                accessibilityRole="header"
-              >
-                Probable Pitcher
-              </TextThemed>
-            </Animated.View>
+            <TextThemed
+              style={tw.style(
+                isSearchActive ? "mt-2 text-transparent" : "mt-8",
+                "mb-3 pl-3 text-4xl font-bold tracking-tight",
+              )}
+              accessibilityRole="header"
+            >
+              Probable Pitcher
+            </TextThemed>
             <View style={tw`mx-3`}>
               <SearchInput
                 onChange={(text) => setSearchFilter(text ?? "")}
@@ -374,7 +373,7 @@ export default function Home() {
                 onCancel={() => setIsSearchActive(false)}
               />
             </View>
-          </View>
+          </Animated.View>
         }
         renderItem={({ index, item }) => {
           if (typeof item === "string") {
