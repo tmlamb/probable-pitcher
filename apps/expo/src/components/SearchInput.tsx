@@ -3,7 +3,8 @@ import React from "react";
 import { Dimensions, Keyboard, View } from "react-native";
 import Animated, {
   Easing,
-  FadeIn,
+  FadeInRight,
+  FadeOutRight,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -95,7 +96,7 @@ export default function SearchInput({
               if (!searchText) {
                 searchFilterWidth.set(() =>
                   withTiming(searchComponentWidth, {
-                    duration: 200,
+                    duration: 300,
                     easing: Easing.inOut(Easing.ease),
                   }),
                 );
@@ -132,9 +133,8 @@ export default function SearchInput({
         {showCancelButton && (
           <Animated.View
             key="cancelbutton"
-            entering={FadeIn.duration(200)
-              .delay(200)
-              .easing(Easing.inOut(Easing.ease))}
+            entering={FadeInRight.duration(400).easing(Easing.in(Easing.ease))}
+            exiting={FadeOutRight.duration(150).easing(Easing.out(Easing.ease))}
             onLayout={(event) => {
               const roundedWidth = Math.round(event.nativeEvent.layout.width);
               if (cancelButtonWidth !== roundedWidth) {
@@ -152,13 +152,13 @@ export default function SearchInput({
               onPress={() => {
                 searchFilterWidth.set(() =>
                   withTiming(searchComponentWidth, {
-                    duration: 200,
+                    duration: 300,
                     easing: Easing.inOut(Easing.ease),
                   }),
                 );
                 searchComponentMarginTop.set(() =>
                   withTiming(0, {
-                    duration: 200,
+                    duration: 400,
                     easing: Easing.inOut(Easing.ease),
                   }),
                 );

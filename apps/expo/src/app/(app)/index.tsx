@@ -260,6 +260,8 @@ export default function Home() {
   const showLoadingIndicator =
     subscriptionQuery.isLoading || searchQuery.isFetching;
 
+  const [isManualRefreshing, setIsManualRefreshing] = useState(false);
+
   return (
     <Background>
       <Stack.Screen
@@ -313,8 +315,19 @@ export default function Home() {
           // Android rerenders and causes bugs with the keyboard when the Search Input focus events toggle the control
           !isSearchActive || Platform.OS === "android" ? (
             <RefreshControl
-              refreshing={subscriptionQuery.isRefetching}
-              onRefresh={subscriptionQuery.refetch}
+              refreshing={isManualRefreshing}
+              onRefresh={async () => {
+                setIsManualRefreshing(true);
+                try {
+                  await queryClient.refetchQueries(
+                    trpc.subscription.byUserId.pathFilter(),
+                  );
+                } catch (e) {
+                  console.error(e);
+                } finally {
+                  setIsManualRefreshing(false);
+                }
+              }}
               enabled={!isSearchActive}
             />
           ) : (
