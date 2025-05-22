@@ -346,7 +346,7 @@ export default function Home() {
             <Animated.View layout={LinearTransition.duration(400)}>
               <TextThemed
                 style={tw.style(
-                  isSearchActive ? "text-transparent" : "mt-8",
+                  isSearchActive ? "mt-2 text-transparent" : "mt-8",
                   "mb-3 pl-3 text-4xl font-bold tracking-tight",
                 )}
                 accessibilityRole="header"

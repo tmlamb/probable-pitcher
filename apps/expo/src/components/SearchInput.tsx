@@ -68,7 +68,7 @@ export default function SearchInput({
       }}
     >
       <View
-        style={tw`mb-3 flex w-full flex-row flex-nowrap items-center justify-between`}
+        style={tw`mb-1.5 flex w-full flex-row flex-nowrap items-center justify-between`}
       >
         <Animated.View style={searchFilterStyle}>
           <TextInputThemed
