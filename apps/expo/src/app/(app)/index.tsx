@@ -370,7 +370,7 @@ export default function Home() {
           >
             <TextThemed
               style={tw.style(
-                isSearchActive && Platform.OS === "android" ? "h-0" : null,
+                // isSearchActive && Platform.OS === "ios" ? "h-0" : null,
                 isSearchActive ? "mt-2 text-transparent" : "mt-8",
                 "mb-3 pl-3 text-4xl font-bold tracking-tight",
               )}
@@ -394,8 +394,8 @@ export default function Home() {
                 entering={FadeIn}
                 exiting={FadeOut}
                 style={tw.style(
-                  isSearchActive && Platform.OS === "android" ? "mt-0" : "mt-3",
-                  "mx-6 mb-1",
+                  // isSearchActive && Platform.OS === "ios" ? "mt-0" : "mt-3",
+                  "mx-6 mb-1 mt-3",
                 )}
               >
                 <TextThemed variant="muted" style={tw`text-sm uppercase`}>

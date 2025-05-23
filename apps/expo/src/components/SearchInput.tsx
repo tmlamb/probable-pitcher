@@ -3,6 +3,7 @@ import React from "react";
 import { Dimensions, Keyboard, Platform, View } from "react-native";
 import Animated, {
   FadeInRight,
+  FadeOutRight,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -82,12 +83,14 @@ export default function SearchInput({
                   }),
                 );
                 navigation.setOptions({
-                  headerTransparent: true,
+                  headerShown: false,
                   header: () => (
-                    <View
-                      pointerEvents="none"
-                      style={tw`bg-transparent opacity-0 h-[${headerHeight}px] w-full`}
-                    ></View>
+                    <Animated.View
+                      style={tw.style(
+                        `h-[${headerHeight}px] w-full bg-transparent opacity-0`,
+                        searchComponentStyle,
+                      )}
+                    ></Animated.View>
                   ),
                 });
               } else {
@@ -112,6 +115,7 @@ export default function SearchInput({
                     }),
                   );
                   navigation.setOptions({
+                    headerShown: true,
                     headerTransparent: false,
                     header: undefined,
                   });
@@ -150,6 +154,7 @@ export default function SearchInput({
           <Animated.View
             key="cancelbutton"
             entering={FadeInRight.duration(200)}
+            exiting={FadeOutRight.duration(150)}
             onLayout={(event) => {
               const roundedWidth = Math.round(event.nativeEvent.layout.width);
               if (cancelButtonWidth !== roundedWidth) {
