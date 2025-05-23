@@ -9,7 +9,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
-import { useHeaderHeight } from "@react-navigation/elements";
+// import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation } from "@react-navigation/native";
 
 import tw from "~/utils/tailwind";
@@ -30,7 +30,7 @@ export default function SearchInput({
   onCancel,
   style,
 }: Props) {
-  const headerHeight = useHeaderHeight();
+  // const headerHeight = useHeaderHeight();
   const navigation = useNavigation();
   const [searchText, setSearchText] = React.useState<string>();
   const [showCancelButton, setShowCancelButton] = React.useState(false);
@@ -53,6 +53,7 @@ export default function SearchInput({
     [],
   );
 
+  // style={tw.style(style, searchComponentStyle)}
   return (
     <Animated.View
       style={tw.style(style, searchComponentStyle)}
@@ -78,20 +79,21 @@ export default function SearchInput({
             onFocus={() => {
               if (Platform.OS === "android") {
                 searchComponentMarginTop.set(() =>
-                  withTiming(0, {
+                  withTiming(-52, {
                     duration: 200,
                   }),
                 );
                 navigation.setOptions({
-                  headerShown: false,
-                  header: () => (
-                    <Animated.View
-                      style={tw.style(
-                        `h-[${headerHeight}px] w-full bg-transparent opacity-0`,
-                        searchComponentStyle,
-                      )}
-                    ></Animated.View>
-                  ),
+                  // header: () => (
+                  //   <Animated.View
+                  //     pointerEvents={"none"}
+                  //     style={tw.style(
+                  //       backgroundClasses.default,
+                  //       `bg-transparent opacity-0 h-[${headerHeight}px] w-full`,
+                  //     )}
+                  //   ></Animated.View>
+                  // ),
+                  // headerShown: false,
                 });
               } else {
                 navigation.setOptions({
@@ -176,6 +178,7 @@ export default function SearchInput({
                     }),
                   );
                   navigation.setOptions({
+                    headerShown: true,
                     headerTransparent: false,
                     header: undefined,
                   });

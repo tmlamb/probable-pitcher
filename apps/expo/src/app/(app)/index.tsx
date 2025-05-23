@@ -362,29 +362,41 @@ export default function Home() {
           <Animated.View
             layout={LinearTransition.duration(200)}
             style={tw.style(
+              Platform.OS === "android" && isSearchActive ? "mb-0" : "mb-3",
               backgroundClasses.default,
               isSearchActive || isScrolling
                 ? "bg-opacity-80"
                 : "bg-opacity-100",
             )}
           >
-            <TextThemed
+            <Animated.View
+              layout={LinearTransition}
               style={tw.style(
-                // isSearchActive && Platform.OS === "ios" ? "h-0" : null,
-                isSearchActive ? "mt-2 text-transparent" : "mt-8",
-                "mb-3 pl-3 text-4xl font-bold tracking-tight",
+                isSearchActive
+                  ? Platform.OS === "android"
+                    ? "mt-0"
+                    : "mt-2"
+                  : "mt-8",
+                "mb-3 pl-3",
               )}
-              accessibilityRole="header"
             >
-              Probable Pitcher
-            </TextThemed>
-            <View style={tw`mx-3`}>
+              <TextThemed
+                style={tw.style(
+                  isSearchActive ? "text-transparent" : null,
+                  "text-4xl font-bold tracking-tight",
+                )}
+                accessibilityRole="header"
+              >
+                Probable Pitcher
+              </TextThemed>
+            </Animated.View>
+            <Animated.View layout={LinearTransition} style={tw.style(`mx-3`)}>
               <SearchInput
                 onChange={(text) => setSearchFilter(text ?? "")}
                 onActive={() => setIsSearchActive(true)}
                 onCancel={() => setIsSearchActive(false)}
               />
-            </View>
+            </Animated.View>
           </Animated.View>
         }
         renderItem={({ index, item }) => {
@@ -395,7 +407,7 @@ export default function Home() {
                 exiting={FadeOut}
                 style={tw.style(
                   // isSearchActive && Platform.OS === "ios" ? "mt-0" : "mt-3",
-                  "mx-6 mb-1 mt-3",
+                  "mx-6 mb-1",
                 )}
               >
                 <TextThemed variant="muted" style={tw`text-sm uppercase`}>
@@ -457,7 +469,7 @@ export default function Home() {
               <Animated.View entering={FadeIn.delay(150)} exiting={FadeOut}>
                 <TextThemed
                   variant="alert"
-                  style={tw`mx-6 mb-6 mt-3 text-sm`}
+                  style={tw`mx-6 mb-6 text-sm`}
                   accessibilityRole="alert"
                 >
                   An error occurred while loading your subscriptions, please try
@@ -468,7 +480,7 @@ export default function Home() {
               <Animated.View entering={FadeIn.delay(150)} exiting={FadeOut}>
                 <TextThemed
                   variant="muted"
-                  style={tw`mx-6 mb-6 mt-3 text-sm`}
+                  style={tw`mx-6 mb-6 text-sm`}
                   accessibilityRole="summary"
                 >
                   No pitchers found, try changing your search
@@ -478,7 +490,7 @@ export default function Home() {
               <Animated.View entering={FadeIn.delay(150)} exiting={FadeOut}>
                 <TextThemed
                   variant="alert"
-                  style={tw`mx-6 mb-6 mt-3 text-sm`}
+                  style={tw`mx-6 mb-6 text-sm`}
                   accessibilityRole="alert"
                 >
                   An error occurred while performing your search, please try
@@ -486,10 +498,14 @@ export default function Home() {
                 </TextThemed>
               </Animated.View>
             ) : (
-              <Animated.View entering={FadeIn} exiting={FadeOut}>
+              <Animated.View
+                layout={LinearTransition.duration(200)}
+                entering={FadeIn}
+                exiting={FadeOut}
+              >
                 <TextThemed
                   variant="muted"
-                  style={tw`mx-6 mb-6 mt-3 text-sm`}
+                  style={tw`mx-6 mb-6 text-sm`}
                   accessibilityRole="summary"
                 >
                   Search for your favorite pitcher to add them to your list of
