@@ -359,7 +359,8 @@ export default function Home() {
         stickyHeaderHiddenOnScroll={!isSearchActive}
         onScroll={(event) => handleScroll(event)}
         ListHeaderComponent={
-          <View
+          <Animated.View
+            layout={LinearTransition.duration(200)}
             style={tw.style(
               backgroundClasses.default,
               isSearchActive || isScrolling
@@ -384,7 +385,7 @@ export default function Home() {
                 onCancel={() => setIsSearchActive(false)}
               />
             </View>
-          </View>
+          </Animated.View>
         }
         renderItem={({ index, item }) => {
           if (typeof item === "string") {
