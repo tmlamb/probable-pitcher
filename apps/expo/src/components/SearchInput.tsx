@@ -1,5 +1,5 @@
 import type { ClassInput } from "twrnc";
-import React from "react";
+import React, { useEffect } from "react";
 import { Dimensions, Keyboard, Platform, View } from "react-native";
 import Animated, {
   FadeInRight,
@@ -53,6 +53,15 @@ export default function SearchInput({
     [],
   );
 
+  useEffect(() => {
+    if (Platform.OS === "android") {
+      const sub = Keyboard.addListener("keyboardDidShow", () => {
+        searchComponentMarginTop.set(() => withTiming(-52, { duration: 200 }));
+      });
+      return () => sub.remove();
+    }
+  }, [searchComponentMarginTop]);
+
   // style={tw.style(style, searchComponentStyle)}
   return (
     <Animated.View
@@ -78,11 +87,11 @@ export default function SearchInput({
           <TextInputThemed
             onFocus={() => {
               if (Platform.OS === "android") {
-                searchComponentMarginTop.set(() =>
-                  withTiming(-52, {
-                    duration: 200,
-                  }),
-                );
+                // searchComponentMarginTop.set(() =>
+                //   withTiming(-52, {
+                //     duration: 200,
+                //   }),
+                // );
                 // navigation.setOptions({
                 // header: () => (
                 //   <Animated.View
