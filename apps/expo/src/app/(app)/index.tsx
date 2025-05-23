@@ -268,55 +268,53 @@ export default function Home() {
     <Background>
       <Stack.Screen
         options={{
-          headerLeft: () =>
-            !isSearchActive && (
-              <Animated.View
-                entering={FadeInUp.duration(200)}
-                exiting={FadeOutUp.duration(200)}
-                style={tw`-ml-3 h-12 w-12 flex-row items-center justify-start`}
+          headerLeft: () => (
+            <Animated.View
+              entering={FadeInUp.duration(200)}
+              exiting={FadeOutUp.duration(200)}
+              style={tw`-ml-3 h-12 w-12 flex-row items-center justify-start`}
+            >
+              <PressableThemed
+                onPress={() => router.navigate("/settings")}
+                accessibilityLabel="Navigate to Application Settings"
+                style={tw`h-full w-full items-start justify-center pl-2`}
               >
-                <PressableThemed
-                  onPress={() => router.navigate("/settings")}
-                  accessibilityLabel="Navigate to Application Settings"
-                  style={tw`h-full w-full items-start justify-center pl-2`}
-                >
-                  <TextThemed variant="primary" style={tw``}>
-                    <AntDesign name="setting" size={24} />
-                  </TextThemed>
-                </PressableThemed>
-              </Animated.View>
-            ),
-          headerRight: () =>
-            !isSearchActive && (
-              <Animated.View
-                entering={FadeInUp.duration(200)}
-                exiting={FadeOutUp.duration(200)}
-                style={tw`-mr-3 h-12 w-16 flex-row items-center justify-end`}
-              >
-                {!!subscriptionQuery.data?.length &&
-                  (isEditing ? (
-                    <PressableThemed
-                      onPress={() => setIsEditing((isEditing) => !isEditing)}
-                      style={tw`h-full w-full items-end justify-center pr-2`}
-                      accessibilityLabel="Disable edit mode"
-                    >
-                      <TextThemed variant="primary" style={tw`font-bold`}>
-                        Done
-                      </TextThemed>
-                    </PressableThemed>
-                  ) : (
-                    <PressableThemed
-                      onPress={() => setIsEditing((isEditing) => !isEditing)}
-                      style={tw`h-full w-full items-end justify-center pr-2`}
-                      accessibilityLabel="Enable edit mode"
-                    >
-                      <TextThemed variant="primary" style={tw``}>
-                        Edit
-                      </TextThemed>
-                    </PressableThemed>
-                  ))}
-              </Animated.View>
-            ),
+                <TextThemed variant="primary" style={tw``}>
+                  <AntDesign name="setting" size={24} />
+                </TextThemed>
+              </PressableThemed>
+            </Animated.View>
+          ),
+          headerRight: () => (
+            <Animated.View
+              entering={FadeInUp.duration(200)}
+              exiting={FadeOutUp.duration(200)}
+              style={tw`-mr-3 h-12 w-16 flex-row items-center justify-end`}
+            >
+              {!!subscriptionQuery.data?.length &&
+                (isEditing ? (
+                  <PressableThemed
+                    onPress={() => setIsEditing((isEditing) => !isEditing)}
+                    style={tw`h-full w-full items-end justify-center pr-2`}
+                    accessibilityLabel="Disable edit mode"
+                  >
+                    <TextThemed variant="primary" style={tw`font-bold`}>
+                      Done
+                    </TextThemed>
+                  </PressableThemed>
+                ) : (
+                  <PressableThemed
+                    onPress={() => setIsEditing((isEditing) => !isEditing)}
+                    style={tw`h-full w-full items-end justify-center pr-2`}
+                    accessibilityLabel="Enable edit mode"
+                  >
+                    <TextThemed variant="primary" style={tw``}>
+                      Edit
+                    </TextThemed>
+                  </PressableThemed>
+                ))}
+            </Animated.View>
+          ),
         }}
       />
       <Animated.FlatList
