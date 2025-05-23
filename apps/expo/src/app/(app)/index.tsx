@@ -18,9 +18,11 @@ import Animated, {
   FadeIn,
   FadeInLeft,
   FadeInRight,
+  FadeInUp,
   FadeOut,
   FadeOutLeft,
   FadeOutRight,
+  FadeOutUp,
   LinearTransition,
   useAnimatedStyle,
   useSharedValue,
@@ -266,51 +268,60 @@ export default function Home() {
     <Background>
       <Stack.Screen
         options={{
-          headerLeft: () => (
-            <View
-              style={tw`-ml-3 h-12 w-12 flex-row items-center justify-start`}
-            >
-              <PressableThemed
-                onPress={() => router.navigate("/settings")}
-                accessibilityLabel="Navigate to Application Settings"
-                style={tw`h-full w-full items-start justify-center pl-2`}
+          headerLeft: () =>
+            !isSearchActive && (
+              <Animated.View
+                entering={FadeInUp.duration(200)}
+                exiting={FadeOutUp.duration(200)}
+                style={tw`-ml-3 h-12 w-12 flex-row items-center justify-start`}
               >
-                <TextThemed variant="primary" style={tw``}>
-                  <AntDesign name="setting" size={24} />
-                </TextThemed>
-              </PressableThemed>
-            </View>
-          ),
-          headerRight: () => (
-            <View style={tw`-mr-3 h-12 w-16 flex-row items-center justify-end`}>
-              {!!subscriptionQuery.data?.length &&
-                (isEditing ? (
-                  <PressableThemed
-                    onPress={() => setIsEditing((isEditing) => !isEditing)}
-                    style={tw`h-full w-full items-end justify-center pr-2`}
-                    accessibilityLabel="Disable edit mode"
-                  >
-                    <TextThemed variant="primary" style={tw`font-bold`}>
-                      Done
-                    </TextThemed>
-                  </PressableThemed>
-                ) : (
-                  <PressableThemed
-                    onPress={() => setIsEditing((isEditing) => !isEditing)}
-                    style={tw`h-full w-full items-end justify-center pr-2`}
-                    accessibilityLabel="Enable edit mode"
-                  >
-                    <TextThemed variant="primary" style={tw``}>
-                      Edit
-                    </TextThemed>
-                  </PressableThemed>
-                ))}
-            </View>
-          ),
+                <PressableThemed
+                  onPress={() => router.navigate("/settings")}
+                  accessibilityLabel="Navigate to Application Settings"
+                  style={tw`h-full w-full items-start justify-center pl-2`}
+                >
+                  <TextThemed variant="primary" style={tw``}>
+                    <AntDesign name="setting" size={24} />
+                  </TextThemed>
+                </PressableThemed>
+              </Animated.View>
+            ),
+          headerRight: () =>
+            !isSearchActive && (
+              <Animated.View
+                entering={FadeInUp.duration(200)}
+                exiting={FadeOutUp.duration(200)}
+                style={tw`-mr-3 h-12 w-16 flex-row items-center justify-end`}
+              >
+                {!!subscriptionQuery.data?.length &&
+                  (isEditing ? (
+                    <PressableThemed
+                      onPress={() => setIsEditing((isEditing) => !isEditing)}
+                      style={tw`h-full w-full items-end justify-center pr-2`}
+                      accessibilityLabel="Disable edit mode"
+                    >
+                      <TextThemed variant="primary" style={tw`font-bold`}>
+                        Done
+                      </TextThemed>
+                    </PressableThemed>
+                  ) : (
+                    <PressableThemed
+                      onPress={() => setIsEditing((isEditing) => !isEditing)}
+                      style={tw`h-full w-full items-end justify-center pr-2`}
+                      accessibilityLabel="Enable edit mode"
+                    >
+                      <TextThemed variant="primary" style={tw``}>
+                        Edit
+                      </TextThemed>
+                    </PressableThemed>
+                  ))}
+              </Animated.View>
+            ),
         }}
       />
       <Animated.FlatList
         entering={FadeIn}
+        layout={LinearTransition.duration(400)}
         refreshControl={
           // Android rerenders and causes bugs with the keyboard when the Search Input focus events toggle the control
           !isSearchActive || Platform.OS === "android" ? (
@@ -348,8 +359,7 @@ export default function Home() {
         stickyHeaderHiddenOnScroll={!isSearchActive}
         onScroll={(event) => handleScroll(event)}
         ListHeaderComponent={
-          <Animated.View
-            layout={LinearTransition.duration(400)}
+          <View
             style={tw.style(
               backgroundClasses.default,
               isSearchActive || isScrolling
@@ -359,6 +369,7 @@ export default function Home() {
           >
             <TextThemed
               style={tw.style(
+                isSearchActive && Platform.OS === "android" ? "h-0" : null,
                 isSearchActive ? "mt-2 text-transparent" : "mt-8",
                 "mb-3 pl-3 text-4xl font-bold tracking-tight",
               )}
@@ -373,7 +384,7 @@ export default function Home() {
                 onCancel={() => setIsSearchActive(false)}
               />
             </View>
-          </Animated.View>
+          </View>
         }
         renderItem={({ index, item }) => {
           if (typeof item === "string") {
@@ -381,7 +392,10 @@ export default function Home() {
               <Animated.View
                 entering={FadeIn}
                 exiting={FadeOut}
-                style={tw`mx-6 mb-1 mt-3`}
+                style={tw.style(
+                  isSearchActive && Platform.OS === "android" ? "mt-0" : "mt-3",
+                  "mx-6 mb-1",
+                )}
               >
                 <TextThemed variant="muted" style={tw`text-sm uppercase`}>
                   {item}

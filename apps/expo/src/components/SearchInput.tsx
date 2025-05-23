@@ -1,14 +1,14 @@
 import type { ClassInput } from "twrnc";
 import React from "react";
-import { Dimensions, Keyboard, View } from "react-native";
+import { Dimensions, Keyboard, Platform, View } from "react-native";
 import Animated, {
   FadeInRight,
-  FadeOutRight,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
+import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation } from "@react-navigation/native";
 
 import tw from "~/utils/tailwind";
@@ -29,6 +29,7 @@ export default function SearchInput({
   onCancel,
   style,
 }: Props) {
+  const headerHeight = useHeaderHeight();
   const navigation = useNavigation();
   const [searchText, setSearchText] = React.useState<string>();
   const [showCancelButton, setShowCancelButton] = React.useState(false);
@@ -67,43 +68,64 @@ export default function SearchInput({
       }}
     >
       <View
-        style={tw`mb-1.5 flex w-full flex-row flex-nowrap items-center justify-between`}
+        style={tw.style(
+          "mb-1.5 flex w-full flex-row flex-nowrap items-center justify-between",
+        )}
       >
         <Animated.View style={searchFilterStyle}>
           <TextInputThemed
             onFocus={() => {
+              if (Platform.OS === "android") {
+                searchComponentMarginTop.set(() =>
+                  withTiming(0, {
+                    duration: 200,
+                  }),
+                );
+                navigation.setOptions({
+                  headerTransparent: true,
+                  header: () => (
+                    <View
+                      pointerEvents="none"
+                      style={tw`bg-transparent opacity-0 h-[${headerHeight}px] w-full`}
+                    ></View>
+                  ),
+                });
+              } else {
+                navigation.setOptions({
+                  headerShown: false,
+                });
+              }
               searchFilterWidth.set(() => {
                 return withTiming(searchComponentWidth - cancelButtonWidth, {
                   duration: 300,
                 });
               });
-              searchComponentMarginTop.set(() =>
-                withTiming(0, {
-                  duration: 200,
-                }),
-              );
               setShowCancelButton(true);
-              navigation.setOptions({
-                headerShown: false,
-              });
               onActive();
             }}
             onBlur={() => {
               if (!searchText) {
+                if (Platform.OS === "android") {
+                  searchComponentMarginTop.set(() =>
+                    withTiming(0, {
+                      duration: 200,
+                    }),
+                  );
+                  navigation.setOptions({
+                    headerTransparent: false,
+                    header: undefined,
+                  });
+                } else {
+                  navigation.setOptions({
+                    headerShown: true,
+                  });
+                }
                 searchFilterWidth.set(() =>
                   withTiming(searchComponentWidth, {
                     duration: 300,
                   }),
                 );
-                searchComponentMarginTop.set(() =>
-                  withTiming(0, {
-                    duration: 400,
-                  }),
-                );
                 setShowCancelButton(false);
-                navigation.setOptions({
-                  headerShown: true,
-                });
                 onCancel();
               }
             }}
@@ -128,7 +150,6 @@ export default function SearchInput({
           <Animated.View
             key="cancelbutton"
             entering={FadeInRight.duration(200)}
-            exiting={FadeOutRight.duration(200)}
             onLayout={(event) => {
               const roundedWidth = Math.round(event.nativeEvent.layout.width);
               if (cancelButtonWidth !== roundedWidth) {
@@ -143,22 +164,29 @@ export default function SearchInput({
           >
             <PressableThemed
               onPress={() => {
+                if (Platform.OS === "android") {
+                  searchComponentMarginTop.set(() =>
+                    withTiming(0, {
+                      duration: 200,
+                    }),
+                  );
+                  navigation.setOptions({
+                    headerTransparent: false,
+                    header: undefined,
+                  });
+                } else {
+                  navigation.setOptions({
+                    headerShown: true,
+                  });
+                }
                 searchFilterWidth.set(() =>
                   withTiming(searchComponentWidth, {
                     duration: 300,
                   }),
                 );
-                searchComponentMarginTop.set(() =>
-                  withTiming(0, {
-                    duration: 400,
-                  }),
-                );
                 onChange(undefined);
                 setSearchText(undefined);
                 setShowCancelButton(false);
-                navigation.setOptions({
-                  headerShown: true,
-                });
                 onCancel();
                 Keyboard.dismiss();
               }}
