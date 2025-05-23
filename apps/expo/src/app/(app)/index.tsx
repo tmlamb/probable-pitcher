@@ -9,6 +9,7 @@ import type { ClassInput } from "twrnc";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
+  Keyboard,
   Platform,
   RefreshControl,
   View,
@@ -275,7 +276,11 @@ export default function Home() {
               style={tw`-ml-3 h-12 w-12 flex-row items-center justify-start`}
             >
               <PressableThemed
-                onPress={() => router.navigate("/settings")}
+                onPress={() => {
+                  Keyboard.dismiss();
+                  setIsEditing(false);
+                  router.navigate("/settings");
+                }}
                 accessibilityLabel="Navigate to Application Settings"
                 style={tw`h-full w-full items-start justify-center pl-2`}
               >
@@ -285,36 +290,43 @@ export default function Home() {
               </PressableThemed>
             </Animated.View>
           ),
-          headerRight: () => (
-            <Animated.View
-              entering={FadeInUp.duration(200)}
-              exiting={FadeOutUp.duration(200)}
-              style={tw`-mr-3 h-12 w-16 flex-row items-center justify-end`}
-            >
-              {!!subscriptionQuery.data?.length &&
-                (isEditing ? (
-                  <PressableThemed
-                    onPress={() => setIsEditing((isEditing) => !isEditing)}
-                    style={tw`h-full w-full items-end justify-center pr-2`}
-                    accessibilityLabel="Disable edit mode"
-                  >
-                    <TextThemed variant="primary" style={tw`font-bold`}>
-                      Done
-                    </TextThemed>
-                  </PressableThemed>
-                ) : (
-                  <PressableThemed
-                    onPress={() => setIsEditing((isEditing) => !isEditing)}
-                    style={tw`h-full w-full items-end justify-center pr-2`}
-                    accessibilityLabel="Enable edit mode"
-                  >
-                    <TextThemed variant="primary" style={tw``}>
-                      Edit
-                    </TextThemed>
-                  </PressableThemed>
-                ))}
-            </Animated.View>
-          ),
+          headerRight: () =>
+            !isSearchActive && (
+              <Animated.View
+                entering={FadeInUp.duration(200)}
+                exiting={FadeOutUp.duration(200)}
+                style={tw`-mr-3 h-12 w-16 flex-row items-center justify-end`}
+              >
+                {!!subscriptionQuery.data?.length &&
+                  (isEditing ? (
+                    <PressableThemed
+                      onPress={() => {
+                        Keyboard.dismiss();
+                        setIsEditing((isEditing) => !isEditing);
+                      }}
+                      style={tw`h-full w-full items-end justify-center pr-2`}
+                      accessibilityLabel="Disable edit mode"
+                    >
+                      <TextThemed variant="primary" style={tw`font-bold`}>
+                        Done
+                      </TextThemed>
+                    </PressableThemed>
+                  ) : (
+                    <PressableThemed
+                      onPress={() => {
+                        Keyboard.dismiss();
+                        setIsEditing((isEditing) => !isEditing);
+                      }}
+                      style={tw`h-full w-full items-end justify-center pr-2`}
+                      accessibilityLabel="Enable edit mode"
+                    >
+                      <TextThemed variant="primary" style={tw``}>
+                        Edit
+                      </TextThemed>
+                    </PressableThemed>
+                  ))}
+              </Animated.View>
+            ),
         }}
       />
       <Animated.FlatList
@@ -360,7 +372,7 @@ export default function Home() {
           <Animated.View
             layout={LinearTransition.duration(200)}
             style={tw.style(
-              Platform.OS === "android" && isSearchActive ? "mb-0" : "mb-3",
+              "mb-3",
               backgroundClasses.default,
               isSearchActive || isScrolling
                 ? "bg-opacity-80"
@@ -370,17 +382,15 @@ export default function Home() {
             <Animated.View
               layout={LinearTransition}
               style={tw.style(
-                isSearchActive
-                  ? Platform.OS === "android"
-                    ? "mt-0"
-                    : "mt-2"
-                  : "mt-8",
+                isSearchActive && Platform.OS === "ios" ? "mt-2" : "mt-8",
                 "mb-3 pl-3",
               )}
             >
               <TextThemed
                 style={tw.style(
-                  isSearchActive ? "text-transparent" : null,
+                  isSearchActive && Platform.OS === "ios"
+                    ? "text-transparent"
+                    : null,
                   "text-4xl font-bold tracking-tight",
                 )}
                 accessibilityRole="header"

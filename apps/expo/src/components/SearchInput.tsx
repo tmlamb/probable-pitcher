@@ -1,5 +1,5 @@
 import type { ClassInput } from "twrnc";
-import React, { useEffect } from "react";
+import { useState } from "react";
 import { Dimensions, Keyboard, Platform, View } from "react-native";
 import Animated, {
   FadeInRight,
@@ -33,11 +33,12 @@ export default function SearchInput({
 }: Props) {
   // const headerHeight = useHeaderHeight();
   const navigation = useNavigation();
-  const [searchText, setSearchText] = React.useState<string>();
-  const [showCancelButton, setShowCancelButton] = React.useState(false);
-  const [searchComponentWidth, setSearchComponentWidth] =
-    React.useState<number>(Dimensions.get("window").width);
-  const [cancelButtonWidth, setCancelButtonWidth] = React.useState<number>(0);
+  const [searchText, setSearchText] = useState<string>();
+  const [showCancelButton, setShowCancelButton] = useState(false);
+  const [searchComponentWidth, setSearchComponentWidth] = useState<number>(
+    Dimensions.get("window").width,
+  );
+  const [cancelButtonWidth, setCancelButtonWidth] = useState<number>(0);
   const searchFilterWidth = useSharedValue(searchComponentWidth - 24);
   const searchFilterStyle = useAnimatedStyle(
     () => ({
@@ -46,35 +47,10 @@ export default function SearchInput({
     [],
   );
 
-  const searchComponentMarginTop = useSharedValue(0);
-  const searchComponentStyle = useAnimatedStyle(
-    () => ({
-      marginTop: searchComponentMarginTop.value,
-    }),
-    [],
-  );
-
-  useEffect(() => {
-    const wait = (timeout: number) =>
-      new Promise((resolve) => setTimeout(resolve, timeout));
-    if (Platform.OS === "android") {
-      const sub = Keyboard.addListener("keyboardDidShow", () => {
-        wait(500)
-          .then(() => {
-            searchComponentMarginTop.set(() =>
-              withTiming(-52, { duration: 200 }),
-            );
-          })
-          .catch(console.error);
-      });
-      return () => sub.remove();
-    }
-  }, [searchComponentMarginTop]);
-
   return (
     <Animated.View
       layout={LinearTransition}
-      style={tw.style(style, searchComponentStyle)}
+      style={tw.style(style)}
       onLayout={(event) => {
         const roundedWidth = Math.round(event.nativeEvent.layout.width);
         if (roundedWidth !== searchComponentWidth) {
@@ -129,11 +105,11 @@ export default function SearchInput({
             onBlur={() => {
               if (!searchText) {
                 if (Platform.OS === "android") {
-                  searchComponentMarginTop.set(() =>
-                    withTiming(0, {
-                      duration: 200,
-                    }),
-                  );
+                  // searchComponentMarginTop.set(() =>
+                  //   withTiming(0, {
+                  //     duration: 200,
+                  //   }),
+                  // );
                   // navigation.setOptions({
                   //   headerShown: true,
                   //   headerTransparent: false,
@@ -190,11 +166,11 @@ export default function SearchInput({
             <PressableThemed
               onPress={() => {
                 if (Platform.OS === "android") {
-                  searchComponentMarginTop.set(() =>
-                    withTiming(0, {
-                      duration: 200,
-                    }),
-                  );
+                  // searchComponentMarginTop.set(() =>
+                  //   withTiming(0, {
+                  //     duration: 200,
+                  //   }),
+                  // );
                   // navigation.setOptions({
                   //   headerShown: true,
                   //   headerTransparent: false,
