@@ -4,6 +4,7 @@ import { Dimensions, Keyboard, Platform, View } from "react-native";
 import Animated, {
   FadeInRight,
   FadeOutRight,
+  LinearTransition,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -54,17 +55,25 @@ export default function SearchInput({
   );
 
   useEffect(() => {
+    const wait = (timeout: number) =>
+      new Promise((resolve) => setTimeout(resolve, timeout));
     if (Platform.OS === "android") {
       const sub = Keyboard.addListener("keyboardDidShow", () => {
-        searchComponentMarginTop.set(() => withTiming(-52, { duration: 200 }));
+        wait(500)
+          .then(() => {
+            searchComponentMarginTop.set(() =>
+              withTiming(-52, { duration: 200 }),
+            );
+          })
+          .catch(console.error);
       });
       return () => sub.remove();
     }
   }, [searchComponentMarginTop]);
 
-  // style={tw.style(style, searchComponentStyle)}
   return (
     <Animated.View
+      layout={LinearTransition}
       style={tw.style(style, searchComponentStyle)}
       onLayout={(event) => {
         const roundedWidth = Math.round(event.nativeEvent.layout.width);
