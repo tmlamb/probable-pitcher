@@ -413,10 +413,7 @@ export default function Home() {
               <Animated.View
                 entering={FadeIn}
                 exiting={FadeOut}
-                style={tw.style(
-                  // isSearchActive && Platform.OS === "ios" ? "mt-0" : "mt-3",
-                  "mx-6 mb-1",
-                )}
+                style={tw.style("mx-6 mb-1")}
               >
                 <TextThemed variant="muted" style={tw`text-sm uppercase`}>
                   {item}

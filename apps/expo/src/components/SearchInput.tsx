@@ -10,7 +10,6 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
-// import { useHeaderHeight } from "@react-navigation/elements";
 import { useNavigation } from "@react-navigation/native";
 
 import tw from "~/utils/tailwind";
@@ -31,7 +30,6 @@ export default function SearchInput({
   onCancel,
   style,
 }: Props) {
-  // const headerHeight = useHeaderHeight();
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState<string>();
   const [showCancelButton, setShowCancelButton] = useState(false);
@@ -71,25 +69,7 @@ export default function SearchInput({
         <Animated.View style={searchFilterStyle}>
           <TextInputThemed
             onFocus={() => {
-              if (Platform.OS === "android") {
-                // searchComponentMarginTop.set(() =>
-                //   withTiming(-52, {
-                //     duration: 200,
-                //   }),
-                // );
-                // navigation.setOptions({
-                // header: () => (
-                //   <Animated.View
-                //     pointerEvents={"none"}
-                //     style={tw.style(
-                //       backgroundClasses.default,
-                //       `bg-transparent opacity-0 h-[${headerHeight}px] w-full`,
-                //     )}
-                //   ></Animated.View>
-                // ),
-                // headerShown: false,
-                // });
-              } else {
+              if (Platform.OS !== "android") {
                 navigation.setOptions({
                   headerShown: false,
                 });
@@ -104,18 +84,7 @@ export default function SearchInput({
             }}
             onBlur={() => {
               if (!searchText) {
-                if (Platform.OS === "android") {
-                  // searchComponentMarginTop.set(() =>
-                  //   withTiming(0, {
-                  //     duration: 200,
-                  //   }),
-                  // );
-                  // navigation.setOptions({
-                  //   headerShown: true,
-                  //   headerTransparent: false,
-                  //   header: undefined,
-                  // });
-                } else {
+                if (Platform.OS !== "android") {
                   navigation.setOptions({
                     headerShown: true,
                   });
@@ -165,18 +134,7 @@ export default function SearchInput({
           >
             <PressableThemed
               onPress={() => {
-                if (Platform.OS === "android") {
-                  // searchComponentMarginTop.set(() =>
-                  //   withTiming(0, {
-                  //     duration: 200,
-                  //   }),
-                  // );
-                  // navigation.setOptions({
-                  //   headerShown: true,
-                  //   headerTransparent: false,
-                  //   header: undefined,
-                  // });
-                } else {
+                if (Platform.OS !== "android") {
                   navigation.setOptions({
                     headerShown: true,
                   });
