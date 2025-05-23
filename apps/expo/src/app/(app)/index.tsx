@@ -445,7 +445,7 @@ export default function Home() {
                     !subscribedAndAvailablePitchers[index + 1] ||
                       typeof subscribedAndAvailablePitchers[index + 1] ===
                         "string"
-                      ? "rounded-b-xl border-b-0"
+                      ? "mb-3 rounded-b-xl border-b-0"
                       : undefined,
                   )}
                   buttonStyle={style}
