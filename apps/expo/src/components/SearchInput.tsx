@@ -83,18 +83,18 @@ export default function SearchInput({
                     duration: 200,
                   }),
                 );
-                navigation.setOptions({
-                  // header: () => (
-                  //   <Animated.View
-                  //     pointerEvents={"none"}
-                  //     style={tw.style(
-                  //       backgroundClasses.default,
-                  //       `bg-transparent opacity-0 h-[${headerHeight}px] w-full`,
-                  //     )}
-                  //   ></Animated.View>
-                  // ),
-                  // headerShown: false,
-                });
+                // navigation.setOptions({
+                // header: () => (
+                //   <Animated.View
+                //     pointerEvents={"none"}
+                //     style={tw.style(
+                //       backgroundClasses.default,
+                //       `bg-transparent opacity-0 h-[${headerHeight}px] w-full`,
+                //     )}
+                //   ></Animated.View>
+                // ),
+                // headerShown: false,
+                // });
               } else {
                 navigation.setOptions({
                   headerShown: false,
@@ -116,11 +116,11 @@ export default function SearchInput({
                       duration: 200,
                     }),
                   );
-                  navigation.setOptions({
-                    headerShown: true,
-                    headerTransparent: false,
-                    header: undefined,
-                  });
+                  // navigation.setOptions({
+                  //   headerShown: true,
+                  //   headerTransparent: false,
+                  //   header: undefined,
+                  // });
                 } else {
                   navigation.setOptions({
                     headerShown: true,
@@ -177,11 +177,11 @@ export default function SearchInput({
                       duration: 200,
                     }),
                   );
-                  navigation.setOptions({
-                    headerShown: true,
-                    headerTransparent: false,
-                    header: undefined,
-                  });
+                  // navigation.setOptions({
+                  //   headerShown: true,
+                  //   headerTransparent: false,
+                  //   header: undefined,
+                  // });
                 } else {
                   navigation.setOptions({
                     headerShown: true,
