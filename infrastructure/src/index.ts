@@ -328,7 +328,7 @@ const seedJob = new k8s.batch.v1.CronJob(
                     },
                     {
                       name: "INGEST_JOBS",
-                      value: "teams,pitchers",
+                      value: "teams,pitchers,migrations",
                     },
                     {
                       name: "BASE_API_URL",

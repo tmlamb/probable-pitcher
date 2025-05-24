@@ -125,26 +125,6 @@ export const legacyUsers = [
 // FROM `probable-legacy-db`.`Subscription` LIMIT 1000;
 export const legacySubscriptions = [
   {
-    id: "798",
-    userId: "clis7isi20002n901svbazm1v",
-    pitcherId: "623381",
-  },
-  {
-    id: "711",
-    userId: "clis7isi20002n901svbazm1v",
-    pitcherId: "641672",
-  },
-  {
-    id: "710",
-    userId: "clis7isi20002n901svbazm1v",
-    pitcherId: "660271",
-  },
-  {
-    id: "797",
-    userId: "clis7isi20002n901svbazm1v",
-    pitcherId: "663378",
-  },
-  {
     id: "713",
     userId: "clj3nicwc000an901vc17zi2d",
     pitcherId: "693821",
@@ -1344,11 +1324,6 @@ export const legacySubscriptions = [
     userId: "cm8ugpp3r0009frebeo37x2ae",
     pitcherId: "701542",
   },
-  {
-    id: "2000",
-    userId: "clx4tg8pg0000ky01ph7ejm83",
-    pitcherId: "660271",
-  },
 ];
 
 // ACCOUNTS ON THE OLD DATABASE
@@ -1404,22 +1379,6 @@ export const legacyAccounts = [
     scope: "",
     id_token:
       "eyJraWQiOiJXNldjT0tCIiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJodHRwczovL2FwcGxlaWQuYXBwbGUuY29tIiwiYXVkIjoiY29tLnRyaXBsZXNpZ2h0LnByb2JhYmxlcGl0Y2hlcnMiLCJleHAiOjE2ODI0NTA4NzEsImlhdCI6MTY4MjM2NDQ3MSwic3ViIjoiMDAwMDc2LmE4MDVmZTExYjM0MjQ0MDFiYWI4ODNiYjYzZWJjZmNlLjE5MjciLCJhdF9oYXNoIjoiR21yaUN4U2dURDRCZllzQVZ4SWw3ZyIsImVtYWlsIjoid203ems2Y2R3OUBwcml2YXRlcmVsYXkuYXBwbGVpZC5jb20iLCJlbWFpbF92ZXJpZmllZCI6InRydWUiLCJpc19wcml2YXRlX2VtYWlsIjoidHJ1ZSIsImF1dGhfdGltZSI6MTY4MjM2NDQ2OCwibm9uY2Vfc3VwcG9ydGVkIjp0cnVlLCJyZWFsX3VzZXJfc3RhdHVzIjoyfQ.eNdHpEdoVaqgYLZ2Feg5kvWcVeiEdVrw4KRrLJgV-hG5mqyjLvMuxOffzCt7_uKw0zRT2V8iWat8DbjYJm_5XaWihgObPcIBoaItqqgKX8hjCGWEBeEOrWMAiKeYLfYIO0ljZCxkUfYy808hSsf-8ZEGzp1xR1AoHb-p8LKlAbLFKNSFKOpnd1M3fEHJBTfgLJRDCXfzXSEpyDByXcGXBTatSicYbcRKtmGYkTN7aTFWAMv-saAjmQ0onVeQGAcyfbpg95iZ8It5j5BFaX2IWC2iGdYS8kmWGvyR0COwRvES0GDF4xn3LFhtrDCRTi8NXrTNVrT3rqK4JFTvgv42ag",
-    session_state: "",
-  },
-  {
-    id: "clis7isl80005n901bgycpaho",
-    userId: "clis7isi20002n901svbazm1v",
-    type: "oauth",
-    provider: "google-expo",
-    providerAccountId: "110923344856451699257",
-    refresh_token: "",
-    access_token:
-      "ya29.a0AWY7CkmXsI-SuNzOkLmL7pID5EYRS668VOGqAt_sc6tSZO7ry3t17nwUWLK5Hyx3Zy8hV4xhEBn_rtOGxOnQaLz759zPDpJk4N0_zGZttNYl9rXqcFP5vrQsgPZnoZOYKTE4herZ13YLmLxIp1i7g35Bo0c-aCgYKAXQSARMSFQG1tDrpLJJs3hR9LGZrNWRfooM75w0163",
-    expires_at: "1686538813",
-    token_type: "Bearer",
-    scope: "openid https://www.googleapis.com/auth/userinfo.email",
-    id_token:
-      "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg1YmE5MzEzZmQ3YTdkNGFmYTg0ODg0YWJjYzg0MDMwMDQzNjMxODAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI2MjQwMjI5MzYyMDgtZzhoMzBtOXZsczlwM2FobWg3OXJ0dThkM2NlcG4zZGQuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI2MjQwMjI5MzYyMDgtZzhoMzBtOXZsczlwM2FobWg3OXJ0dThkM2NlcG4zZGQuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTA5MjMzNDQ4NTY0NTE2OTkyNTciLCJlbWFpbCI6ImVkYXhpYW5AZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJuc3I1VHRrSi16TWNydmNyc0lOOGVBIiwiaWF0IjoxNjg2NTM1MjE0LCJleHAiOjE2ODY1Mzg4MTR9.lUBSKEDuembdh0iFW3_WQduSCZikP7yp9WaUpxm-fLETMZF1J1TFa58BMIhfZMf--Ql8L95h3H-FtZYI1N4izSVe82it3WMUJUOj7T3RIjkRotWkpiSrMu_ijKmxSAnL-iQhuIAvN5Y01Zufc_lwx4VARXZdpk-yq2JW99j8yIJoaLW1ScYomu-c3R82-NiFqoPVtUz-tXyyjnCffVH0E-ONVTu56TUTRAJtsRsWNiz1ZonzdixfbVpeaayuuMFa68_2bLeEWBZ7dew41ifnsSOWfnUq0CDg9C7rAPttJ3ulaCFTL2mGxMue6ByMA7mwFXdp6Yt1CsL-MxwQuo16CQ",
     session_state: "",
   },
   {
@@ -1704,13 +1663,6 @@ export const legacyDevices = [
     pushToken: "ExponentPushToken[Jkhi1lF1p693GaaEJHcHdd]",
     timezone: "America/Los_Angeles",
     userId: "clgv3ajfn0000lb01rs0v4en7",
-    notificationsEnabled: "1",
-  },
-  {
-    id: "clis7itia0009n9016jw65k81",
-    pushToken: "ExponentPushToken[zRqkd-JCxMlOCYT41giidf]",
-    timezone: "America/Los_Angeles",
-    userId: "clis7isi20002n901svbazm1v",
     notificationsEnabled: "1",
   },
   {
