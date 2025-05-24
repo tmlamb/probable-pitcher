@@ -148,7 +148,7 @@ export const device = pgTable(
       .text()
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
-    pushToken: t.varchar({ length: 1023 }).unique().notNull(),
+    pushToken: t.varchar({ length: 1023 }).notNull(),
     timezone: t.varchar({ length: 255 }).notNull(),
     notificationsEnabled: t.boolean().default(true).notNull(),
   }),

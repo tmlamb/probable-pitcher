@@ -22,18 +22,6 @@ export const legacyUsers = [
     image: "",
   },
   {
-    id: "clj3nicwc000an901vc17zi2d",
-    email: "nevdull42@gmail.com",
-    emailVerified: "",
-    image: "",
-  },
-  {
-    id: "clj6t8qv40008qc01s5hfgoyl",
-    email: "ableprob8@gmail.com",
-    emailVerified: "",
-    image: "",
-  },
-  {
     id: "clklngjxa0000pb01lk53p52n",
     email: "peterzwers@gmail.com",
     emailVerified: "",
@@ -58,12 +46,6 @@ export const legacyUsers = [
     image: "",
   },
   {
-    id: "clx4tg8pg0000ky01ph7ejm83",
-    email: "tmlamb@gmail.com",
-    emailVerified: "",
-    image: "",
-  },
-  {
     id: "clxky33dq0000os01tvvluppc",
     email: "wtaustin2001@gmail.com",
     emailVerified: "",
@@ -84,12 +66,6 @@ export const legacyUsers = [
   {
     id: "clzg5es610000o001ebl5j49z",
     email: "z8h7fxqw47@privaterelay.appleid.com",
-    emailVerified: "",
-    image: "",
-  },
-  {
-    id: "cm0ep3srm0002oiqsa2i3dmer",
-    email: "call.me.laura@gmail.com",
     emailVerified: "",
     image: "",
   },
@@ -124,31 +100,6 @@ export const legacyUsers = [
 // SELECT *
 // FROM `probable-legacy-db`.`Subscription` LIMIT 1000;
 export const legacySubscriptions = [
-  {
-    id: "713",
-    userId: "clj3nicwc000an901vc17zi2d",
-    pitcherId: "693821",
-  },
-  {
-    id: "716",
-    userId: "clj6t8qv40008qc01s5hfgoyl",
-    pitcherId: "425844",
-  },
-  {
-    id: "715",
-    userId: "clj6t8qv40008qc01s5hfgoyl",
-    pitcherId: "472610",
-  },
-  {
-    id: "712",
-    userId: "clj6t8qv40008qc01s5hfgoyl",
-    pitcherId: "543507",
-  },
-  {
-    id: "714",
-    userId: "clj6t8qv40008qc01s5hfgoyl",
-    pitcherId: "676664",
-  },
   {
     id: "785",
     userId: "clv1o53q10000p401d99i09wq",
@@ -1215,16 +1166,6 @@ export const legacySubscriptions = [
     pitcherId: "800049",
   },
   {
-    id: "1032",
-    userId: "cm0ep3srm0002oiqsa2i3dmer",
-    pitcherId: "477132",
-  },
-  {
-    id: "1015",
-    userId: "cm0ep3srm0002oiqsa2i3dmer",
-    pitcherId: "660271",
-  },
-  {
     id: "1014",
     userId: "cm7pewqal0002ctzivj9xxeqk",
     pitcherId: "477132",
@@ -1382,38 +1323,6 @@ export const legacyAccounts = [
     session_state: "",
   },
   {
-    id: "clj3nid0n000dn90149sgv698",
-    userId: "clj3nicwc000an901vc17zi2d",
-    type: "oauth",
-    provider: "google-expo",
-    providerAccountId: "102488050025101298652",
-    refresh_token: "",
-    access_token:
-      "ya29.a0AWY7CknCtN8DMzGaA0esL_B1VB5GOCsyoTSUcVQI_jUryTnmrr0SAW6gUkYupmb9MgMOlwHP9L4Zii6Oc5SCVFS-E737M-Xc7b2ITj-56fBuRv3io5BouNVciRK_63BrwFXeGXYWqqA1LnOvBrHjeTQTLh05aCgYKAR0SARESFQG1tDrpS2hhQcbX7d8fP6F7brbCQQ0163",
-    expires_at: "1687230795",
-    token_type: "Bearer",
-    scope: "https://www.googleapis.com/auth/userinfo.email openid",
-    id_token:
-      "eyJhbGciOiJSUzI1NiIsImtpZCI6IjA1MTUwYTEzMjBiOTM5NWIwNTcxNjg3NzM3NjkyODUwOWJhYjQ0YWMiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI2MjQwMjI5MzYyMDgtZzhoMzBtOXZsczlwM2FobWg3OXJ0dThkM2NlcG4zZGQuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI2MjQwMjI5MzYyMDgtZzhoMzBtOXZsczlwM2FobWg3OXJ0dThkM2NlcG4zZGQuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDI0ODgwNTAwMjUxMDEyOTg2NTIiLCJlbWFpbCI6Im5ldmR1bGw0MkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IlpZZ2I4S3dKNXRTbTNab3YydGk0MVEiLCJpYXQiOjE2ODcyMjcxOTYsImV4cCI6MTY4NzIzMDc5Nn0.EiwhzGrC3yXY5VPjpI3jR68JMzrcIk0DX_DPExXkMnY5ip7D0eDgtC8m5rlvMQMDhGTBTqJhV2cmXjHzdx217WWo3am4nzIsxQv7qUr4dXVlRuuFaAqSlunPxfAUhwEZstnallE43BiGUWPsSekcomK676mZgGM91boiab9ksvzDjJpzacY67xH3pt1Tig3_4uNlYUFlTz9TCtzb5YfQ_KRDuCR3ucepd-CInyweQy6F6KuwJ0vVc8QtNwoqWkwN6UM-cT_W1YWZYzcP1QO8dzlSLAWo8GdMMa7gQBv-MuHPHJmQG_jUUXQlqnANT1fkWl78rL0e8uqn35BD53etSg",
-    session_state: "",
-  },
-  {
-    id: "clj6t8qy2000aqc019tskzqly",
-    userId: "clj6t8qv40008qc01s5hfgoyl",
-    type: "oauth",
-    provider: "google-expo",
-    providerAccountId: "112434520797919237638",
-    refresh_token: "",
-    access_token:
-      "ya29.a0AWY7Ckl3BzWyS7gPyM4vFREUxoNp5kbZ00Ianx8m1IKPEAu9xmOt7k9rWcEyYq2_bNzcndO9TPB1zxeUcpo9JZo2xfV7ku0suBrWtC61zqIY3nUbBoenIE_4tFEX7sMMBZldERogGC5wWTZW9T3ol_eP-ad9aCgYKAf0SARASFQG1tDrpkfiUY0c2q8Ht9XpJdVqQ4g0163",
-    expires_at: "1687421822",
-    token_type: "Bearer",
-    scope: "https://www.googleapis.com/auth/userinfo.email openid",
-    id_token:
-      "eyJhbGciOiJSUzI1NiIsImtpZCI6IjA1MTUwYTEzMjBiOTM5NWIwNTcxNjg3NzM3NjkyODUwOWJhYjQ0YWMiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI2MjQwMjI5MzYyMDgtZzhoMzBtOXZsczlwM2FobWg3OXJ0dThkM2NlcG4zZGQuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI2MjQwMjI5MzYyMDgtZzhoMzBtOXZsczlwM2FobWg3OXJ0dThkM2NlcG4zZGQuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTI0MzQ1MjA3OTc5MTkyMzc2MzgiLCJlbWFpbCI6ImFibGVwcm9iOEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IkFHdEF6MTBpUlhKOFJDaUpYQVFXVVEiLCJpYXQiOjE2ODc0MTgyMjMsImV4cCI6MTY4NzQyMTgyM30.svQatmsPCFH64ppfaEdd0rHgCPjcpjTk16uyWKGPUp_3dXTN6CaouuRASAOnCvHuahu_j5Ta3Such4Jq-OxdltCIUC-KnQqetrxDQfYkJdkW-8fQmgNkIx1Tm8bqOmluR_ASR-eN9ANPgSw3rpdFkCJYI8x1CUE0wCUd-R_zA1KPqv5lr58adv1B75Isf0mCUj3fNtPqLmy95gxYWNy4gUcSZpDXvxKbE_DzgjW87xrAeH5eKOQYIiNiC6xdTj5-SOwpuG7GKkdBTkcF1XzZV8LAFLpsd7IgfslX06QFjsPoGVDySQvGwu6GeP9dUmO4mjutfoH575OsLn-c-_Ltfw",
-    session_state: "",
-  },
-  {
     id: "clklngk2r0002pb01wtd4pa1p",
     userId: "clklngjxa0000pb01lk53p52n",
     type: "oauth",
@@ -1480,22 +1389,6 @@ export const legacyAccounts = [
     session_state: "",
   },
   {
-    id: "clx4tg8sn0002ky01aa8uxktd",
-    userId: "clx4tg8pg0000ky01ph7ejm83",
-    type: "oauth",
-    provider: "google-expo",
-    providerAccountId: "105549401533916515423",
-    refresh_token: "",
-    access_token:
-      "ya29.a0AXooCguWlZ-_sjpYXE0nWV1DmIM3JPpC9Ju0-XYCCCwOvTL9Jewi6u2_xvUMpKJulbl2EYVAEl1HYe9pc7-UEG7yr5F-8qIl7FSl2V2OS2t-MWfjibzydYivfNb4YtD0yN2uEibefykIoo58OqaDcOecblbbPD7R06TUaCgYKAU8SARMSFQHGX2Mivr12GxjJhdcZCWaj_TvRMg0171",
-    expires_at: "1717776192",
-    token_type: "Bearer",
-    scope: "openid https://www.googleapis.com/auth/userinfo.email",
-    id_token:
-      "eyJhbGciOiJSUzI1NiIsImtpZCI6IjY3NGRiYmE4ZmFlZTY5YWNhZTFiYzFiZTE5MDQ1MzY3OGY0NzI4MDMiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI2MjQwMjI5MzYyMDgtZzhoMzBtOXZsczlwM2FobWg3OXJ0dThkM2NlcG4zZGQuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI2MjQwMjI5MzYyMDgtZzhoMzBtOXZsczlwM2FobWg3OXJ0dThkM2NlcG4zZGQuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDU1NDk0MDE1MzM5MTY1MTU0MjMiLCJlbWFpbCI6InRtbGFtYkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IllrckMyektJRkcyRmkySjU5MDdCbnciLCJpYXQiOjE3MTc3NzI1OTMsImV4cCI6MTcxNzc3NjE5M30.c4StWOUr6safuMZkrs4Y-eurjhoVGBxNWMd8GLh_P8t-93MR2M2vhw2svUEcvpr1IRdjcBVkS5w1UQ5RJEFiaun8vDBZGz-mUeTZ_YTgxcW5ofUc2p8GH9HaiV-v0X93tVuHVvplGB6lRiXUJADVK2wNhzFYPPMI0qrz2-NR6TLYpUmOpqy_Art8wEY7XOD18RU3-l4H6Po5oJmx0l8kgDnEzXZRx7yI0L4O6bH1yzbQ_tIPCBxabmAUQDuFtf9VJr0RJyLVfgZhsAVgSP3d1vJO94DIyyR-DaNtGuN8LftDtYf1Wv3qibZSgQZnml3JZhES9uUTRxqtrWPM5KFeMA",
-    session_state: "",
-  },
-  {
     id: "clxky33hk0002os01gx4czxlg",
     userId: "clxky33dq0000os01tvvluppc",
     type: "oauth",
@@ -1559,22 +1452,6 @@ export const legacyAccounts = [
     scope: "",
     id_token:
       "eyJraWQiOiJUOHRJSjF6U3JPIiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJodHRwczovL2FwcGxlaWQuYXBwbGUuY29tIiwiYXVkIjoiY29tLnRyaXBsZXNpZ2h0LnByb2JhYmxlcGl0Y2hlcnMiLCJleHAiOjE3MjI4OTc3NzMsImlhdCI6MTcyMjgxMTM3Mywic3ViIjoiMDAwOTM3LmJkZmZlYzhkMzI5ZDQyNzhhMTBmNTA0ZDk4OWU2NTczLjIyNDIiLCJhdF9oYXNoIjoiSk9BS1UzS2VJSGFCdHBfZ1lFU2QwdyIsImVtYWlsIjoiejhoN2Z4cXc0N0Bwcml2YXRlcmVsYXkuYXBwbGVpZC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNfcHJpdmF0ZV9lbWFpbCI6dHJ1ZSwiYXV0aF90aW1lIjoxNzIyODExMzcyLCJub25jZV9zdXBwb3J0ZWQiOnRydWUsInJlYWxfdXNlcl9zdGF0dXMiOjJ9.hV_hgpuLEZUw7dcOz0VhUYl8krbebufhw2TTZepNLws3MsDsfLTMr390Y6Nne379E8vbaVf55nevdAnQeBk9zXEKe6b1L-sjAyhmaE6ttZhWTFTzs803dF1-c2dRFCCSwADezkiLGAOgyMz-UiswLgXaqsTet6FppeCTU-kGPP3sSZZO71aD4bajA-WfmFp1GGcGKmg-qWP4as2AQ7-E0818gUUilKSRMCObcXVQUjM0vMRa1QXahEROHzIUQYLcP8xQStpahvK0Ntc0hvXuRsK7Qy2pN1oBuCBbkVrLZEVEDWmpj-qcOuXhK9I8kQuuwNnj6-NkuCTUfTWS06riyQ",
-    session_state: "",
-  },
-  {
-    id: "cm0ep3ss30004oiqsaympw30y",
-    userId: "cm0ep3srm0002oiqsa2i3dmer",
-    type: "oauth",
-    provider: "google-expo",
-    providerAccountId: "115075152454452979184",
-    refresh_token: "",
-    access_token:
-      "ya29.a0AcM612xJsvoXuU1mOWcGl52jPT8ZmtVZ50Uxc-04jXtRt2KAKcNDX12_lgaepa_xEkOU5l2HucNctWVXjEPUUPMNsU8PUySPRSBhEH7ZrbrQdncrRiYDSRX5t2XCi_4XSglfnBny3CU4G3hHBuk2Sp85aSzVgmtgnnnOQUG-aCgYKAVISARISFQHGX2MiST7NL-ZRb523fKLn-6Axfw0175",
-    expires_at: "1724903903",
-    token_type: "Bearer",
-    scope: "https://www.googleapis.com/auth/userinfo.email openid",
-    id_token:
-      "eyJhbGciOiJSUzI1NiIsImtpZCI6ImE0OTM5MWJmNTJiNThjMWQ1NjAyNTVjMmYyYTA0ZTU5ZTIyYTdiNjUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI2MjQwMjI5MzYyMDgtZzhoMzBtOXZsczlwM2FobWg3OXJ0dThkM2NlcG4zZGQuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI2MjQwMjI5MzYyMDgtZzhoMzBtOXZsczlwM2FobWg3OXJ0dThkM2NlcG4zZGQuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTUwNzUxNTI0NTQ0NTI5NzkxODQiLCJlbWFpbCI6ImNhbGwubWUubGF1cmFAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJtcDd0X0RQRFI1QnhMNnBjRkdFMlNnIiwiaWF0IjoxNzI0OTAwMzA0LCJleHAiOjE3MjQ5MDM5MDR9.jhPsfk9jAl5K9-Hae1EY986SkYRqdZc7zeaIuac9kJpHnbNuAuehe10X-zAd1yASvzjICtxtH3C_OoASKXjVO9kFlpBLY6oxmtrEnwKvD06vt0VKm_qn_Hs5YLljQ6TKrx7gXcr1EMmwzqB88Hpf5zLAuM4PFsA9duLUkXI5bBLzhIFGpMxDerYlshGemTS6BzezJqw4HsWFihbD0UMPYQ7QFXwxGIHtfpZcdKpOVVQ0CQkNM9SpDXsog4FfKLU0QnVjeUOmbYcQC9SqoabK022jjYKneQVXQEZj3AHi7TvXKFJZ4_IVJ6EvNGvgXjXr2vKrX9qDp9R1O5W_kZ4dqw",
     session_state: "",
   },
   {
@@ -1666,20 +1543,6 @@ export const legacyDevices = [
     notificationsEnabled: "1",
   },
   {
-    id: "clj6sur900005qc01sowam2dl",
-    pushToken: "ExponentPushToken[vhI7ogNi8pTod64VA_jOkz]",
-    timezone: "America/Chicago",
-    userId: "clj3nicwc000an901vc17zi2d",
-    notificationsEnabled: "1",
-  },
-  {
-    id: "clj6t8rwp000eqc01oc2ortxx",
-    pushToken: "ExponentPushToken[vhI7ogNi8pTod64VA_jOkz]",
-    timezone: "America/Chicago",
-    userId: "clj6t8qv40008qc01s5hfgoyl",
-    notificationsEnabled: "1",
-  },
-  {
     id: "clklngl260006pb01drn9cc73",
     pushToken: "ExponentPushToken[nTbDzIMxcrH98YeHUxo76j]",
     timezone: "America/Los_Angeles",
@@ -1698,13 +1561,6 @@ export const legacyDevices = [
     pushToken: "ExponentPushToken[MSHuBaFeAtk_jVQ6KxSla3]",
     timezone: "America/Chicago",
     userId: "clvx7nepr0000p101hfiwah0q",
-    notificationsEnabled: "1",
-  },
-  {
-    id: "clx4tg9p30006ky01t51ifxgm",
-    pushToken: "ExponentPushToken[vhI7ogNi8pTod64VA_jOkz]",
-    timezone: "America/Chicago",
-    userId: "clx4tg8pg0000ky01ph7ejm83",
     notificationsEnabled: "1",
   },
   {
@@ -1733,13 +1589,6 @@ export const legacyDevices = [
     pushToken: "ExponentPushToken[HxUqSpHB4v3LqQSTPG2YQI]",
     timezone: "America/Chicago",
     userId: "clz7q7s7t0000nu01z09fhxwj",
-    notificationsEnabled: "1",
-  },
-  {
-    id: "cm0ep3t8u0008oiqs48ihy7oo",
-    pushToken: "ExponentPushToken[HxUqSpHB4v3LqQSTPG2YQI]",
-    timezone: "America/Chicago",
-    userId: "cm0ep3srm0002oiqsa2i3dmer",
     notificationsEnabled: "1",
   },
   {
