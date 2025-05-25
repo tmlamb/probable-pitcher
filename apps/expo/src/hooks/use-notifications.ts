@@ -50,7 +50,8 @@ export default function useNotifications({ enabled }: { enabled: boolean }) {
     const listener = AppState.addEventListener("change", (nextAppState) => {
       if (
         /inactive|background/.exec(appState.current) &&
-        nextAppState === "active"
+        nextAppState === "active" &&
+        enabled
       ) {
         handleNotificationSetup();
       }
