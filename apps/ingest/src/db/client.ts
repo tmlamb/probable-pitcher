@@ -204,6 +204,16 @@ export const client = {
         ),
         with: {
           notifications: {
+            where: and(
+              isNull(notification.sentOn),
+              inArray(
+                notification.gameId,
+                db
+                  .select({ id: game.id })
+                  .from(game)
+                  .where(between(game.date, start, end)),
+              ),
+            ),
             with: {
               game: true,
               pitcher: true,
