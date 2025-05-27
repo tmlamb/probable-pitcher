@@ -96,7 +96,7 @@ export const faqs = [
   {
     question: "How do I stop receiving notifications?",
     answer:
-      "You can remove pitchers you no longer wish to recieve notifications for using the Edit button on the homepage. You can also disable all notifications in the application settings.",
+      "You can remove pitchers you no longer wish to receive notifications for using the Edit button on the homepage. You can also disable all notifications in the application settings.",
   },
 ];
 

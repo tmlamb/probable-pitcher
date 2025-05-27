@@ -1066,6 +1066,40 @@ VALUES
   );
 
 INSERT INTO
+  pitcher (
+    id,
+    ref,
+    name,
+    team_id,
+    number
+  )
+VALUES
+  (
+    '8f1f1f3b-1b1b-4b1b-8b1b-1b1b1b1b1b1b',
+    10,
+    'Jack Jackfruit',
+    'f489b23d-9189-4b6b-86f6-805df48eb6f0',
+    '10'
+  );
+
+INSERT INTO
+  pitcher (
+    id,
+    ref,
+    name,
+    team_id,
+    number
+  )
+VALUES
+  (
+    '9a1f1f3b-1b1b-4b1b-8b1b-1b1b1b1b1b1b',
+    11,
+    'Kenny Kiwi',
+    '4a0ab259-768f-4609-b3eb-05688178e6b9',
+    '11'
+  );
+
+INSERT INTO
   game (
     id,
     ref,
@@ -1151,6 +1185,24 @@ VALUES
   );
 
 INSERT INTO
+  game (
+    id,
+    ref,
+    date,
+    home_pitcher_id,
+    away_pitcher_id
+  )
+VALUES
+  (
+    'a6661f88-3f1a-4492-978b-30770358666a',
+    6,
+    '2022-08-13 20:11:00.257Z',
+    '8f1f1f3b-1b1b-4b1b-8b1b-1b1b1b1b1b1b',
+    '9a1f1f3b-1b1b-4b1b-8b1b-1b1b1b1b1b1b'
+  );
+
+
+INSERT INTO
   subscription (
     id,
     user_id,
@@ -1161,6 +1213,19 @@ VALUES
     '469aceb4-2081-4714-823a-35f15ca1f6f6',
     'e111a8dc-bcaa-4452-9371-3701a88c111e',
     '6ae0fbb7-4ad8-4aaa-a8ab-97748ce1c5da'
+  );
+
+INSERT INTO
+  subscription (
+    id,
+    user_id,
+    pitcher_id
+  )
+VALUES
+  (
+    'e3d4041c-efae-4694-8dc7-588ce9b67ab8',
+    'e111a8dc-bcaa-4452-9371-3701a88c111e',
+    '8f1f1f3b-1b1b-4b1b-8b1b-1b1b1b1b1b1b'
   );
 
 INSERT INTO
@@ -1200,6 +1265,19 @@ VALUES
     'b1b1b1b1-1b1b-1b1b-1b1b-1b1b1b1b1b1b',
     'e44442e4-2962-4ed7-99ea-c64d248d444e',
     '0034c398-f528-434a-9e5a-e0a7ab1dedab'
+  );
+
+INSERT INTO
+  subscription (
+    id,
+    user_id,
+    pitcher_id
+  )
+VALUES
+  (
+    '7545c7b2-f097-482d-8989-832506fe7a26',
+    'e44442e4-2962-4ed7-99ea-c64d248d444e',
+    '9a1f1f3b-1b1b-4b1b-8b1b-1b1b1b1b1b1b'
   );
 
 INSERT INTO
@@ -1265,4 +1343,40 @@ VALUES
     'b6b6b6b6-6b6b-6b6b-6b6b-6b6b6b6b6b6b',
     'e777a9b7-2b65-4a8d-b476-6eb5fda8777e',
     '7e1f1f3b-1b1b-4b1b-8b1b-1b1b1b1b1b1b'
+  );
+
+-- Verify previous day's sent notifications are not sent again today
+INSERT INTO
+  notification (
+    id,
+    device_id,
+    game_id,
+    pitcher_id,
+    sent_on
+  )
+VALUES
+  (
+    'd4f254b5-4be9-4f80-8b27-e3719acd6dc7',
+    'd11186c4-4d5c-4a4e-95c7-fd4c382c111d',
+    'a6661f88-3f1a-4492-978b-30770358666a',
+    '8f1f1f3b-1b1b-4b1b-8b1b-1b1b1b1b1b1b',
+    '2022-08-13 14:00:01.256Z'
+  );
+
+-- Verify previous day's unsent notifications are not sent today
+INSERT INTO
+  notification (
+    id,
+    device_id,
+    game_id,
+    pitcher_id,
+    sent_on
+  )
+VALUES
+  (
+    '706323bf-d04c-438b-af08-c1713b0980d0',
+    'd444ca0c-de64-4e25-9de7-bea768b8444d',
+    'a6661f88-3f1a-4492-978b-30770358666a',
+    '9a1f1f3b-1b1b-4b1b-8b1b-1b1b1b1b1b1b',
+    null
   );

@@ -1,5 +1,6 @@
-import { expect, test } from "vitest";
 import fetch from "node-fetch";
+import { expect, test } from "vitest";
+
 import { Pitcher } from "@probable/db/schema";
 
 // See test-data.sql for test data
@@ -52,16 +53,16 @@ async function getPitchers(apiKey: string, searchTerms: string[]) {
 test("Fuzzy name search returns expected pitchers", async () => {
   for (const scenario of TEST_SEARCH_SCENARIOS) {
     const { apiKey, searchTerms, pitchersExpected } = scenario;
-    const pitchersRecieved = await getPitchers(apiKey, searchTerms);
+    const pitchersReceived = await getPitchers(apiKey, searchTerms);
 
     expect(
-      pitchersRecieved,
+      pitchersReceived,
       `No pitcher data returned for user apiKey ${apiKey} with search ${searchTerms}`,
     ).not.toBeUndefined();
 
     expect(
-      pitchersRecieved?.length,
-      `Number of recieved pitchers (${pitchersRecieved?.length}) doesn't match number of expected pitchers (${pitchersExpected}) for user apiKey ${apiKey} with search terms ${searchTerms}`,
+      pitchersReceived?.length,
+      `Number of received pitchers (${pitchersReceived?.length}) doesn't match number of expected pitchers (${pitchersExpected}) for user apiKey ${apiKey} with search terms ${searchTerms}`,
     ).toBe(pitchersExpected);
   }
 });
