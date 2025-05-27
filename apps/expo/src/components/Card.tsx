@@ -31,8 +31,8 @@ export default function Card({
   return (
     <View
       style={tw.style(
-        "mx-3 flex-row items-center justify-between rounded-xl px-3 py-2",
         style,
+        "mx-3 flex-row items-center justify-between rounded-xl px-3 py-2",
         variantClasses[variant],
       )}
       accessible={accessible}
