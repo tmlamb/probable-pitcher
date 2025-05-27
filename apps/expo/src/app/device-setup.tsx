@@ -69,13 +69,13 @@ export default function DeviceSetup() {
               <TextThemed style={tw`text-2xl font-semibold`}>
                 Enable game-day alerts
               </TextThemed>
-              <TextThemed>
+              <TextThemed style={tw`text-base`} variant="muted">
                 Probable Pitcher notifies you in the morning on days when a
                 pitcher you follow is scheduled to start. You'll only get one
                 notification per day, unless there is a late schedule change for
                 a pitcher you follow.
               </TextThemed>
-              <TextThemed>
+              <TextThemed style={tw`text-base`} variant="muted">
                 Select <TextThemed style={tw`font-bold`}>“Allow”</TextThemed> on
                 the next screen to enable notifications. You can change this
                 option later in the application settings.
