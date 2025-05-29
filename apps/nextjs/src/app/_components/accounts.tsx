@@ -1,11 +1,6 @@
 "use client";
 
-import { redirect } from "next/navigation";
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 
 import { capitalizeFirstLetter, cn } from "@probable/ui";
 import { toast } from "@probable/ui/toast";
