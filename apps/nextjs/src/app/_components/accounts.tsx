@@ -12,6 +12,7 @@ export function Accounts() {
   const deleteUser = useMutation(
     trpc.user.delete.mutationOptions({
       onSuccess: () => {
+        // eslint-disable-next-line react-hooks/react-compiler
         window.location.href = "/";
       },
       onError: (err) => {
