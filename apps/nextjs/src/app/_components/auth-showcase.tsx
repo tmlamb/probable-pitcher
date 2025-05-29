@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { auth, getSession } from "@probable/auth";
 import { Button } from "@probable/ui/button";
 
-export async function AuthShowcase() {
+export async function AuthShowcase({ page }: { page: string }) {
   const session = await getSession();
 
   if (!session) {
@@ -17,6 +17,7 @@ export async function AuthShowcase() {
             const res = await auth.api.signInSocial({
               body: {
                 provider: "apple",
+                callbackURL: page,
               },
             });
             redirect(res.url ?? "/");
@@ -31,6 +32,7 @@ export async function AuthShowcase() {
             const res = await auth.api.signInSocial({
               body: {
                 provider: "google",
+                callbackURL: page,
               },
             });
             redirect(res.url ?? "/");
