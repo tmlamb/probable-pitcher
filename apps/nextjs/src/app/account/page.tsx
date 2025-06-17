@@ -1,11 +1,13 @@
 import { Suspense } from "react";
 
-import { HydrateClient, prefetch, trpc } from "~/trpc/server";
-import { Accounts, AccountSkeleton } from "../_components/accounts";
-import SignOut from "../_components/signout";
+import { getSession } from "@probable/auth";
 
-export default function Account() {
-  prefetch(trpc.account.byUserId.queryOptions());
+import { HydrateClient } from "~/trpc/server";
+import { Accounts, AccountSkeleton } from "../_components/accounts";
+import { AuthShowcase } from "../_components/auth-showcase";
+
+export default async function Account() {
+  const session = await getSession();
 
   return (
     <HydrateClient>
@@ -14,16 +16,18 @@ export default function Account() {
           <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
             Probable Pitcher
           </h1>
-          <Suspense
-            fallback={
-              <div className="flex w-full flex-col gap-4">
-                <AccountSkeleton />
-              </div>
-            }
-          >
-            <Accounts />
-            <SignOut />
-          </Suspense>
+          <AuthShowcase page="/account" />
+          {session && (
+            <Suspense
+              fallback={
+                <div className="flex w-full flex-col gap-4">
+                  <AccountSkeleton />
+                </div>
+              }
+            >
+              <Accounts />
+            </Suspense>
+          )}
         </div>
       </main>
     </HydrateClient>
