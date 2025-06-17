@@ -313,7 +313,7 @@ jobs:
         run: pnpm install
 
       - name: Publish Live App Update
-        run: cd apps/expo && APP_ENV=preview BETTER_AUTH_URL="https://dev.probablepitcher.com" eas update --environment preview --branch preview --message "${{ github.event.head_commit.message }}"
+        run: cd apps/expo && APP_ENV=preview BETTER_AUTH_URL="https://dev.probablepitcher.com" eas update --environment preview --branch preview --message "${{ github.event.head_commit.id }}"
 
   tag-git:
     name: Preview Tag Git

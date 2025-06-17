@@ -5,7 +5,7 @@ export default function Privacy() {
         Privacy Policy
       </h1>
       <div className="flex max-w-prose flex-col space-y-4 text-gray-800">
-        <p className="text-sm text-gray-500">Effective Date: June 9, 2025</p>
+        <p className="text-sm text-gray-500">Effective Date: June 16, 2025</p>
 
         <h2 className="pt-4 text-2xl font-bold">1. Introduction</h2>
         <p>

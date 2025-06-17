@@ -36,7 +36,7 @@ export default function Support() {
             )
           }
           accessibilityRole="link"
-          accessibilityLabel="Open Application Feedback Page In Browser"
+          accessibilityLabel="Open Application Feedback Page Link In Browser"
           style={tw`mb-[${insets.bottom}] flex-row items-center justify-center self-center`}
         >
           <TextThemed variant="muted" style={tw`mr-2`}>
