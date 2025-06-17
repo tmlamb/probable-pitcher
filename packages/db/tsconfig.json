@@ -1,0 +1,8 @@
+{
+  "extends": "@probable/tsconfig/internal-package.json",
+  "include": ["src"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "emitDeclarationOnly": false
+  }
+}

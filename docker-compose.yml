@@ -1,0 +1,141 @@
+services:
+  db:
+    image: postgres:17.0-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=probable-pitcher
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - probablenet
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 10s
+      retries: 10
+      timeout: 2s
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=user-name@domain-name.com
+      - PGADMIN_DEFAULT_PASSWORD=strong-password
+    networks:
+      - probablenet
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+  migrate:
+    build:
+      dockerfile: packages/db/Dockerfile
+    environment:
+      - DATABASE_URL=postgres://postgres:password@db:5432/probable-pitcher
+    networks:
+      - probablenet
+    depends_on:
+      db:
+        condition: service_healthy
+  seed:
+    image: postgres:17.0-alpine
+    volumes:
+      - ./mocks/test-data.sql:/test-data.sql
+    entrypoint:
+      [
+        "bash",
+        "-c",
+        "sleep 10 && PGPASSWORD=password psql --username=postgres --host=db --port=5432 --dbname=probable-pitcher -f /test-data.sql && exit",
+      ]
+    networks:
+      - probablenet
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+  mock-base-api:
+    image: "wiremock/wiremock:latest"
+    volumes:
+      - ./mocks/wiremock:/home/wiremock
+    ports:
+      - "3011:8080"
+    entrypoint:
+      [
+        "/docker-entrypoint.sh",
+        "--global-response-templating",
+        "--disable-gzip",
+        "--verbose",
+      ]
+    networks:
+      - probablenet
+    depends_on:
+      seed:
+        condition: service_completed_successfully
+  ingest:
+    build:
+      dockerfile: apps/ingest/Dockerfile
+    environment:
+      - INGEST_JOBS=teams,pitchers,games,notifications
+      - INGEST_DATE=2022-08-14 13:00:00.256Z,
+      - DATABASE_URL=postgres://postgres:password@db:5432/probable-pitcher
+      - BASE_API_URL=http://mock-base-api:8080
+      - EXPO_API_URL=http://mock-base-api:8080
+    networks:
+      - probablenet
+    depends_on:
+      mock-base-api:
+        condition: service_started
+  nextjs:
+    environment:
+      - DATABASE_URL=postgres://postgres:password@db:5432/probable-pitcher
+      - AUTH_GOOGLE_ID=${AUTH_GOOGLE_ID}
+      - AUTH_GOOGLE_SECRET=${AUTH_GOOGLE_SECRET}
+      - AUTH_APPLE_BUNDLE_ID=${AUTH_APPLE_BUNDLE_ID}
+      - AUTH_APPLE_SERVICE_ID=${AUTH_APPLE_SERVICE_ID}
+      - AUTH_APPLE_SECRET=${AUTH_APPLE_SECRET}
+      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
+      - BETTER_AUTH_URL=${BETTER_AUTH_URL}
+    build:
+      dockerfile: apps/nextjs/Dockerfile
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://nextjs:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    ports:
+      - "3000:3000"
+    networks:
+      - probablenet
+    depends_on:
+      ingest:
+        condition: service_completed_successfully
+  integration:
+    build:
+      dockerfile: tests/integration/Dockerfile
+    environment:
+      - VITE_API_URL=http://nextjs:3000
+    depends_on:
+      nextjs:
+        condition: service_healthy
+    networks:
+      - probablenet
+  stress:
+    image: grafana/k6
+    environment:
+      API_URL: http://nextjs:3000
+    depends_on:
+      nextjs:
+        condition: service_healthy
+    volumes:
+      - ./tests/stress/scripts:/scripts
+    command: run /scripts/index.js
+    networks:
+      - probablenet
+volumes:
+  pgdata:
+  pgadmin-data:
+networks:
+  probablenet:
+    driver: bridge

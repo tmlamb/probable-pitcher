@@ -1,0 +1,15 @@
+{
+  "name": "@probable/stress",
+  "version": "2.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "k6 run scripts/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/k6": "0.54.2"
+  }
+}

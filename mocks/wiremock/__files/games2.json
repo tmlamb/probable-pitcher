@@ -1,0 +1,420 @@
+{
+  "games": [
+    {
+      "ref": 663088,
+      "date": "2022-08-15T19:10:00Z",
+      "away": {
+        "team": {
+          "ref": 447,
+          "name": "Shadow Ridge Sabercats",
+          "abbreviation": "SRS"
+        },
+        "pitcher": {
+          "ref": 594031,
+          "name": "Logan Whitman",
+          "team": 331,
+          "number": "43"
+        }
+      },
+      "home": {
+        "team": {
+          "ref": 445,
+          "name": "Sapphire Bay Stingrays",
+          "abbreviation": "SBS"
+        },
+        "pitcher": {
+          "ref": 672875,
+          "name": "Wesley Briggs",
+          "team": 331,
+          "number": "46"
+        }
+      }
+    },
+    {
+      "ref": 663059,
+      "date": "2022-08-15T19:15:00Z",
+      "away": {
+        "team": {
+          "ref": 447,
+          "name": "Shadow Ridge Sabercats",
+          "abbreviation": "SRS"
+        },
+        "pitcher": {
+          "ref": 672761,
+          "name": "Hunter Ray",
+          "team": 331,
+          "number": "36"
+        }
+      },
+      "home": {
+        "team": {
+          "ref": 445,
+          "name": "Sapphire Bay Stingrays",
+          "abbreviation": "SBS"
+        },
+        "pitcher": {
+          "ref": 697771,
+          "name": "Brock Steele",
+          "team": 331,
+          "number": "74"
+        }
+      }
+    },
+    {
+      "ref": 663131,
+      "date": "2022-08-15T22:40:00Z",
+      "away": {
+        "team": {
+          "ref": 474,
+          "name": "Oceanport Sharks",
+          "abbreviation": "OPS"
+        },
+        "pitcher": {
+          "ref": 615020,
+          "name": "Trent Wallace",
+          "team": 331,
+          "number": "37"
+        }
+      },
+      "home": {
+        "team": {
+          "ref": 444,
+          "name": "Ironwood Invaders",
+          "abbreviation": "IWI"
+        },
+        "pitcher": {
+          "ref": 524216,
+          "name": "Parker Maddox",
+          "team": 331,
+          "number": "34"
+        }
+      }
+    },
+    {
+      "ref": 661469,
+      "date": "2022-08-15T22:40:00Z",
+      "away": {
+        "team": {
+          "ref": 466,
+          "name": "Redwood Raptors",
+          "abbreviation": "RWR"
+        },
+        "pitcher": {
+          "ref": 627628,
+          "name": "Howard McKinley",
+          "team": 331,
+          "number": "47"
+        }
+      },
+      "home": {
+        "team": {
+          "ref": 477,
+          "name": "Desert Hollow Mustangs",
+          "abbreviation": "DHM"
+        },
+        "pitcher": {
+          "ref": 667492,
+          "name": "Bryce Holloway",
+          "team": 331,
+          "number": "25"
+        }
+      }
+    },
+    {
+      "ref": 662582,
+      "date": "2022-08-15T23:05:00Z",
+      "away": {
+        "team": {
+          "ref": 443,
+          "name": "Emberfield Phoenix",
+          "abbreviation": "EFP"
+        },
+        "pitcher": {
+          "ref": 595417,
+          "name": "Logan Timmons",
+          "team": 331,
+          "number": "3"
+        }
+      },
+      "home": {
+        "team": {
+          "ref": 451,
+          "name": "Windmere Wildcats",
+          "abbreviation": "WMW"
+        },
+        "pitcher": {
+          "ref": 702917,
+          "name": "Ryan Grayson",
+          "team": 331,
+          "number": "43"
+        }
+      }
+    },
+    {
+      "ref": 661394,
+      "date": "2022-08-15T23:05:00Z",
+      "away": {
+        "team": { "ref": 470, "name": "Apex Firehawks", "abbreviation": "AFH" },
+        "pitcher": {
+          "ref": 678453,
+          "name": "Hunter Maxwell",
+          "team": 331,
+          "number": "71"
+        }
+      },
+      "home": {
+        "team": {
+          "ref": 478,
+          "name": "Frosthaven Falcons",
+          "abbreviation": "FHF"
+        },
+        "pitcher": {
+          "ref": 565268,
+          "name": "Hank Morrow",
+          "team": 331,
+          "number": "48"
+        }
+      }
+    },
+    {
+      "ref": 661818,
+      "date": "2022-08-15T23:07:00Z",
+      "away": {
+        "team": {
+          "ref": 441,
+          "name": "Stormwatch Stallions",
+          "abbreviation": "SWS"
+        },
+        "pitcher": {
+          "ref": 702925,
+          "name": "Wade Thornton",
+          "team": 331,
+          "number": "59"
+        }
+      },
+      "home": {
+        "team": {
+          "ref": 472,
+          "name": "Glacier Ridge Yetis",
+          "abbreviation": "GRY"
+        },
+        "pitcher": {
+          "ref": 601559,
+          "name": "Rory Prescott",
+          "team": 331,
+          "number": "19"
+        }
+      }
+    },
+    {
+      "ref": 661608,
+      "date": "2022-08-15T23:20:00Z",
+      "away": {
+        "team": {
+          "ref": 452,
+          "name": "Cobalt Falls Falcons",
+          "abbreviation": "CFF"
+        },
+        "pitcher": {
+          "ref": 494142,
+          "name": "Ryan Broderick",
+          "team": 331,
+          "number": "62"
+        }
+      },
+      "home": {
+        "team": {
+          "ref": 475,
+          "name": "Canyon City Cyclones",
+          "abbreviation": "CCC"
+        },
+        "pitcher": {
+          "ref": 698142,
+          "name": "Roy Francis",
+          "team": 331,
+          "number": "68"
+        }
+      }
+    },
+    {
+      "ref": 661787,
+      "date": "2022-08-15T23:40:00Z",
+      "away": {
+        "team": {
+          "ref": 449,
+          "name": "Pine Bluff Prowlers",
+          "abbreviation": "PBP"
+        },
+        "pitcher": {
+          "ref": 685691,
+          "name": "Tanner Emerson",
+          "team": 331,
+          "number": "53"
+        }
+      },
+      "home": {
+        "team": {
+          "ref": 473,
+          "name": "Blackstone Blizzards",
+          "abbreviation": "BSB"
+        },
+        "pitcher": {
+          "ref": 679977,
+          "name": "Randy Blackwood",
+          "team": 331,
+          "number": "44"
+        }
+      }
+    },
+    {
+      "ref": 661945,
+      "date": "2022-08-16T00:05:00Z",
+      "away": {
+        "team": {
+          "ref": 464,
+          "name": "Thunder Bay Stormbreakers",
+          "abbreviation": "TBS"
+        },
+        "pitcher": {
+          "ref": 643307,
+          "name": "Gavin Whitmore",
+          "team": 331,
+          "number": "35"
+        }
+      },
+      "home": {
+        "team": {
+          "ref": 471,
+          "name": "Crimson Valley Vipers",
+          "abbreviation": "CVV"
+        },
+        "pitcher": {
+          "ref": 679479,
+          "name": "Logan Mercer",
+          "team": 331,
+          "number": "52"
+        }
+      }
+    },
+    {
+      "ref": 661560,
+      "date": "2022-08-16T00:10:00Z",
+      "away": {
+        "team": {
+          "ref": 448,
+          "name": "Meadowbrook Mavericks",
+          "abbreviation": "MBM"
+        },
+        "pitcher": {
+          "ref": 686584,
+          "name": "Brady Langston",
+          "team": 331,
+          "number": "68"
+        }
+      },
+      "home": {
+        "team": {
+          "ref": 476,
+          "name": "Steelport Sentinels",
+          "abbreviation": "SSE"
+        },
+        "pitcher": {
+          "ref": 478732,
+          "name": "Todd Stanton",
+          "team": 331,
+          "number": "50"
+        }
+      }
+    },
+    {
+      "ref": 661310,
+      "date": "2022-08-16T00:10:00Z",
+      "away": {
+        "team": {
+          "ref": 450,
+          "name": "Steelhaven Wranglers",
+          "abbreviation": "SHW"
+        },
+        "pitcher": {
+          "ref": 650942,
+          "name": "Brett Eastwood",
+          "team": 331,
+          "number": "10"
+        }
+      },
+      "home": {
+        "team": {
+          "ref": 489,
+          "name": "Highland Ridge Titans",
+          "abbreviation": "HRT"
+        },
+        "pitcher": {
+          "ref": 664778,
+          "name": "Griffin Langston",
+          "team": 331,
+          "number": "54"
+        }
+      }
+    },
+    {
+      "ref": 663481,
+      "date": "2022-08-16T01:38:00Z",
+      "away": {
+        "team": {
+          "ref": 467,
+          "name": "Silverpeak Scorpions",
+          "abbreviation": "SPS"
+        },
+        "pitcher": {
+          "ref": 644722,
+          "name": "Randy Blackwood",
+          "team": 331,
+          "number": "61"
+        }
+      },
+      "home": {
+        "team": {
+          "ref": 439,
+          "name": "Maplewood Miners",
+          "abbreviation": "MWM"
+        },
+        "pitcher": {
+          "ref": 682502,
+          "name": "Parker Nash",
+          "team": 331,
+          "number": "20"
+        }
+      }
+    },
+    {
+      "ref": 662145,
+      "date": "2022-08-16T01:45:00Z",
+      "away": {
+        "team": {
+          "ref": 440,
+          "name": "Golden Shore Griffins",
+          "abbreviation": "GSG"
+        },
+        "pitcher": {
+          "ref": 540747,
+          "name": "Rory Holloway",
+          "team": 331,
+          "number": "43"
+        }
+      },
+      "home": {
+        "team": {
+          "ref": 468,
+          "name": "Bayview Buccaneers",
+          "abbreviation": "BVB"
+        },
+        "pitcher": {
+          "ref": 524402,
+          "name": "Dalton Hayes",
+          "team": 331,
+          "number": "41"
+        }
+      }
+    }
+  ]
+}

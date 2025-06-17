@@ -1,0 +1,6 @@
+name: probable-pitcher
+description: Probable Pitcher Infrastructure
+runtime:
+  name: nodejs
+  options:
+    packagemanager: pnpm

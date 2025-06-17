@@ -1,0 +1,46 @@
+{
+  "cli": {
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "base": {
+      "node": "22.14.0",
+      "pnpm": "10.6.3",
+      "ios": {
+        "resourceClass": "m-medium"
+      }
+    },
+    "development": {
+      "environment": "development",
+      "extends": "base",
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "APP_ENV": "development"
+      }
+    },
+    "preview": {
+      "environment": "preview",
+      "channel": "preview",
+      "extends": "base",
+      "distribution": "internal",
+      "env": {
+        "APP_ENV": "preview",
+        "BETTER_AUTH_URL": "https://dev.probablepitcher.com"
+      }
+    },
+    "production": {
+      "environment": "production",
+      "channel": "production",
+      "autoIncrement": true,
+      "extends": "base",
+      "env": {
+        "APP_ENV": "production",
+        "BETTER_AUTH_URL": "https://probablepitcher.com"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

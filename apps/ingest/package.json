@@ -1,0 +1,35 @@
+{
+  "name": "@probable/ingest",
+  "version": "2.0.0",
+  "main": "src/index.ts",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "build:env": "pnpm with-env tsc",
+    "games": "INGEST_JOBS=games pnpm with-env tsx ./src/index.ts",
+    "pitchers": "INGEST_JOBS=pitchers pnpm with-env tsx ./src/index.ts",
+    "notifications": "INGEST_JOBS=notifications pnpm with-env tsx ./src/index.ts",
+    "teams": "INGEST_JOBS=teams pnpm with-env tsx ./src/index.ts",
+    "lint": "eslint",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "with-env": "dotenv -e ../../.env --",
+    "clean": "git clean -xdf .cache .output .turbo dist node_modules"
+  },
+  "dependencies": {
+    "@probable/db": "workspace:*",
+    "date-fns": "4.1.0",
+    "date-fns-tz": "3.2.0",
+    "node-fetch": "3.3.2",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@probable/eslint-config": "workspace:*",
+    "@probable/prettier-config": "workspace:*",
+    "@probable/tsconfig": "workspace:*",
+    "prettier": "catalog:",
+    "tsx": "4.19.2",
+    "typescript": "catalog:"
+  },
+  "prettier": "@probable/prettier-config"
+}

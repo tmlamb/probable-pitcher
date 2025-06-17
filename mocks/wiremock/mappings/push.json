@@ -1,0 +1,10 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/--/api/v2/push/send"
+  },
+
+  "response": {
+    "status": 200
+  }
+}
