@@ -597,222 +597,222 @@ const appleClientSecret = pulumi
     generateSecret({ teamId, keyId, privateKey, clientId }),
   );
 
-const appLabels = { app: `probable-nextjs-${env}` };
-
-const appDeployment = new k8s.apps.v1.Deployment(
-  appLabels.app,
-  {
-    metadata: {
-      namespace: namespaceName,
-    },
-    spec: {
-      strategy: {
-        type: "RollingUpdate",
-        rollingUpdate: {
-          maxSurge: 1,
-          maxUnavailable: 1,
-        },
-      },
-      selector: { matchLabels: appLabels },
-      replicas: replicas,
-      template: {
-        metadata: { labels: appLabels },
-        spec: {
-          imagePullSecrets: [{ name: regcred.metadata.apply((m) => m.name) }],
-          serviceAccountName: ksa.metadata.apply((m) => m.name),
-          containers: [
-            {
-              name: appLabels.app,
-              image: `ghcr.io/tmlamb/probable-nextjs:${
-                changedNextjs ? imageTag : "latest"
-              }`,
-
-              ports: [{ name: "http", containerPort: 3000 }],
-              resources: {
-                requests: {
-                  cpu: "250m",
-                  memory: "512Mi",
-                  "ephemeral-storage": "1Gi",
-                },
-              },
-              livenessProbe: {
-                httpGet: { path: "/", port: "http" },
-              },
-              env: [
-                {
-                  name: "DATABASE_URL",
-                  valueFrom: {
-                    secretKeyRef: {
-                      name: dbcred.metadata.apply((m) => m.name),
-                      key: "databaseUrl",
-                    },
-                  },
-                },
-                {
-                  name: "AUTH_GOOGLE_ID",
-                  value: config.requireSecret("authGoogleClientId"),
-                },
-                {
-                  name: "AUTH_GOOGLE_SECRET",
-                  value: config.requireSecret("authGoogleClientSecret"),
-                },
-                {
-                  name: "AUTH_APPLE_BUNDLE_ID",
-                  value: config.requireSecret("appleClientId"),
-                },
-                {
-                  name: "AUTH_APPLE_SERVICE_ID",
-                  value: config.requireSecret("appleServiceId"),
-                },
-                {
-                  name: "AUTH_APPLE_SECRET",
-                  value: appleClientSecret,
-                },
-                {
-                  name: "BETTER_AUTH_SECRET",
-                  value: config.requireSecret("betterAuthSecret"),
-                },
-                {
-                  name: "BETTER_AUTH_URL",
-                  value: config.requireSecret("betterAuthUrl"),
-                },
-              ],
-            },
-            {
-              name: "cloudsql-proxy",
-              image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
-              args: ["--port=5432", pgDatabaseInstance.connectionName],
-              securityContext: {
-                runAsNonRoot: true,
-              },
-              resources: {
-                limits: {
-                  cpu: "250m",
-                  memory: "512Mi",
-                  "ephemeral-storage": "1Gi",
-                },
-              },
-            },
-          ],
-        },
-      },
-    },
-  },
-  {
-    provider: clusterProvider,
-    dependsOn: [migrationJob],
-  },
-);
-
-const appService = new k8s.core.v1.Service(
-  appLabels.app,
-  {
-    metadata: {
-      namespace: namespaceName,
-    },
-    spec: {
-      ports: [
-        {
-          port: 80,
-          targetPort: 3000,
-        },
-      ],
-      selector: {
-        app: appLabels.app,
-      },
-    },
-  },
-  {
-    provider: clusterProvider,
-  },
-);
-
-const ipAddress = new gcp.compute.GlobalAddress(`probable-address-${env}`, {
-  project: gcp.config.project,
-  addressType: "EXTERNAL",
-});
-
-const managedCertificate = new k8s.apiextensions.CustomResource(
-  `probable-certificate-${env}`,
-  {
-    apiVersion: "networking.gke.io/v1",
-    kind: "ManagedCertificate",
-    metadata: {
-      namespace: namespaceName,
-    },
-    spec: {
-      domains: [...domains],
-    },
-  },
-  {
-    provider: clusterProvider,
-  },
-);
-
-const httpsRedirect = new k8s.apiextensions.CustomResource(
-  `probable-https-redirect-${env}`,
-  {
-    apiVersion: "networking.gke.io/v1beta1",
-    kind: "FrontendConfig",
-    metadata: {
-      namespace: namespaceName,
-    },
-    spec: {
-      redirectToHttps: {
-        enabled: true,
-        responseCodeName: "MOVED_PERMANENTLY_DEFAULT",
-      },
-    },
-  },
-  {
-    provider: clusterProvider,
-  },
-);
-
-const ingress = new k8s.networking.v1.Ingress(
-  `probable-ingress-${env}`,
-  {
-    metadata: {
-      namespace: namespaceName,
-      annotations: {
-        "kubernetes.io/ingress.class": "gce",
-        "kubernetes.io/ingress.global-static-ip-name": ipAddress.name,
-        "networking.gke.io/managed-certificates":
-          managedCertificate.metadata.apply((m) => m.name),
-        "networking.gke.io/v1beta1.FrontendConfig":
-          httpsRedirect.metadata.apply((m) => m.name),
-      },
-    },
-    spec: {
-      rules: [
-        ...domains.map((domain) => {
-          const rule = {
-            host: domain,
-            http: {
-              paths: [
-                {
-                  path: "/",
-                  pathType: "Prefix",
-                  backend: {
-                    service: {
-                      name: appService?.metadata?.apply((m) => m?.name),
-                      port: {
-                        number: appService?.spec?.ports?.[0]?.apply(
-                          (p) => p?.port,
-                        ),
-                      },
-                    },
-                  },
-                },
-              ],
-            },
-          };
-          return rule;
-        }),
-      ],
-    },
-  },
-  {
-    provider: clusterProvider,
-  },
-);
+// const appLabels = { app: `probable-nextjs-${env}` };
+//
+// const appDeployment = new k8s.apps.v1.Deployment(
+//   appLabels.app,
+//   {
+//     metadata: {
+//       namespace: namespaceName,
+//     },
+//     spec: {
+//       strategy: {
+//         type: "RollingUpdate",
+//         rollingUpdate: {
+//           maxSurge: 1,
+//           maxUnavailable: 1,
+//         },
+//       },
+//       selector: { matchLabels: appLabels },
+//       replicas: replicas,
+//       template: {
+//         metadata: { labels: appLabels },
+//         spec: {
+//           imagePullSecrets: [{ name: regcred.metadata.apply((m) => m.name) }],
+//           serviceAccountName: ksa.metadata.apply((m) => m.name),
+//           containers: [
+//             {
+//               name: appLabels.app,
+//               image: `ghcr.io/tmlamb/probable-nextjs:${
+//                 changedNextjs ? imageTag : "latest"
+//               }`,
+//
+//               ports: [{ name: "http", containerPort: 3000 }],
+//               resources: {
+//                 requests: {
+//                   cpu: "250m",
+//                   memory: "512Mi",
+//                   "ephemeral-storage": "1Gi",
+//                 },
+//               },
+//               livenessProbe: {
+//                 httpGet: { path: "/", port: "http" },
+//               },
+//               env: [
+//                 {
+//                   name: "DATABASE_URL",
+//                   valueFrom: {
+//                     secretKeyRef: {
+//                       name: dbcred.metadata.apply((m) => m.name),
+//                       key: "databaseUrl",
+//                     },
+//                   },
+//                 },
+//                 {
+//                   name: "AUTH_GOOGLE_ID",
+//                   value: config.requireSecret("authGoogleClientId"),
+//                 },
+//                 {
+//                   name: "AUTH_GOOGLE_SECRET",
+//                   value: config.requireSecret("authGoogleClientSecret"),
+//                 },
+//                 {
+//                   name: "AUTH_APPLE_BUNDLE_ID",
+//                   value: config.requireSecret("appleClientId"),
+//                 },
+//                 {
+//                   name: "AUTH_APPLE_SERVICE_ID",
+//                   value: config.requireSecret("appleServiceId"),
+//                 },
+//                 {
+//                   name: "AUTH_APPLE_SECRET",
+//                   value: appleClientSecret,
+//                 },
+//                 {
+//                   name: "BETTER_AUTH_SECRET",
+//                   value: config.requireSecret("betterAuthSecret"),
+//                 },
+//                 {
+//                   name: "BETTER_AUTH_URL",
+//                   value: config.requireSecret("betterAuthUrl"),
+//                 },
+//               ],
+//             },
+//             {
+//               name: "cloudsql-proxy",
+//               image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
+//               args: ["--port=5432", pgDatabaseInstance.connectionName],
+//               securityContext: {
+//                 runAsNonRoot: true,
+//               },
+//               resources: {
+//                 limits: {
+//                   cpu: "250m",
+//                   memory: "512Mi",
+//                   "ephemeral-storage": "1Gi",
+//                 },
+//               },
+//             },
+//           ],
+//         },
+//       },
+//     },
+//   },
+//   {
+//     provider: clusterProvider,
+//     dependsOn: [migrationJob],
+//   },
+// );
+//
+// const appService = new k8s.core.v1.Service(
+//   appLabels.app,
+//   {
+//     metadata: {
+//       namespace: namespaceName,
+//     },
+//     spec: {
+//       ports: [
+//         {
+//           port: 80,
+//           targetPort: 3000,
+//         },
+//       ],
+//       selector: {
+//         app: appLabels.app,
+//       },
+//     },
+//   },
+//   {
+//     provider: clusterProvider,
+//   },
+// );
+//
+// const ipAddress = new gcp.compute.GlobalAddress(`probable-address-${env}`, {
+//   project: gcp.config.project,
+//   addressType: "EXTERNAL",
+// });
+//
+// const managedCertificate = new k8s.apiextensions.CustomResource(
+//   `probable-certificate-${env}`,
+//   {
+//     apiVersion: "networking.gke.io/v1",
+//     kind: "ManagedCertificate",
+//     metadata: {
+//       namespace: namespaceName,
+//     },
+//     spec: {
+//       domains: [...domains],
+//     },
+//   },
+//   {
+//     provider: clusterProvider,
+//   },
+// );
+//
+// const httpsRedirect = new k8s.apiextensions.CustomResource(
+//   `probable-https-redirect-${env}`,
+//   {
+//     apiVersion: "networking.gke.io/v1beta1",
+//     kind: "FrontendConfig",
+//     metadata: {
+//       namespace: namespaceName,
+//     },
+//     spec: {
+//       redirectToHttps: {
+//         enabled: true,
+//         responseCodeName: "MOVED_PERMANENTLY_DEFAULT",
+//       },
+//     },
+//   },
+//   {
+//     provider: clusterProvider,
+//   },
+// );
+//
+// const ingress = new k8s.networking.v1.Ingress(
+//   `probable-ingress-${env}`,
+//   {
+//     metadata: {
+//       namespace: namespaceName,
+//       annotations: {
+//         "kubernetes.io/ingress.class": "gce",
+//         "kubernetes.io/ingress.global-static-ip-name": ipAddress.name,
+//         "networking.gke.io/managed-certificates":
+//           managedCertificate.metadata.apply((m) => m.name),
+//         "networking.gke.io/v1beta1.FrontendConfig":
+//           httpsRedirect.metadata.apply((m) => m.name),
+//       },
+//     },
+//     spec: {
+//       rules: [
+//         ...domains.map((domain) => {
+//           const rule = {
+//             host: domain,
+//             http: {
+//               paths: [
+//                 {
+//                   path: "/",
+//                   pathType: "Prefix",
+//                   backend: {
+//                     service: {
+//                       name: appService?.metadata?.apply((m) => m?.name),
+//                       port: {
+//                         number: appService?.spec?.ports?.[0]?.apply(
+//                           (p) => p?.port,
+//                         ),
+//                       },
+//                     },
+//                   },
+//                 },
+//               ],
+//             },
+//           };
+//           return rule;
+//         }),
+//       ],
+//     },
+//   },
+//   {
+//     provider: clusterProvider,
+//   },
+// );
