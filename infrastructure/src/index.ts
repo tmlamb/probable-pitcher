@@ -29,23 +29,6 @@ const gsa = new gcp.serviceaccount.Account(`probable-service-account-${env}`, {
   project: gcp.config.project,
 });
 
-const databaseInstance = new gcp.sql.DatabaseInstance(
-  `probable-db-instance-${env}`,
-  {
-    name: `probable-db-instance-${env}`,
-    databaseVersion: "MYSQL_8_0",
-    region: "us-west1",
-    settings: {
-      tier: "db-f1-micro",
-      availabilityType: isProd ? "REGIONAL" : "ZONAL",
-      backupConfiguration: {
-        enabled: true,
-        binaryLogEnabled: true,
-        location: "us-east1",
-      },
-    },
-  },
-);
 const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
   `probable-db-instance-pg-${env}`,
   {
