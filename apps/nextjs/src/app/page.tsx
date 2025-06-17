@@ -14,7 +14,6 @@ export default function HomePage() {
   // );
 
   prefetch(trpc.subscription.byUserId.queryOptions());
-  prefetch(trpc.account.byUserId.queryOptions());
 
   return (
     <HydrateClient>
