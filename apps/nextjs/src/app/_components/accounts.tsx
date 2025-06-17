@@ -1,30 +1,30 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 
 import { capitalizeFirstLetter, cn } from "@probable/ui";
 import { toast } from "@probable/ui/toast";
 
+import { authClient } from "~/auth/client";
 import { useTRPC } from "~/trpc/react";
 
 export function Accounts() {
+  const router = useRouter();
   const trpc = useTRPC();
   const deleteUser = useMutation(
     trpc.user.delete.mutationOptions({
       onSuccess: () => {
-        // eslint-disable-next-line react-hooks/react-compiler
-        window.location.href = "/";
+        authClient
+          .signOut()
+          .then(() => {
+            router.push("/");
+          })
+          .catch(console.error);
       },
       onError: (err) => {
         console.error("Failed to delete account", err);
-        toast.error(
-          err.data?.code === "UNAUTHORIZED"
-            ? "You must be logged in to delete your account"
-            : "Failed to delete account",
-        );
-      },
-      onSettled: () => {
-        window.location.href = "/";
+        toast.error("Failed to delete account");
       },
     }),
   );
