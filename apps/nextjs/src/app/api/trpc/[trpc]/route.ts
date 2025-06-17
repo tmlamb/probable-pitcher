@@ -2,7 +2,6 @@ import type { NextRequest } from "next/server";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 
 import { appRouter, createTRPCContext } from "@probable/api";
-import { auth } from "@probable/auth";
 
 /**
  * Configure basic CORS headers
@@ -30,7 +29,6 @@ const handler = async (req: NextRequest) => {
     req,
     createContext: () =>
       createTRPCContext({
-        auth,
         headers: req.headers,
       }),
     onError({ error, path }) {

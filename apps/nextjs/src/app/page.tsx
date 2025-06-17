@@ -1,9 +1,10 @@
 import { Suspense } from "react";
 
-import { HydrateClient, prefetch, trpc } from "~/trpc/server";
+import { HydrateClient } from "~/trpc/server";
+import { AuthShowcase } from "./_components/auth-showcase";
 import {
   SubscriptionList,
-  // CreatePostForm,
+  //CreatePostForm,
   SubscriptionSkeleton,
 } from "./_components/subscriptions";
 
@@ -13,16 +14,14 @@ export default function HomePage() {
   //   "d11186c4-4d5c-4a4e-95c7-fd4c382c111d",
   // );
 
-  prefetch(trpc.subscription.byUserId.queryOptions());
-  prefetch(trpc.account.byUserId.queryOptions());
-
   return (
     <HydrateClient>
       <main className="container h-screen py-16">
         <div className="flex flex-col items-center justify-center gap-4">
           <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-            Welcome to Probable Pitcher
+            Probable Pitcher
           </h1>
+          <AuthShowcase page="/" />
 
           {/*<CreatePostForm />*/}
           <div className="w-full max-w-2xl overflow-y-scroll">
