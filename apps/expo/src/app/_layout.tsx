@@ -15,7 +15,7 @@ const { sentryPublicDsn, appEnv } = Constants.expoConfig?.extra ?? {};
 if (sentryPublicDsn) {
   Sentry.init({
     dsn: String(sentryPublicDsn),
-    debug: appEnv !== "production",
+    // debug: appEnv !== "production",
 
     // TODO uncomment the line below to enable Spotlight (https://spotlightjs.com)
     // spotlight: __DEV__,
