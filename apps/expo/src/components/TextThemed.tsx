@@ -33,6 +33,7 @@ export default function TextThemed({
 }: TextThemedProps) {
   return (
     <Text
+      maxFontSizeMultiplier={1}
       numberOfLines={numberOfLines}
       style={tw.style("text-lg", style, variantClasses[variant])}
       accessibilityRole={accessibilityRole}
