@@ -11,11 +11,10 @@ import { queryClient } from "~/utils/api";
 import { authClient } from "~/utils/auth";
 import tw from "~/utils/tailwind";
 
-const { sentryPublicDsn, appEnv } = Constants.expoConfig?.extra ?? {};
+const { sentryPublicDsn } = Constants.expoConfig?.extra ?? {};
 if (sentryPublicDsn) {
   Sentry.init({
     dsn: String(sentryPublicDsn),
-    // debug: appEnv !== "production",
 
     // TODO uncomment the line below to enable Spotlight (https://spotlightjs.com)
     // spotlight: __DEV__,
