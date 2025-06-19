@@ -136,6 +136,7 @@ export default function TextInputThemed({
           submitBehavior="blurAndSubmit"
           accessibilityLabel={accessibilityLabel ?? label}
           testID={testID}
+          allowFontScaling={false}
         />
       </Card>
     </Card>
