@@ -1,0 +1,22 @@
+{
+  "name": "@probable/integration",
+  "version": "2.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@probable/db": "workspace:*",
+    "@probable/eslint-config": "workspace:*",
+    "@probable/prettier-config": "workspace:*",
+    "@probable/tsconfig": "workspace:*",
+    "node-fetch": "3.3.2",
+    "typescript": "catalog:",
+    "vitest": "2.1.8"
+  },
+  "prettier": "@probable/prettier-config"
+}

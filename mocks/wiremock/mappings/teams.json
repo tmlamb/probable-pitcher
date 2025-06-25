@@ -1,0 +1,14 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/teams?date=2022-08-14"
+  },
+
+  "response": {
+    "status": 200,
+    "bodyFileName": "teams.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

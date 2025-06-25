@@ -1,0 +1,14 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/games?date=2022-08-17"
+  },
+
+  "response": {
+    "status": 200,
+    "bodyFileName": "games4.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

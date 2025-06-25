@@ -1,0 +1,14 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/pitchers?date=2022-08-14"
+  },
+
+  "response": {
+    "status": 200,
+    "bodyFileName": "pitchers.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "extends": "@probable/tsconfig/base.json",
+  "include": ["src"],
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "./dist"
+  }
+}
