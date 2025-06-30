@@ -28,6 +28,7 @@
     "@trpc/server": "catalog:",
     "@trpc/tanstack-react-query": "catalog:",
     "better-auth": "catalog:",
+    "date-fns-tz": "3.2.0",
     "expo": "53.0.9",
     "expo-apple-authentication": "7.2.4",
     "expo-asset": "~11.1.5",

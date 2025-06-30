@@ -1,4 +1,4 @@
-import { AuthOptions } from "../_components/auth-options";
+import { AuthOptions } from "~/components/auth-options";
 
 export default function SignIn() {
   return (

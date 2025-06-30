@@ -233,6 +233,7 @@ export default function Home() {
     searchQuery.isFetching ||
     (!searchQuery.isSuccess && !!searchFilter) ||
     subscriptionQuery.isFetching;
+
   const opacity = useSharedValue(1);
 
   useEffect(() => {

@@ -109,7 +109,7 @@ export function SubscriptionList() {
     <div className="flex w-full flex-col gap-4">
       {schedule.map(({ nextGameDay, data }) => {
         return (
-          <div>
+          <div key={nextGameDay} className="flex flex-col gap-4">
             <h2>{nextGameDay}</h2>
             {data.map((subscription) => (
               <PitcherSubscriptionCard

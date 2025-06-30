@@ -5,7 +5,7 @@ import { HydrateClient, prefetch, trpc } from "~/trpc/server";
 import {
   SubscriptionList,
   SubscriptionSkeleton,
-} from "../_components/subscriptions";
+} from "../../components/subscriptions";
 
 export default function AppLayout(props: { children: React.ReactNode }) {
   prefetch(trpc.subscription.byUserId.queryOptions());
@@ -15,7 +15,9 @@ export default function AppLayout(props: { children: React.ReactNode }) {
         <div className="flex min-w-80 flex-col items-stretch justify-between gap-4 text-center">
           <div>
             <h1 className="text-primary text-2xl font-extrabold tracking-tight">
-              Probable Pitcher
+              <Link href="/" className="">
+                Probable Pitcher
+              </Link>
             </h1>
             <Suspense
               fallback={

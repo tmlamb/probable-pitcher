@@ -1,5 +1,15 @@
+import { useQuery } from "@tanstack/react-query";
+
+import PitcherSearch from "~/components/pitcher-search";
+import { prefetch, trpc } from "~/trpc/server";
+
 export default function HomePage() {
-  return <div></div>;
+  //   const { data: accounts } = useSuspenseQuery(
+  //   trpc.account.byUserId.queryOptions(),
+  // );
+  prefetch(trpc.subscription.byUserId.queryOptions());
+
+  return <PitcherSearch />;
 }
 // <div className="flex flex-wrap items-center justify-center gap-4">
 //   <div className="bg-background border-border text-foreground rounded-md px-4 py-2">
