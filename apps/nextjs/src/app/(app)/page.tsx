@@ -1,5 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
-
 import PitcherSearch from "~/components/pitcher-search";
 import { prefetch, trpc } from "~/trpc/server";
 
