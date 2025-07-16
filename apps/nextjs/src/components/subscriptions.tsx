@@ -109,14 +109,17 @@ export function SubscriptionList() {
     <div className="flex w-full flex-col gap-4">
       {schedule.map(({ nextGameDay, data }) => {
         return (
-          <div key={nextGameDay} className="flex flex-col gap-4">
-            <h2>{nextGameDay}</h2>
-            {data.map((subscription) => (
-              <PitcherSubscriptionCard
-                key={subscription.id}
-                subscription={subscription}
-              />
-            ))}
+          <div key={nextGameDay} className="flex flex-col items-stretch gap-2">
+            <h2 className="text-left">{nextGameDay}</h2>
+            <div className="flex flex-col">
+              {data.map((subscription, index) => (
+                <PitcherSubscriptionCard
+                  key={subscription.id}
+                  subscription={subscription}
+                  className={`${index === 0 ? "rounded-t-lg" : ""} ${index === data.length - 1 ? "rounded-b-lg border-b-0" : ""}`}
+                />
+              ))}
+            </div>
           </div>
         );
       })}
@@ -126,6 +129,7 @@ export function SubscriptionList() {
 
 export function PitcherSubscriptionCard(props: {
   subscription: PitcherSubscription;
+  className: string;
 }) {
   //const utils = api.useUtils();
   //const deletePost = api.post.delete.useMutation({
@@ -140,15 +144,19 @@ export function PitcherSubscriptionCard(props: {
   //    );
   //  },
   //});
+  console.log("className", props.className);
 
   return (
-    <div className="bg-muted flex flex-row rounded-lg p-4">
-      <div className="flex-grow">
-        <h2 className="text-primary text-2xl font-bold">
-          {props.subscription.name}
-        </h2>
-        <p className="mt-2 text-sm">{props.subscription.number}</p>
-        <p className="mt-2 text-sm">{props.subscription.team.abbreviation}</p>
+    <div
+      className={cn(
+        "bg-muted border-muted-foreground flex flex-row items-center gap-2 border-b p-1",
+        props.className,
+      )}
+    >
+      <p className="">{props.subscription.name}</p>
+      <div className="text-muted-foreground flex flex-col items-center text-xs">
+        <p className="">{props.subscription.number}</p>
+        <p className="">{props.subscription.team.abbreviation}</p>
       </div>
       {/*<div>
         <Button

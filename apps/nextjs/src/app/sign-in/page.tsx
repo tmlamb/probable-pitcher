@@ -2,7 +2,7 @@ import { AuthOptions } from "~/components/auth-options";
 
 export default function SignIn() {
   return (
-    <main className="bg-accent container mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center space-y-6 px-3 py-8 sm:px-8">
+    <main className="container mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center space-y-6 bg-transparent px-3 py-8 sm:px-8">
       <div className="flex flex-col items-center space-y-2">
         <h1 className="text-accent-foreground flex flex-wrap items-center justify-center gap-x-1.5 text-xl font-extrabold leading-normal sm:flex-row sm:text-2xl">
           <span>Welcome to</span>
