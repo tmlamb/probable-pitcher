@@ -20,6 +20,7 @@
     "@probable/db": "workspace:*",
     "date-fns": "4.1.0",
     "date-fns-tz": "3.2.0",
+    "minimatch": "^10.0.3",
     "node-fetch": "3.3.2",
     "zod": "catalog:"
   },
