@@ -44,6 +44,7 @@
     "@types/lodash": "4.17.16",
     "@types/react": "catalog:react19",
     "eslint": "catalog:",
+    "minimatch": "^10.0.3",
     "prettier": "catalog:",
     "react": "catalog:react19",
     "typescript": "catalog:",

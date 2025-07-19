@@ -40,6 +40,7 @@
   "dependencies": {
     "drizzle-orm": "0.43.1",
     "drizzle-zod": "0.7.1",
+    "minimatch": "^10.0.3",
     "pg": "8.15.5",
     "zod": "catalog:"
   },
