@@ -142,7 +142,7 @@ jobs:
 
   build-nextjs:
     name: Build nextjs image
-    needs: [lint, format, changeset]
+    needs: [test, lint, format, changeset]
     runs-on: ubuntu-latest
     if: ${{ needs.changeset.outputs.changed-nextjs }}
     steps:
@@ -163,7 +163,7 @@ jobs:
 
   build-ingest:
     name: Build ingest image
-    needs: [lint, format, changeset]
+    needs: [test, lint, format, changeset]
     runs-on: ubuntu-latest
     if: ${{ needs.changeset.outputs.changed-ingest }}
     steps:
@@ -184,7 +184,7 @@ jobs:
 
   build-migration:
     name: Build Migration image
-    needs: [lint, format, changeset]
+    needs: [test, lint, format, changeset]
     runs-on: ubuntu-latest
     if: ${{ needs.changeset.outputs.changed-db }}
     steps:
@@ -206,9 +206,17 @@ jobs:
   deploy-infra:
     name: Deploy Preview Infrastructure
     needs:
-      [format, lint, changeset, build-nextjs, build-ingest, build-migration]
+      [
+        test,
+        format,
+        lint,
+        changeset,
+        build-nextjs,
+        build-ingest,
+        build-migration,
+      ]
     if: always() &&
-      (needs.format.result == 'success' && needs.lint.result == 'success') &&
+      (needs.test.result == 'success' && needs.format.result == 'success' && needs.lint.result == 'success') &&
       (needs.build-migration.result == 'skipped' || needs.build-migration.result == 'success') &&
       (needs.build-nextjs.result == 'skipped' || needs.build-nextjs.result == 'success') &&
       (needs.build-ingest.result == 'skipped' || needs.build-ingest.result == 'success')
@@ -261,11 +269,11 @@ jobs:
 
   update-preview:
     name: Update Preview Mobile App
-    needs: [format, lint, changeset, deploy-infra]
+    needs: [test, format, lint, changeset, deploy-infra]
     if: |
       always() &&
       needs.changeset.result == 'success' &&
-      (needs.format.result == 'success' && needs.lint.result == 'success') &&
+      (needs.test.result == 'success' && needs.format.result == 'success' && needs.lint.result == 'success') &&
       (needs.deploy-infra.result == 'success' || needs.deploy-infra.result == 'skipped') &&
       needs.changeset.outputs.changed-expo
     runs-on: ubuntu-latest
