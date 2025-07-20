@@ -263,3 +263,12 @@ export const apiKeyRelations = relations(apikey, ({ one }) => ({
 }));
 
 export type QueryError = typeof Error & { code?: unknown };
+
+export function isQueryError(error: unknown): error is QueryError {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "code" in error &&
+    typeof (error as Record<string, unknown>).code === "string"
+  );
+}
