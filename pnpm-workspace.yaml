@@ -34,3 +34,4 @@ catalogs:
 
 onlyBuiltDependencies:
   - esbuild
+  - sharp
