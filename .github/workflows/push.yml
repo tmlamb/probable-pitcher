@@ -79,6 +79,8 @@ jobs:
 
       - name: Set up Docker Compose
         uses: docker/setup-compose-action@v1
+        with:
+          version: latest
 
       - name: Run integration tests using Docker Compose
         run: |
