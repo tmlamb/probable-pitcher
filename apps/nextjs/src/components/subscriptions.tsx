@@ -106,7 +106,7 @@ export function SubscriptionList() {
   const schedule = subscriptionSchedule(subscriptions);
 
   return (
-    <div className="flex w-full flex-col gap-4">
+    <div className="flex w-full flex-col gap-4 overflow-y-scroll">
       {schedule.map(({ nextGameDay, data }) => {
         return (
           <div key={nextGameDay} className="flex flex-col items-stretch gap-2">
@@ -116,7 +116,10 @@ export function SubscriptionList() {
                 <PitcherSubscriptionCard
                   key={subscription.id}
                   subscription={subscription}
-                  className={`${index === 0 ? "rounded-t-lg" : ""} ${index === data.length - 1 ? "rounded-b-lg border-b-0" : ""}`}
+                  className={cn(
+                    index === 0 ? "rounded-t-lg" : "",
+                    index === data.length - 1 ? "rounded-b-lg border-b-0" : "",
+                  )}
                 />
               ))}
             </div>

@@ -13,10 +13,10 @@ export default function AppLayout(props: { children: React.ReactNode }) {
   prefetch(trpc.subscription.byUserId.queryOptions());
   return (
     <HydrateClient>
-      <main className="bg-background flex h-screen flex-col gap-3 py-3 sm:flex-row">
-        <div className="flex flex-col items-stretch justify-between gap-2 px-3 text-center sm:min-w-80 sm:pr-0">
-          <div className="flex flex-col gap-2">
-            <h1 className="text-primary text-2xl font-extrabold tracking-tight">
+      <main className="bg-background flex flex-col gap-3 py-3 sm:h-screen sm:flex-row sm:gap-0 sm:overflow-hidden">
+        <div className="flex flex-col items-stretch justify-between gap-2 overflow-hidden px-3 text-center sm:min-w-80">
+          <div className="flex h-full flex-col">
+            <h1 className="text-primary pb-3 text-2xl font-extrabold tracking-tight">
               <Link href="/" className="">
                 Probable Pitcher
               </Link>
@@ -32,9 +32,12 @@ export default function AppLayout(props: { children: React.ReactNode }) {
             >
               <SubscriptionList />
             </Suspense>
-          </div>
-          <div>
-            <Button asChild variant="link" size="lg">
+            <Button
+              asChild
+              variant="link"
+              size="lg"
+              className="pt-3 backdrop-blur-lg"
+            >
               <Link href="/account" className="text-lg font-semibold">
                 Account
               </Link>
@@ -43,7 +46,7 @@ export default function AppLayout(props: { children: React.ReactNode }) {
         </div>
 
         {/*<CreatePostForm />*/}
-        <div className="bg-accent border-primary relative mr-0 h-full w-full overflow-y-scroll rounded-none border border-l-0 border-r-0 sm:rounded-l-lg sm:border-l md:mr-3 md:rounded-lg md:border-r">
+        <div className="bg-accent border-primary relative mr-0 h-full w-full rounded-none border border-l-0 border-r-0 sm:overflow-y-scroll sm:rounded-l-lg sm:border-l md:mr-3 md:rounded-lg md:border-r">
           {props.children}
         </div>
       </main>
