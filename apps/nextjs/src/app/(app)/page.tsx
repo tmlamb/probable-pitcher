@@ -7,9 +7,7 @@ export default function HomePage() {
   return (
     <div className="relative">
       <PitcherSearch />
-      <div className="text-muted-foreground absolute bottom-2 left-2 z-0 text-xs">
-        v0.12.0
-      </div>
+      {/* <div className="text-muted-foreground absolute bottom-2 left-2 z-0 text-xs"></div> */}
     </div>
   );
 }
