@@ -14,9 +14,9 @@ export default function AppLayout(props: { children: React.ReactNode }) {
   return (
     <HydrateClient>
       <main className="bg-background flex flex-col gap-3 py-3 sm:h-screen sm:flex-row sm:gap-0 sm:overflow-hidden">
-        <div className="flex flex-col items-stretch justify-between gap-2 overflow-hidden px-3 text-center sm:min-w-80">
-          <div className="flex h-full flex-col">
-            <h1 className="text-primary pb-3 text-2xl font-extrabold tracking-tight">
+        <div className="flex flex-col items-stretch justify-between gap-2 overflow-hidden text-center sm:min-w-80">
+          <div className="mx-1.5 flex h-full flex-col">
+            <h1 className="text-primary border-b-accent border-b pb-3 text-2xl font-extrabold tracking-normal">
               <Link href="/" className="">
                 Probable Pitcher
               </Link>
@@ -36,17 +36,16 @@ export default function AppLayout(props: { children: React.ReactNode }) {
               asChild
               variant="link"
               size="lg"
-              className="pt-3 backdrop-blur-lg"
+              className="m-0.5 p-3 text-lg font-semibold"
             >
-              <Link href="/account" className="text-lg font-semibold">
+              <Link href="/account" className="hover:no-underline">
                 Account
               </Link>
             </Button>
           </div>
         </div>
 
-        {/*<CreatePostForm />*/}
-        <div className="bg-accent border-primary relative mr-0 h-full w-full rounded-none border border-l-0 border-r-0 sm:overflow-y-scroll sm:rounded-l-lg sm:border-l md:mr-3 md:rounded-lg md:border-r">
+        <div className="bg-accent border-primary relative mr-0 h-full w-full overflow-x-hidden rounded-none border border-l-0 border-r-0 sm:overflow-y-scroll sm:rounded-l-lg sm:border-l md:mr-3 md:rounded-lg md:border-r">
           {props.children}
         </div>
       </main>

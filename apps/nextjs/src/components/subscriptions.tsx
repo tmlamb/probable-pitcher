@@ -1,95 +1,24 @@
 "use client";
 
+import { useRef } from "react"; // 1. Import useRef
 import { useSuspenseQuery } from "@tanstack/react-query";
 
-//import { CreatePostSchema } from "@probable/db/schema";
 import type { PitcherSubscription } from "@probable/ui";
 import { cn, subscriptionSchedule } from "@probable/ui";
 
+import { useScrollShadow } from "~/hooks/use-scroll-shadow";
 import { useTRPC } from "~/trpc/react";
 
-//import { Button } from "@probable/ui/button";
-//import {
-//  Form,
-//  FormControl,
-//  FormField,
-//  FormItem,
-//  FormMessage,
-//  useForm,
-//} from "@probable/ui/form";
-//import { Input } from "@probable/ui/input";
-//import { toast } from "@probable/ui/toast";
-
-//export function CreatePostForm() {
-//  const form = useForm({
-//    schema: CreatePostSchema,
-//    defaultValues: {
-//      content: "",
-//      title: "",
-//    },
-//  });
-//
-//  const utils = api.useUtils();
-//  const createPost = api.post.create.useMutation({
-//    onSuccess: async () => {
-//      form.reset();
-//      await utils.post.invalidate();
-//    },
-//    onError: (err) => {
-//      toast.error(
-//        err.data?.code === "UNAUTHORIZED"
-//          ? "You must be logged in to post"
-//          : "Failed to create post",
-//      );
-//    },
-//  });
-//
-//  return (
-//    <Form {...form}>
-//      <form
-//        className="flex w-full max-w-2xl flex-col gap-4"
-//        onSubmit={form.handleSubmit((data) => {
-//          createPost.mutate(data);
-//        })}
-//      >
-//        <FormField
-//          control={form.control}
-//          name="title"
-//          render={({ field }) => (
-//            <FormItem>
-//              <FormControl>
-//                <Input {...field} placeholder="Title" />
-//              </FormControl>
-//              <FormMessage />
-//            </FormItem>
-//          )}
-//        />
-//        <FormField
-//          control={form.control}
-//          name="content"
-//          render={({ field }) => (
-//            <FormItem>
-//              <FormControl>
-//                <Input {...field} placeholder="Content" />
-//              </FormControl>
-//              <FormMessage />
-//            </FormItem>
-//          )}
-//        />
-//        <Button>Create</Button>
-//      </form>
-//    </Form>
-//  );
-//}
-
 export function SubscriptionList() {
-  // const [notifications] = api.notification.byDeviceId.useSuspenseQuery(
-  //   "d11186c4-4d5c-4a4e-95c7-fd4c382c111d",
-  // );
   const trpc = useTRPC();
   const { data: subscriptions } = useSuspenseQuery(
     trpc.subscription.byUserId.queryOptions(),
   );
+
+  // 3. Create a ref for the scrollable element
+  const scrollRef = useRef<HTMLDivElement>(null);
+  // 4. Use the hook to get the shadow visibility state
+  const { showTopShadow, showBottomShadow } = useScrollShadow(scrollRef);
 
   if (subscriptions.length === 0) {
     return (
@@ -106,70 +35,60 @@ export function SubscriptionList() {
   const schedule = subscriptionSchedule(subscriptions);
 
   return (
-    <div className="flex w-full flex-col gap-4 overflow-y-scroll">
-      {schedule.map(({ nextGameDay, data }) => {
-        return (
-          <div key={nextGameDay} className="flex flex-col items-stretch gap-2">
-            <h2 className="text-left">{nextGameDay}</h2>
-            <div className="flex flex-col">
-              {data.map((subscription, index) => (
-                <PitcherSubscriptionCard
-                  key={subscription.id}
-                  subscription={subscription}
-                  className={cn(
-                    index === 0 ? "rounded-t-lg" : "",
-                    index === data.length - 1 ? "rounded-b-lg border-b-0" : "",
-                  )}
-                />
-              ))}
-            </div>
-          </div>
-        );
+    <div
+      className={cn("scroll-shadow-container overflow-hidden", {
+        "show-top-shadow": showTopShadow,
+        "show-bottom-shadow": showBottomShadow,
       })}
+    >
+      <div
+        ref={scrollRef}
+        className="relative z-0 mr-1 flex h-full w-full flex-col gap-4 overflow-y-scroll px-3"
+      >
+        {schedule.map(({ nextGameDay, data }) => {
+          return (
+            <div key={nextGameDay} className="mt-3 flex flex-col items-stretch">
+              <h2 className="text-muted-foreground text-left text-xs uppercase tracking-wider">
+                {nextGameDay}
+              </h2>
+              <div className="flex flex-col">
+                {data.map((subscription, index) => (
+                  <PitcherCard
+                    key={subscription.id}
+                    pitcher={subscription}
+                    className={cn(
+                      index === 0 ? "rounded-t-lg" : "",
+                      index === data.length - 1
+                        ? "rounded-b-lg border-b-0"
+                        : "",
+                    )}
+                  />
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
 
-export function PitcherSubscriptionCard(props: {
-  subscription: PitcherSubscription;
+export function PitcherCard(props: {
+  pitcher: PitcherSubscription;
   className: string;
 }) {
-  //const utils = api.useUtils();
-  //const deletePost = api.post.delete.useMutation({
-  //  onSuccess: async () => {
-  //    await utils.post.invalidate();
-  //  },
-  //  onError: (err) => {
-  //    toast.error(
-  //      err.data?.code === "UNAUTHORIZED"
-  //        ? "You must be logged in to delete a post"
-  //        : "Failed to delete post",
-  //    );
-  //  },
-  //});
-  console.log("className", props.className);
-
   return (
     <div
       className={cn(
-        "bg-muted border-muted-foreground flex flex-row items-center gap-2 border-b p-1",
+        "border-muted flex flex-row items-center gap-1.5",
         props.className,
       )}
     >
-      <p className="">{props.subscription.name}</p>
+      <p className="p-[.425rem]">{props.pitcher.name}</p>
       <div className="text-muted-foreground flex flex-col items-center text-xs">
-        <p className="">{props.subscription.number}</p>
-        <p className="">{props.subscription.team.abbreviation}</p>
+        <p className="">{props.pitcher.number}</p>
+        <p className="">{props.pitcher.team.abbreviation}</p>
       </div>
-      {/*<div>
-        <Button
-          variant="ghost"
-          className="cursor-pointer text-sm font-bold uppercase text-primary hover:bg-transparent hover:text-white"
-          onClick={() => deletePost.mutate(props.post.id)}
-        >
-          Delete
-        </Button>
-      </div>*/}
     </div>
   );
 }

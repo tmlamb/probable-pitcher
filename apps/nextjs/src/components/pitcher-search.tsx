@@ -11,7 +11,9 @@ import {
 import { formatInTimeZone } from "date-fns-tz";
 
 import * as ui from "@probable/ui";
+import { cn } from "@probable/ui";
 import { Button } from "@probable/ui/button";
+import { Input } from "@probable/ui/input";
 
 import { useTRPC } from "~/trpc/react";
 
@@ -181,13 +183,20 @@ export default function PitcherSearch() {
     subscriptionQuery.isFetching;
 
   return (
-    <div>
-      <input onChange={(e) => setSearchFilter(e.target.value)} />
-      <div>
-        {subscribedAndAvailablePitchers.map((pitcher, index) => {
+    <div className="bg-accent z-10 m-3 flex flex-col gap-3">
+      <Input
+        className="bg-background border-primary"
+        placeholder="Search for a pitcher"
+        onChange={(e) => setSearchFilter(e.target.value)}
+      />
+      <div className="max-w-96">
+        {subscribedAndAvailablePitchers.map((pitcher) => {
           if (typeof pitcher === "string") {
             return (
-              <h2 key={index} className="text-lg font-bold">
+              <h2
+                key={pitcher}
+                className="text-muted-foreground mt-3 text-left text-xs uppercase tracking-wider"
+              >
                 {pitcher}
               </h2>
             );
@@ -231,62 +240,55 @@ const PitcherCard = ({
   className?: string;
 }) => {
   return (
-    <div>
-      <div className={ui.cn("relative", className)}>
-        {pitcher.subscription && unsubscribeHandler && (
+    <div className={ui.cn("relative flex flex-row items-center", className)}>
+      {pitcher.subscription && unsubscribeHandler && (
+        <Button
+          className="-my-3 -ml-3 p-3"
+          variant="none"
+          size="icon"
+          onClick={unsubscribeHandler}
+          disabled={disabled}
+        >
           <div>
-            <Button
-              className="-my-3 -ml-3 p-3"
-              variant="primary"
-              size="icon"
-              onClick={unsubscribeHandler}
-              disabled={disabled}
-            >
-              <div>
-                <MinusCircledIcon className="text-destructive" />
-              </div>
-            </Button>
+            <MinusCircledIcon className="text-destructive" />
           </div>
-        )}
-        <div className="flex-1 flex-row items-center justify-between">
-          <div className="flex-row items-center">
-            <span>{pitcher.name}</span>
-            <div className="-my-1.5 mx-3 items-center">
-              {pitcher.number && (
-                <span className="text-muted-foreground -mb-0.5 text-xs">
-                  {pitcher.number}
-                </span>
-              )}
-              <span className="text-muted-foreground text-xs">
-                {pitcher.team.abbreviation}
-              </span>
-            </div>
+        </Button>
+      )}
+      <div className="flex-1 flex-row items-center justify-between">
+        <div className={cn("border-muted flex flex-row items-center gap-1.5")}>
+          <p className="p-[.425rem]">{pitcher.name}</p>
+          <div className="text-muted-foreground flex flex-col items-center text-xs">
+            <p className="">{pitcher.number}</p>
+            <p className="">{pitcher.team.abbreviation}</p>
           </div>
-          {pitcher.nextGameDate && !unsubscribeHandler && (
-            <div>
-              <span className="text-muted-foreground ml-1.5 text-sm">
-                {formatInTimeZone(
-                  pitcher.nextGameDate,
-                  Intl.DateTimeFormat().resolvedOptions().timeZone ||
-                    "America/New_York",
-                  "h:mmaaaaa",
-                )}
-              </span>
-            </div>
-          )}
         </div>
-        {!pitcher.subscription && (
-          <Button
-            className="absolute right-0 -m-3 items-end p-3"
-            onClick={subscribeHandler}
-            disabled={disabled}
-          >
-            <div>
-              <PlusCircledIcon className="text-primary" />
-            </div>
-          </Button>
+
+        {pitcher.nextGameDate && !unsubscribeHandler && (
+          <div>
+            <span className="text-muted-foreground ml-1.5 text-sm">
+              {formatInTimeZone(
+                pitcher.nextGameDate,
+                Intl.DateTimeFormat().resolvedOptions().timeZone ||
+                  "America/New_York",
+                "h:mmaaaaa",
+              )}
+            </span>
+          </div>
         )}
       </div>
+      {!pitcher.subscription && (
+        <Button
+          className="-my-3 -ml-3 p-3"
+          variant="none"
+          size="icon"
+          onClick={subscribeHandler}
+          disabled={disabled}
+        >
+          <div>
+            <PlusCircledIcon className="text-primary" />
+          </div>
+        </Button>
+      )}
     </div>
   );
 };
