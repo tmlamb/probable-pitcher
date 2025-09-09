@@ -4,6 +4,11 @@ import { redirect } from "next/navigation";
 import { auth } from "@probable/auth";
 import { Button } from "@probable/ui/button";
 
+import AppleSignInBlack from "./apple_signin_black.png";
+import AppleSignInWhite from "./apple_signin_white.png";
+import GoogleSignInBlack from "./google_signin_black.png";
+import GoogleSignInNeutral from "./google_signin_neutral.png";
+
 export function AuthOptions({ page }: { page: string }) {
   return (
     <form className="flex flex-col items-center justify-center gap-1 sm:gap-5">
@@ -26,15 +31,17 @@ export function AuthOptions({ page }: { page: string }) {
           width={284}
           height={45}
           className="hidden flex-col justify-center dark:flex"
-          src={"/images/apple_signin_white.png"}
+          src={AppleSignInWhite}
           alt="Continue With Apple"
+          placeholder="blur"
         ></Image>
         <Image
           width={284}
           height={45}
           className="flex flex-col justify-center dark:hidden"
-          src={"/images/apple_signin_black.png"}
+          src={AppleSignInBlack}
           alt="Continue With Apple"
+          placeholder="blur"
         ></Image>
       </Button>
       <Button
@@ -56,15 +63,17 @@ export function AuthOptions({ page }: { page: string }) {
           width={284}
           height={60}
           className="hidden flex-col justify-center dark:flex"
-          src={"/images/google_signin_neutral.png"}
-          alt="Continue With Apple"
+          src={GoogleSignInNeutral}
+          alt="Continue With Google"
+          placeholder="blur"
         ></Image>
         <Image
           width={284}
           height={60}
           className="flex flex-col justify-center dark:hidden"
-          src={"/images/google_signin_black.png"}
-          alt="Continue With Apple"
+          src={GoogleSignInBlack}
+          alt="Continue With Google"
+          placeholder="blur"
         ></Image>
       </Button>
     </form>
