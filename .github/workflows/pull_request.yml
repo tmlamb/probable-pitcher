@@ -53,11 +53,11 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
-      - name: Build
-        run: pnpm build
-
       - name: Run Lint Checker
         run: pnpm lint
+
+      - name: Run Type Checker
+        run: pnpm typecheck
 
   format:
     name: Format
