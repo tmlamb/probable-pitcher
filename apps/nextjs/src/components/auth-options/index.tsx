@@ -28,16 +28,12 @@ export function AuthOptions({ page }: { page: string }) {
         }}
       >
         <Image
-          width={284}
-          height={45}
           className="hidden flex-col justify-center dark:flex"
           src={AppleSignInWhite}
           alt="Continue With Apple"
           placeholder="blur"
         ></Image>
         <Image
-          width={284}
-          height={45}
           className="flex flex-col justify-center dark:hidden"
           src={AppleSignInBlack}
           alt="Continue With Apple"
@@ -60,16 +56,12 @@ export function AuthOptions({ page }: { page: string }) {
         }}
       >
         <Image
-          width={284}
-          height={60}
           className="hidden flex-col justify-center dark:flex"
           src={GoogleSignInNeutral}
           alt="Continue With Google"
           placeholder="blur"
         ></Image>
         <Image
-          width={284}
-          height={60}
           className="flex flex-col justify-center dark:hidden"
           src={GoogleSignInBlack}
           alt="Continue With Google"
