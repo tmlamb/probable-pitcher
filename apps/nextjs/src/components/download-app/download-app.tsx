@@ -1,4 +1,5 @@
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import QRCode from "react-qr-code";
 
 import { cn } from "@probable/ui";
@@ -37,7 +38,7 @@ async function DownloadMethod() {
         variant="outline"
         size="sm"
         onClick={() => {
-          window.location.href = downloadUrl;
+          redirect(downloadUrl);
         }}
       >
         Download on the App Store
@@ -49,7 +50,7 @@ async function DownloadMethod() {
         variant="outline"
         size="sm"
         onClick={() => {
-          window.location.href = downloadUrl;
+          redirect(downloadUrl);
         }}
       >
         Get it on Google Play
