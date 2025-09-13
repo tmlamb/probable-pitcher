@@ -1,3 +1,4 @@
+import DownloadApp from "~/components/download-app/download-app";
 import PitcherSearch from "~/components/pitcher-search";
 import { prefetch, trpc } from "~/trpc/server";
 
@@ -7,7 +8,7 @@ export default function HomePage() {
   return (
     <div className="relative">
       <PitcherSearch />
-      {/* <div className="text-muted-foreground absolute bottom-2 left-2 z-0 text-xs"></div> */}
+      <DownloadApp />
     </div>
   );
 }

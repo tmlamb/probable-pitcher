@@ -31,6 +31,7 @@
     "next": "canary",
     "react": "catalog:react19",
     "react-dom": "catalog:react19",
+    "react-qr-code": "^2.0.18",
     "superjson": "2.2.2",
     "zod": "catalog:"
   },
