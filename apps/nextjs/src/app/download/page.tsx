@@ -9,7 +9,7 @@ const androidUrl =
 const fallbackUrl = "/";
 
 export default function Download() {
-  const userAgent = window.navigator.userAgent;
+  const userAgent = typeof window !== "undefined" && window.navigator.userAgent;
   const isIOS = userAgent && /iPad|iPhone|iPod/.test(userAgent);
   const isAndroid = userAgent && /android/i.test(userAgent);
 
