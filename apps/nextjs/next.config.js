@@ -6,9 +6,6 @@ createJiti(fileURLToPath(import.meta.url))("./src/env");
 
 /** @type {import("next").NextConfig} */
 const config = {
-  experimental: {
-    nodeMiddleware: true,
-  },
   reactStrictMode: true,
   output: "standalone",
 
