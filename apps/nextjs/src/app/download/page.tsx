@@ -3,9 +3,8 @@
 import { useEffect } from "react";
 import { redirect, RedirectType } from "next/navigation";
 
-const iosUrl = "https://apps.apple.com/us/app/probable-pitcher/id6443663031";
-const androidUrl =
-  "https://play.google.com/store/apps/details?id=com.triplesight.probablepitchers";
+import { androidPlayStoreUrl, iosAppStoreUrl } from "./links";
+
 const fallbackUrl = "/";
 
 export default function Download() {
@@ -16,19 +15,16 @@ export default function Download() {
   useEffect(() => {
     // iOS detection
     if (isIOS) {
-      // return NextResponse.redirect(new URL(iosUrl, request.url));
-      redirect(iosUrl, RedirectType.replace);
+      window.open(iosAppStoreUrl, "_blank");
     }
 
     // Android detection
     else if (isAndroid) {
-      // return NextResponse.redirect(new URL(androidUrl, request.url));
-      redirect(androidUrl, RedirectType.replace);
+      window.open(androidPlayStoreUrl, "_blank");
     }
 
     // Fallback for desktop or other OS
     else {
-      // return NextResponse.redirect(new URL(fallbackUrl, request.url));
       redirect(fallbackUrl, RedirectType.replace);
     }
   }, [isAndroid, isIOS]);

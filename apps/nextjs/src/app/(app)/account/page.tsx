@@ -8,15 +8,17 @@ export default function Account() {
   prefetch(trpc.account.byUserId.queryOptions());
 
   return (
-    <Suspense
-      fallback={
-        <div className="flex w-full flex-col gap-4">
-          <AccountSkeleton />
-        </div>
-      }
-    >
-      <Accounts />
-      <SignOut />
-    </Suspense>
+    <div className="p-4">
+      <Suspense
+        fallback={
+          <div className="flex w-full flex-col gap-4">
+            <AccountSkeleton />
+          </div>
+        }
+      >
+        <Accounts />
+        <SignOut />
+      </Suspense>
+    </div>
   );
 }

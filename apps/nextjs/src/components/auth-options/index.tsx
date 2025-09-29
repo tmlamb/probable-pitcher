@@ -15,7 +15,7 @@ export function AuthOptions({ page }: { page: string }) {
       <Button
         size="none"
         variant="none"
-        className="scale-75 hover:opacity-90 sm:scale-90"
+        className="scale-75 hover:opacity-90 sm:scale-75"
         formAction={async () => {
           "use server";
           const res = await auth.api.signInSocial({
@@ -43,7 +43,7 @@ export function AuthOptions({ page }: { page: string }) {
       <Button
         size="none"
         variant="none"
-        className="scale-75 hover:opacity-90 sm:scale-90"
+        className="scale-75 hover:opacity-90 sm:scale-75"
         formAction={async () => {
           "use server";
           const res = await auth.api.signInSocial({
@@ -71,25 +71,3 @@ export function AuthOptions({ page }: { page: string }) {
     </form>
   );
 }
-
-// return (
-//   <div className="flex flex-col items-center justify-center gap-4">
-//     <p className="text-center text-2xl">
-//       <span>Logged in as {session.user.email}</span>
-//     </p>
-//
-//     <form>
-//       <Button
-//         size="lg"
-//         formAction={async () => {
-//           "use server";
-//           await auth.api.signOut({ headers: await headers() });
-//           // eslint-disable-next-line @typescript-eslint/only-throw-error
-//           throw redirect("/");
-//         }}
-//       >
-//         Sign out
-//       </Button>
-//     </form>
-//   </div>
-// );
