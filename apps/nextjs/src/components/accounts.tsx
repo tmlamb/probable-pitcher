@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 
-import { capitalizeFirstLetter, cn } from "@probable/ui";
+import { capitalizeFirstLetter } from "@probable/ui";
 import { toast } from "@probable/ui/toast";
 
 import { authClient } from "~/auth/client";
