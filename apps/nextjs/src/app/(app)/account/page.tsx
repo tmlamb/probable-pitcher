@@ -1,22 +1,28 @@
 import { Suspense } from "react";
 
-import { Accounts, AccountSkeleton } from "~/components/accounts";
+import { Accounts } from "~/components/accounts";
 import SignOut from "~/components/signout";
-import { prefetch, trpc } from "~/trpc/server";
+import { HydrateClient, prefetch, trpc } from "~/trpc/server";
 
 export default function Account() {
   prefetch(trpc.account.byUserId.queryOptions());
 
   return (
-    <Suspense
-      fallback={
-        <div className="flex w-full flex-col gap-4">
-          <AccountSkeleton />
-        </div>
-      }
-    >
-      <Accounts />
-      <SignOut />
-    </Suspense>
+    <HydrateClient>
+      <div className="flex flex-col gap-4 p-4">
+        <Suspense
+          fallback={
+            <div className="flex w-full flex-col gap-4">
+              <p className="text-accent-foreground text-2xl font-bold">
+                Loading...
+              </p>
+            </div>
+          }
+        >
+          <Accounts />
+          <SignOut />
+        </Suspense>
+      </div>
+    </HydrateClient>
   );
 }

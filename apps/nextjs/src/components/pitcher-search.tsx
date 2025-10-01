@@ -2,12 +2,7 @@
 
 import { useState } from "react";
 import { MinusCircledIcon, PlusCircledIcon } from "@radix-ui/react-icons";
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { formatInTimeZone } from "date-fns-tz";
 
 import * as ui from "@probable/ui";
@@ -29,8 +24,10 @@ export default function PitcherSearch() {
     }),
   );
 
-  const subscriptionQuery = useSuspenseQuery(
-    trpc.subscription.byUserId.queryOptions(),
+  const subscriptionQuery = useQuery(
+    trpc.subscription.byUserId.queryOptions(undefined, {
+      enabled: !!searchFilter,
+    }),
   );
 
   if (searchQuery.isError) {
@@ -42,7 +39,7 @@ export default function PitcherSearch() {
   const pitchers = searchQuery.data?.map((pitcher) => ({
     ...pitcher,
     subscription:
-      subscriptionQuery.data.find((sub) => sub.pitcherId === pitcher.id) ??
+      subscriptionQuery.data?.find((sub) => sub.pitcherId === pitcher.id) ??
       undefined,
   }));
 
