@@ -34,18 +34,21 @@ export function Subscriptions() {
 
   return (
     <div
-      className={cn("scroll-shadow-container overflow-hidden", {
+      className={cn("scroll-shadow-container flex-grow overflow-hidden", {
         "show-top-shadow": showTopShadow,
         "show-bottom-shadow": showBottomShadow,
       })}
     >
       <div
         ref={scrollRef}
-        className="relative z-0 mr-1 flex h-full w-full flex-col gap-4 overflow-y-scroll px-3 py-3"
+        className="relative z-0 mr-1 flex h-full w-full flex-col gap-4 overflow-y-scroll p-3"
       >
         {schedule.map(({ nextGameDay, data }) => {
           return (
-            <div key={nextGameDay} className="mt-3 flex flex-col items-stretch">
+            <div
+              key={nextGameDay}
+              className="flex flex-col items-stretch first:mt-3"
+            >
               <h2 className="text-muted-foreground text-left text-xs uppercase tracking-wider">
                 {nextGameDay}
               </h2>
@@ -86,22 +89,50 @@ export function PitcherCard(props: {
   );
 }
 
-export function SubscriptionSkeleton(props: { pulse?: boolean }) {
+export function SubscriptionsSkeleton(props: { pulse?: boolean }) {
   const { pulse = true } = props;
   return (
-    <div className="relative z-0 mr-1 flex h-full w-full flex-col gap-4 overflow-y-scroll px-3 py-3">
+    <div className="relative z-0 mr-1 flex w-full flex-grow flex-col gap-4 overflow-y-scroll px-3 py-3">
       <div className="mt-3 flex flex-col items-stretch">
         <h2
           className={cn(
-            "text-muted-foreground text-left text-xs uppercase tracking-wider",
-            "bg-primary w-1/4 rounded text-2xl font-bold",
+            "bg-muted-foreground w-1/3 rounded text-left text-xs uppercase tracking-wider",
             pulse && "animate-pulse",
           )}
         >
           &nbsp;
         </h2>
-        <div className="flex flex-col">
-          <p className={cn("", pulse && "animate-pulse")}>&nbsp;</p>
+        <div className="flex w-3/5 flex-col">
+          <div className={cn("w-full p-[.425rem]", pulse && "animate-pulse")}>
+            <p className="bg-foreground rounded">&nbsp;</p>
+          </div>
+          <div className={cn("w-full p-[.425rem]", pulse && "animate-pulse")}>
+            <p className="bg-foreground rounded">&nbsp;</p>
+          </div>
+          <div className={cn("w-full p-[.425rem]", pulse && "animate-pulse")}>
+            <p className="bg-foreground rounded">&nbsp;</p>
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-col items-stretch">
+        <h2
+          className={cn(
+            "bg-muted-foreground w-1/3 rounded text-left text-xs uppercase tracking-wider",
+            pulse && "animate-pulse",
+          )}
+        >
+          &nbsp;
+        </h2>
+        <div className="flex w-3/5 flex-col">
+          <div className={cn("w-full p-[.425rem]", pulse && "animate-pulse")}>
+            <p className="bg-foreground rounded">&nbsp;</p>
+          </div>
+          <div className={cn("w-full p-[.425rem]", pulse && "animate-pulse")}>
+            <p className="bg-foreground rounded">&nbsp;</p>
+          </div>
+          <div className={cn("w-full p-[.425rem]", pulse && "animate-pulse")}>
+            <p className="bg-foreground rounded">&nbsp;</p>
+          </div>
         </div>
       </div>
     </div>
