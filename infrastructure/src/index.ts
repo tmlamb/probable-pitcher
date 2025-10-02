@@ -42,6 +42,7 @@ const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
         enabled: true,
         location: "us-east1",
       },
+      diskType: isProd ? "PD_SSD" : "PD_HDD",
     },
   },
 );
