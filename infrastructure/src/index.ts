@@ -232,9 +232,13 @@ const migrationJob = new k8s.batch.v1.Job(
               ],
 
               resources: {
+                requests: {
+                  cpu: isProd ? "25m" : "5m",
+                  memory: isProd ? "256Mi" : "128Mi",
+                },
                 limits: {
-                  cpu: "250m",
-                  memory: "512Mi",
+                  cpu: isProd ? "100m" : "50m",
+                  memory: isProd ? "512Mi" : "256Mi",
                   "ephemeral-storage": "1Gi",
                 },
               },
@@ -253,8 +257,8 @@ const migrationJob = new k8s.batch.v1.Job(
               },
               resources: {
                 limits: {
-                  cpu: "250m",
-                  memory: "512Mi",
+                  cpu: isProd ? "25m" : "5m",
+                  memory: isProd ? "64Mi" : "32Mi",
                   "ephemeral-storage": "1Gi",
                 },
               },
@@ -350,8 +354,8 @@ const seedJob = new k8s.batch.v1.CronJob(
                   },
                   resources: {
                     limits: {
-                      cpu: "250m",
-                      memory: "512Mi",
+                      cpu: isProd ? "25m" : "5m",
+                      memory: isProd ? "64Mi" : "32Mi",
                       "ephemeral-storage": "1Gi",
                     },
                   },
@@ -429,9 +433,13 @@ const playerJob = new k8s.batch.v1.CronJob(
                   ],
 
                   resources: {
+                    requests: {
+                      cpu: isProd ? "25m" : "5m",
+                      memory: isProd ? "256Mi" : "128Mi",
+                    },
                     limits: {
-                      cpu: "250m",
-                      memory: "512Mi",
+                      cpu: isProd ? "100m" : "50m",
+                      memory: isProd ? "512Mi" : "256Mi",
                       "ephemeral-storage": "1Gi",
                     },
                   },
@@ -450,8 +458,8 @@ const playerJob = new k8s.batch.v1.CronJob(
                   },
                   resources: {
                     limits: {
-                      cpu: "250m",
-                      memory: "512Mi",
+                      cpu: isProd ? "25m" : "5m",
+                      memory: isProd ? "64Mi" : "32Mi",
                       "ephemeral-storage": "1Gi",
                     },
                   },
@@ -529,9 +537,13 @@ const notifyJob = new k8s.batch.v1.CronJob(
                   ],
 
                   resources: {
+                    requests: {
+                      cpu: isProd ? "25m" : "5m",
+                      memory: isProd ? "256Mi" : "128Mi",
+                    },
                     limits: {
-                      cpu: "250m",
-                      memory: "512Mi",
+                      cpu: isProd ? "100m" : "50m",
+                      memory: isProd ? "512Mi" : "256Mi",
                       "ephemeral-storage": "1Gi",
                     },
                   },
@@ -550,8 +562,8 @@ const notifyJob = new k8s.batch.v1.CronJob(
                   },
                   resources: {
                     limits: {
-                      cpu: "250m",
-                      memory: "512Mi",
+                      cpu: isProd ? "25m" : "5m",
+                      memory: isProd ? "64Mi" : "32Mi",
                       "ephemeral-storage": "1Gi",
                     },
                   },
@@ -613,8 +625,12 @@ const appDeployment = new k8s.apps.v1.Deployment(
               ports: [{ name: "http", containerPort: 3000 }],
               resources: {
                 requests: {
-                  cpu: "25m",
-                  memory: "256Mi",
+                  cpu: isProd ? "25m" : "5m",
+                  memory: isProd ? "256Mi" : "128Mi",
+                },
+                limits: {
+                  cpu: isProd ? "100m" : "50m",
+                  memory: isProd ? "512Mi" : "256Mi",
                   "ephemeral-storage": "1Gi",
                 },
               },
@@ -673,8 +689,8 @@ const appDeployment = new k8s.apps.v1.Deployment(
               },
               resources: {
                 limits: {
-                  cpu: "25m",
-                  memory: "64Mi",
+                  cpu: isProd ? "25m" : "5m",
+                  memory: isProd ? "64Mi" : "32Mi",
                   "ephemeral-storage": "1Gi",
                 },
               },
