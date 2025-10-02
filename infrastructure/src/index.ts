@@ -613,8 +613,8 @@ const appDeployment = new k8s.apps.v1.Deployment(
               ports: [{ name: "http", containerPort: 3000 }],
               resources: {
                 requests: {
-                  cpu: "250m",
-                  memory: "512Mi",
+                  cpu: "25m",
+                  memory: "256Mi",
                   "ephemeral-storage": "1Gi",
                 },
               },
@@ -673,8 +673,8 @@ const appDeployment = new k8s.apps.v1.Deployment(
               },
               resources: {
                 limits: {
-                  cpu: "250m",
-                  memory: "512Mi",
+                  cpu: "25m",
+                  memory: "64Mi",
                   "ephemeral-storage": "1Gi",
                 },
               },
