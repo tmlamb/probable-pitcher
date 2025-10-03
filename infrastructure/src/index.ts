@@ -707,6 +707,37 @@ const appDeployment = new k8s.apps.v1.Deployment(
   },
 );
 
+const appHpa = new k8s.autoscaling.v2.HorizontalPodAutoscaler(
+  `probable-hpa-${env}`,
+  {
+    metadata: {
+      namespace: namespaceName,
+    },
+    spec: {
+      scaleTargetRef: {
+        apiVersion: "apps/v1",
+        kind: "Deployment",
+        name: appDeployment.metadata.apply((m) => m.name),
+      },
+      minReplicas: replicas, // Your configured minimum
+      maxReplicas: isProd ? 3 : 1, // Set a reasonable maximum
+      metrics: [
+        {
+          type: "Resource",
+          resource: {
+            name: "cpu",
+            target: {
+              type: "Utilization",
+              averageUtilization: 80, // Target 80% CPU utilization
+            },
+          },
+        },
+      ],
+    },
+  },
+  { provider: clusterProvider },
+);
+
 const armorPolicy = new gcp.compute.SecurityPolicy(
   `probable-armor-policy-${env}`,
   {
