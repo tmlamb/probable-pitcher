@@ -29,6 +29,35 @@ const gsa = new gcp.serviceaccount.Account(`probable-service-account-${env}`, {
   project: gcp.config.project,
 });
 
+const privateVpc = new gcp.compute.Network(`probable-vpc-${env}`, {
+  autoCreateSubnetworks: false,
+});
+
+const privateSubnet = new gcp.compute.Subnetwork(`probable-subnet-${env}`, {
+  ipCidrRange: "10.0.0.0/24",
+  region: "us-west1",
+  network: privateVpc.id,
+});
+
+const privateIpAddress = new gcp.compute.GlobalAddress(
+  `probable-private-ip-address-${env}`,
+  {
+    purpose: "VPC_PEERING",
+    addressType: "INTERNAL",
+    prefixLength: 16,
+    network: privateVpc.id,
+  },
+);
+
+const privateVpcConnection = new gcp.servicenetworking.Connection(
+  `probable-vpc-connection-${env}`,
+  {
+    network: privateVpc.id,
+    service: "servicenetworking.googleapis.com",
+    reservedPeeringRanges: [privateIpAddress.name],
+  },
+);
+
 const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
   `probable-db-instance-pg-${env}`,
   {
@@ -38,6 +67,10 @@ const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
     settings: {
       tier: "db-f1-micro",
       availabilityType: isProd ? "REGIONAL" : "ZONAL",
+      ipConfiguration: {
+        ipv4Enabled: false,
+        privateNetwork: privateVpc.id,
+      },
       backupConfiguration: {
         enabled: isProd ? true : false,
         location: "us-east1",
@@ -45,6 +78,7 @@ const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
       diskType: isProd ? "PD_SSD" : "PD_HDD",
     },
   },
+  { dependsOn: [privateVpcConnection] },
 );
 
 const databaseUser = new gcp.sql.User(`probable-db-user-${env}`, {
@@ -234,8 +268,9 @@ const migrationJob = new k8s.batch.v1.Job(
 
               resources: {
                 requests: {
-                  cpu: isProd ? "25m" : "5m",
-                  memory: isProd ? "256Mi" : "128Mi",
+                  cpu: isProd ? "100m" : "50m",
+                  memory: isProd ? "512Mi" : "256Mi",
+                  "ephemeral-storage": "1Gi",
                 },
                 limits: {
                   cpu: isProd ? "100m" : "50m",
@@ -257,6 +292,11 @@ const migrationJob = new k8s.batch.v1.Job(
                 runAsNonRoot: true,
               },
               resources: {
+                requests: {
+                  cpu: isProd ? "25m" : "5m",
+                  memory: isProd ? "64Mi" : "32Mi",
+                  "ephemeral-storage": "1Gi",
+                },
                 limits: {
                   cpu: isProd ? "25m" : "5m",
                   memory: isProd ? "64Mi" : "32Mi",
@@ -334,6 +374,11 @@ const seedJob = new k8s.batch.v1.CronJob(
                   ],
 
                   resources: {
+                    requests: {
+                      cpu: "250m",
+                      memory: "512Mi",
+                      "ephemeral-storage": "1Gi",
+                    },
                     limits: {
                       cpu: "250m",
                       memory: "512Mi",
@@ -354,6 +399,11 @@ const seedJob = new k8s.batch.v1.CronJob(
                     runAsNonRoot: true,
                   },
                   resources: {
+                    requests: {
+                      cpu: isProd ? "25m" : "5m",
+                      memory: isProd ? "64Mi" : "32Mi",
+                      "ephemeral-storage": "1Gi",
+                    },
                     limits: {
                       cpu: isProd ? "25m" : "5m",
                       memory: isProd ? "64Mi" : "32Mi",
@@ -435,8 +485,9 @@ const playerJob = new k8s.batch.v1.CronJob(
 
                   resources: {
                     requests: {
-                      cpu: isProd ? "25m" : "5m",
-                      memory: isProd ? "256Mi" : "128Mi",
+                      cpu: isProd ? "100m" : "50m",
+                      memory: isProd ? "512Mi" : "256Mi",
+                      "ephemeral-storage": "1Gi",
                     },
                     limits: {
                       cpu: isProd ? "100m" : "50m",
@@ -458,6 +509,11 @@ const playerJob = new k8s.batch.v1.CronJob(
                     runAsNonRoot: true,
                   },
                   resources: {
+                    requests: {
+                      cpu: isProd ? "25m" : "5m",
+                      memory: isProd ? "64Mi" : "32Mi",
+                      "ephemeral-storage": "1Gi",
+                    },
                     limits: {
                       cpu: isProd ? "25m" : "5m",
                       memory: isProd ? "64Mi" : "32Mi",
@@ -539,8 +595,9 @@ const notifyJob = new k8s.batch.v1.CronJob(
 
                   resources: {
                     requests: {
-                      cpu: isProd ? "25m" : "5m",
-                      memory: isProd ? "256Mi" : "128Mi",
+                      cpu: isProd ? "100m" : "50m",
+                      memory: isProd ? "512Mi" : "256Mi",
+                      "ephemeral-storage": "1Gi",
                     },
                     limits: {
                       cpu: isProd ? "100m" : "50m",
@@ -562,6 +619,11 @@ const notifyJob = new k8s.batch.v1.CronJob(
                     runAsNonRoot: true,
                   },
                   resources: {
+                    requests: {
+                      cpu: isProd ? "25m" : "5m",
+                      memory: isProd ? "64Mi" : "32Mi",
+                      "ephemeral-storage": "1Gi",
+                    },
                     limits: {
                       cpu: isProd ? "25m" : "5m",
                       memory: isProd ? "64Mi" : "32Mi",
@@ -719,8 +781,8 @@ const appHpa = new k8s.autoscaling.v2.HorizontalPodAutoscaler(
         kind: "Deployment",
         name: appDeployment.metadata.apply((m) => m.name),
       },
-      minReplicas: replicas, // Your configured minimum
-      maxReplicas: isProd ? 3 : 1, // Set a reasonable maximum
+      minReplicas: replicas,
+      maxReplicas: isProd ? 3 : 1,
       metrics: [
         {
           type: "Resource",
@@ -728,7 +790,7 @@ const appHpa = new k8s.autoscaling.v2.HorizontalPodAutoscaler(
             name: "cpu",
             target: {
               type: "Utilization",
-              averageUtilization: 80, // Target 80% CPU utilization
+              averageUtilization: 80,
             },
           },
         },
@@ -764,7 +826,6 @@ const armorPolicy = new gcp.compute.SecurityPolicy(
         description: "Rate limit requests from any single IP",
       },
       {
-        // Default rule to allow traffic that doesn't match other rules
         action: "allow",
         priority: 2147483647,
         match: {
