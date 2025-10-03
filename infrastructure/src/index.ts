@@ -893,11 +893,9 @@ const staticBackendConfig = new k8s.apiextensions.CustomResource(
     spec: {
       cdn: {
         enabled: true,
-        cachePolicy: {
-          // Cache for one year, as filenames have hashes
-          clientTtl: "31536000s",
-          defaultTtl: "31536000s",
-        },
+        // Cache for one year, as filenames have hashes
+        clientTtl: "31536000s",
+        defaultTtl: "31536000s",
       },
     },
   },
