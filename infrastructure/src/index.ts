@@ -39,7 +39,7 @@ const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
       tier: "db-f1-micro",
       availabilityType: isProd ? "REGIONAL" : "ZONAL",
       backupConfiguration: {
-        enabled: true,
+        enabled: isProd ? true : false,
         location: "us-east1",
       },
       diskType: isProd ? "PD_SSD" : "PD_HDD",
