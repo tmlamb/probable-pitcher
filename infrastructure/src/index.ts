@@ -814,7 +814,7 @@ const armorPolicy = new gcp.compute.SecurityPolicy(
         },
         rateLimitOptions: {
           conformAction: "allow",
-          exceedAction: "deny-429",
+          exceedAction: "deny(429)",
           rateLimitThreshold: {
             count: 200,
             intervalSec: 60,
