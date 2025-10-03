@@ -851,7 +851,7 @@ const backendConfig = new k8s.apiextensions.CustomResource(
         cachePolicy: {
           includeHost: true,
           includeProtocol: true,
-          includeQueryString: false,
+          queryStringWhitelist: ["url", "w", "q", "fm", "fit", "h", "auto"],
         },
       },
       securityPolicy: {
