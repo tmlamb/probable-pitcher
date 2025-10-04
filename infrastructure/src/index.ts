@@ -682,11 +682,11 @@ const appDeployment = new k8s.apps.v1.Deployment(
               resources: {
                 requests: {
                   cpu: isProd ? "25m" : "5m",
-                  memory: isProd ? "512Mi" : "512Mi",
+                  memory: isProd ? "256Mi" : "128Mi",
                 },
                 limits: {
                   cpu: isProd ? "100m" : "50m",
-                  memory: isProd ? "1Gi" : "512Mi",
+                  memory: isProd ? "512Mi" : "256Mi",
                   "ephemeral-storage": "1Gi",
                 },
               },
@@ -694,7 +694,7 @@ const appDeployment = new k8s.apps.v1.Deployment(
                 httpGet: { path: "/api/health", port: "http" },
               },
               readinessProbe: {
-                httpGet: { path: "/api/health", port: "http" },
+                httpGet: { path: "/sign-in", port: "http" },
               },
               env: [
                 {
