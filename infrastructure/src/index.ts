@@ -694,7 +694,7 @@ const appDeployment = new k8s.apps.v1.Deployment(
                 httpGet: { path: "/api/health", port: "http" },
               },
               readinessProbe: {
-                httpGet: { path: "/sign-in", port: "http" },
+                httpGet: { path: "/api/health", port: "http" },
               },
               env: [
                 {
