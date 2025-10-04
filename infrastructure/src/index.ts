@@ -836,9 +836,8 @@ const armorPolicy = new gcp.compute.SecurityPolicy(
   },
 );
 
-// Config for API, SSR pages, etc. (NO CACHING, BUT WITH SECURITY)
-const defaultBackendConfig = new k8s.apiextensions.CustomResource(
-  `probable-default-backend-config-${env}`,
+const backendConfig = new k8s.apiextensions.CustomResource(
+  `probable-backend-config-${env}`,
   {
     apiVersion: "cloud.google.com/v1",
     kind: "BackendConfig",
@@ -847,113 +846,45 @@ const defaultBackendConfig = new k8s.apiextensions.CustomResource(
     },
     spec: {
       cdn: {
-        enabled: false, // Disable CDN for default traffic
-      },
-      securityPolicy: {
-        name: armorPolicy.name, // Apply security to the main entrypoint
-      },
-    },
-  },
-  { provider: clusterProvider },
-);
-
-// Config for Next.js optimized images
-const imageBackendConfig = new k8s.apiextensions.CustomResource(
-  `probable-image-backend-config-${env}`,
-  {
-    apiVersion: "cloud.google.com/v1",
-    kind: "BackendConfig",
-    metadata: {
-      namespace: namespaceName,
-    },
-    spec: {
-      cdn: {
-        enabled: true,
+        enabled: false,
         cachePolicy: {
           includeHost: true,
           includeProtocol: true,
           queryStringWhitelist: ["url", "w", "q"],
         },
       },
-    },
-  },
-  { provider: clusterProvider },
-);
-
-// Config for static assets (JS, CSS, etc.)
-const staticBackendConfig = new k8s.apiextensions.CustomResource(
-  `probable-static-backend-config-${env}`,
-  {
-    apiVersion: "cloud.google.com/v1",
-    kind: "BackendConfig",
-    metadata: {
-      namespace: namespaceName,
-    },
-    spec: {
-      cdn: {
-        enabled: true,
-        // Cache for one year, as filenames have hashes
-        maxTtl: 31536000,
-        clientTtl: 31536000,
-        defaultTtl: 31536000,
+      securityPolicy: {
+        name: armorPolicy.name,
       },
     },
   },
   { provider: clusterProvider },
 );
 
-// Default service for API and pages
-const appServiceDefault = new k8s.core.v1.Service(
-  `${appLabels.app}-default`,
+const appService = new k8s.core.v1.Service(
+  appLabels.app,
   {
     metadata: {
       namespace: namespaceName,
       annotations: {
-        "cloud.google.com/backend-config": pulumi.interpolate`{"default": "${defaultBackendConfig.metadata.name}"}`,
+        "cloud.google.com/backend-config": pulumi.interpolate`{"default": "${backendConfig.metadata.name}"}`,
       },
     },
     spec: {
-      ports: [{ port: 80, targetPort: 3000 }],
-      selector: appLabels,
+      ports: [
+        {
+          port: 80,
+          targetPort: 3000,
+        },
+      ],
+      selector: {
+        app: appLabels.app,
+      },
     },
   },
-  { provider: clusterProvider },
-);
-
-// Service for Next.js images
-const appServiceImage = new k8s.core.v1.Service(
-  `${appLabels.app}-image`,
   {
-    metadata: {
-      namespace: namespaceName,
-      annotations: {
-        "cloud.google.com/backend-config": pulumi.interpolate`{"default": "${imageBackendConfig.metadata.name}"}`,
-      },
-    },
-    spec: {
-      ports: [{ port: 80, targetPort: 3000 }],
-      selector: appLabels,
-    },
+    provider: clusterProvider,
   },
-  { provider: clusterProvider },
-);
-
-// Service for static assets
-const appServiceStatic = new k8s.core.v1.Service(
-  `${appLabels.app}-static`,
-  {
-    metadata: {
-      namespace: namespaceName,
-      annotations: {
-        "cloud.google.com/backend-config": pulumi.interpolate`{"default": "${staticBackendConfig.metadata.name}"}`,
-      },
-    },
-    spec: {
-      ports: [{ port: 80, targetPort: 3000 }],
-      selector: appLabels,
-    },
-  },
-  { provider: clusterProvider },
 );
 
 const ipAddress = new gcp.compute.GlobalAddress(`probable-address-${env}`, {
@@ -1020,34 +951,16 @@ const ingress = new k8s.networking.v1.Ingress(
             http: {
               paths: [
                 {
-                  path: "/_next/image",
+                  path: "/",
                   pathType: "Prefix",
                   backend: {
                     service: {
-                      name: appServiceImage.metadata.name,
-                      port: { number: 80 },
-                    },
-                  },
-                },
-                // Rule for static assets
-                {
-                  path: "/_next/static",
-                  pathType: "Prefix",
-                  backend: {
-                    service: {
-                      name: appServiceStatic.metadata.name,
-                      port: { number: 80 },
-                    },
-                  },
-                },
-                // Default catch-all rule (MUST BE LAST)
-                {
-                  path: "/*",
-                  pathType: "ImplementationSpecific",
-                  backend: {
-                    service: {
-                      name: appServiceDefault.metadata.name,
-                      port: { number: 80 },
+                      name: appService?.metadata?.apply((m) => m?.name),
+                      port: {
+                        number: appService?.spec?.ports?.[0]?.apply(
+                          (p) => p?.port,
+                        ),
+                      },
                     },
                   },
                 },
