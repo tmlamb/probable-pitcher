@@ -29,6 +29,19 @@ const gsa = new gcp.serviceaccount.Account(`probable-service-account-${env}`, {
   project: gcp.config.project,
 });
 
+const privateVpc = new gcp.compute.Network(`probable-vpc-${env}`, {
+  autoCreateSubnetworks: false,
+});
+
+const privateVpcConnection = new gcp.servicenetworking.Connection(
+  `probable-vpc-connection-${env}`,
+  {
+    network: privateVpc.id,
+    service: "servicenetworking.googleapis.com",
+    reservedPeeringRanges: [],
+  },
+);
+
 const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
   `probable-db-instance-pg-${env}`,
   {
