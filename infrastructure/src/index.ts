@@ -742,6 +742,45 @@ const appDeployment = new k8s.apps.v1.Deployment(
   },
 );
 
+const armorPolicy = new gcp.compute.SecurityPolicy(
+  `probable-armor-policy-${env}`,
+  {
+    description: "Rate limiting policy for the application",
+    rules: [
+      {
+        action: "rate_based_ban",
+        priority: 1000,
+        match: {
+          versionedExpr: "SRC_IPS_V1",
+          config: {
+            srcIpRanges: ["*"],
+          },
+        },
+        rateLimitOptions: {
+          conformAction: "allow",
+          exceedAction: "deny(429)",
+          rateLimitThreshold: {
+            count: 200,
+            intervalSec: 60,
+          },
+          banDurationSec: 300,
+        },
+        description: "Rate limit requests from any single IP",
+      },
+      {
+        action: "allow",
+        priority: 2147483647,
+        match: {
+          versionedExpr: "SRC_IPS_V1",
+          config: {
+            srcIpRanges: ["*"],
+          },
+        },
+      },
+    ],
+  },
+);
+
 const appService = new k8s.core.v1.Service(
   appLabels.app,
   {
