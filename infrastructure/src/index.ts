@@ -29,6 +29,35 @@ const gsa = new gcp.serviceaccount.Account(`probable-service-account-${env}`, {
   project: gcp.config.project,
 });
 
+const privateVpc = new gcp.compute.Network(`probable-vpc-${env}`, {
+  autoCreateSubnetworks: false,
+});
+
+const privateSubnet = new gcp.compute.Subnetwork(`probable-subnet-${env}`, {
+  ipCidrRange: "10.0.0.0/24",
+  region: "us-west1",
+  network: privateVpc.id,
+});
+
+const privateIpAddress = new gcp.compute.GlobalAddress(
+  `probable-private-ip-address-${env}`,
+  {
+    purpose: "VPC_PEERING",
+    addressType: "INTERNAL",
+    prefixLength: 16,
+    network: privateVpc.id,
+  },
+);
+
+const privateVpcConnection = new gcp.servicenetworking.Connection(
+  `probable-vpc-connection-${env}`,
+  {
+    network: privateVpc.id,
+    service: "servicenetworking.googleapis.com",
+    reservedPeeringRanges: [privateIpAddress.name],
+  },
+);
+
 const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
   `probable-db-instance-pg-${env}`,
   {
@@ -37,7 +66,12 @@ const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
     region: "us-west1",
     settings: {
       tier: "db-f1-micro",
+      activationPolicy: isProd ? "ALWAYS" : "NEVER",
       availabilityType: isProd ? "REGIONAL" : "ZONAL",
+      ipConfiguration: {
+        ipv4Enabled: true,
+        privateNetwork: privateVpc.id,
+      },
       backupConfiguration: {
         enabled: isProd ? true : false,
         location: "us-east1",
@@ -45,6 +79,7 @@ const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
       diskType: isProd ? "PD_SSD" : "PD_HDD",
     },
   },
+  { dependsOn: [privateVpcConnection] },
 );
 
 const databaseUser = new gcp.sql.User(`probable-db-user-${env}`, {
