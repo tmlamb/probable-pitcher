@@ -29,35 +29,6 @@ const gsa = new gcp.serviceaccount.Account(`probable-service-account-${env}`, {
   project: gcp.config.project,
 });
 
-const privateVpc = new gcp.compute.Network(`probable-vpc-${env}`, {
-  autoCreateSubnetworks: false,
-});
-
-const privateSubnet = new gcp.compute.Subnetwork(`probable-subnet-${env}`, {
-  ipCidrRange: "10.0.0.0/24",
-  region: "us-west1",
-  network: privateVpc.id,
-});
-
-const privateIpAddress = new gcp.compute.GlobalAddress(
-  `probable-private-ip-address-${env}`,
-  {
-    purpose: "VPC_PEERING",
-    addressType: "INTERNAL",
-    prefixLength: 16,
-    network: privateVpc.id,
-  },
-);
-
-const privateVpcConnection = new gcp.servicenetworking.Connection(
-  `probable-vpc-connection-${env}`,
-  {
-    network: privateVpc.id,
-    service: "servicenetworking.googleapis.com",
-    reservedPeeringRanges: [privateIpAddress.name],
-  },
-);
-
 const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
   `probable-db-instance-pg-${env}`,
   {
@@ -67,10 +38,6 @@ const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
     settings: {
       tier: "db-f1-micro",
       availabilityType: isProd ? "REGIONAL" : "ZONAL",
-      ipConfiguration: {
-        ipv4Enabled: false,
-        privateNetwork: privateVpc.id,
-      },
       backupConfiguration: {
         enabled: isProd ? true : false,
         location: "us-east1",
@@ -78,7 +45,6 @@ const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
       diskType: isProd ? "PD_SSD" : "PD_HDD",
     },
   },
-  { dependsOn: [privateVpcConnection] },
 );
 
 const databaseUser = new gcp.sql.User(`probable-db-user-${env}`, {
@@ -92,6 +58,17 @@ const database = new gcp.sql.Database(`probable-db-${env}`, {
   instance: pgDatabaseInstance.name,
   charset: "utf8",
 });
+
+const databaseUrl = pulumi
+  .all([
+    pgDatabaseInstance.publicIpAddress,
+    database.name,
+    databaseUser.name,
+    databaseUser.password,
+  ])
+  .apply(([ipAddress, database, username, password]) => {
+    return `postgres://${username}:${password}@${ipAddress}/${database}`;
+  });
 
 export const clusterProvider = new k8s.Provider(`probable-pitchers-${env}`, {
   kubeconfig: process.env.KUBECONFIG,
@@ -257,9 +234,8 @@ const migrationJob = new k8s.batch.v1.Job(
 
               resources: {
                 requests: {
-                  cpu: isProd ? "100m" : "50m",
-                  memory: isProd ? "512Mi" : "256Mi",
-                  "ephemeral-storage": "1Gi",
+                  cpu: isProd ? "25m" : "5m",
+                  memory: isProd ? "256Mi" : "128Mi",
                 },
                 limits: {
                   cpu: isProd ? "100m" : "50m",
@@ -272,7 +248,6 @@ const migrationJob = new k8s.batch.v1.Job(
               name: "cloudsql-proxy",
               image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
               args: [
-                "--private-ip",
                 "--port=5432",
                 pgDatabaseInstance.connectionName,
                 "--quitquitquit",
@@ -282,11 +257,6 @@ const migrationJob = new k8s.batch.v1.Job(
                 runAsNonRoot: true,
               },
               resources: {
-                requests: {
-                  cpu: isProd ? "25m" : "5m",
-                  memory: isProd ? "64Mi" : "32Mi",
-                  "ephemeral-storage": "1Gi",
-                },
                 limits: {
                   cpu: isProd ? "25m" : "5m",
                   memory: isProd ? "64Mi" : "32Mi",
@@ -364,11 +334,6 @@ const seedJob = new k8s.batch.v1.CronJob(
                   ],
 
                   resources: {
-                    requests: {
-                      cpu: "250m",
-                      memory: "512Mi",
-                      "ephemeral-storage": "1Gi",
-                    },
                     limits: {
                       cpu: "250m",
                       memory: "512Mi",
@@ -380,7 +345,6 @@ const seedJob = new k8s.batch.v1.CronJob(
                   name: "cloudsql-proxy",
                   image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
                   args: [
-                    "--private-ip",
                     "--port=5432",
                     pgDatabaseInstance.connectionName,
                     "--quitquitquit",
@@ -390,11 +354,6 @@ const seedJob = new k8s.batch.v1.CronJob(
                     runAsNonRoot: true,
                   },
                   resources: {
-                    requests: {
-                      cpu: isProd ? "25m" : "5m",
-                      memory: isProd ? "64Mi" : "32Mi",
-                      "ephemeral-storage": "1Gi",
-                    },
                     limits: {
                       cpu: isProd ? "25m" : "5m",
                       memory: isProd ? "64Mi" : "32Mi",
@@ -476,9 +435,8 @@ const playerJob = new k8s.batch.v1.CronJob(
 
                   resources: {
                     requests: {
-                      cpu: isProd ? "100m" : "50m",
-                      memory: isProd ? "512Mi" : "256Mi",
-                      "ephemeral-storage": "1Gi",
+                      cpu: isProd ? "25m" : "5m",
+                      memory: isProd ? "256Mi" : "128Mi",
                     },
                     limits: {
                       cpu: isProd ? "100m" : "50m",
@@ -491,7 +449,6 @@ const playerJob = new k8s.batch.v1.CronJob(
                   name: "cloudsql-proxy",
                   image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
                   args: [
-                    "--private-ip",
                     "--port=5432",
                     pgDatabaseInstance.connectionName,
                     "--quitquitquit",
@@ -501,11 +458,6 @@ const playerJob = new k8s.batch.v1.CronJob(
                     runAsNonRoot: true,
                   },
                   resources: {
-                    requests: {
-                      cpu: isProd ? "25m" : "5m",
-                      memory: isProd ? "64Mi" : "32Mi",
-                      "ephemeral-storage": "1Gi",
-                    },
                     limits: {
                       cpu: isProd ? "25m" : "5m",
                       memory: isProd ? "64Mi" : "32Mi",
@@ -587,9 +539,8 @@ const notifyJob = new k8s.batch.v1.CronJob(
 
                   resources: {
                     requests: {
-                      cpu: isProd ? "100m" : "50m",
-                      memory: isProd ? "512Mi" : "256Mi",
-                      "ephemeral-storage": "1Gi",
+                      cpu: isProd ? "25m" : "5m",
+                      memory: isProd ? "256Mi" : "128Mi",
                     },
                     limits: {
                       cpu: isProd ? "100m" : "50m",
@@ -602,7 +553,6 @@ const notifyJob = new k8s.batch.v1.CronJob(
                   name: "cloudsql-proxy",
                   image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
                   args: [
-                    "--private-ip",
                     "--port=5432",
                     pgDatabaseInstance.connectionName,
                     "--quitquitquit",
@@ -612,11 +562,6 @@ const notifyJob = new k8s.batch.v1.CronJob(
                     runAsNonRoot: true,
                   },
                   resources: {
-                    requests: {
-                      cpu: isProd ? "25m" : "5m",
-                      memory: isProd ? "64Mi" : "32Mi",
-                      "ephemeral-storage": "1Gi",
-                    },
                     limits: {
                       cpu: isProd ? "25m" : "5m",
                       memory: isProd ? "64Mi" : "32Mi",
@@ -683,7 +628,6 @@ const appDeployment = new k8s.apps.v1.Deployment(
                 requests: {
                   cpu: isProd ? "25m" : "5m",
                   memory: isProd ? "256Mi" : "128Mi",
-                  "ephemeral-storage": "1Gi",
                 },
                 limits: {
                   cpu: isProd ? "100m" : "50m",
@@ -695,7 +639,7 @@ const appDeployment = new k8s.apps.v1.Deployment(
                 httpGet: { path: "/api/health", port: "http" },
               },
               readinessProbe: {
-                httpGet: { path: "/sign-in", port: "http" },
+                httpGet: { path: "/signin", port: "http" },
               },
               env: [
                 {
@@ -740,11 +684,7 @@ const appDeployment = new k8s.apps.v1.Deployment(
             {
               name: "cloudsql-proxy",
               image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
-              args: [
-                "--private-ip",
-                "--port=5432",
-                pgDatabaseInstance.connectionName,
-              ],
+              args: ["--port=5432", pgDatabaseInstance.connectionName],
               securityContext: {
                 runAsNonRoot: true,
               },
@@ -767,109 +707,11 @@ const appDeployment = new k8s.apps.v1.Deployment(
   },
 );
 
-const appHpa = new k8s.autoscaling.v2.HorizontalPodAutoscaler(
-  `probable-hpa-${env}`,
-  {
-    metadata: {
-      namespace: namespaceName,
-    },
-    spec: {
-      scaleTargetRef: {
-        apiVersion: "apps/v1",
-        kind: "Deployment",
-        name: appDeployment.metadata.apply((m) => m.name),
-      },
-      minReplicas: replicas,
-      maxReplicas: isProd ? 3 : 1,
-      metrics: [
-        {
-          type: "Resource",
-          resource: {
-            name: "cpu",
-            target: {
-              type: "Utilization",
-              averageUtilization: 80,
-            },
-          },
-        },
-      ],
-    },
-  },
-  { provider: clusterProvider },
-);
-
-const armorPolicy = new gcp.compute.SecurityPolicy(
-  `probable-armor-policy-${env}`,
-  {
-    description: "Rate limiting policy for the application",
-    rules: [
-      {
-        action: "rate_based_ban",
-        priority: 1000,
-        match: {
-          versionedExpr: "SRC_IPS_V1",
-          config: {
-            srcIpRanges: ["*"],
-          },
-        },
-        rateLimitOptions: {
-          conformAction: "allow",
-          exceedAction: "deny(429)",
-          rateLimitThreshold: {
-            count: 200,
-            intervalSec: 60,
-          },
-          banDurationSec: 300,
-        },
-        description: "Rate limit requests from any single IP",
-      },
-      {
-        action: "allow",
-        priority: 2147483647,
-        match: {
-          versionedExpr: "SRC_IPS_V1",
-          config: {
-            srcIpRanges: ["*"],
-          },
-        },
-      },
-    ],
-  },
-);
-
-const backendConfig = new k8s.apiextensions.CustomResource(
-  `probable-backend-config-${env}`,
-  {
-    apiVersion: "cloud.google.com/v1",
-    kind: "BackendConfig",
-    metadata: {
-      namespace: namespaceName,
-    },
-    spec: {
-      cdn: {
-        enabled: false,
-        cachePolicy: {
-          includeHost: true,
-          includeProtocol: true,
-          queryStringWhitelist: ["url", "w", "q"],
-        },
-      },
-      securityPolicy: {
-        name: armorPolicy.name,
-      },
-    },
-  },
-  { provider: clusterProvider },
-);
-
 const appService = new k8s.core.v1.Service(
   appLabels.app,
   {
     metadata: {
       namespace: namespaceName,
-      annotations: {
-        "cloud.google.com/backend-config": pulumi.interpolate`{"default": "${backendConfig.metadata.name}"}`,
-      },
     },
     spec: {
       ports: [
