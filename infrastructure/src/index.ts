@@ -29,6 +29,45 @@ const gsa = new gcp.serviceaccount.Account(`probable-service-account-${env}`, {
   project: gcp.config.project,
 });
 
+const armorPolicy = new gcp.compute.SecurityPolicy(
+  `probable-armor-policy-${env}`,
+  {
+    description: "Rate limiting policy for the application",
+    rules: [
+      {
+        action: "rate_based_ban",
+        priority: 1000,
+        match: {
+          versionedExpr: "SRC_IPS_V1",
+          config: {
+            srcIpRanges: ["*"],
+          },
+        },
+        rateLimitOptions: {
+          conformAction: "allow",
+          exceedAction: "deny(429)",
+          rateLimitThreshold: {
+            count: 200,
+            intervalSec: 60,
+          },
+          banDurationSec: 300,
+        },
+        description: "Rate limit requests from any single IP",
+      },
+      {
+        action: "allow",
+        priority: 2147483647,
+        match: {
+          versionedExpr: "SRC_IPS_V1",
+          config: {
+            srcIpRanges: ["*"],
+          },
+        },
+      },
+    ],
+  },
+);
+
 const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
   `probable-db-instance-pg-${env}`,
   {
