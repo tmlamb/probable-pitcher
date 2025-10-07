@@ -780,11 +780,31 @@ const armorPolicy = new gcp.compute.SecurityPolicy(
   },
 );
 
+const backendConfig = new k8s.apiextensions.CustomResource(
+  `probable-backend-config-${env}`,
+  {
+    apiVersion: "cloud.google.com/v1",
+    kind: "BackendConfig",
+    metadata: {
+      namespace: namespaceName,
+    },
+    spec: {
+      securityPolicy: {
+        name: armorPolicy.name,
+      },
+    },
+  },
+  { provider: clusterProvider },
+);
+
 const appService = new k8s.core.v1.Service(
   appLabels.app,
   {
     metadata: {
       namespace: namespaceName,
+      annotations: {
+        "cloud.google.com/backend-config": pulumi.interpolate`{"default": "${backendConfig.metadata.name}"}`,
+      },
     },
     spec: {
       ports: [
