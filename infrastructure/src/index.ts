@@ -269,7 +269,7 @@ const migrationJob = new k8s.batch.v1.Job(
 
               resources: {
                 requests: {
-                  cpu: isProd ? "25m" : "5m",
+                  cpu: isProd ? "40m" : "20m",
                   memory: isProd ? "256Mi" : "128Mi",
                 },
                 limits: {
