@@ -726,8 +726,8 @@ const appDeployment = new k8s.apps.v1.Deployment(
               },
               resources: {
                 limits: {
-                  cpu: isProd ? "25m" : "250m",
-                  memory: isProd ? "64Mi" : "512Mi",
+                  cpu: isProd ? "25m" : "5m",
+                  memory: isProd ? "64Mi" : "32Mi",
                   "ephemeral-storage": "1Gi",
                 },
               },
