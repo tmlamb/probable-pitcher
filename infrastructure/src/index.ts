@@ -269,12 +269,12 @@ const migrationJob = new k8s.batch.v1.Job(
 
               resources: {
                 requests: {
-                  cpu: isProd ? "50m" : "25m",
+                  cpu: isProd ? "25m" : "5m",
                   memory: isProd ? "256Mi" : "128Mi",
                 },
                 limits: {
-                  cpu: isProd ? "500m" : "50m",
-                  memory: isProd ? "1Gi" : "256Mi",
+                  cpu: isProd ? "100m" : "50m",
+                  memory: isProd ? "512Mi" : "256Mi",
                   "ephemeral-storage": "1Gi",
                 },
               },
@@ -293,8 +293,8 @@ const migrationJob = new k8s.batch.v1.Job(
               },
               resources: {
                 limits: {
-                  cpu: isProd ? "40m" : "20m",
-                  memory: isProd ? "128Mi" : "64Mi",
+                  cpu: isProd ? "25m" : "5m",
+                  memory: isProd ? "64Mi" : "32Mi",
                   "ephemeral-storage": "1Gi",
                 },
               },
