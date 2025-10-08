@@ -661,12 +661,13 @@ const appDeployment = new k8s.apps.v1.Deployment(
               ports: [{ name: "http", containerPort: 3000 }],
               resources: {
                 requests: {
-                  cpu: isProd ? "50m" : "25m",
-                  memory: isProd ? "256Mi" : "128Mi",
+                  cpu: isProd ? "250m" : "150m",
+                  memory: isProd ? "512Mi" : "256Mi",
+                  "ephemeral-storage": "1Gi",
                 },
                 limits: {
-                  cpu: isProd ? "500m" : "50m",
-                  memory: isProd ? "1Gi" : "256Mi",
+                  cpu: isProd ? "500m" : "250m",
+                  memory: isProd ? "1Gi" : "512i",
                   "ephemeral-storage": "1Gi",
                 },
               },
@@ -725,8 +726,8 @@ const appDeployment = new k8s.apps.v1.Deployment(
               },
               resources: {
                 limits: {
-                  cpu: isProd ? "40m" : "20m",
-                  memory: isProd ? "128Mi" : "64Mi",
+                  cpu: isProd ? "150m" : "100m",
+                  memory: isProd ? "256Mi" : "128Mi",
                   "ephemeral-storage": "1Gi",
                 },
               },
@@ -742,36 +743,36 @@ const appDeployment = new k8s.apps.v1.Deployment(
   },
 );
 
-// const appHpa = new k8s.autoscaling.v2.HorizontalPodAutoscaler(
-//   `probable-hpa-${env}`,
-//   {
-//     metadata: {
-//       namespace: namespaceName,
-//     },
-//     spec: {
-//       scaleTargetRef: {
-//         apiVersion: "apps/v1",
-//         kind: "Deployment",
-//         name: appDeployment.metadata.apply((m) => m.name),
-//       },
-//       minReplicas: replicas,
-//       maxReplicas: isProd ? 3 : 3,
-//       metrics: [
-//         {
-//           type: "Resource",
-//           resource: {
-//             name: "cpu",
-//             target: {
-//               type: "Utilization",
-//               averageUtilization: 20,
-//             },
-//           },
-//         },
-//       ],
-//     },
-//   },
-//   { provider: clusterProvider },
-// );
+const appHpa = new k8s.autoscaling.v2.HorizontalPodAutoscaler(
+  `probable-hpa-${env}`,
+  {
+    metadata: {
+      namespace: namespaceName,
+    },
+    spec: {
+      scaleTargetRef: {
+        apiVersion: "apps/v1",
+        kind: "Deployment",
+        name: appDeployment.metadata.apply((m) => m.name),
+      },
+      minReplicas: replicas,
+      maxReplicas: isProd ? 3 : 3,
+      metrics: [
+        {
+          type: "Resource",
+          resource: {
+            name: "cpu",
+            target: {
+              type: "Utilization",
+              averageUtilization: 20,
+            },
+          },
+        },
+      ],
+    },
+  },
+  { provider: clusterProvider },
+);
 
 const armorPolicy = new gcp.compute.SecurityPolicy(
   `probable-armor-policy-${env}`,
