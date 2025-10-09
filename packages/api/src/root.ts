@@ -1,5 +1,6 @@
 import { accountRouter } from "./router/account";
 import { deviceRouter } from "./router/device";
+import { healthRouter } from "./router/health";
 import { notificationRouter } from "./router/notification";
 import { pitcherRouter } from "./router/pitcher";
 import { subscriptionRouter } from "./router/subscription";
@@ -13,6 +14,7 @@ export const appRouter = createTRPCRouter({
   pitcher: pitcherRouter,
   subscription: subscriptionRouter,
   user: userRouter,
+  health: healthRouter,
 });
 
 // export type definition of API
