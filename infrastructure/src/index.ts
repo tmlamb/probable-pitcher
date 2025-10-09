@@ -321,6 +321,7 @@ const seedJob = new k8s.batch.v1.CronJob(
       schedule: "0 0 1 2,3,4 *",
       jobTemplate: {
         spec: {
+          ttlSecondsAfterFinished: 600,
           activeDeadlineSeconds: 20 * 60,
           backoffLimit: 3,
           parallelism: 1,
@@ -422,6 +423,7 @@ const playerJob = new k8s.batch.v1.CronJob(
       jobTemplate: {
         spec: {
           activeDeadlineSeconds: 20 * 60,
+          ttlSecondsAfterFinished: 600,
           backoffLimit: 3,
           parallelism: 1,
           completions: 1,
@@ -526,6 +528,7 @@ const notifyJob = new k8s.batch.v1.CronJob(
       jobTemplate: {
         spec: {
           activeDeadlineSeconds: 20 * 60,
+          ttlSecondsAfterFinished: 600,
           backoffLimit: 3,
           parallelism: 1,
           completions: 1,
