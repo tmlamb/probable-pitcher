@@ -761,7 +761,7 @@ const appHpa = new k8s.autoscaling.v2.HorizontalPodAutoscaler(
         name: appDeployment.metadata.apply((m) => m.name),
       },
       minReplicas: replicas,
-      maxReplicas: isProd ? 3 : 3,
+      maxReplicas: isProd ? 3 : 1,
       metrics: [
         {
           type: "Resource",
@@ -769,7 +769,7 @@ const appHpa = new k8s.autoscaling.v2.HorizontalPodAutoscaler(
             name: "cpu",
             target: {
               type: "Utilization",
-              averageUtilization: 20,
+              averageUtilization: 80,
             },
           },
         },
