@@ -1,7 +1,6 @@
 {
   "name": "@probable/validators",
   "private": true,
-  "version": "2.0.0",
   "type": "module",
   "exports": {
     ".": {
@@ -26,7 +25,6 @@
     "@probable/prettier-config": "workspace:*",
     "@probable/tsconfig": "workspace:*",
     "eslint": "catalog:",
-    "minimatch": "^10.0.3",
     "prettier": "catalog:",
     "typescript": "catalog:"
   },

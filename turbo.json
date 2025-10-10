@@ -1,5 +1,5 @@
 {
-  "$schema": "https://turborepo.org/schema.json",
+  "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
   "tasks": {
     "topo": {
@@ -7,17 +7,12 @@
     },
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [
-        ".next/**",
-        "!.next/cache/**",
-        "next-env.d.ts",
-        ".expo/**",
-        ".output/**",
-        "node_modules/.cache/tsbuildinfo.json"
-      ]
+      "outputs": [".cache/tsbuildinfo.json", "dist/**"]
     },
     "dev": {
-      "cache": false
+      "dependsOn": ["^dev"],
+      "cache": false,
+      "persistent": false
     },
     "format": {
       "outputs": [".cache/.prettiercache"],

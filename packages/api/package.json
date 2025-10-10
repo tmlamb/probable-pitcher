@@ -1,12 +1,11 @@
 {
   "name": "@probable/api",
-  "version": "2.0.0",
   "private": true,
   "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "default": "./src/index.ts"
     }
   },
   "license": "MIT",
@@ -31,7 +30,6 @@
     "@probable/prettier-config": "workspace:*",
     "@probable/tsconfig": "workspace:*",
     "eslint": "catalog:",
-    "minimatch": "^10.0.3",
     "prettier": "catalog:",
     "typescript": "catalog:"
   },
