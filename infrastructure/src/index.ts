@@ -29,13 +29,7 @@ const gsa = new gcp.serviceaccount.Account(`probable-service-account-${env}`, {
   project: gcp.config.project,
 });
 
-const defaultVpc = gcp.compute.getNetwork({ name: "default" });
-
-// const privateSubnet = new gcp.compute.Subnetwork(`probable-subnet-${env}`, {
-//   ipCidrRange: "10.0.0.0/24",
-//   region: "us-west1",
-//   network: defaultVpc.then((vpc) => vpc.id),
-// });
+// const defaultVpc = gcp.compute.getNetwork({ name: "default" });
 //
 // const privateIpAddress = new gcp.compute.GlobalAddress(
 //   `probable-private-ip-address-${env}`,
