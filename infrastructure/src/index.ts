@@ -283,6 +283,7 @@ const migrationJob = new k8s.batch.v1.Job(
               name: "cloudsql-proxy",
               image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
               args: [
+                "--private-ip",
                 "--port=5432",
                 pgDatabaseInstance.connectionName,
                 "--quitquitquit",
@@ -381,6 +382,7 @@ const seedJob = new k8s.batch.v1.CronJob(
                   name: "cloudsql-proxy",
                   image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
                   args: [
+                    "--private-ip",
                     "--port=5432",
                     pgDatabaseInstance.connectionName,
                     "--quitquitquit",
@@ -486,6 +488,7 @@ const playerJob = new k8s.batch.v1.CronJob(
                   name: "cloudsql-proxy",
                   image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
                   args: [
+                    "--private-ip",
                     "--port=5432",
                     pgDatabaseInstance.connectionName,
                     "--quitquitquit",
@@ -591,6 +594,7 @@ const notifyJob = new k8s.batch.v1.CronJob(
                   name: "cloudsql-proxy",
                   image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
                   args: [
+                    "--private-ip",
                     "--port=5432",
                     pgDatabaseInstance.connectionName,
                     "--quitquitquit",
@@ -723,7 +727,11 @@ const appDeployment = new k8s.apps.v1.Deployment(
             {
               name: "cloudsql-proxy",
               image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
-              args: ["--port=5432", pgDatabaseInstance.connectionName],
+              args: [
+                "--private-ip",
+                "--port=5432",
+                pgDatabaseInstance.connectionName,
+              ],
               securityContext: {
                 runAsNonRoot: true,
               },
