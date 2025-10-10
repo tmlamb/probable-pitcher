@@ -4,20 +4,19 @@
   "version": "2.0.0",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./button": "./src/button.tsx",
-    "./dropdown-menu": "./src/dropdown-menu.tsx",
-    "./form": "./src/form.tsx",
-    "./input": "./src/input.tsx",
-    "./label": "./src/label.tsx",
-    "./theme": "./src/theme.tsx",
-    "./toast": "./src/toast.tsx",
-    "./dialog": "./src/dialog.tsx"
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "default": "./dist/src/index.js"
+    },
+    "./*": {
+      "types": "./dist/src/*.d.ts",
+      "default": "./dist/src/*.jsx"
+    }
   },
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "clean": "rm -rf .turbo dist node_modules",
     "dev": "tsc",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint",
