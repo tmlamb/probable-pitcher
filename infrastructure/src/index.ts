@@ -31,30 +31,30 @@ const gsa = new gcp.serviceaccount.Account(`probable-service-account-${env}`, {
 
 const defaultVpc = gcp.compute.getNetwork({ name: "default" });
 
-const privateSubnet = new gcp.compute.Subnetwork(`probable-subnet-${env}`, {
-  ipCidrRange: "10.0.0.0/24",
-  region: "us-west1",
-  network: defaultVpc.then((vpc) => vpc.id),
-});
-
-const privateIpAddress = new gcp.compute.GlobalAddress(
-  `probable-private-ip-address-${env}`,
-  {
-    purpose: "VPC_PEERING",
-    addressType: "INTERNAL",
-    prefixLength: 16,
-    network: defaultVpc.then((vpc) => vpc.id),
-  },
-);
-
-const privateVpcConnection = new gcp.servicenetworking.Connection(
-  `probable-vpc-connection-${env}`,
-  {
-    network: defaultVpc.then((vpc) => vpc.id),
-    service: "servicenetworking.googleapis.com",
-    reservedPeeringRanges: [privateIpAddress.name],
-  },
-);
+// const privateSubnet = new gcp.compute.Subnetwork(`probable-subnet-${env}`, {
+//   ipCidrRange: "10.0.0.0/24",
+//   region: "us-west1",
+//   network: defaultVpc.then((vpc) => vpc.id),
+// });
+//
+// const privateIpAddress = new gcp.compute.GlobalAddress(
+//   `probable-private-ip-address-${env}`,
+//   {
+//     purpose: "VPC_PEERING",
+//     addressType: "INTERNAL",
+//     prefixLength: 16,
+//     network: defaultVpc.then((vpc) => vpc.id),
+//   },
+// );
+//
+// const privateVpcConnection = new gcp.servicenetworking.Connection(
+//   `probable-vpc-connection-${env}`,
+//   {
+//     network: defaultVpc.then((vpc) => vpc.id),
+//     service: "servicenetworking.googleapis.com",
+//     reservedPeeringRanges: [privateIpAddress.name],
+//   },
+// );
 
 const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
   `probable-db-instance-pg-${env}`,
@@ -66,8 +66,8 @@ const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
       tier: "db-f1-micro",
       availabilityType: isProd ? "REGIONAL" : "ZONAL",
       ipConfiguration: {
-        ipv4Enabled: false,
-        privateNetwork: defaultVpc.then((vpc) => vpc.id),
+        ipv4Enabled: true,
+        // privateNetwork: defaultVpc.then((vpc) => vpc.id),
       },
       backupConfiguration: {
         enabled: isProd ? true : false,
@@ -76,7 +76,7 @@ const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
       diskType: isProd ? "PD_SSD" : "PD_HDD",
     },
   },
-  { dependsOn: [privateVpcConnection] },
+  // { dependsOn: [privateVpcConnection] },
 );
 
 const databaseUser = new gcp.sql.User(`probable-db-user-${env}`, {
