@@ -795,14 +795,14 @@ const armorPolicy = new gcp.compute.SecurityPolicy(
   {
     description: "Rate limiting policy for the application",
     rules: [
-      // {
-      //   action: "deny(403)",
-      //   priority: 100,
-      //   match: {
-      //     expr: { expression: "request.path == '/api/trpc/health.check'" },
-      //   },
-      //   description: "Block public access to health check endpoint",
-      // },
+      {
+        action: "deny(403)",
+        priority: 100,
+        match: {
+          expr: { expression: "request.path == '/api/trpc/health.check'" },
+        },
+        description: "Block public access to health check endpoint",
+      },
       {
         action: "rate_based_ban",
         priority: 1000,
