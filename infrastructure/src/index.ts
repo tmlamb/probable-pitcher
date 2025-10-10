@@ -43,7 +43,7 @@ const privateIpAddress = new gcp.compute.GlobalAddress(
     purpose: "VPC_PEERING",
     addressType: "INTERNAL",
     prefixLength: 16,
-    network: privateVpc.id,
+    network: defaultVpc.then((vpc) => vpc.id),
   },
 );
 
