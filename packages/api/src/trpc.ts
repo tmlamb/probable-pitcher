@@ -8,7 +8,6 @@
  */
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
-import { ZodError } from "zod";
 
 import type { Auth } from "@probable/auth";
 import { auth } from "@probable/auth";
