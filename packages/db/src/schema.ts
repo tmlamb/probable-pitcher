@@ -114,7 +114,7 @@ export const notification = pgTable(
     gameId: t
       .uuid()
       .notNull()
-      .references(() => game.id, { onDelete: "restrict" }),
+      .references(() => game.id, { onDelete: "cascade" }),
     pitcherId: t
       .uuid()
       .notNull()

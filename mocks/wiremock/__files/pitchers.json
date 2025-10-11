@@ -1,5 +1,16 @@
 {
   "pitchers": [
+    { "ref": 1, "name": "Johnny Appleseed", "number": "1", "team": 1 },
+    { "ref": 2, "name": "Bobby Banana", "number": "2", "team": 2 },
+    { "ref": 3, "name": "Charlie Cherry", "number": "3", "team": 3 },
+    { "ref": 4, "name": "Danny Date", "number": "4", "team": 4 },
+    { "ref": 5, "name": "Eddie Elderberry", "number": "5", "team": 5 },
+    { "ref": 6, "name": "Freddy Fig", "number": "6", "team": 6 },
+    { "ref": 7, "name": "Gerry Grape", "number": "7", "team": 1 },
+    { "ref": 8, "name": "Harry Honeydew", "number": "8", "team": 2 },
+    { "ref": 9, "name": "Izzy Iceberg", "number": "9", "team": 3 },
+    { "ref": 10, "name": "Jack Jackfruit", "number": "10", "team": 4 },
+    { "ref": 11, "name": "Kenny Kiwi", "number": "11", "team": 5 },
     { "ref": 698496, "name": "Miles Carter", "number": "80", "team": 451 },
     { "ref": 678292, "name": "Tanner Ellsworth", "number": "72", "team": 478 },
     { "ref": 672787, "name": "Spencer McGraw", "number": "55", "team": 448 },

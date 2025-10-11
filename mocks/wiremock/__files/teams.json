@@ -1,5 +1,11 @@
 {
   "teams": [
+    { "ref": 1, "name": "Springfield Artichokes", "abbreviation": "SPA" },
+    { "ref": 2, "name": "Shelbyville Beets", "abbreviation": "SBE" },
+    { "ref": 3, "name": "Ogdenville Oranges", "abbreviation": "OGO" },
+    { "ref": 4, "name": "North Haverbrook Monorails", "abbreviation": "NHM" },
+    { "ref": 5, "name": "Brockway Broncos", "abbreviation": "BRO" },
+    { "ref": 6, "name": "Capital City Goofballers", "abbreviation": "CCG" },
     { "ref": 464, "name": "Thunder Bay Stormbreakers", "abbreviation": "TBS" },
     { "ref": 465, "name": "Ironcliff Chargers", "abbreviation": "ICC" },
     { "ref": 466, "name": "Redwood Raptors", "abbreviation": "RWR" },
