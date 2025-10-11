@@ -29,53 +29,18 @@ const gsa = new gcp.serviceaccount.Account(`probable-service-account-${env}`, {
   project: gcp.config.project,
 });
 
-// const defaultVpc = gcp.compute.getNetwork({ name: "default" });
-//
-// const privateIpAddress = new gcp.compute.GlobalAddress(
-//   `probable-private-ip-address-${env}`,
-//   {
-//     purpose: "VPC_PEERING",
-//     addressType: "INTERNAL",
-//     prefixLength: 16,
-//     network: defaultVpc.then((vpc) => vpc.id),
-//   },
-// );
-//
-// const privateVpcConnection = new gcp.servicenetworking.Connection(
-//   `probable-vpc-connection-${env}`,
-//   {
-//     network: defaultVpc.then((vpc) => vpc.id),
-//     service: "servicenetworking.googleapis.com",
-//     reservedPeeringRanges: [privateIpAddress.name],
-//   },
-// );
+const defaultVpc = gcp.compute.getNetwork({ name: "default" });
 
-const privateVpc = new gcp.compute.Network(`probable-vpc-${env}`, {
-  autoCreateSubnetworks: false,
+const defaultIpAddress = gcp.compute.getGlobalAddress({
+  name: "default-ip-range-1759858734902",
 });
 
-const privateSubnet = new gcp.compute.Subnetwork(`probable-subnet-${env}`, {
-  ipCidrRange: "10.0.0.0/24",
-  region: "us-west1",
-  network: privateVpc.id,
-});
-
-const privateIpAddress = new gcp.compute.GlobalAddress(
-  `probable-private-ip-address-${env}`,
+const privateDefaultVpcConnection = new gcp.servicenetworking.Connection(
+  `probable-default-vpc-connection-${env}`,
   {
-    purpose: "VPC_PEERING",
-    addressType: "INTERNAL",
-    prefixLength: 16,
-    network: privateVpc.id,
-  },
-);
-
-const privateVpcConnection = new gcp.servicenetworking.Connection(
-  `probable-vpc-connection-${env}`,
-  {
-    network: privateVpc.id,
+    network: defaultVpc.then((vpc) => vpc.id),
     service: "servicenetworking.googleapis.com",
-    reservedPeeringRanges: [privateIpAddress.name],
+    reservedPeeringRanges: [defaultIpAddress.then((addr) => addr.name!)],
   },
 );
 
@@ -89,9 +54,8 @@ const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
       tier: "db-f1-micro",
       availabilityType: isProd ? "REGIONAL" : "ZONAL",
       ipConfiguration: {
-        ipv4Enabled: true,
-        // privateNetwork: defaultVpc.then((vpc) => vpc.id),
-        privateNetwork: privateVpc.id,
+        ipv4Enabled: false,
+        privateNetwork: defaultVpc.then((vpc) => vpc.id),
       },
       backupConfiguration: {
         enabled: isProd ? true : false,
@@ -100,7 +64,7 @@ const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
       diskType: isProd ? "PD_SSD" : "PD_HDD",
     },
   },
-  { dependsOn: [privateVpcConnection] },
+  { dependsOn: [privateDefaultVpcConnection] },
 );
 
 const databaseUser = new gcp.sql.User(`probable-db-user-${env}`, {
@@ -305,7 +269,7 @@ const migrationJob = new k8s.batch.v1.Job(
               name: "cloudsql-proxy",
               image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
               args: [
-                // "--private-ip",
+                "--private-ip",
                 "--port=5432",
                 pgDatabaseInstance.connectionName,
                 "--quitquitquit",
@@ -404,7 +368,7 @@ const seedJob = new k8s.batch.v1.CronJob(
                   name: "cloudsql-proxy",
                   image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
                   args: [
-                    // "--private-ip",
+                    "--private-ip",
                     "--port=5432",
                     pgDatabaseInstance.connectionName,
                     "--quitquitquit",
@@ -510,7 +474,7 @@ const playerJob = new k8s.batch.v1.CronJob(
                   name: "cloudsql-proxy",
                   image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
                   args: [
-                    // "--private-ip",
+                    "--private-ip",
                     "--port=5432",
                     pgDatabaseInstance.connectionName,
                     "--quitquitquit",
@@ -616,7 +580,7 @@ const notifyJob = new k8s.batch.v1.CronJob(
                   name: "cloudsql-proxy",
                   image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
                   args: [
-                    // "--private-ip",
+                    "--private-ip",
                     "--port=5432",
                     pgDatabaseInstance.connectionName,
                     "--quitquitquit",
@@ -750,7 +714,7 @@ const appDeployment = new k8s.apps.v1.Deployment(
               name: "cloudsql-proxy",
               image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
               args: [
-                // "--private-ip",
+                "--private-ip",
                 "--port=5432",
                 pgDatabaseInstance.connectionName,
               ],
