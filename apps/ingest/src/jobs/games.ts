@@ -1,4 +1,4 @@
-import { add, formatISO } from "date-fns";
+import { add, formatISO, sub } from "date-fns";
 
 import { client } from "../db/client.js";
 import { getGames } from "../services/base-api.js";
@@ -57,7 +57,7 @@ export async function ingestGames(ingestDate: Date) {
   }
 
   const dbGames = await client.game.inRange(
-    ingestDate,
+    sub(ingestDate, { hours: 6 }),
     add(ingestDate, { days: 5 }),
   );
   const apiGames = games.flat();
