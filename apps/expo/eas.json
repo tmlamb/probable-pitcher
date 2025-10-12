@@ -4,7 +4,7 @@
   },
   "build": {
     "base": {
-      "node": "22.20.0",
+      "node": "24.10.0",
       "pnpm": "10.18.2",
       "ios": {
         "resourceClass": "m-medium"
