@@ -1,5 +1,5 @@
 {
-  "extends": "@probable/tsconfig/internal-package.json",
+  "extends": "@probable/tsconfig/base.json",
   "compilerOptions": {
     "lib": ["ES2022", "dom", "dom.iterable"],
     "jsx": "preserve",

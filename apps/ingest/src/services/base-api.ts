@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 const team = z.object({
   ref: z.number(),
