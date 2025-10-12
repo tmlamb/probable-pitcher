@@ -82,6 +82,7 @@ jobs:
           CHANGED_INGEST: "true"
           CHANGED_NEXTJS: "true"
           CHANGED_DB: "true"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   update-production:
     name: Update Production App

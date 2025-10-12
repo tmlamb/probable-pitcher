@@ -271,6 +271,7 @@ jobs:
           CHANGED_INGEST: ${{ needs.changeset.outputs.changed-ingest }}
           CHANGED_NEXTJS: ${{ needs.changeset.outputs.changed-nextjs }}
           CHANGED_DB: ${{ needs.changeset.outputs.changed-db }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   update-preview:
     name: Update Preview Mobile App

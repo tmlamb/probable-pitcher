@@ -55,4 +55,18 @@ export async function ingestGames(ingestDate: Date) {
       awayPitcherId: awayPitcher?.id ?? null,
     });
   }
+
+  const dbGames = await client.game.inRange(
+    ingestDate,
+    add(ingestDate, { days: 5 }),
+  );
+  const apiGames = games.flat();
+
+  // Cleanup any games not returned by the API
+  for (const dbGame of dbGames) {
+    if (!apiGames.find((g) => g.ref === dbGame.ref)) {
+      console.info("Deleting game not returned by API: ", dbGame);
+      await client.game.deleteById(dbGame.id);
+    }
+  }
 }

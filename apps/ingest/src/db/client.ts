@@ -118,6 +118,9 @@ export const client = {
         })
         .returning();
     },
+    deleteById: (id: string) => {
+      return db.delete(game).where(eq(game.id, id));
+    },
   },
   subscription: {
     byPitcherId: (pitcherId: string) => {
