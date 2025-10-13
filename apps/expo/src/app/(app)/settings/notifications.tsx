@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AppState, Linking, Switch } from "react-native";
 import { PermissionStatus } from "expo-modules-core";
 import * as ExpoNotifications from "expo-notifications";

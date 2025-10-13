@@ -15,9 +15,9 @@
     "typescript": "catalog:"
   },
   "dependencies": {
-    "@pulumi/gcp": "7.23.0",
-    "@pulumi/kubernetes": "4.12.0",
-    "@pulumi/pulumi": "3.116.1",
+    "@pulumi/gcp": "9.3.0",
+    "@pulumi/kubernetes": "4.23.0",
+    "@pulumi/pulumi": "3.202.0",
     "jose": "5.3.0"
   },
   "prettier": "@probable/prettier-config"

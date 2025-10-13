@@ -15,7 +15,7 @@ export const env = createEnv({
    * This way you can ensure the app isn't built with invalid env vars.
    */
   server: {
-    DATABASE_URL: z.string().url(),
+    DATABASE_URL: z.url(),
   },
 
   /**
@@ -26,7 +26,8 @@ export const env = createEnv({
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
   },
   /**
-   * Destructure all variables from `process.env` to make sure they aren't tree-shaken away.
+   * Destructure all variables from `process.env` to make sure they aren't
+   * tree-shaken away.
    */
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,

@@ -33,6 +33,11 @@ export const auth = betterAuth({
     "http://localhost:3000",
     "https://appleid.apple.com",
   ],
+  onAPIError: {
+    onError(error, ctx) {
+      console.error("BETTER AUTH API ERROR", error, ctx);
+    },
+  },
   advanced: {
     cookiePrefix: "probable-pitcher",
   },
