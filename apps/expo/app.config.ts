@@ -21,9 +21,15 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     slug: "probable-pitchers",
     scheme: "probablepitcher",
     owner: EXPO_OWNER,
-    version: "2.0.1",
+    version: "2.1.0",
     orientation: "portrait",
     userInterfaceStyle: "automatic",
+    experiments: {
+      tsconfigPaths: true,
+      typedRoutes: true,
+      reactCanary: true,
+      reactCompiler: true,
+    },
     updates: {
       fallbackToCacheTimeout: 10000,
       url: "https://u.expo.dev/abd1f73f-1027-4617-a091-abea678a0784",
@@ -42,10 +48,12 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
       },
-      icon: {
-        light: "./assets/icon_light.png",
-        dark: "./assets/icon_dark.png",
-      },
+      icon: "./assets/icon_light.png",
+      // TODO: use new icon composer
+      // icon: {
+      //   light: "./assets/icon_light.png",
+      //   dark: "./assets/icon_dark.png",
+      // },
     },
     android: {
       package: `${ANDROID_PACKAGE_NAME}${
@@ -67,10 +75,6 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       apiBaseUrl: BETTER_AUTH_URL,
       sentryPublicDsn: SENTRY_PUBLIC_DSN,
       appEnv: APP_ENV,
-    },
-    experiments: {
-      tsconfigPaths: true,
-      typedRoutes: true,
     },
     plugins: [
       "expo-web-browser",

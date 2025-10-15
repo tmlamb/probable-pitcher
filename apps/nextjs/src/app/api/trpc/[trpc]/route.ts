@@ -2,7 +2,8 @@ import type { NextRequest } from "next/server";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 
 import { appRouter, createTRPCContext } from "@probable/api";
-import { auth } from "@probable/auth";
+
+import { auth } from "~/auth/server";
 
 /**
  * Configure basic CORS headers

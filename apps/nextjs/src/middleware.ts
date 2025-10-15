@@ -2,7 +2,7 @@ import type { NextRequest } from "next/server";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { auth } from "@probable/auth";
+import { auth } from "~/auth/server";
 
 // The middleware will only run on paths that match this pattern.
 export const config = {
