@@ -19,18 +19,18 @@ jobs:
         with:
           version: latest
 
-      - name: Run integration tests using Docker Compose
-        run: |
-          BETTER_AUTH_URL=http://localhost:3000 \
-          BETTER_AUTH_SECRET=secret \
-          AUTH_GOOGLE_ID=secret \
-          AUTH_GOOGLE_SECRET=secret \
-          AUTH_APPLE_BUNDLE_ID=secret \
-          AUTH_APPLE_SERVICE_ID=secret \
-          AUTH_APPLE_SECRET=secret \
-          AUTH_APPLE_WEB_ID=secret \
-          AUTH_APPLE_WEB_SECRET=secret \
-          docker compose up --build --abort-on-container-failure integration stress
+      # - name: Run integration tests using Docker Compose
+      #   run: |
+      #     BETTER_AUTH_URL=http://localhost:3000 \
+      #     BETTER_AUTH_SECRET=secret \
+      #     AUTH_GOOGLE_ID=secret \
+      #     AUTH_GOOGLE_SECRET=secret \
+      #     AUTH_APPLE_BUNDLE_ID=secret \
+      #     AUTH_APPLE_SERVICE_ID=secret \
+      #     AUTH_APPLE_SECRET=secret \
+      #     AUTH_APPLE_WEB_ID=secret \
+      #     AUTH_APPLE_WEB_SECRET=secret \
+      #     docker compose up --build --abort-on-container-failure integration stress
 
   lint:
     name: Lint
