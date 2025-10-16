@@ -107,7 +107,7 @@ export default function SearchInput({
             leftIcon={
               <>
                 <TextThemed variant="muted" style={tw`absolute ml-2`}>
-                  <AntDesign name="search1" size={18} />
+                  <AntDesign name="search" size={18} />
                 </TextThemed>
               </>
             }
