@@ -30,10 +30,10 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { Stack, useRouter } from "expo-router";
+import { TZDate } from "@date-fns/tz";
 import { AntDesign } from "@expo/vector-icons";
 import * as Sentry from "@sentry/react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { formatInTimeZone } from "date-fns-tz";
 
 import type { PitcherSubscription } from "@probable/ui";
 import { subscriptionSchedule } from "@probable/ui";
@@ -591,12 +591,15 @@ const PitcherCard = ({
               layout={LinearTransition}
             >
               <TextThemed variant="muted" style={tw`ml-1.5 text-sm`}>
-                {formatInTimeZone(
+                {new TZDate(
                   pitcher.nextGameDate,
                   Intl.DateTimeFormat().resolvedOptions().timeZone ||
                     "America/New_York",
-                  "h:mmaaaaa",
-                )}
+                ).toLocaleTimeString([], {
+                  hour: "numeric",
+                  minute: "2-digit",
+                  hour12: true,
+                })}
               </TextThemed>
             </Animated.View>
           )}
