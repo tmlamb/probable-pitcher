@@ -3,8 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 
-import { capitalizeFirstLetter } from "@probable/ui";
 import { toast } from "@probable/ui/toast";
+import { capitalizeFirstLetter } from "@probable/ui/utils";
 
 import { authClient } from "~/auth/client";
 import { useTRPC } from "~/trpc/react";

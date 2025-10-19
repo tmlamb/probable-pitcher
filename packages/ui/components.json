@@ -4,8 +4,6 @@
   "rsc": true,
   "tsx": true,
   "tailwind": {
-    "config": "../../tooling/tailwind/web.ts",
-    "css": "unused.css",
     "baseColor": "zinc",
     "cssVariables": true
   },
