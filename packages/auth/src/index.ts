@@ -6,16 +6,8 @@ import { apiKey } from "better-auth/plugins";
 
 import { db } from "@probable/db/client";
 
-export function initAuth({
-  baseURL,
-  secret,
-  googleClientId,
-  googleClientSecret,
-  appleClientId,
-  appleClientSecret,
-  appleBundleId,
-}: {
-  baseURL: string;
+export function initAuth(options: {
+  baseUrl: string;
   secret: string | undefined;
 
   googleClientId: string;
@@ -28,18 +20,18 @@ export function initAuth({
     database: drizzleAdapter(db, {
       provider: "pg",
     }),
-    baseURL,
-    secret,
+    baseURL: options.baseUrl,
+    secret: options.secret,
     plugins: [expo(), apiKey()],
     socialProviders: {
       google: {
-        clientId: googleClientId,
-        clientSecret: googleClientSecret,
+        clientId: options.googleClientId,
+        clientSecret: options.googleClientSecret,
       },
       apple: {
-        clientId: appleClientId,
-        clientSecret: appleClientSecret,
-        appBundleIdentifier: appleBundleId,
+        clientId: options.appleClientId,
+        clientSecret: options.appleClientSecret,
+        appBundleIdentifier: options.appleBundleId,
       },
     },
     trustedOrigins: [
