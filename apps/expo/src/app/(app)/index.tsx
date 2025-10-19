@@ -554,7 +554,7 @@ const PitcherCard = ({
             >
               <Animated.View style={buttonStyle}>
                 <TextThemed variant="alert">
-                  <AntDesign name="minus-circle" size={16} />
+                  <AntDesign name="minuscircle" size={16} />
                 </TextThemed>
               </Animated.View>
             </PressableThemed>
@@ -610,7 +610,7 @@ const PitcherCard = ({
           >
             <Animated.View style={buttonStyle}>
               <TextThemed variant="primary" style="pr-3">
-                <AntDesign name="plus-circle" size={16} />
+                <AntDesign name="pluscircle" size={16} />
               </TextThemed>
             </Animated.View>
           </PressableThemed>
