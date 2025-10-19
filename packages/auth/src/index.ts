@@ -28,7 +28,6 @@ export function initAuth(options: {
       apiKey(),
       oAuthProxy({
         productionURL: options.productionUrl,
-        currentURL: options.baseUrl,
       }),
     ],
     socialProviders: {
