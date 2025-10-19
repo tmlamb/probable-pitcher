@@ -3,7 +3,7 @@
 ########################
 
 # Install dependencies only when needed
-FROM node:24-alpine AS deps
+FROM node:22-alpine AS deps
 RUN apk update
 WORKDIR /probable-pitcher
 
