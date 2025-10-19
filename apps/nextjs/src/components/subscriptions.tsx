@@ -3,8 +3,9 @@
 import { useRef } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
-import type { PitcherSubscription } from "@probable/ui";
-import { cn, subscriptionSchedule } from "@probable/ui";
+import type { PitcherSubscription } from "@probable/ui/utils";
+import { cn } from "@probable/ui";
+import { subscriptionSchedule } from "@probable/ui/utils";
 
 import { useScrollShadow } from "~/hooks/use-scroll-shadow";
 import { useTRPC } from "~/trpc/react";
@@ -49,7 +50,7 @@ export function Subscriptions() {
               key={nextGameDay}
               className="flex flex-col items-stretch first:mt-3"
             >
-              <h2 className="text-muted-foreground text-left text-xs uppercase tracking-wider">
+              <h2 className="text-muted-foreground text-left text-xs tracking-wider uppercase">
                 {nextGameDay}
               </h2>
               <div className="flex flex-col">
@@ -96,7 +97,7 @@ export function SubscriptionsSkeleton(props: { pulse?: boolean }) {
       <div className="mt-3 flex flex-col items-stretch">
         <h2
           className={cn(
-            "bg-muted-foreground w-1/3 rounded text-left text-xs uppercase tracking-wider",
+            "bg-muted-foreground w-1/3 rounded text-left text-xs tracking-wider uppercase",
             pulse && "animate-pulse",
           )}
         >
@@ -117,7 +118,7 @@ export function SubscriptionsSkeleton(props: { pulse?: boolean }) {
       <div className="flex flex-col items-stretch">
         <h2
           className={cn(
-            "bg-muted-foreground w-1/3 rounded text-left text-xs uppercase tracking-wider",
+            "bg-muted-foreground w-1/3 rounded text-left text-xs tracking-wider uppercase",
             pulse && "animate-pulse",
           )}
         >

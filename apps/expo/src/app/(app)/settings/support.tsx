@@ -2,7 +2,7 @@ import { Linking, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AntDesign } from "@expo/vector-icons";
 
-import { faqs } from "@probable/ui";
+import { faqs } from "@probable/ui/utils";
 
 import Background from "~/components/Background";
 import PressableThemed from "~/components/PressableThemed";

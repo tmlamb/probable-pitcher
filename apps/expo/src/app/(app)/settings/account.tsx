@@ -2,7 +2,7 @@ import { ActivityIndicator, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { capitalizeFirstLetter } from "@probable/ui";
+import { capitalizeFirstLetter } from "@probable/ui/utils";
 
 import Background from "~/components/Background";
 import Card from "~/components/Card";
@@ -35,7 +35,7 @@ export default function Account() {
   return (
     <Background>
       <View style={tw`mt-8 flex-1`}>
-        <Card style={tw`rounded-b-none rounded-t-xl border-b-2`}>
+        <Card style={tw`rounded-t-xl rounded-b-none border-b-2`}>
           <TextThemed style={tw``}>Identity Providers</TextThemed>
           {providers ? (
             <TextThemed variant="muted" style={tw`capitalize`}>
@@ -55,7 +55,7 @@ export default function Account() {
           }}
           accessibilityLabel={"Logout"}
         >
-          <Card style={tw.style("rounded-b-xl rounded-t-none")}>
+          <Card style={tw.style("rounded-t-none rounded-b-xl")}>
             <TextThemed variant="muted">Logout</TextThemed>
             <TextThemed variant="muted" style={tw``}>
               <AntDesign name="logout" size={18} />

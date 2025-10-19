@@ -35,8 +35,8 @@ import { AntDesign } from "@expo/vector-icons";
 import * as Sentry from "@sentry/react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import type { PitcherSubscription } from "@probable/ui";
-import { subscriptionSchedule } from "@probable/ui";
+import type { PitcherSubscription } from "@probable/ui/utils";
+import { subscriptionSchedule } from "@probable/ui/utils";
 
 import { trpc } from "~/utils/api";
 import tw from "~/utils/tailwind";
@@ -570,7 +570,7 @@ const PitcherCard = ({
           >
             <TextThemed numberOfLines={2}>{pitcher.name}</TextThemed>
             <Animated.View
-              style={tw`-my-1.5 mx-3 items-center`}
+              style={tw`mx-3 -my-1.5 items-center`}
               layout={LinearTransition}
             >
               {pitcher.number && (
