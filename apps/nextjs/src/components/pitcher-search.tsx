@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { TZDate } from "@date-fns/tz";
 import { MinusCircledIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { formatInTimeZone } from "date-fns-tz";
 
 import * as ui from "@probable/ui";
 import { cn } from "@probable/ui";
@@ -263,15 +263,12 @@ const PitcherCard = ({
         {pitcher.nextGameDate && !unsubscribeHandler && (
           <div>
             <span className="text-muted-foreground ml-1.5 text-sm">
-              {new TZDate(
+              {formatInTimeZone(
                 pitcher.nextGameDate,
                 Intl.DateTimeFormat().resolvedOptions().timeZone ||
                   "America/New_York",
-              ).toLocaleTimeString([], {
-                hour: "numeric",
-                minute: "2-digit",
-                hour12: true,
-              })}
+                "h:mmaaaaa",
+              )}
             </span>
           </div>
         )}
