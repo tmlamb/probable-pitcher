@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "@better-auth/expo": "catalog:",
-    "@date-fns/tz": "1.4.0",
     "@probable/ui": "workspace:*",
     "@sentry/react-native": "7.2.0",
     "@tanstack/react-query": "catalog:",
@@ -27,6 +26,7 @@
     "@trpc/server": "catalog:",
     "@trpc/tanstack-react-query": "catalog:",
     "better-auth": "catalog:",
+    "date-fns-tz": "3.2.0",
     "expo": "54.0.13",
     "expo-apple-authentication": "8.0.7",
     "expo-asset": "~12.0.9",
