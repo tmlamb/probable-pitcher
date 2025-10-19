@@ -26,6 +26,7 @@ export function initAuth(options: {
     plugins: [
       oAuthProxy({
         productionURL: options.productionUrl,
+        currentURL: options.baseUrl,
       }),
       expo(),
       apiKey(),
@@ -34,13 +35,13 @@ export function initAuth(options: {
       google: {
         clientId: options.googleClientId,
         clientSecret: options.googleClientSecret,
-        // redirectURI: `${options.productionUrl}/api/auth/callback/google`,
+        redirectURI: `${options.productionUrl}/api/auth/callback/google`,
       },
       apple: {
         clientId: options.appleClientId,
         clientSecret: options.appleClientSecret,
         appBundleIdentifier: options.appleBundleId,
-        // redirectURI: `${options.productionUrl}/api/auth/callback/apple`,
+        redirectURI: `${options.productionUrl}/api/auth/callback/apple`,
       },
     },
     trustedOrigins: [
