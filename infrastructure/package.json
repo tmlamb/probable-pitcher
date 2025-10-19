@@ -12,7 +12,7 @@
   "devDependencies": {
     "@probable/prettier-config": "workspace:*",
     "@probable/tsconfig": "workspace:*",
-    "@types/node": "22.18.9",
+    "@types/node": "22.15.3",
     "typescript": "catalog:"
   },
   "dependencies": {

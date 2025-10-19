@@ -1,5 +1,5 @@
 {
-  "extends": "@probable/tsconfig/compiled-package.json",
+  "extends": "@probable/tsconfig/internal-package.json",
   "include": ["src"],
   "exclude": ["node_modules"]
 }

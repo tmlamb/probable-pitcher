@@ -1,5 +1,5 @@
 import type { TRPCRouterRecord } from "@trpc/server";
-import { z } from "zod/v4";
+import { z } from "zod";
 
 import { eq, ilike, or, sql } from "@probable/db";
 import { pitcher, team } from "@probable/db/schema";

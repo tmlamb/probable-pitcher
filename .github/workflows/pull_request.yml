@@ -42,7 +42,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10.18.2
+          version: 10.6.3
           run_install: false
 
       - name: Setup Node.js environment
@@ -70,7 +70,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10.18.2
+          version: 10.6.3
           run_install: false
 
       - name: Setup Node.js environment
@@ -95,7 +95,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10.18.2
+          version: 10.6.3
           run_install: false
 
       - name: Setup Node.js environment

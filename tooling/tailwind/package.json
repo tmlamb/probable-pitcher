@@ -1,5 +1,6 @@
 {
   "name": "@probable/tailwind-config",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
   "exports": {
@@ -14,7 +15,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "postcss": "8.5.6",
+    "postcss": "8.5.3",
     "tailwindcss": "catalog:",
     "tailwindcss-animate": "1.0.7"
   },
@@ -22,7 +23,7 @@
     "@probable/eslint-config": "workspace:*",
     "@probable/prettier-config": "workspace:*",
     "@probable/tsconfig": "workspace:*",
-    "@types/node": "22.18.9",
+    "@types/node": "22.15.3",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"
