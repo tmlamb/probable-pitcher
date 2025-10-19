@@ -64,8 +64,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         foregroundImage: "./assets/adaptive_icon_light.png",
         backgroundColor: "#789d7c",
       },
-      googleServicesFile:
-        process.env.GOOGLE_SERVICES_JSON ?? "./google-services.json",
+      googleServicesFile: "./google-services.json",
       edgeToEdgeEnabled: true,
       softwareKeyboardLayoutMode: "pan",
     },
