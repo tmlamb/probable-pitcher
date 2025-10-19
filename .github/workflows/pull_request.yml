@@ -19,18 +19,18 @@ jobs:
         with:
           version: latest
 
-      # - name: Run integration tests using Docker Compose
-      #   run: |
-      #     BETTER_AUTH_URL=http://localhost:3000 \
-      #     BETTER_AUTH_SECRET=secret \
-      #     AUTH_GOOGLE_ID=secret \
-      #     AUTH_GOOGLE_SECRET=secret \
-      #     AUTH_APPLE_BUNDLE_ID=secret \
-      #     AUTH_APPLE_SERVICE_ID=secret \
-      #     AUTH_APPLE_SECRET=secret \
-      #     AUTH_APPLE_WEB_ID=secret \
-      #     AUTH_APPLE_WEB_SECRET=secret \
-      #     docker compose up --build --abort-on-container-failure integration stress
+      - name: Run integration tests using Docker Compose
+        run: |
+          BETTER_AUTH_URL=http://localhost:3000 \
+          BETTER_AUTH_SECRET=secret \
+          AUTH_GOOGLE_ID=secret \
+          AUTH_GOOGLE_SECRET=secret \
+          AUTH_APPLE_BUNDLE_ID=secret \
+          AUTH_APPLE_SERVICE_ID=secret \
+          AUTH_APPLE_SECRET=secret \
+          AUTH_APPLE_WEB_ID=secret \
+          AUTH_APPLE_WEB_SECRET=secret \
+          docker compose up --build --abort-on-container-failure integration stress
 
   lint:
     name: Lint
@@ -42,13 +42,13 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10.18.3
+          version: 10.18.2
           run_install: false
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: "pnpm"
 
       - name: Install Dependencies
@@ -70,13 +70,13 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10.18.3
+          version: 10.18.2
           run_install: false
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: "pnpm"
 
       - name: Install Dependencies
@@ -95,13 +95,13 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10.18.3
+          version: 10.18.2
           run_install: false
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: "pnpm"
 
       - name: Authenticate to Google Cloud

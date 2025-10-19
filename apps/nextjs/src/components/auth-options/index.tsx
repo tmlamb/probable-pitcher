@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
+import { auth } from "@probable/auth";
 import { Button } from "@probable/ui/button";
 
-import { auth } from "~/auth/server";
 import AppleSignInBlack from "./apple_signin_black.png";
 import AppleSignInWhite from "./apple_signin_white.png";
 import GoogleSignInBlack from "./google_signin_black.png";

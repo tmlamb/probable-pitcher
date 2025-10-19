@@ -28,7 +28,7 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "tsc",
     "format": "prettier --check . --ignore-path ../../.gitignore",
-    "lint": "eslint --flag unstable_native_nodejs_ts_config",
+    "lint": "eslint",
     "push": "pnpm with-env drizzle-kit push",
     "generate": "pnpm with-env drizzle-kit generate",
     "migrate": "pnpm with-env drizzle-kit migrate",
@@ -37,18 +37,18 @@
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
-    "drizzle-orm": "0.44.6",
+    "drizzle-orm": "0.44.5",
     "drizzle-zod": "0.8.3",
-    "pg": "8.16.3",
+    "pg": "8.15.5",
     "zod": "catalog:"
   },
   "devDependencies": {
     "@probable/eslint-config": "workspace:*",
     "@probable/prettier-config": "workspace:*",
     "@probable/tsconfig": "workspace:*",
-    "@types/pg": "8.15.5",
+    "@types/pg": "8.6.1",
     "dotenv-cli": "10.0.0",
-    "drizzle-kit": "0.31.5",
+    "drizzle-kit": "0.31.4",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"

@@ -7,6 +7,7 @@ import type {
   ViewStyle,
 } from "react-native";
 import type { ClassInput } from "twrnc";
+import React from "react";
 import { TextInput } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 

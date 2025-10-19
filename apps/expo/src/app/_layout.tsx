@@ -33,17 +33,17 @@ export default function RootLayout() {
   const session = authClient.useSession();
 
   const [forceRenderKey, setForceRenderKey] = useState(0);
-  const [colorScheme, setColorScheme] = useState(Appearance.getColorScheme());
+  const colorScheme = useRef(Appearance.getColorScheme());
 
-  const handleColorSchemeChange = useCallback(() => {
+  const handleColorSchemeChange = () => {
     const systemColorScheme = Appearance.getColorScheme();
-    if (colorScheme !== systemColorScheme) {
+    if (colorScheme.current !== systemColorScheme) {
       setForceRenderKey((v: number) => v + 1);
-      setColorScheme(systemColorScheme);
+      colorScheme.current = systemColorScheme;
     }
-  }, [colorScheme]);
+  };
 
-  useFocusEffect(() => handleColorSchemeChange());
+  useFocusEffect(useCallback(() => handleColorSchemeChange(), []));
 
   const appState = useRef(AppState.currentState);
   useEffect(() => {
@@ -59,7 +59,7 @@ export default function RootLayout() {
     return () => {
       listener.remove();
     };
-  }, [handleColorSchemeChange]);
+  }, []);
 
   //TODO Fetch updates in background! https://expo.dev/changelog/sdk-53#improved-background-tasks
 
@@ -68,7 +68,7 @@ export default function RootLayout() {
       key={forceRenderKey}
       style={tw.style(
         !session.data
-          ? colorScheme === "dark"
+          ? colorScheme.current === "dark"
             ? "bg-[#567259]"
             : "bg-[#789d7c]"
           : null,

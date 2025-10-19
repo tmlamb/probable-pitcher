@@ -6,7 +6,7 @@ import { pitcher, team } from "@probable/db/schema";
 
 import { protectedProcedure } from "../trpc";
 
-// TODO Account for similarity in team name based search when ordering, so exact match isn't needed
+// TODO Account for similarity in team name based search when ordering
 export const pitcherRouter = {
   byFuzzyName: protectedProcedure
     .input(z.string())
@@ -30,6 +30,6 @@ export const pitcherRouter = {
           ),
         )
         .orderBy(sql`similarity(${pitcher.name}, ${name}) DESC`)
-        .limit(60),
+        .limit(30),
     ),
 } satisfies TRPCRouterRecord;

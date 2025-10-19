@@ -1,5 +1,6 @@
 import type { AccessibilityRole } from "react-native";
 import type { ClassInput } from "twrnc";
+import React from "react";
 import { Text } from "react-native";
 
 import tw from "~/utils/tailwind";

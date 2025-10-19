@@ -6,8 +6,8 @@ import { createTRPCOptionsProxy } from "@trpc/tanstack-react-query";
 
 import type { AppRouter } from "@probable/api";
 import { appRouter, createTRPCContext } from "@probable/api";
+import { auth } from "@probable/auth";
 
-import { auth } from "~/auth/server";
 import { createQueryClient } from "./query-client";
 
 /**
