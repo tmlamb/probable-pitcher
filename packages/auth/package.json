@@ -1,6 +1,5 @@
 {
   "name": "@probable/auth",
-  "version": "2.0.0",
   "private": true,
   "type": "module",
   "exports": {
@@ -17,9 +16,9 @@
   "dependencies": {
     "@better-auth/expo": "catalog:",
     "@probable/db": "workspace:*",
-    "@t3-oss/env-nextjs": "0.13.4",
+    "@t3-oss/env-nextjs": "0.13.8",
     "better-auth": "catalog:",
-    "next": "canary",
+    "next": "15.5.2",
     "react": "catalog:react19",
     "react-dom": "catalog:react19",
     "zod": "catalog:"

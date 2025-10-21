@@ -1,5 +1,5 @@
+import { TZDate } from "@date-fns/tz";
 import { add, endOfDay, format } from "date-fns";
-import { formatInTimeZone } from "date-fns-tz";
 
 import { client } from "../db/client.js";
 import { sendPushNotification } from "../services/push.js";
@@ -90,9 +90,7 @@ export async function sendNotifications(sendStartTime: Date) {
     console.debug(
       `Sending notifications for device: ${JSON.stringify(device)}`,
     );
-    const localHour = Number(
-      formatInTimeZone(sendStartTime.getTime(), device.timezone, "H"),
-    );
+    const localHour = new TZDate(sendStartTime, device.timezone).getHours();
     if (localHour < 9 || localHour >= 21) {
       console.debug(
         `User device ${device.id} skipped alert because ${localHour} is in quiet hours for the timezone '${device.timezone}'.`,
@@ -113,9 +111,8 @@ export async function sendNotifications(sendStartTime: Date) {
     const messages: string[] = [];
 
     for (const notification of device.notifications) {
-      const localizedGameTime = formatInTimeZone(
-        notification.game.date,
-        device.timezone,
+      const localizedGameTime = format(
+        new TZDate(notification.game.date, device.timezone),
         TIME_FORMAT,
       );
 
