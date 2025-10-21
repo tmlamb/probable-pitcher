@@ -11,7 +11,6 @@ const baseUrl = env.BETTER_AUTH_URL;
 
 export const auth = initAuth({
   baseUrl,
-  productionUrl: "https://dev.probablepitcher.com",
   secret: env.BETTER_AUTH_SECRET,
   googleClientId: env.AUTH_GOOGLE_ID,
   googleClientSecret: env.AUTH_GOOGLE_SECRET,
