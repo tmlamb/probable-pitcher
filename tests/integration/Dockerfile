@@ -2,7 +2,7 @@
 #        PRUNER        #
 ########################
 
-FROM node:22-alpine AS pruner
+FROM node:24-alpine AS pruner
 RUN apk update
 
 WORKDIR /probable-pitcher
@@ -17,7 +17,7 @@ RUN turbo prune @probable/integration --docker
 #        TESTER        #
 ########################
 
-FROM node:22-alpine AS tester
+FROM node:24-alpine AS tester
 RUN apk update
 
 RUN npm -g install pnpm@^10

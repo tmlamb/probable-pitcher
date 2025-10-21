@@ -1,6 +1,5 @@
 {
   "name": "@probable/infrastructure",
-  "version": "2.0.0",
   "description": "",
   "main": "src/index.ts",
   "keywords": [],
@@ -12,7 +11,7 @@
   "devDependencies": {
     "@probable/prettier-config": "workspace:*",
     "@probable/tsconfig": "workspace:*",
-    "@types/node": "22.18.9",
+    "@types/node": "24.7.2",
     "typescript": "catalog:"
   },
   "dependencies": {
