@@ -14,6 +14,7 @@
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
+    "@date-fns/tz": "1.4.0",
     "@probable/api": "workspace:*",
     "@probable/auth": "workspace:*",
     "@probable/db": "workspace:*",
@@ -24,8 +25,6 @@
     "@trpc/client": "catalog:",
     "@trpc/server": "catalog:",
     "@trpc/tanstack-react-query": "catalog:",
-    "date-fns-tz": "3.2.0",
-    "geist": "1.3.1",
     "next": "15.5.2",
     "react": "catalog:react19",
     "react-dom": "catalog:react19",
