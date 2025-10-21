@@ -2,7 +2,7 @@
 #        PRUNER        #
 ########################
 
-FROM node:22-alpine AS pruner
+FROM node:24-alpine AS pruner
 RUN apk update
 
 WORKDIR /probable-pitcher
@@ -17,7 +17,7 @@ RUN turbo prune @probable/nextjs --docker
 #        BUILDER       #
 ########################
 
-FROM node:22-alpine AS builder
+FROM node:24-alpine AS builder
 RUN apk update
 
 RUN npm -g install pnpm@^10
@@ -56,7 +56,7 @@ RUN pnpm build --filter @probable/nextjs
 ########################
 
 # Production image, copy all the files and run next
-FROM node:22-alpine AS runner
+FROM node:24-alpine AS runner
 
 RUN apk update
 RUN apk add curl
