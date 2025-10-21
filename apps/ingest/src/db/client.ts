@@ -1,32 +1,20 @@
-import type { z } from "zod/v4";
-
 import type {
-  Account,
   GameRef,
   Notification,
   PitcherRef,
   TeamRef,
-  User,
 } from "@probable/db/schema";
 import { and, between, eq, inArray, isNull } from "@probable/db";
 import { db } from "@probable/db/client";
 import {
-  account,
   device,
   game,
   notification,
   pitcher,
-  selectDeviceSchema,
-  selectSubscriptionSchema,
   subscription,
   team,
   user,
 } from "@probable/db/schema";
-
-export const migrateDeviceSchema = selectDeviceSchema.omit({ id: true });
-export const migrateSubscriptionSchema = selectSubscriptionSchema.omit({
-  id: true,
-});
 
 export const client = {
   team: {
@@ -135,29 +123,12 @@ export const client = {
         },
       });
     },
-    migrate: (
-      migratedSubscription: z.infer<typeof migrateSubscriptionSchema>,
-    ) => {
-      return db
-        .insert(subscription)
-        .values(migratedSubscription)
-        .onConflictDoNothing()
-        .returning();
-    },
   },
   user: {
     byId: (id: string) => {
       return db.query.user.findFirst({
         where: eq(user.id, id),
       });
-    },
-    migrate: (migratedUser: User) => {
-      return db.insert(user).values(migratedUser).returning();
-    },
-  },
-  account: {
-    migrate: (migratedAccount: Account) => {
-      return db.insert(account).values(migratedAccount).returning();
     },
   },
   notification: {
@@ -224,9 +195,6 @@ export const client = {
           },
         },
       });
-    },
-    migrate: (migratedDevice: z.infer<typeof migrateDeviceSchema>) => {
-      return db.insert(device).values(migratedDevice).returning();
     },
   },
 };
