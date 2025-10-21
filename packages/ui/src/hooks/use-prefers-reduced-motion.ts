@@ -3,16 +3,14 @@ import { useEffect, useState } from "react";
 const QUERY = "(prefers-reduced-motion: no-preference)";
 
 export function usePrefersReducedMotion() {
+  const mediaQueryList = window.matchMedia(QUERY);
   // Default to no-animations, since we don't know what the
   // user's preference is on the server.
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(true);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(
+    !mediaQueryList.matches,
+  );
 
   useEffect(() => {
-    const mediaQueryList = window.matchMedia(QUERY);
-
-    // Set the true initial value, now that we're on the client:
-    setPrefersReducedMotion(!window.matchMedia(QUERY).matches);
-
     // Register our event listener
     const listener = (event: MediaQueryListEvent) => {
       setPrefersReducedMotion(!event.matches);
@@ -23,7 +21,7 @@ export function usePrefersReducedMotion() {
     return () => {
       mediaQueryList.removeEventListener("change", listener);
     };
-  }, []);
+  }, [mediaQueryList]);
 
   return prefersReducedMotion;
 }

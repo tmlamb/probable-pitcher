@@ -10,7 +10,6 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 
 import type { Auth } from "@probable/auth";
-import { auth } from "@probable/auth";
 import { db } from "@probable/db/client";
 
 /**
@@ -30,7 +29,7 @@ export const createTRPCContext = async (opts: {
   auth: Auth;
 }) => {
   const authApi = opts.auth.api;
-  const session = await auth.api.getSession({
+  const session = await authApi.getSession({
     headers: opts.headers,
   });
   return {

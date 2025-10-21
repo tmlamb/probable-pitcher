@@ -31,7 +31,7 @@ const config = {
     "^[./]",
   ],
   importOrderParserPlugins: ["typescript", "jsx", "decorators-legacy"],
-  importOrderTypeScriptVersion: "4.4.0",
+  importOrderTypeScriptVersion: "5.0.0",
   overrides: [
     {
       files: "*.json.hbs",
@@ -40,7 +40,7 @@ const config = {
       },
     },
     {
-      files: "*.js.hbs",
+      files: "*.ts.hbs",
       options: {
         parser: "babel",
       },
