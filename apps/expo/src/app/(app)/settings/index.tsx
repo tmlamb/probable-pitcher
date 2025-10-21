@@ -42,7 +42,7 @@ export default function Settings() {
               <Card style={tw`rounded-t-none`}>
                 <TextThemed>Support</TextThemed>
                 <TextThemed variant="muted">
-                  <AntDesign name="customerservice" size={24} />
+                  <AntDesign name="customer-service" size={24} />
                 </TextThemed>
               </Card>
             </PressableThemed>

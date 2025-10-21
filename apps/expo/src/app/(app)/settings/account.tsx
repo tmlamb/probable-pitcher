@@ -79,7 +79,7 @@ export default function Account() {
               }}
             >
               <TextThemed variant="alert" style={tw`-my-3 px-4 py-3`}>
-                <AntDesign name="minuscircle" size={15} />
+                <AntDesign name="minus-circle" size={15} />
               </TextThemed>
             </PressableThemed>
           }
