@@ -2,7 +2,7 @@ import type { BetterAuthOptions } from "better-auth";
 import { expo } from "@better-auth/expo";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { apiKey, oAuthProxy } from "better-auth/plugins";
+import { apiKey } from "better-auth/plugins";
 
 import { db } from "@probable/db/client";
 
@@ -26,22 +26,22 @@ export function initAuth(options: {
     plugins: [
       expo(),
       apiKey(),
-      oAuthProxy({
-        productionURL: options.productionUrl,
-        currentURL: options.baseUrl,
-      }),
+      // oAuthProxy({
+      //   productionURL: options.productionUrl,
+      //   currentURL: options.baseUrl,
+      // }),
     ],
     socialProviders: {
       google: {
         clientId: options.googleClientId,
         clientSecret: options.googleClientSecret,
-        redirectURI: `${options.productionUrl}/api/auth/callback/google`,
+        // redirectURI: `${options.productionUrl}/api/auth/callback/google`,
       },
       apple: {
         clientId: options.appleClientId,
         clientSecret: options.appleClientSecret,
         appBundleIdentifier: options.appleBundleId,
-        redirectURI: `${options.productionUrl}/api/auth/callback/apple`,
+        // redirectURI: `${options.productionUrl}/api/auth/callback/apple`,
       },
     },
     trustedOrigins: [
