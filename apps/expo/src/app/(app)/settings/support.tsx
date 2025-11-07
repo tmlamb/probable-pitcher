@@ -4,26 +4,25 @@ import { AntDesign } from "@expo/vector-icons";
 
 import { faqs } from "@probable/ui/utils";
 
-import Background from "~/components/Background";
 import PressableThemed from "~/components/PressableThemed";
 import TextThemed from "~/components/TextThemed";
-import tw from "~/utils/tailwind";
+import ViewThemed from "~/components/ViewThemed";
 
 export default function Support() {
   const insets = useSafeAreaInsets();
   return (
-    <Background>
-      <ScrollView contentContainerStyle={tw`flex-1 justify-between px-3 pt-6`}>
-        <View style={tw``}>
-          <TextThemed style={tw`mb-4 text-lg`}>
+    <ViewThemed>
+      <ScrollView contentContainerClassName="flex-1 justify-between px-3 pt-6">
+        <View>
+          <TextThemed className="mb-4 text-lg">
             Frequently Asked Questions
           </TextThemed>
           {faqs.map((faq) => (
-            <View key={faq.question} style={tw`mb-4`}>
-              <TextThemed style={tw`text-base font-bold`}>
+            <View key={faq.question} className="mb-4">
+              <TextThemed className="text-base font-bold">
                 {faq.question}
               </TextThemed>
-              <TextThemed variant="muted" style={tw`text-sm`}>
+              <TextThemed variant="muted" className="text-sm">
                 {faq.answer}
               </TextThemed>
             </View>
@@ -37,19 +36,19 @@ export default function Support() {
           }
           accessibilityRole="link"
           accessibilityLabel="Open Application Feedback Page Link In Browser"
-          style={tw`mb-[${insets.bottom}] flex-row items-center justify-center self-center`}
+          className={`mb-[${insets.bottom}] flex-row items-center justify-center self-center`}
         >
-          <TextThemed variant="muted" style={tw`mr-2`}>
+          <TextThemed variant="muted" className="mr-2">
             <AntDesign name="github" size={16} />
           </TextThemed>
           <TextThemed
             variant="primary"
-            style={tw`self-center text-base font-semibold`}
+            className="self-center text-base font-semibold"
           >
             Send Feedback
           </TextThemed>
         </PressableThemed>
       </ScrollView>
-    </Background>
+    </ViewThemed>
   );
 }

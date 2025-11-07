@@ -5,7 +5,9 @@
   "tsx": true,
   "tailwind": {
     "baseColor": "zinc",
-    "cssVariables": true
+    "cssVariables": true,
+    "config": "",
+    "css": "../../tooling/tailwind/theme.css"
   },
   "aliases": {
     "utils": "@probable/ui",

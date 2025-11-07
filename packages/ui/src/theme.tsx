@@ -14,9 +14,8 @@ import {
 export { ThemeProvider } from "next-themes";
 
 export function ThemeToggle() {
-  const { setTheme, theme } = useTheme();
+  const { setTheme } = useTheme();
 
-  console.log("Current theme:", theme);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

@@ -5,13 +5,13 @@ import type {
   ViewStyle,
 } from "react-native";
 import type { AnimatedStyle } from "react-native-reanimated";
-import type { ClassInput } from "twrnc";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Keyboard,
   Platform,
   RefreshControl,
+  Text,
   View,
 } from "react-native";
 import Animated, {
@@ -34,21 +34,16 @@ import { TZDate } from "@date-fns/tz";
 import { AntDesign } from "@expo/vector-icons";
 import * as Sentry from "@sentry/react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { twMerge } from "tailwind-merge";
 
 import type { PitcherSubscription } from "@probable/ui/utils";
 import { subscriptionSchedule } from "@probable/ui/utils";
 
+import Card from "~/components/Card";
+import PressableThemed from "~/components/PressableThemed";
+import SearchInput from "~/components/SearchInput";
+import { AnimatedViewStyled } from "~/components/Styled";
 import { trpc } from "~/utils/api";
-import tw from "~/utils/tailwind";
-import Background, {
-  variantClasses as backgroundClasses,
-} from "../../components/Background";
-import Card from "../../components/Card";
-import PressableThemed from "../../components/PressableThemed";
-import SearchInput from "../../components/SearchInput";
-import TextThemed, {
-  variantClasses as textClasses,
-} from "../../components/TextThemed";
 
 export default function Home() {
   const queryClient = useQueryClient();
@@ -267,14 +262,14 @@ export default function Home() {
   const [isManualRefreshing, setIsManualRefreshing] = useState(false);
 
   return (
-    <Background>
+    <View className="bg-background flex-1">
       <Stack.Screen
         options={{
           headerLeft: () => (
-            <Animated.View
+            <AnimatedViewStyled
               entering={FadeInUp.duration(200)}
               exiting={FadeOutUp.duration(200)}
-              style={tw`-ml-3 h-12 w-12 flex-row items-center justify-start`}
+              className="-ml-3 h-12 w-12 flex-row items-center justify-start"
             >
               <PressableThemed
                 onPress={() => {
@@ -283,53 +278,55 @@ export default function Home() {
                   router.navigate("/settings");
                 }}
                 accessibilityLabel="Navigate to Application Settings"
-                style={tw`h-full w-full items-start justify-center pl-2`}
+                className="h-full w-full items-start justify-center pl-2"
               >
-                <TextThemed variant="primary" style={tw``}>
-                  <AntDesign name="setting" size={24} />
-                </TextThemed>
+                <Text className="text-primary">
+                  <AntDesign name="setting" size={22} />
+                </Text>
               </PressableThemed>
-            </Animated.View>
+            </AnimatedViewStyled>
           ),
           headerRight: () =>
             !isSearchActive && (
-              <Animated.View
+              <AnimatedViewStyled
                 entering={FadeInUp.duration(200)}
                 exiting={FadeOutUp.duration(200)}
-                style={tw`-mr-3 h-12 w-16 flex-row items-center justify-end`}
+                className="-mr-3 h-12 w-16 flex-row items-center justify-end"
               >
-                {!!subscriptionQuery.data?.length &&
-                  (isEditing ? (
-                    <PressableThemed
-                      onPress={() => {
-                        Keyboard.dismiss();
-                        setIsEditing((isEditing) => !isEditing);
-                      }}
-                      style={tw`h-full w-full items-end justify-center pr-2`}
-                      accessibilityLabel="Disable edit mode"
-                    >
-                      <TextThemed variant="primary" style={tw`font-bold`}>
-                        Done
-                      </TextThemed>
-                    </PressableThemed>
-                  ) : (
-                    <PressableThemed
-                      onPress={() => {
-                        Keyboard.dismiss();
-                        setIsEditing((isEditing) => !isEditing);
-                      }}
-                      style={tw`h-full w-full items-end justify-center pr-2`}
-                      accessibilityLabel="Enable edit mode"
-                    >
-                      <TextThemed variant="primary" style={tw``}>
-                        Edit
-                      </TextThemed>
-                    </PressableThemed>
-                  ))}
-              </Animated.View>
+                <PressableThemed
+                  onPress={() => {
+                    Keyboard.dismiss();
+                    setIsEditing((isEditing) => !isEditing);
+                  }}
+                  className="h-full w-full items-end justify-center pr-2"
+                  accessibilityLabel={
+                    isEditing ? "Disable edit mode" : "Enable edit mode"
+                  }
+                >
+                  {!!subscriptionQuery.data?.length &&
+                    (isEditing ? (
+                      <Animated.View
+                        entering={FadeInRight.duration(200)}
+                        exiting={FadeOutRight.duration(100)}
+                      >
+                        <Text className="text-primary text-xl font-bold">
+                          Done
+                        </Text>
+                      </Animated.View>
+                    ) : (
+                      <AnimatedViewStyled
+                        entering={FadeIn.duration(200)}
+                        exiting={FadeOut.duration(100)}
+                      >
+                        <Text className="text-primary text-xl">Edit</Text>
+                      </AnimatedViewStyled>
+                    ))}
+                </PressableThemed>
+              </AnimatedViewStyled>
             ),
         }}
       />
+      {/* TODO: use more performant list. Improve animations when subscriber list is huge */}
       <Animated.FlatList
         entering={FadeIn}
         layout={LinearTransition.duration(400)}
@@ -363,67 +360,64 @@ export default function Home() {
           }
           return String(item.id);
         }}
-        contentContainerStyle={tw.style(isSearchActive ? "pb-96" : "pb-48")}
+        className={isSearchActive ? "pb-96" : "pb-48"}
         data={subscribedAndAvailablePitchers}
         keyboardShouldPersistTaps="handled"
         stickyHeaderIndices={[0]}
         stickyHeaderHiddenOnScroll={!isSearchActive}
         onScroll={(event) => handleScroll(event)}
         ListHeaderComponent={
-          <Animated.View
+          <AnimatedViewStyled
             layout={LinearTransition.duration(200)}
-            style={tw.style(
-              "mb-3",
-              backgroundClasses.default,
+            className={twMerge(
+              "bg-background mb-3",
               isSearchActive || isScrolling
                 ? "bg-opacity-80"
                 : "bg-opacity-100",
             )}
           >
-            <Animated.View
+            <AnimatedViewStyled
               layout={LinearTransition}
-              style={tw.style(
+              className={twMerge(
                 isSearchActive && Platform.OS === "ios" ? "mt-2" : "mt-8",
                 "mb-3 pl-3",
               )}
             >
-              <TextThemed
-                style={tw.style(
+              <Text
+                className={twMerge(
+                  "text-foreground text-4xl font-bold tracking-tight",
                   isSearchActive && Platform.OS === "ios"
                     ? "text-transparent"
                     : null,
-                  "text-4xl font-bold tracking-tight",
                 )}
                 accessibilityRole="header"
               >
                 Probable Pitcher
-              </TextThemed>
-            </Animated.View>
-            <Animated.View layout={LinearTransition} style={tw.style(`mx-3`)}>
+              </Text>
+            </AnimatedViewStyled>
+            <AnimatedViewStyled layout={LinearTransition} className="mx-3">
               <SearchInput
                 onChange={(text) => setSearchFilter(text ?? "")}
                 onActive={() => setIsSearchActive(true)}
                 onCancel={() => setIsSearchActive(false)}
               />
-            </Animated.View>
-          </Animated.View>
+            </AnimatedViewStyled>
+          </AnimatedViewStyled>
         }
         renderItem={({ index, item }) => {
           if (typeof item === "string") {
             return (
-              <Animated.View
+              <AnimatedViewStyled
                 entering={FadeIn}
                 exiting={FadeOut}
-                style={tw.style("mx-6 mb-1")}
+                className="mx-6 mb-1"
               >
-                <TextThemed variant="muted" style={tw`text-sm uppercase`}>
-                  {item}
-                </TextThemed>
-              </Animated.View>
+                <Text className="text-muted text-base uppercase">{item}</Text>
+              </AnimatedViewStyled>
             );
           } else {
             return (
-              <Animated.View entering={FadeIn} exiting={FadeOut}>
+              <AnimatedViewStyled entering={FadeIn} exiting={FadeOut}>
                 <PitcherCard
                   subscribeHandler={() => {
                     if (item.id) {
@@ -444,85 +438,87 @@ export default function Home() {
                   }
                   pitcher={item}
                   disabled={pauseMutations}
-                  style={tw.style(
-                    "rounded-none border-b-2",
+                  className={twMerge(
+                    "border-border rounded-none border-b-2",
                     typeof subscribedAndAvailablePitchers[index - 1] ===
                       "string"
-                      ? "rounded-t-xl"
-                      : undefined,
+                      ? "rounded-t-lg"
+                      : null,
                     !subscribedAndAvailablePitchers[index + 1] ||
                       typeof subscribedAndAvailablePitchers[index + 1] ===
                         "string"
-                      ? "mb-3 rounded-b-xl border-b-0"
-                      : undefined,
+                      ? "mb-3 rounded-b-lg border-b-0"
+                      : null,
                   )}
                   buttonStyle={style}
                 />
-              </Animated.View>
+              </AnimatedViewStyled>
             );
           }
         }}
         ListEmptyComponent={
           <View>
             {showLoadingIndicator ? (
-              <Animated.View entering={FadeIn} exiting={FadeOut}>
-                <ActivityIndicator
-                  style={tw.style("mt-11", textClasses.primary)}
-                  size="large"
-                />
-              </Animated.View>
+              <AnimatedViewStyled entering={FadeIn} exiting={FadeOut}>
+                <ActivityIndicator className="t-11 text-primary" size="large" />
+              </AnimatedViewStyled>
             ) : subscriptionQuery.isError ? (
-              <Animated.View entering={FadeIn.delay(150)} exiting={FadeOut}>
-                <TextThemed
-                  variant="alert"
-                  style={tw`mx-6 mb-6 text-sm`}
+              <AnimatedViewStyled
+                entering={FadeIn.delay(150)}
+                exiting={FadeOut}
+              >
+                <Text
+                  className="text-destructive mx-6 mb-6 text-base"
                   accessibilityRole="alert"
                 >
                   An error occurred while loading your subscriptions, please try
                   again later
-                </TextThemed>
-              </Animated.View>
+                </Text>
+              </AnimatedViewStyled>
             ) : searchQuery.isSuccess ? (
-              <Animated.View entering={FadeIn.delay(150)} exiting={FadeOut}>
-                <TextThemed
-                  variant="muted"
-                  style={tw`mx-6 mb-6 text-sm`}
+              <AnimatedViewStyled
+                entering={FadeIn.delay(150)}
+                exiting={FadeOut}
+              >
+                <Text
+                  className="text-muted mx-6 mb-6 text-base"
                   accessibilityRole="summary"
                 >
                   No pitchers found, try changing your search
-                </TextThemed>
-              </Animated.View>
+                </Text>
+              </AnimatedViewStyled>
             ) : searchQuery.isError ? (
-              <Animated.View entering={FadeIn.delay(150)} exiting={FadeOut}>
-                <TextThemed
-                  variant="alert"
-                  style={tw`mx-6 mb-6 text-sm`}
+              <AnimatedViewStyled
+                entering={FadeIn.delay(150)}
+                exiting={FadeOut}
+              >
+                <Text
+                  className="text-destructive mx-6 mb-6 text-base"
                   accessibilityRole="alert"
                 >
                   An error occurred while performing your search, please try
                   again later
-                </TextThemed>
-              </Animated.View>
+                </Text>
+              </AnimatedViewStyled>
             ) : (
-              <Animated.View
+              <AnimatedViewStyled
                 layout={LinearTransition.duration(200)}
                 entering={FadeIn}
                 exiting={FadeOut}
               >
-                <TextThemed
-                  variant="muted"
-                  style={tw`mx-6 mb-6 text-sm`}
+                <Text
+                  className="text-muted mx-6 mb-6 text-sm"
                   accessibilityRole="summary"
                 >
                   Search for your favorite pitcher to add them to your list of
                   subscriptions
-                </TextThemed>
-              </Animated.View>
+                </Text>
+              </AnimatedViewStyled>
             )}
           </View>
         }
       />
-    </Background>
+    </View>
   );
 }
 
@@ -531,94 +527,93 @@ const PitcherCard = ({
   unsubscribeHandler,
   pitcher,
   disabled,
-  style,
+  className,
   buttonStyle,
 }: {
   subscribeHandler: () => void;
   unsubscribeHandler?: () => void;
   pitcher: PitcherSubscription;
   disabled?: boolean;
-  style?: ClassInput;
+  className?: string;
   buttonStyle: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>>;
 }) => {
   return (
-    <View>
-      <Card style={tw.style("relative", style)}>
-        {pitcher.subscription && unsubscribeHandler && (
-          <Animated.View entering={FadeInLeft} exiting={FadeOutLeft}>
-            <PressableThemed
-              style={tw`-my-3 -ml-3 p-3`}
-              onPress={unsubscribeHandler}
-              accessibilityLabel={""}
-              disabled={disabled}
-            >
-              <Animated.View style={buttonStyle}>
-                <TextThemed variant="alert">
-                  <AntDesign name="minus-circle" size={16} />
-                </TextThemed>
-              </Animated.View>
-            </PressableThemed>
-          </Animated.View>
-        )}
-        <Animated.View
-          style={tw`flex-1 flex-row items-center justify-between`}
-          layout={LinearTransition}
-        >
-          <Animated.View
-            style={tw`flex-row items-center`}
-            layout={LinearTransition}
-          >
-            <TextThemed numberOfLines={2}>{pitcher.name}</TextThemed>
-            <Animated.View
-              style={tw`mx-3 -my-1.5 items-center`}
-              layout={LinearTransition}
-            >
-              {pitcher.number && (
-                <TextThemed variant="muted" style={tw`-mb-0.5 text-xs`}>
-                  {pitcher.number}
-                </TextThemed>
-              )}
-              <TextThemed variant="muted" style={tw`text-xs`}>
-                {pitcher.team.abbreviation}
-              </TextThemed>
-            </Animated.View>
-          </Animated.View>
-          {pitcher.nextGameDate && !unsubscribeHandler && (
-            <Animated.View
-              style={tw``}
-              entering={FadeInRight}
-              exiting={FadeOutRight}
-              layout={LinearTransition}
-            >
-              <TextThemed variant="muted" style={tw`ml-1.5 text-sm`}>
-                {new TZDate(
-                  pitcher.nextGameDate,
-                  Intl.DateTimeFormat().resolvedOptions().timeZone ||
-                    "America/New_York",
-                ).toLocaleTimeString([], {
-                  hour: "numeric",
-                  minute: "2-digit",
-                  hour12: true,
-                })}
-              </TextThemed>
-            </Animated.View>
-          )}
-        </Animated.View>
-        {!pitcher.subscription && (
+    <Card className={twMerge("relative", className)}>
+      {pitcher.subscription && unsubscribeHandler && (
+        <AnimatedViewStyled entering={FadeInLeft} exiting={FadeOutLeft}>
           <PressableThemed
-            style={tw`absolute right-0 -m-3 items-end p-3`}
-            onPress={subscribeHandler}
+            className="-my-3 -ml-3 p-3"
+            onPress={unsubscribeHandler}
             accessibilityLabel={""}
             disabled={disabled}
           >
-            <Animated.View style={buttonStyle}>
-              <TextThemed variant="primary" style="pr-3">
-                <AntDesign name="plus-circle" size={16} />
-              </TextThemed>
-            </Animated.View>
+            <AnimatedViewStyled style={buttonStyle}>
+              <Text className="text-destructive">
+                <AntDesign name="minus-circle" size={16} />
+              </Text>
+            </AnimatedViewStyled>
           </PressableThemed>
+        </AnimatedViewStyled>
+      )}
+      <AnimatedViewStyled
+        className="flex-1 flex-row items-center justify-between"
+        layout={LinearTransition}
+      >
+        <AnimatedViewStyled
+          className="flex-row items-center"
+          layout={LinearTransition}
+        >
+          <Text className="text-foreground text-xl" numberOfLines={2}>
+            {pitcher.name}
+          </Text>
+          <AnimatedViewStyled
+            className="mx-3 -my-1.5 items-center"
+            layout={LinearTransition}
+          >
+            {pitcher.number && (
+              <Text className="text-muted -mb-0.5 text-sm leading-none">
+                {pitcher.number}
+              </Text>
+            )}
+            <Text className="text-muted text-sm leading-none tracking-tight">
+              {pitcher.team.abbreviation}
+            </Text>
+          </AnimatedViewStyled>
+        </AnimatedViewStyled>
+        {pitcher.nextGameDate && !unsubscribeHandler && (
+          <AnimatedViewStyled
+            entering={FadeInRight}
+            exiting={FadeOutRight}
+            layout={LinearTransition}
+          >
+            <Text className="text-muted ml-1.5 text-sm">
+              {new TZDate(
+                pitcher.nextGameDate,
+                Intl.DateTimeFormat().resolvedOptions().timeZone ||
+                  "America/New_York",
+              ).toLocaleTimeString([], {
+                hour: "numeric",
+                minute: "2-digit",
+                hour12: true,
+              })}
+            </Text>
+          </AnimatedViewStyled>
         )}
-      </Card>
-    </View>
+      </AnimatedViewStyled>
+      {!pitcher.subscription && (
+        <PressableThemed
+          className="absolute right-0 -m-3 items-end p-3"
+          onPress={subscribeHandler}
+          accessibilityLabel={""}
+          disabled={disabled}
+        >
+          <AnimatedViewStyled style={buttonStyle}>
+            <Text className="text-primary pr-3">
+              <AntDesign name="plus-circle" size={16} />
+            </Text>
+          </AnimatedViewStyled>
+        </PressableThemed>
+      )}
+    </Card>
   );
 };

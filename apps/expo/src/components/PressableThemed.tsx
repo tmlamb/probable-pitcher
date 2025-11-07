@@ -1,22 +1,20 @@
 import type { PressableProps, View } from "react-native";
-import type { ClassInput } from "twrnc";
 import { Pressable } from "react-native";
+import { twMerge } from "tailwind-merge";
 
-import tw from "~/utils/tailwind";
-
-export const variantClasses = {
+export const pressableVariant = {
   default: "",
 };
 
 type PressableThemedProps = {
-  style?: ClassInput;
-  variant?: keyof typeof variantClasses;
+  className?: string;
+  variant?: keyof typeof pressableVariant;
   ref?: React.Ref<View>;
 } & PressableProps;
 
 export default function PressableThemed({
   children,
-  style,
+  className,
   variant = "default",
   onPress,
   disabled,
@@ -32,13 +30,11 @@ export default function PressableThemed({
       ref={ref}
       disabled={disabled}
       onPress={onPress}
-      style={({ pressed }) =>
-        tw.style(
-          pressed ? "opacity-60" : "opacity-100",
-          style,
-          variantClasses[variant],
-        )
-      }
+      className={twMerge(
+        "opacity-100 transition-opacity active:opacity-60",
+        pressableVariant[variant],
+        className,
+      )}
       accessibilityRole={accessibilityRole ?? "button"}
       accessibilityHint={accessibilityHint}
       accessibilityLabel={accessibilityLabel}

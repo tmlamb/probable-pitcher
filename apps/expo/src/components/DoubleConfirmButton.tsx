@@ -1,20 +1,20 @@
-import type { ClassInput } from "twrnc";
 import React from "react";
 import { View } from "react-native";
 import Animated, { RollInRight, RollOutRight } from "react-native-reanimated";
+import { twMerge } from "tailwind-merge";
 
-import tw from "~/utils/tailwind";
 import PressableThemed from "./PressableThemed";
+import { AnimatedViewStyled } from "./Styled";
 
 interface Props {
-  style?: ClassInput;
+  className?: string;
   first: React.ReactNode;
   second: React.ReactNode;
   accessibilityLabel: string;
 }
 
 export default function DoubleConfirm({
-  style,
+  className,
   first,
   second,
   accessibilityLabel,
@@ -22,7 +22,7 @@ export default function DoubleConfirm({
   const [toggle, setToggle] = React.useState(false);
 
   return (
-    <View style={tw.style("relative", style)}>
+    <View className={twMerge("relative", className)}>
       <PressableThemed
         onPress={() => {
           setToggle(!toggle);
@@ -34,18 +34,16 @@ export default function DoubleConfirm({
         {first}
       </PressableThemed>
       {toggle && (
-        <Animated.View
+        <AnimatedViewStyled
           entering={RollInRight.springify().stiffness(50).damping(6).mass(0.3)}
           exiting={RollOutRight.springify().stiffness(50).damping(6).mass(0.3)}
-          style={[
-            tw.style("absolute right-2.5 h-full items-center justify-center"),
-          ]}
+          className="absolute right-2.5 h-full items-center justify-center"
           accessible
           accessibilityLabel={`${accessibilityLabel}`}
           accessibilityRole="button"
         >
           {second}
-        </Animated.View>
+        </AnimatedViewStyled>
       )}
     </View>
   );
