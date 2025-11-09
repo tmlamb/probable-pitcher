@@ -17,7 +17,7 @@ export default function Notifications() {
     useState<PermissionStatus | null>(null);
 
   const primaryColor = useNativeVariable("--primary") as string;
-  const mutedColor = useNativeVariable("--muted") as string;
+  const mutedColor = useNativeVariable("--muted-foreground") as string;
 
   const { mutate: toggleNotifications, isPending } = useMutation(
     trpc.device.toggleNotifications.mutationOptions({

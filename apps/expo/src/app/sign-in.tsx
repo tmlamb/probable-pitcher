@@ -61,7 +61,7 @@ export default function SignIn() {
       </View>
       <View className="flex gap-8">
         <Pressable
-          className="flex h-[45px] justify-center rounded-lg border-1 border-gray-200 bg-[#f2f2f2] py-2.5 shadow-2xs transition-opacity duration-200 active:opacity-40 dark:active:opacity-60"
+          className="flex h-[45px] justify-center rounded-lg border-1 border-gray-200 bg-[#f2f2f2] py-[.65rem] shadow-2xs transition-opacity duration-200 active:opacity-40 dark:active:opacity-60"
           onPress={async () => {
             try {
               await authClient.signIn.social({

@@ -8,7 +8,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { AntDesign } from "@expo/vector-icons";
+import Feather from "@expo/vector-icons/Feather";
 import { useNavigation } from "@react-navigation/native";
 
 import PressableThemed from "./PressableThemed";
@@ -93,7 +93,7 @@ export default function SearchInput({ onChange, onActive, onCancel }: Props) {
             leftIcon={
               <>
                 <Text className="text-muted absolute ml-2">
-                  <AntDesign name="search" size={18} />
+                  <Feather name="search" size={18} />
                 </Text>
               </>
             }

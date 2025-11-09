@@ -67,54 +67,26 @@
   opacity: 1;
 }
 
-/**/
-/* @tailwind base; */
-/* @tailwind components; */
-/* @tailwind utilities; */
-/**/
-/* @layer base { */
-/*   :root { */
-/*     --background: 126 6% 94%; */
-/*     --foreground: 126 6% 10%; */
-/*     --card: 126 6% 97%; */
-/*     --card-foreground: 126 6% 10%; */
-/*     --popover: 126 6% 97%; */
-/*     --popover-foreground: 126 6% 10%; */
-/*     --primary: 126.43 14% 39.22%; */
-/*     --primary-foreground: 126 15% 98%; */
-/*     --secondary: 126 6% 94%; */
-/*     --secondary-foreground: 126 6% 10%; */
-/*     --muted: 126 6% 100%; */
-/*     --muted-foreground: 126 6% 40%; */
-/*     --accent: 126 6% 88%; */
-/*     --accent-foreground: 126 6% 10%; */
-/*     --destructive: 0 72% 51%; */
-/*     --destructive-foreground: 0 0% 98%; */
-/*     --border: 126 6% 89%; */
-/*     --input: 126 6% 89%; */
-/*     --ring: 126.49 15.88% 54.31%; */
-/*     --radius: 0.5rem; */
-/*   } */
-/**/
-/*   .dark { */
-/*     --background: 126 6% 10%; */
-/*     --foreground: 126 6% 98%; */
-/*     --card: 126 6% 10%; */
-/*     --card-foreground: 126 6% 98%; */
-/*     --popover: 126 6% 10%; */
-/*     --popover-foreground: 126 6% 98%; */
-/*     --primary: 136.22 26.24% 72.35%; */
-/*     --primary-foreground: 126 15% 12%; */
-/*     --secondary: 126 6% 16%; */
-/*     --secondary-foreground: 126 6% 98%; */
-/*     --muted: 126 6% 16%; */
-/*     --muted-foreground: 240 5% 64.9%; */
-/*     --accent: 126 6% 16%; */
-/*     --accent-foreground: 126 6% 98%; */
-/*     --destructive: 0 63% 45%; */
-/*     --destructive-foreground: 0 0% 98%; */
-/*     --border: 126 6% 16%; */
-/*     --input: 126 6% 16%; */
-/*     --ring: 126.49 15.88% 54.31%; */
-/*   } */
-/* } */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted) transparent;
+}
+
+html::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Make the scrollbar track transparent */
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: var(--muted);
+  border-radius: 5px;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}

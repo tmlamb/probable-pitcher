@@ -13,9 +13,7 @@ export default function Account() {
         <Suspense
           fallback={
             <div className="flex w-full flex-col gap-4">
-              <p className="text-accent-foreground text-2xl font-bold">
-                Loading...
-              </p>
+              <p className="text-foreground text-2xl font-bold">Loading...</p>
             </div>
           }
         >

@@ -1,30 +1,24 @@
-import { Linking, ScrollView, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { AntDesign } from "@expo/vector-icons";
+import { Linking, ScrollView, Text, View } from "react-native";
+import Feather from "@expo/vector-icons/Feather";
 
 import { faqs } from "@probable/ui/utils";
 
 import PressableThemed from "~/components/PressableThemed";
-import TextThemed from "~/components/TextThemed";
-import ViewThemed from "~/components/ViewThemed";
 
 export default function Support() {
-  const insets = useSafeAreaInsets();
   return (
-    <ViewThemed>
+    <View className="bg-background flex-1">
       <ScrollView contentContainerClassName="flex-1 justify-between px-3 pt-6">
         <View>
-          <TextThemed className="mb-4 text-lg">
+          <Text className="text-foreground mb-4 text-2xl">
             Frequently Asked Questions
-          </TextThemed>
+          </Text>
           {faqs.map((faq) => (
             <View key={faq.question} className="mb-4">
-              <TextThemed className="text-base font-bold">
+              <Text className="text-foreground text-lg font-bold">
                 {faq.question}
-              </TextThemed>
-              <TextThemed variant="muted" className="text-sm">
-                {faq.answer}
-              </TextThemed>
+              </Text>
+              <Text className="text-muted text-base">{faq.answer}</Text>
             </View>
           ))}
         </View>
@@ -36,19 +30,16 @@ export default function Support() {
           }
           accessibilityRole="link"
           accessibilityLabel="Open Application Feedback Page Link In Browser"
-          className={`mb-[${insets.bottom}] flex-row items-center justify-center self-center`}
+          className={`mb-6 flex-row items-center justify-center self-center`}
         >
-          <TextThemed variant="muted" className="mr-2">
-            <AntDesign name="github" size={16} />
-          </TextThemed>
-          <TextThemed
-            variant="primary"
-            className="self-center text-base font-semibold"
-          >
+          <Text className="text-muted mr-2">
+            <Feather name="github" size={16} />
+          </Text>
+          <Text className="text-primary self-center text-lg font-semibold">
             Send Feedback
-          </TextThemed>
+          </Text>
         </PressableThemed>
       </ScrollView>
-    </ViewThemed>
+    </View>
   );
 }

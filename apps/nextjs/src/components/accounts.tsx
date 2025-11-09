@@ -33,10 +33,6 @@ export function Accounts() {
     trpc.account.byUserId.queryOptions(),
   );
 
-  if (accounts.length === 0) {
-    return <div className="flex w-full flex-col gap-4">Loading...</div>;
-  }
-
   const providers = accounts
     .map(({ providerId }) => capitalizeFirstLetter(providerId))
     .join(", ");

@@ -1,9 +1,4 @@
-import type {
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  StyleProp,
-  ViewStyle,
-} from "react-native";
+import type { StyleProp, ViewStyle } from "react-native";
 import type { AnimatedStyle } from "react-native-reanimated";
 import React, { useEffect, useState } from "react";
 import {
@@ -31,7 +26,8 @@ import Animated, {
 } from "react-native-reanimated";
 import { Stack, useRouter } from "expo-router";
 import { TZDate } from "@date-fns/tz";
-import { AntDesign } from "@expo/vector-icons";
+import Feather from "@expo/vector-icons/Feather";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import * as Sentry from "@sentry/react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { twMerge } from "tailwind-merge";
@@ -246,16 +242,6 @@ export default function Home() {
     if (isSearchActive) setIsEditing(false);
   }, [isSearchActive]);
 
-  const [isScrolling, setIsScrolling] = useState(false);
-
-  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    if (event.nativeEvent.contentOffset.y > 0) {
-      setIsScrolling(true);
-    } else {
-      setIsScrolling(false);
-    }
-  };
-
   const showLoadingIndicator =
     subscriptionQuery.isLoading || searchQuery.isFetching;
 
@@ -281,7 +267,7 @@ export default function Home() {
                 className="h-full w-full items-start justify-center pl-2"
               >
                 <Text className="text-primary">
-                  <AntDesign name="setting" size={22} />
+                  <Feather name="settings" size={22} />
                 </Text>
               </PressableThemed>
             </AnimatedViewStyled>
@@ -360,21 +346,15 @@ export default function Home() {
           }
           return String(item.id);
         }}
-        className={isSearchActive ? "pb-96" : "pb-48"}
+        contentContainerStyle={{ paddingBottom: isSearchActive ? 384 : 192 }}
         data={subscribedAndAvailablePitchers}
         keyboardShouldPersistTaps="handled"
         stickyHeaderIndices={[0]}
         stickyHeaderHiddenOnScroll={!isSearchActive}
-        onScroll={(event) => handleScroll(event)}
         ListHeaderComponent={
           <AnimatedViewStyled
             layout={LinearTransition.duration(200)}
-            className={twMerge(
-              "bg-background mb-3",
-              isSearchActive || isScrolling
-                ? "bg-opacity-80"
-                : "bg-opacity-100",
-            )}
+            className={twMerge("bg-background/80 mb-3")}
           >
             <AnimatedViewStyled
               layout={LinearTransition}
@@ -439,7 +419,7 @@ export default function Home() {
                   pitcher={item}
                   disabled={pauseMutations}
                   className={twMerge(
-                    "border-border rounded-none border-b-2",
+                    "border-border rounded-none border-b-1",
                     typeof subscribedAndAvailablePitchers[index - 1] ===
                       "string"
                       ? "rounded-t-lg"
@@ -542,14 +522,14 @@ const PitcherCard = ({
       {pitcher.subscription && unsubscribeHandler && (
         <AnimatedViewStyled entering={FadeInLeft} exiting={FadeOutLeft}>
           <PressableThemed
-            className="-my-3 -ml-3 p-3"
+            className="-my-3 -mr-1 -ml-3 p-3"
             onPress={unsubscribeHandler}
             accessibilityLabel={""}
             disabled={disabled}
           >
             <AnimatedViewStyled style={buttonStyle}>
               <Text className="text-destructive">
-                <AntDesign name="minus-circle" size={16} />
+                <FontAwesome name="minus-circle" size={18} />
               </Text>
             </AnimatedViewStyled>
           </PressableThemed>
@@ -609,7 +589,11 @@ const PitcherCard = ({
         >
           <AnimatedViewStyled style={buttonStyle}>
             <Text className="text-primary pr-3">
-              <AntDesign name="plus-circle" size={16} />
+              <FontAwesome
+                className="text-primary"
+                name="plus-circle"
+                size={18}
+              />
             </Text>
           </AnimatedViewStyled>
         </PressableThemed>

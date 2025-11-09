@@ -28,14 +28,10 @@ function QRCodeLink() {
     <div className="mx-auto">
       <div
         className={cn(
-          "border-border flex flex-col items-center justify-center gap-6 rounded-lg border bg-white p-4 text-black shadow-lg",
+          "border-border text-foreground flex flex-col items-center justify-center gap-6 rounded-lg border bg-white py-8 shadow-lg",
           "max-w-[min(90vw,350px)]",
         )}
       >
-        <p className="text-center text-sm">
-          Scan the QR code with your mobile device to download the app, or use
-          one of the buttons to visit your phone's app store.
-        </p>
         <QRCode
           value={`https://${host || "probablepitcher.com"}${downloadUrl}`}
           size={160}
@@ -112,7 +108,7 @@ export default function DownloadDialog() {
           buttonVariants({
             variant: "primary",
             size: "lg",
-            className: "mx-1.5 p-3 text-lg",
+            className: "mx-1.5 cursor-pointer p-3 text-lg",
           }),
         )}
       >
@@ -122,8 +118,8 @@ export default function DownloadDialog() {
         <DialogHeader>
           <DialogTitle>Get Probable Pitcher</DialogTitle>
           <DialogDescription>
-            The best way to manage your subscriptions and stay up to date with
-            your favorite pitchers is with our Mobile App.
+            Scan the QR code with your mobile device to download the app, or use
+            one of the buttons to visit your phone's app store.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

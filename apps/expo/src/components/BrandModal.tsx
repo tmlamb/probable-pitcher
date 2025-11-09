@@ -25,13 +25,13 @@ export default function BrandModal({ children }: BrandModalProps) {
         colors={
           // TODO: use colors from theme
           colorScheme === "dark"
-            ? ["#965e32", "#165626", "#789d7c"]
-            : ["#c3875b", "#789d7c", "#a6cbb0"]
+            ? ["#b16a00", "#41922d", "#a1d995"]
+            : ["#f1bd7e", "#a1d995", "#c5ffb8"]
         }
         locations={[0, 0.4, 1]}
         className="flex-1"
       >
-        <StatusBar style="light" />
+        <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
         <View className="flex flex-1 justify-end">
           <View className="flex h-1/3 items-center justify-center">
             <View style={{ paddingTop: insets.top, height: "100%" }}>

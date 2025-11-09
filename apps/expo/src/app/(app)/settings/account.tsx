@@ -1,5 +1,6 @@
 import { ActivityIndicator, Text, View } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import Feather from "@expo/vector-icons/Feather";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { capitalizeFirstLetter } from "@probable/ui/utils";
@@ -31,8 +32,8 @@ export default function Account() {
 
   return (
     <View className="bg-background flex-1 pt-8">
-      <Card className="rounded-b-none border-b-2">
-        <Text className="text-foregound text-xl">Identity Providers</Text>
+      <Card className="border-border rounded-b-none border-b-1">
+        <Text className="text-foreground text-xl">Identity Providers</Text>
         {providers ? (
           <Text className="text-muted text-xl">{providers}</Text>
         ) : (
@@ -51,8 +52,8 @@ export default function Account() {
       >
         <Card className="rounded-t-none">
           <Text className="text-muted text-xl">Logout</Text>
-          <Text className="text-muted text-xl">
-            <AntDesign name="logout" size={18} />
+          <Text className="text-muted">
+            <Feather name="log-out" size={22} />
           </Text>
         </Card>
       </PressableThemed>
@@ -73,7 +74,7 @@ export default function Account() {
             }}
           >
             <Text className="text-destructive -my-3 px-4 py-3">
-              <AntDesign name="minus-circle" size={15} />
+              <FontAwesome name="minus-circle" size={18} />
             </Text>
           </PressableThemed>
         }

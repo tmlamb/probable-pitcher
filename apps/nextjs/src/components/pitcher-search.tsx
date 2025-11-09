@@ -179,19 +179,19 @@ export default function PitcherSearch() {
     subscriptionQuery.isFetching;
 
   return (
-    <div className="bg-accent z-10 m-3 flex flex-col gap-3">
+    <div className="z-10 m-3 flex flex-col gap-3">
       <Input
-        className="bg-background border-primary"
+        className="bg-input placeholder:text-muted border-border"
         placeholder="Search for a pitcher"
         onChange={(e) => setSearchFilter(e.target.value)}
       />
-      <div className="max-w-96">
+      <div className="max-w-96 overflow-y-auto">
         {subscribedAndAvailablePitchers.map((pitcher) => {
           if (typeof pitcher === "string") {
             return (
               <h2
                 key={pitcher}
-                className="text-muted-foreground mt-3 text-left text-xs tracking-wider uppercase"
+                className="text-muted mt-3 text-left text-xs tracking-wider uppercase"
               >
                 {pitcher}
               </h2>
@@ -251,9 +251,9 @@ const PitcherCard = ({
         </Button>
       )}
       <div className="flex-1 flex-row items-center justify-between">
-        <div className={cn("border-muted flex flex-row items-center gap-1.5")}>
+        <div className={cn("border-border flex flex-row items-center gap-1.5")}>
           <p className="p-[.425rem]">{pitcher.name}</p>
-          <div className="text-muted-foreground flex flex-col items-center text-xs">
+          <div className="text-muted flex flex-col items-center text-xs">
             <p className="">{pitcher.number}</p>
             <p className="">{pitcher.team.abbreviation}</p>
           </div>
@@ -261,7 +261,7 @@ const PitcherCard = ({
 
         {pitcher.nextGameDate && !unsubscribeHandler && (
           <div>
-            <span className="text-muted-foreground ml-1.5 text-sm">
+            <span className="text-muted ml-1.5 text-sm">
               {new TZDate(
                 pitcher.nextGameDate,
                 Intl.DateTimeFormat().resolvedOptions().timeZone ||

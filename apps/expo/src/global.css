@@ -5,3 +5,10 @@
 @import "nativewind/theme";
 
 @import "@probable/tailwind-config/theme";
+
+/* this is the tailwind.config.js migrated config for:
+*
+*   corePlugins: {
+*     backgroundOpacity: true,
+*   },
+*/
