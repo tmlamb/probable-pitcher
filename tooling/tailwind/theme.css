@@ -41,11 +41,11 @@
 
   @variant dark {
     --background: oklch(0.22 0.003 146);
-    --foreground: oklch(0.99 0.1 148);
+    --foreground: oklch(0.99 0.0174 141.88);
     --card: oklch(0.322 0.0044 146);
-    --card-foreground: oklch(0.99 0.1 148);
+    --card-foreground: oklch(0.99 0.0174 141.88);
     --popover: oklch(0.2 0.05 148);
-    --popover-foreground: oklch(0.99 0.1 148);
+    --popover-foreground: oklch(0.99 0.0174 141.88);
     --primary: oklch(0.83 0.11 140);
     --primary-foreground: oklch(0.1 0.05 148);
     --secondary: oklch(0.83 0.1 71);

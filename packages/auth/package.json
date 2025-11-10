@@ -16,18 +16,14 @@
   "dependencies": {
     "@better-auth/expo": "catalog:",
     "@probable/db": "workspace:*",
-    "@t3-oss/env-nextjs": "0.13.8",
+    "@t3-oss/env-core": "0.13.8",
     "better-auth": "catalog:",
-    "next": "15.5.4",
-    "react": "catalog:react19",
-    "react-dom": "catalog:react19",
     "zod": "catalog:"
   },
   "devDependencies": {
     "@probable/eslint-config": "workspace:*",
     "@probable/prettier-config": "workspace:*",
     "@probable/tsconfig": "workspace:*",
-    "@types/react": "catalog:react19",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"

@@ -2,10 +2,10 @@
   "name": "probable-pitcher",
   "private": true,
   "engines": {
-    "node": ">=22.20.0",
-    "pnpm": ">=10.18.3"
+    "node": "^22.21.1",
+    "pnpm": "^10.20.0"
   },
-  "packageManager": "pnpm@10.18.3",
+  "packageManager": "pnpm@10.20.0",
   "scripts": {
     "build": "turbo run build",
     "clean": "git clean -xdf node_modules out",

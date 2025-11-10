@@ -47,4 +47,4 @@ export const trpc = createTRPCOptionsProxy<AppRouter>({
   queryClient,
 });
 
-export { type RouterInputs, type RouterOutputs } from "@probable/api";
+export type { RouterInputs, RouterOutputs } from "@probable/api";

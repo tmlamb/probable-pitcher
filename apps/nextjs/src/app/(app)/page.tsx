@@ -18,7 +18,7 @@ export default function HomePage() {
     <HydrateClient>
       <div className="flex flex-col items-stretch justify-between gap-2 overflow-hidden text-center sm:min-w-80">
         <div className="mx-1.5 flex h-full flex-col">
-          <h1 className="text-accent border-b-border border-b pb-3 text-2xl font-extrabold tracking-normal">
+          <h1 className="text-primary border-b-border border-b pb-3 text-2xl font-extrabold tracking-normal">
             <Link href="/" className="">
               Probable Pitcher
             </Link>

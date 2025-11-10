@@ -22,7 +22,7 @@
     "@probable/eslint-config": "workspace:*",
     "@probable/prettier-config": "workspace:*",
     "@probable/tsconfig": "workspace:*",
-    "@types/node": "22.18.10",
+    "@types/node": "catalog:",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"
