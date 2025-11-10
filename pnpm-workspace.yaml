@@ -2,8 +2,6 @@ packages:
   - apps/*
   - packages/*
   - tooling/*
-  - tests/*
-  - infrastructure
 
 catalog:
   "@better-auth/cli": 1.3.18
