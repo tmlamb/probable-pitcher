@@ -1,9 +1,10 @@
-import {expo} from "@better-auth/expo";
-import {db} from "@probable/db/client";
-import type {BetterAuthOptions} from "better-auth";
-import {betterAuth} from "better-auth";
-import {drizzleAdapter} from "better-auth/adapters/drizzle";
-import {apiKey} from "better-auth/plugins";
+import type { BetterAuthOptions } from "better-auth";
+import { expo } from "@better-auth/expo";
+import { betterAuth } from "better-auth";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { apiKey } from "better-auth/plugins";
+
+import { db } from "@probable/db/client";
 
 export function initAuth({
   baseURL,
@@ -14,50 +15,52 @@ export function initAuth({
   appleClientSecret,
   appleBundleId,
 }: {
-  baseURL: string; secret : string | undefined;
+  baseURL: string;
+  secret: string | undefined;
 
-  googleClientId : string;
-  googleClientSecret : string;
-  appleClientId : string;
-  appleClientSecret : string;
-  appleBundleId : string;
+  googleClientId: string;
+  googleClientSecret: string;
+  appleClientId: string;
+  appleClientSecret: string;
+  appleBundleId: string;
 }) {
   const config = {
-    database : drizzleAdapter(db, {
-      provider : "pg",
+    database: drizzleAdapter(db, {
+      provider: "pg",
     }),
     baseURL,
     secret,
-    plugins : [ expo(), apiKey() ],
-    socialProviders : {
-      google : {
-        clientId : googleClientId,
-        clientSecret : googleClientSecret,
+    plugins: [expo(), apiKey()],
+    socialProviders: {
+      google: {
+        clientId: googleClientId,
+        clientSecret: googleClientSecret,
       },
-      apple : {
-        clientId : appleClientId,
-        clientSecret : appleClientSecret,
-        appBundleIdentifier : appleBundleId,
+      apple: {
+        clientId: appleClientId,
+        clientSecret: appleClientSecret,
+        appBundleIdentifier: appleBundleId,
       },
     },
-    trustedOrigins : [
+    trustedOrigins: [
       "probablepitcher://",
       "https://dev.probablepitcher.com",
       "https://probablepitcher.com",
       "http://localhost:3000",
       "https://appleid.apple.com",
     ],
-    onAPIError : {
-      onError(error,
-              ctx) { console.error("BETTER AUTH API ERROR", error, ctx); },
+    onAPIError: {
+      onError(error, ctx) {
+        console.error("BETTER AUTH API ERROR", error, ctx);
+      },
     },
-    advanced : {
-      cookiePrefix : "probable-pitcher",
+    advanced: {
+      cookiePrefix: "probable-pitcher",
     },
-    account : {
-      accountLinking : {
-        enabled : true,
-        trustedProviders : [ "google", "apple" ],
+    account: {
+      accountLinking: {
+        enabled: true,
+        trustedProviders: ["google", "apple"],
       },
     },
   } satisfies BetterAuthOptions;
