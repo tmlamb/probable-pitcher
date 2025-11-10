@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import Animated, { RollInRight, RollOutRight } from "react-native-reanimated";
+import { RollInRight, RollOutRight } from "react-native-reanimated";
 import { twMerge } from "tailwind-merge";
 
 import PressableThemed from "./PressableThemed";
