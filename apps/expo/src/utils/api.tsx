@@ -16,9 +16,6 @@ export const queryClient = new QueryClient({
   },
 });
 
-/**
- * A set of typesafe hooks for consuming your API.
- */
 export const trpc = createTRPCOptionsProxy<AppRouter>({
   client: createTRPCClient({
     links: [
@@ -47,4 +44,4 @@ export const trpc = createTRPCOptionsProxy<AppRouter>({
   queryClient,
 });
 
-export { type RouterInputs, type RouterOutputs } from "@probable/api";
+export type { RouterInputs, RouterOutputs } from "@probable/api";

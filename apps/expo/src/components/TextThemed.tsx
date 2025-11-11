@@ -1,23 +1,20 @@
 import type { AccessibilityRole } from "react-native";
-import type { ClassInput } from "twrnc";
-import React from "react";
 import { Text } from "react-native";
+import { twMerge } from "tailwind-merge";
 
-import tw from "~/utils/tailwind";
-
-export const variantClasses = {
-  default: "text-slate-950 dark:text-slate-50",
-  primary: "text-sky-600 dark:text-sky-300",
-  secondary: "text-white",
-  accent: "text-green-700 dark:text-green-300",
-  muted: "text-slate-500 dark:text-slate-400",
-  alert: "text-red-600 dark:text-red-400",
+export const textVariants = {
+  default: "text-foreground",
+  primary: "text-primary",
+  secondary: "text-secondary-foreground",
+  accent: "text-accent",
+  muted: "text-muted-foreground",
+  alert: "text-destructive",
 };
 
 interface TextThemedProps {
   children: React.ReactNode;
-  style?: ClassInput;
-  variant?: keyof typeof variantClasses;
+  className?: string;
+  variant?: keyof typeof textVariants;
   numberOfLines?: number;
   accessibilityRole?: AccessibilityRole;
   accessible?: boolean;
@@ -25,7 +22,7 @@ interface TextThemedProps {
 
 export default function TextThemed({
   children,
-  style,
+  className,
   variant = "default",
   numberOfLines,
   accessibilityRole,
@@ -35,7 +32,7 @@ export default function TextThemed({
     <Text
       maxFontSizeMultiplier={1}
       numberOfLines={numberOfLines}
-      style={tw.style("text-lg", style, variantClasses[variant])}
+      className={twMerge("text-lg", textVariants[variant], className)}
       accessibilityRole={accessibilityRole}
       accessible={accessible}
     >

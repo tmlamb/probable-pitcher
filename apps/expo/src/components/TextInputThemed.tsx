@@ -1,33 +1,26 @@
 import type {
-  ColorValue,
   KeyboardTypeOptions,
-  NativeSyntheticEvent,
-  TextInputChangeEventData,
-  TextInputKeyPressEventData,
-  ViewStyle,
+  TextInputChangeEvent,
+  TextInputKeyPressEvent,
 } from "react-native";
-import type { ClassInput } from "twrnc";
-import React from "react";
-import { TextInput } from "react-native";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import { Text, TextInput, View } from "react-native";
+import { FadeIn, FadeOut } from "react-native-reanimated";
+import { twMerge } from "tailwind-merge";
 
-import tw from "~/utils/tailwind";
-import Card from "./Card";
-import TextThemed, { variantClasses } from "./TextThemed";
+import { AnimatedViewStyled } from "./Styled";
 
 interface TextInputThemedProps {
   onChangeText?: (text: string) => void;
-  onChange?: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void;
+  onChange?: (e: TextInputChangeEvent) => void;
   onBlur?: (e: unknown) => void;
   onFocus?: (e: unknown) => void;
   value?: string;
-  style?: ViewStyle;
-  textInputStyle?: ClassInput;
-  labelStyle?: ClassInput;
+  className?: string;
+  textInputClassName?: string;
+  labelClassName?: string;
   label?: string;
   leftIcon?: React.ReactNode;
   placeholder?: string;
-  placeholderTextColor?: ColorValue;
   maxLength?: number;
   selectTextOnFocus?: boolean;
   clearTextOnFocus?: boolean;
@@ -35,7 +28,7 @@ interface TextInputThemedProps {
   numeric?: boolean;
   editable?: boolean;
   selection?: { start: number; end?: number };
-  onKeyPress?: (e: NativeSyntheticEvent<TextInputKeyPressEventData>) => void;
+  onKeyPress?: (e: TextInputKeyPressEvent) => void;
   accessibilityLabel?: string;
   testID?: string;
 }
@@ -57,13 +50,12 @@ export default function TextInputThemed({
   onBlur,
   onFocus,
   value,
-  style,
-  textInputStyle,
-  labelStyle,
+  className,
+  textInputClassName,
+  labelClassName,
   label,
   leftIcon,
   placeholder,
-  placeholderTextColor,
   maxLength,
   selectTextOnFocus = false,
   clearTextOnFocus = false,
@@ -81,30 +73,34 @@ export default function TextInputThemed({
   };
 
   return (
-    <Card style={tw.style("relative mx-0 p-0", style)}>
-      <Card style={tw.style("relative mx-0 w-full flex-row p-0")}>
+    <View
+      className={twMerge(
+        "bg-input relative flex-row items-center justify-between rounded-lg",
+        className,
+      )}
+    >
+      <View className="relative w-full flex-row items-center justify-between">
         {leftIcon ??
           (label && (
-            <Animated.View
+            <AnimatedViewStyled
               entering={FadeIn}
               exiting={FadeOut}
-              style={tw`absolute`}
+              className="absolute"
             >
               <>
                 {label && (
-                  <TextThemed
-                    variant="muted"
-                    style={tw.style(
-                      "pl-0 text-lg leading-tight tracking-tight",
-                      labelStyle,
+                  <Text
+                    className={twMerge(
+                      "text-muted pl-0 leading-tight tracking-tight",
+                      labelClassName,
                     )}
                     accessible={false}
                   >
                     {label}
-                  </TextThemed>
+                  </Text>
                 )}
               </>
-            </Animated.View>
+            </AnimatedViewStyled>
           ))}
         <TextInput
           onChangeText={handleChange}
@@ -112,15 +108,11 @@ export default function TextInputThemed({
           onFocus={onFocus}
           onBlur={onBlur}
           value={value ? nbspReplace(value) : value}
-          style={tw.style(
-            variantClasses.default,
-            "z-20 w-full py-1.5 pl-8 pr-0 text-lg leading-tight tracking-normal",
-            textInputStyle,
+          className={twMerge(
+            "text-foreground placeholder:text-muted z-20 w-full py-1.5 pr-0 pl-8 text-xl leading-tight tracking-normal",
+            textInputClassName,
           )}
           placeholder={placeholder}
-          placeholderTextColor={
-            placeholderTextColor ?? tw.color(variantClasses.muted)
-          }
           maxLength={maxLength}
           keyboardType={keyboardType}
           textAlign={"left"}
@@ -138,7 +130,7 @@ export default function TextInputThemed({
           testID={testID}
           allowFontScaling={false}
         />
-      </Card>
-    </Card>
+      </View>
+    </View>
   );
 }

@@ -1,6 +1,5 @@
 {
   "name": "@probable/api",
-  "version": "2.0.0",
   "private": true,
   "type": "module",
   "exports": {
@@ -15,15 +14,14 @@
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "tsc",
     "format": "prettier --check . --ignore-path ../../.gitignore",
-    "lint": "eslint",
+    "lint": "eslint --flag unstable_native_nodejs_ts_config",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
     "@probable/auth": "workspace:*",
     "@probable/db": "workspace:*",
-    "@probable/validators": "workspace:*",
     "@trpc/server": "catalog:",
-    "superjson": "2.2.2",
+    "superjson": "2.2.3",
     "zod": "catalog:"
   },
   "devDependencies": {
@@ -31,7 +29,6 @@
     "@probable/prettier-config": "workspace:*",
     "@probable/tsconfig": "workspace:*",
     "eslint": "catalog:",
-    "minimatch": "^10.0.3",
     "prettier": "catalog:",
     "typescript": "catalog:"
   },

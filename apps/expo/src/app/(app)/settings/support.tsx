@@ -1,31 +1,24 @@
-import { Linking, ScrollView, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { AntDesign } from "@expo/vector-icons";
+import { Linking, ScrollView, Text, View } from "react-native";
+import Feather from "@expo/vector-icons/Feather";
 
-import { faqs } from "@probable/ui";
+import { faqs } from "@probable/ui/utils";
 
-import Background from "~/components/Background";
 import PressableThemed from "~/components/PressableThemed";
-import TextThemed from "~/components/TextThemed";
-import tw from "~/utils/tailwind";
 
 export default function Support() {
-  const insets = useSafeAreaInsets();
   return (
-    <Background>
-      <ScrollView contentContainerStyle={tw`flex-1 justify-between px-3 pt-6`}>
-        <View style={tw``}>
-          <TextThemed style={tw`mb-4 text-lg`}>
+    <View className="bg-background flex-1">
+      <ScrollView contentContainerClassName="flex-1 justify-between px-3 pt-6">
+        <View>
+          <Text className="text-foreground mb-4 text-2xl">
             Frequently Asked Questions
-          </TextThemed>
+          </Text>
           {faqs.map((faq) => (
-            <View key={faq.question} style={tw`mb-4`}>
-              <TextThemed style={tw`text-base font-bold`}>
+            <View key={faq.question} className="mb-4">
+              <Text className="text-foreground text-lg font-bold">
                 {faq.question}
-              </TextThemed>
-              <TextThemed variant="muted" style={tw`text-sm`}>
-                {faq.answer}
-              </TextThemed>
+              </Text>
+              <Text className="text-muted text-base">{faq.answer}</Text>
             </View>
           ))}
         </View>
@@ -37,19 +30,16 @@ export default function Support() {
           }
           accessibilityRole="link"
           accessibilityLabel="Open Application Feedback Page Link In Browser"
-          style={tw`mb-[${insets.bottom}] flex-row items-center justify-center self-center`}
+          className={`mb-6 flex-row items-center justify-center self-center`}
         >
-          <TextThemed variant="muted" style={tw`mr-2`}>
-            <AntDesign name="github" size={16} />
-          </TextThemed>
-          <TextThemed
-            variant="primary"
-            style={tw`self-center text-base font-semibold`}
-          >
+          <Text className="text-muted mr-2">
+            <Feather name="github" size={16} />
+          </Text>
+          <Text className="text-primary self-center text-lg font-semibold">
             Send Feedback
-          </TextThemed>
+          </Text>
         </PressableThemed>
       </ScrollView>
-    </Background>
+    </View>
   );
 }

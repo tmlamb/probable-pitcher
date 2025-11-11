@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { GeistMono } from "geist/font/mono";
-import { GeistSans } from "geist/font/sans";
+import { Geist, Geist_Mono } from "next/font/google";
 
 import { cn } from "@probable/ui";
 import { ThemeProvider, ThemeToggle } from "@probable/ui/theme";
@@ -8,7 +7,7 @@ import { Toaster } from "@probable/ui/toast";
 
 import { TRPCReactProvider } from "~/trpc/react";
 
-import "~/app/globals.css";
+import "~/app/styles.css";
 
 import { env } from "~/env";
 
@@ -35,19 +34,28 @@ export const viewport: Viewport = {
   ],
 };
 
+const geistSans = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist-sans",
+});
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+});
+
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
           "bg-background text-foreground min-h-screen font-sans antialiased",
-          GeistSans.variable,
-          GeistMono.variable,
+          geistSans.variable,
+          geistMono.variable,
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <TRPCReactProvider>{props.children}</TRPCReactProvider>
-          <div className="absolute bottom-4 right-4">
+          <div className="absolute right-4 bottom-4">
             <ThemeToggle />
           </div>
           <Toaster />

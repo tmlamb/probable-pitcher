@@ -3,8 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 
-import { capitalizeFirstLetter } from "@probable/ui";
 import { toast } from "@probable/ui/toast";
+import { capitalizeFirstLetter } from "@probable/ui/utils";
 
 import { authClient } from "~/auth/client";
 import { useTRPC } from "~/trpc/react";
@@ -32,10 +32,6 @@ export function Accounts() {
   const { data: accounts } = useSuspenseQuery(
     trpc.account.byUserId.queryOptions(),
   );
-
-  if (accounts.length === 0) {
-    return <div className="flex w-full flex-col gap-4">Loading...</div>;
-  }
 
   const providers = accounts
     .map(({ providerId }) => capitalizeFirstLetter(providerId))

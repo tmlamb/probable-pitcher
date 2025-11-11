@@ -1,7 +1,7 @@
 export default function TermsOfService() {
   return (
     <main className="container mx-auto flex min-h-screen max-w-7xl flex-col items-start justify-start space-y-4 px-3 py-8 sm:px-8">
-      <h1 className="text-3xl font-extrabold leading-normal text-gray-700 sm:text-5xl">
+      <h1 className="text-3xl leading-normal font-extrabold text-gray-700 sm:text-5xl">
         Terms of Service
       </h1>
       <div className="flex max-w-prose flex-col space-y-4 text-gray-800">

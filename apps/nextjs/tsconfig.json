@@ -2,8 +2,7 @@
   "extends": "@probable/tsconfig/base.json",
   "compilerOptions": {
     "lib": ["ES2022", "dom", "dom.iterable"],
-    "jsx": "react-jsx",
-    "baseUrl": ".",
+    "jsx": "preserve",
     "paths": {
       "~/*": ["./src/*"]
     },
@@ -11,8 +10,7 @@
       {
         "name": "next"
       }
-    ],
-    "module": "esnext"
+    ]
   },
   "include": [".", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
