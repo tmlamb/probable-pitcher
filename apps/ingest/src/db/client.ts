@@ -1,7 +1,7 @@
 import type {
   GameRef,
   Notification,
-  PitcherRef,
+  PitcherUpsert,
   TeamRef,
 } from "@probable/db/schema";
 import { and, between, eq, inArray, isNull } from "@probable/db";
@@ -52,7 +52,7 @@ export const client = {
         where: eq(pitcher.ref, ref),
       });
     },
-    upsert: ({ ref, name, teamId, number }: PitcherRef) => {
+    upsert: ({ ref, name, teamId, number }: PitcherUpsert) => {
       return db
         .insert(pitcher)
         .values({

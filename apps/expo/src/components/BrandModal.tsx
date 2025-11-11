@@ -23,7 +23,6 @@ export default function BrandModal({ children }: BrandModalProps) {
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         colors={
-          // TODO: use colors from theme
           colorScheme === "dark"
             ? ["#b16a00", "#41922d", "#a1d995"]
             : ["#f1bd7e", "#a1d995", "#c5ffb8"]

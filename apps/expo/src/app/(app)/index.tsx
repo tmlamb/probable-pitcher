@@ -440,7 +440,10 @@ export default function Home() {
           <View>
             {showLoadingIndicator ? (
               <AnimatedViewStyled entering={FadeIn} exiting={FadeOut}>
-                <ActivityIndicator className="t-11 text-primary" size="large" />
+                <ActivityIndicator
+                  className="text-primary top-11"
+                  size="large"
+                />
               </AnimatedViewStyled>
             ) : subscriptionQuery.isError ? (
               <AnimatedViewStyled

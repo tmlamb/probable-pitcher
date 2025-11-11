@@ -61,7 +61,6 @@ export default function AppLayout() {
 
   return (
     <Stack
-      // TODO: Use colors from theme
       screenOptions={{
         headerTitleStyle: {
           color: foregroundColor,

@@ -48,12 +48,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
       },
-      icon: "./assets/icon_light.png",
-      // TODO: use new icon composer
-      // icon: {
-      //   light: "./assets/icon_light.png",
-      //   dark: "./assets/icon_dark.png",
-      // },
+      icon: "./assets/probable-ios.icon",
     },
     android: {
       package: `${ANDROID_PACKAGE_NAME}${
@@ -62,7 +57,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       icon: "./assets/icon_light.png",
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive_icon_light.png",
-        backgroundColor: "#789d7c",
+        backgroundColor: "#79af6d",
       },
       googleServicesFile:
         process.env.GOOGLE_SERVICES_JSON ?? "./google-services.json",
@@ -94,11 +89,11 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       [
         "expo-splash-screen",
         {
-          backgroundColor: "#789d7c",
-          image: "./assets/icon_light.png",
+          backgroundColor: "#a1d995",
+          image: "./assets/adaptive_icon_light.png",
           dark: {
-            backgroundColor: "#567259",
-            image: "./assets/icon_dark.png",
+            backgroundColor: "#79af6d",
+            image: "./assets/adaptive_icon_light.png",
           },
         },
       ],

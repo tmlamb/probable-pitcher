@@ -19,7 +19,6 @@
     "@probable/auth": "workspace:*",
     "@probable/db": "workspace:*",
     "@probable/ui": "workspace:*",
-    "@probable/validators": "workspace:*",
     "@t3-oss/env-nextjs": "0.13.8",
     "@tanstack/react-query": "catalog:",
     "@trpc/client": "catalog:",

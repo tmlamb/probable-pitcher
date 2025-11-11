@@ -39,7 +39,7 @@ export default function DeviceSetup() {
         }
         accessibilityLabel={`Configure application's notification permissions`}
       >
-        <Card className="bg-primary justify-center">
+        <Card className="bg-primary mx-0 justify-center">
           <Text className="text-primary-foreground text-xl font-bold">
             Continue
           </Text>

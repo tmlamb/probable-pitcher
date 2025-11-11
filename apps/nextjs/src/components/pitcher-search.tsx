@@ -203,9 +203,7 @@ export default function PitcherSearch() {
               pitcher={pitcher}
               subscribeHandler={() =>
                 subscribeMutation.mutate({
-                  // TODO correctly type this
-                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                  pitcherId: pitcher.id!,
+                  pitcherId: pitcher.id,
                 })
               }
               unsubscribeHandler={() =>
