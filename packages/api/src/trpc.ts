@@ -1,5 +1,6 @@
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
+import { z, ZodError } from "zod/v4";
 
 import type { Auth } from "@probable/auth";
 import { db } from "@probable/db/client";
@@ -32,9 +33,13 @@ export const createTRPCContext = async (opts: {
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
   errorFormatter: ({ shape, error }) => ({
+    ...shape,
     data: {
-      code: shape.code,
-      message: error.message,
+      ...shape.data,
+      zodError:
+        error.cause instanceof ZodError
+          ? z.flattenError(error.cause as ZodError<Record<string, unknown>>)
+          : null,
     },
   }),
 });

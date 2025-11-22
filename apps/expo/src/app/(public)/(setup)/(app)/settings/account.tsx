@@ -1,6 +1,7 @@
 import { ActivityIndicator, Text, View } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import * as Sentry from "@sentry/react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { capitalizeFirstLetter } from "@probable/ui/utils";
@@ -32,27 +33,29 @@ export default function Account() {
 
   return (
     <View className="bg-background flex-1 pt-8">
-      <Card className="border-border rounded-b-none border-b-1">
-        <Text className="text-foreground text-xl">Identity Providers</Text>
+      <Card className="border-border flex-wrap rounded-b-none border-b-1">
+        <Text maxFontSizeMultiplier={2.5} className="text-foreground text-xl">
+          Identity Providers
+        </Text>
         {providers ? (
-          <Text className="text-muted text-xl">{providers}</Text>
+          <Text maxFontSizeMultiplier={2.5} className="text-muted text-xl">
+            {providers}
+          </Text>
         ) : (
           <ActivityIndicator size="small" />
         )}
       </Card>
       <PressableThemed
         onPress={async () => {
-          await authClient.signOut().finally(() => {
-            queryClient
-              .invalidateQueries(trpc.pathFilter())
-              .catch(console.error);
-          });
+          await authClient.signOut().finally(() => queryClient.clear());
         }}
         accessibilityLabel={"Logout"}
       >
         <Card className="rounded-t-none">
-          <Text className="text-muted text-xl">Logout</Text>
-          <Text className="text-muted">
+          <Text maxFontSizeMultiplier={2.5} className="text-muted text-xl">
+            Logout
+          </Text>
+          <Text maxFontSizeMultiplier={2.5} className="text-muted">
             <Feather name="log-out" size={22} />
           </Text>
         </Card>
@@ -61,7 +64,12 @@ export default function Account() {
         className="mt-6"
         first={
           <Card>
-            <Text className="text-destructive text-xl">Delete Account</Text>
+            <Text
+              maxFontSizeMultiplier={2.5}
+              className="text-destructive text-xl"
+            >
+              Delete Account
+            </Text>
           </Card>
         }
         second={
@@ -70,10 +78,13 @@ export default function Account() {
               deleteAccount();
               queryClient
                 .invalidateQueries(trpc.pathFilter())
-                .catch(console.error);
+                .catch(Sentry.captureException);
             }}
           >
-            <Text className="text-destructive -my-3 px-4 py-3">
+            <Text
+              maxFontSizeMultiplier={2.5}
+              className="text-destructive -my-3 px-4 py-3"
+            >
               <FontAwesome name="minus-circle" size={18} />
             </Text>
           </PressableThemed>

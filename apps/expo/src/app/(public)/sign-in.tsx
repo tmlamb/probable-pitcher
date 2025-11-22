@@ -1,9 +1,10 @@
 import type { CodedError } from "expo-modules-core";
-import { useEffect, useRef } from "react";
-import { AppState, Pressable, Text, useColorScheme, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Pressable, Text, useColorScheme, View } from "react-native";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { Platform } from "expo-modules-core";
 import { useRouter } from "expo-router";
+import * as Sentry from "@sentry/react-native";
 import { useQueryClient } from "@tanstack/react-query";
 
 import BrandModal from "~/components/BrandModal";
@@ -15,65 +16,58 @@ import { trpc } from "~/utils/api";
 import { authClient } from "~/utils/auth";
 
 export default function SignIn() {
-  const queryClient = useQueryClient();
-  const router = useRouter();
-
-  // TODO add color scheme toggle to sign-in page
   const colorScheme = useColorScheme();
 
-  const appState = useRef(AppState.currentState);
+  const [signInPending, setSignInPending] = useState(false);
+  const [signInError, setSignInError] = useState<Error | null>(null);
+
+  if (signInError) {
+    throw signInError;
+  }
+
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
   const session = authClient.useSession();
 
   useEffect(() => {
-    function checkAuth() {
-      if (session.data) {
-        router.replace("/");
-      }
+    if (session.data) {
+      router.replace("/");
     }
-
-    checkAuth();
-
-    const listener = AppState.addEventListener("change", (nextAppState) => {
-      if (
-        /inactive|background/.exec(appState.current) &&
-        nextAppState === "active"
-      ) {
-        checkAuth();
-      }
-      appState.current = nextAppState;
-    });
-
-    return () => {
-      listener.remove();
-    };
   }, [router, session.data]);
 
   return (
     <BrandModal>
       <View className="flex grow justify-center gap-4">
-        <Text className="text-foreground text-center text-4xl font-semibold sm:text-5xl md:text-6xl">
+        <Text
+          maxFontSizeMultiplier={1.5}
+          className="text-foreground text-center text-4xl font-semibold sm:text-5xl md:text-6xl"
+        >
           Welcome to{"\n"}Probable Pitcher
         </Text>
-        <Text className="text-muted text-center text-lg md:text-xl">
+        <Text
+          maxFontSizeMultiplier={2}
+          className="text-muted text-center text-lg md:text-xl"
+        >
           Sign in with one of the options below to start
         </Text>
       </View>
       <View className="flex gap-8">
         <Pressable
-          className="flex h-[45px] justify-center rounded-lg border-1 border-gray-200 bg-[#f2f2f2] py-[.65rem] shadow-2xs transition-opacity duration-200 active:opacity-40 dark:active:opacity-60"
+          className={`flex h-[45px] justify-center rounded-lg border-1 border-gray-200 bg-[#f2f2f2] py-[.65rem] shadow-2xs transition-opacity duration-200 active:opacity-40 dark:active:opacity-60 ${signInPending ? "opacity-20" : ""}`}
+          disabled={signInPending}
           onPress={async () => {
             try {
+              setSignInPending(true);
               await authClient.signIn.social({
                 provider: "google",
                 callbackURL: "/",
               });
               queryClient
                 .invalidateQueries(trpc.pathFilter())
-                .catch(console.error);
-              router.replace("/");
-            } catch (e: unknown) {
-              console.error("Unexpected error during Google sign-in", e);
+                .catch(Sentry.captureException);
+            } finally {
+              setSignInPending(false);
             }
           }}
         >
@@ -94,9 +88,11 @@ export default function SignIn() {
                 ? AppleAuthentication.AppleAuthenticationButtonStyle.WHITE
                 : AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
             }
-            className="h-[45px] w-full overflow-hidden rounded-lg"
+            className={`h-[45px] w-full overflow-hidden rounded-lg ${signInPending ? "opacity-20" : ""}`}
             onPress={async () => {
+              if (signInPending) return;
               try {
+                setSignInPending(true);
                 const credential = await AppleAuthentication.signInAsync({
                   requestedScopes: [
                     AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
@@ -105,25 +101,37 @@ export default function SignIn() {
                 });
 
                 if (credential.identityToken === null) {
-                  console.error("null identity token");
-                  return null;
+                  throw new Error("Apple Sign-In failed: no identity token");
                 }
-                await authClient.signIn.social({
+                const result = await authClient.signIn.social({
                   provider: "apple",
                   idToken: {
                     token: credential.identityToken,
                   },
+                  callbackURL: "/",
                 });
+                if (result.error) {
+                  throw new Error(
+                    `Apple Sign-In failed: ${JSON.stringify(result.error)}`,
+                  );
+                }
                 queryClient
                   .invalidateQueries(trpc.pathFilter())
-                  .catch(console.error);
-                router.replace("/");
+                  .catch(Sentry.captureException);
               } catch (e: unknown) {
                 if (isCodedError(e) && e.code === "ERR_REQUEST_CANCELED") {
                   return null;
+                } else if (e instanceof Error) {
+                  setSignInError(e);
                 } else {
-                  console.error("Unexpected error during Apple sign-in", e);
+                  setSignInError(
+                    new Error(
+                      `Unknown error during Apple Sign-In: ${JSON.stringify(e)}`,
+                    ),
+                  );
                 }
+              } finally {
+                setSignInPending(false);
               }
             }}
           />

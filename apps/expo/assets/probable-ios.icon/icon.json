@@ -1,37 +1,67 @@
 {
-  "fill" : {
-    "linear-gradient" : [
-      "display-p3:0.47451,0.68627,0.42745,1.00000",
-      "display-p3:0.25490,0.57255,0.17647,1.00000"
-    ],
-    "orientation" : {
-      "start" : {
-        "x" : 0.5,
-        "y" : 0
-      },
-      "stop" : {
-        "x" : 0.5,
-        "y" : 0.7
+  "fill-specializations" : [
+    {
+      "value" : {
+        "linear-gradient" : [
+          "display-p3:0.72157,0.86667,0.67059,1.00000",
+          "display-p3:0.25490,0.57255,0.17647,1.00000"
+        ],
+        "orientation" : {
+          "start" : {
+            "x" : 0.5,
+            "y" : 0
+          },
+          "stop" : {
+            "x" : 0.5,
+            "y" : 0.7
+          }
+        }
+      }
+    },
+    {
+      "appearance" : "dark",
+      "value" : {
+        "linear-gradient" : [
+          "display-p3:0.25490,0.57255,0.17647,1.00000",
+          "extended-gray:0.00000,1.00000"
+        ],
+        "orientation" : {
+          "start" : {
+            "x" : 0.5,
+            "y" : 0
+          },
+          "stop" : {
+            "x" : 0.5,
+            "y" : 0.7
+          }
+        }
       }
     }
-  },
+  ],
   "groups" : [
     {
       "blur-material" : 1,
       "layers" : [
         {
-          "blend-mode" : "normal",
           "fill" : "none",
-          "glass" : true,
-          "hidden" : false,
-          "image-name" : "adaptive_icon_light.png",
-          "name" : "adaptive_icon_light",
-          "opacity" : 1,
+          "image-name" : "clock.png",
+          "name" : "clock",
           "position" : {
-            "scale" : 1.15,
+            "scale" : 1.5,
             "translation-in-points" : [
               0,
               0
+            ]
+          }
+        },
+        {
+          "image-name" : "baseball.png",
+          "name" : "baseball",
+          "position" : {
+            "scale" : 1.8,
+            "translation-in-points" : [
+              -204.6796875,
+              196.5
             ]
           }
         }
@@ -40,9 +70,10 @@
         "kind" : "neutral",
         "opacity" : 1
       },
+      "specular" : false,
       "translucency" : {
         "enabled" : true,
-        "value" : 0.5
+        "value" : 0.3
       }
     }
   ],

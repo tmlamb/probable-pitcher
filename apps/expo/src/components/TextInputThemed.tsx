@@ -5,6 +5,7 @@ import type {
 } from "react-native";
 import { Text, TextInput, View } from "react-native";
 import { FadeIn, FadeOut } from "react-native-reanimated";
+import Feather from "@expo/vector-icons/Feather";
 import { twMerge } from "tailwind-merge";
 
 import { AnimatedViewStyled } from "./Styled";
@@ -20,6 +21,7 @@ interface TextInputThemedProps {
   labelClassName?: string;
   label?: string;
   leftIcon?: React.ReactNode;
+  leftIconName?: string;
   placeholder?: string;
   maxLength?: number;
   selectTextOnFocus?: boolean;
@@ -55,6 +57,7 @@ export default function TextInputThemed({
   labelClassName,
   label,
   leftIcon,
+  leftIconName,
   placeholder,
   maxLength,
   selectTextOnFocus = false,
@@ -79,8 +82,12 @@ export default function TextInputThemed({
         className,
       )}
     >
-      <View className="relative w-full flex-row items-center justify-between">
-        {leftIcon ??
+      <View className="relative ml-2 w-full flex-row items-center justify-between gap-2">
+        {(leftIconName && (
+          <Text maxFontSizeMultiplier={2} className="text-muted">
+            <Feather name="search" size={18} />
+          </Text>
+        )) ??
           (label && (
             <AnimatedViewStyled
               entering={FadeIn}
@@ -90,6 +97,7 @@ export default function TextInputThemed({
               <>
                 {label && (
                   <Text
+                    maxFontSizeMultiplier={2}
                     className={twMerge(
                       "text-muted pl-0 leading-tight tracking-tight",
                       labelClassName,
@@ -109,7 +117,7 @@ export default function TextInputThemed({
           onBlur={onBlur}
           value={value ? nbspReplace(value) : value}
           className={twMerge(
-            "text-foreground placeholder:text-muted z-20 w-full py-1.5 pr-0 pl-8 text-xl leading-tight tracking-normal",
+            "text-foreground placeholder:text-muted z-20 w-full px-0 py-1.5 text-xl leading-tight tracking-normal",
             textInputClassName,
           )}
           placeholder={placeholder}
@@ -128,7 +136,7 @@ export default function TextInputThemed({
           submitBehavior="blurAndSubmit"
           accessibilityLabel={accessibilityLabel ?? label}
           testID={testID}
-          allowFontScaling={false}
+          maxFontSizeMultiplier={2}
         />
       </View>
     </View>

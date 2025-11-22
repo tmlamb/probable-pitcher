@@ -100,7 +100,7 @@ services:
     build:
       dockerfile: apps/nextjs/Dockerfile
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://nextjs:3000/api/trpc/health.check"]
+      test: ["CMD", "curl", "-f", "http://nextjs:3000/api/trpc/meta.health"]
       interval: 30s
       timeout: 10s
       retries: 5

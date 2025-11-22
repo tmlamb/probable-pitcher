@@ -90,9 +90,10 @@ export default function SearchInput({ onChange, onActive, onCancel }: Props) {
             }}
             value={searchText ?? ""}
             className="bg-card"
+            leftIconName="search"
             leftIcon={
               <>
-                <Text className="text-muted absolute ml-2">
+                <Text maxFontSizeMultiplier={2} className="text-muted">
                   <Feather name="search" size={18} />
                 </Text>
               </>
@@ -138,7 +139,10 @@ export default function SearchInput({ onChange, onActive, onCancel }: Props) {
               }}
               accessibilityLabel="Clear search filter"
             >
-              <Text className="text-primary pl-3 text-lg font-bold tracking-tight">
+              <Text
+                maxFontSizeMultiplier={2}
+                className="text-primary pl-3 text-lg font-bold tracking-tight"
+              >
                 Done
               </Text>
             </PressableThemed>

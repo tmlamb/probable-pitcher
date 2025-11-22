@@ -4,6 +4,7 @@ import { twMerge } from "tailwind-merge";
 
 const variantClasses = {
   default: "bg-card",
+  transparent: "bg-transparent",
 };
 
 interface CardProps {

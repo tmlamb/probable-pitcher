@@ -3,6 +3,7 @@ import { Alert, AppState, Platform } from "react-native";
 import Constants from "expo-constants";
 import * as Device from "expo-device";
 import * as ExpoNotifications from "expo-notifications";
+import { PermissionStatus } from "expo-notifications";
 import { useRouter } from "expo-router";
 import * as Sentry from "@sentry/react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -21,7 +22,10 @@ ExpoNotifications.setNotificationHandler({
   },
 });
 
-export default function useNotifications({ enabled }: { enabled: boolean }) {
+export default function useDeviceSetup() {
+  const [pushPermissionStatus, setPushPermissionStatus] = useState<
+    PermissionStatus | null | undefined
+  >(null);
   const [expoPushToken, setExpoPushToken] = useState<string>();
   const [, setNotification] = useState(false);
   const router = useRouter();
@@ -45,13 +49,17 @@ export default function useNotifications({ enabled }: { enabled: boolean }) {
         });
     }
 
-    if (enabled) handleNotificationSetup();
+    const askPermission =
+      !!pushPermissionStatus &&
+      pushPermissionStatus !== PermissionStatus.UNDETERMINED;
+
+    if (askPermission) handleNotificationSetup();
 
     const listener = AppState.addEventListener("change", (nextAppState) => {
       if (
         /inactive|background/.exec(appState.current) &&
         nextAppState === "active" &&
-        enabled
+        askPermission
       ) {
         handleNotificationSetup();
       }
@@ -61,7 +69,25 @@ export default function useNotifications({ enabled }: { enabled: boolean }) {
     return () => {
       listener.remove();
     };
-  }, [enabled]);
+  }, [pushPermissionStatus]);
+
+  useEffect(() => {
+    const checkNotificationPermissions = async () => {
+      const { status: existingStatus } =
+        await ExpoNotifications.getPermissionsAsync();
+
+      return existingStatus;
+    };
+
+    checkNotificationPermissions()
+      .then((status) => {
+        setPushPermissionStatus(status);
+      })
+      .catch((error) => {
+        Sentry.captureException(error);
+        setPushPermissionStatus(undefined);
+      });
+  }, []);
 
   const { mutate: registerDevice } = useMutation(
     trpc.device.create.mutationOptions({
@@ -121,6 +147,12 @@ export default function useNotifications({ enabled }: { enabled: boolean }) {
       responseListener.current?.remove();
     };
   }, [router]);
+
+  return {
+    pushPermissionStatus,
+    isPending: pushPermissionStatus === null,
+    isError: pushPermissionStatus === undefined,
+  };
 }
 
 export async function registerForPushNotifications() {

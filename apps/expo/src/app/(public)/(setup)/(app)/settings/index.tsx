@@ -15,8 +15,13 @@ export default function Settings() {
           <Link href="/settings/notifications" asChild>
             <PressableThemed accessibilityLabel="Navigate to notification settings screen">
               <Card className="border-border rounded-b-none border-b-1">
-                <Text className="text-foreground text-xl">Notifications</Text>
-                <Text className="text-muted">
+                <Text
+                  maxFontSizeMultiplier={2.5}
+                  className="text-foreground text-xl"
+                >
+                  Notifications
+                </Text>
+                <Text maxFontSizeMultiplier={2.5} className="text-muted">
                   <Feather name="bell" size={22} />
                 </Text>
               </Card>
@@ -25,8 +30,13 @@ export default function Settings() {
           <Link href="/settings/account" asChild>
             <PressableThemed accessibilityLabel="Navigate to account settings screen">
               <Card className="border-border rounded-none border-b-1">
-                <Text className="text-foreground text-xl">Account</Text>
-                <Text className="text-muted">
+                <Text
+                  maxFontSizeMultiplier={2.5}
+                  className="text-foreground text-xl"
+                >
+                  Account
+                </Text>
+                <Text maxFontSizeMultiplier={2.5} className="text-muted">
                   <Feather name="user" size={22} />
                 </Text>
               </Card>
@@ -35,15 +45,23 @@ export default function Settings() {
           <Link href="/settings/support" asChild>
             <PressableThemed accessibilityLabel="Navigate to support screen">
               <Card className="rounded-t-none">
-                <Text className="text-foreground text-xl">Support</Text>
-                <Text className="text-muted">
+                <Text
+                  maxFontSizeMultiplier={2.5}
+                  className="text-foreground text-xl"
+                >
+                  Support
+                </Text>
+                <Text maxFontSizeMultiplier={2.5} className="text-muted">
                   <Feather name="help-circle" size={22} />
                 </Text>
               </Card>
             </PressableThemed>
           </Link>
         </View>
-        <Text className={`text-muted mb-6 self-center text-base`}>
+        <Text
+          maxFontSizeMultiplier={1.5}
+          className={`text-muted mb-6 self-center text-base`}
+        >
           Probable Pitcher v{Application.nativeApplicationVersion}b
           {Application.nativeBuildVersion}
         </Text>

@@ -22,12 +22,8 @@ export default function BrandModal({ children }: BrandModalProps) {
       <LinearGradientStyled
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
-        colors={
-          colorScheme === "dark"
-            ? ["#b16a00", "#41922d", "#a1d995"]
-            : ["#f1bd7e", "#a1d995", "#c5ffb8"]
-        }
-        locations={[0, 0.4, 1]}
+        colors={["#c5ffb8", "#a1d995", "#41922d"]}
+        locations={[0, 0.15, 0.4]}
         className="flex-1"
       >
         <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
@@ -36,17 +32,14 @@ export default function BrandModal({ children }: BrandModalProps) {
             <View style={{ paddingTop: insets.top, height: "100%" }}>
               <ImageStyled
                 alt=""
-                className="my-auto aspect-square h-10/12"
+                className="my-auto aspect-square h-11/12"
                 source={{
-                  uri:
-                    colorScheme === "dark"
-                      ? "adaptive_icon_dark"
-                      : "adaptive_icon_light",
+                  uri: "brand_icon",
                 }}
               />
             </View>
           </View>
-          <View className="bg-popover flex h-2/3 justify-end gap-8 rounded-t-3xl px-4 pb-16 shadow-2xl">
+          <View className="bg-background flex h-2/3 justify-end gap-8 rounded-t-3xl px-4 pb-16 shadow-2xl">
             {children}
           </View>
         </View>

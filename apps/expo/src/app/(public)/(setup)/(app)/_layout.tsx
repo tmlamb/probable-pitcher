@@ -1,48 +1,18 @@
-import { useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";
 import { useNativeVariable } from "react-native-css";
-import { PermissionStatus } from "expo-modules-core";
-import * as ExpoNotifications from "expo-notifications";
-import { Redirect, Stack } from "expo-router";
+import { PermissionStatus } from "expo-notifications";
+import { Redirect, SplashScreen, Stack } from "expo-router";
 
-import { authClient } from "~/utils/auth";
-import useNotifications from "../../hooks/use-notifications";
+import useDeviceSetup from "~/hooks/use-device-setup";
 
-export default function AppLayout() {
-  const session = authClient.useSession();
-
-  const [pushPermissionStatus, setPushPermissionStatus] =
-    useState<PermissionStatus | null>(null);
-
+export default function ProtectedLayout() {
   const backgroundColor = useNativeVariable("--background") as string;
   const foregroundColor = useNativeVariable("--foreground") as string;
   const primaryColor = useNativeVariable("--primary") as string;
 
-  useEffect(() => {
-    const checkNotificationPermissions = async () => {
-      const { status: existingStatus } =
-        await ExpoNotifications.getPermissionsAsync();
+  const { pushPermissionStatus, isPending } = useDeviceSetup();
 
-      return existingStatus;
-    };
-
-    checkNotificationPermissions()
-      .then((status) => {
-        setPushPermissionStatus(status);
-      })
-      .catch((error) => {
-        console.error("Error checking notification permissions", error);
-      });
-  });
-
-  useNotifications({
-    enabled:
-      !!session.data &&
-      !!pushPermissionStatus &&
-      pushPermissionStatus !== PermissionStatus.UNDETERMINED,
-  });
-
-  if (session.isPending) {
+  if (isPending) {
     return (
       <ActivityIndicator
         className={`text-foreground absolute m-auto h-full w-full`}
@@ -51,11 +21,8 @@ export default function AppLayout() {
     );
   }
 
-  if (!session.data) {
-    return <Redirect href="/sign-in" />;
-  }
-
   if (pushPermissionStatus === PermissionStatus.UNDETERMINED) {
+    SplashScreen.hide();
     return <Redirect href="/device-setup" />;
   }
 

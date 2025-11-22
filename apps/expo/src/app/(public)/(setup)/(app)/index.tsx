@@ -24,7 +24,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { Stack, useRouter } from "expo-router";
+import { SplashScreen, Stack, useRouter } from "expo-router";
 import { TZDate } from "@date-fns/tz";
 import Feather from "@expo/vector-icons/Feather";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -47,9 +47,15 @@ export default function Home() {
 
   const subscriptionQuery = useQuery(trpc.subscription.byUserId.queryOptions());
 
+  useEffect(() => {
+    if (subscriptionQuery.isFetched) {
+      SplashScreen.hide();
+    }
+  }, [subscriptionQuery.isFetched]);
+
   if (subscriptionQuery.isError) {
-    Sentry.captureException(
-      `Error fetching subscriptions on homepage: ${JSON.stringify(subscriptionQuery.error)}`,
+    throw new Error(
+      `Error fetching subscriptions: ${JSON.stringify(subscriptionQuery.error)}`,
     );
   }
 
@@ -113,7 +119,7 @@ export default function Home() {
                       team: {
                         name: "",
                         id: "",
-                        abbreviation: "",
+                        abbreviation: pitcher.teamAbbreviation,
                       },
                     },
                   },
@@ -134,10 +140,10 @@ export default function Home() {
       onSettled: () => {
         queryClient
           .invalidateQueries(trpc.subscription.byUserId.pathFilter())
-          .catch(console.error);
+          .catch(Sentry.captureException);
         queryClient
           .invalidateQueries(trpc.pitcher.byFuzzyName.pathFilter())
-          .catch(console.error);
+          .catch(Sentry.captureException);
       },
     }),
   );
@@ -167,10 +173,10 @@ export default function Home() {
       onSettled: () => {
         queryClient
           .invalidateQueries(trpc.subscription.byUserId.pathFilter())
-          .catch(console.error);
+          .catch(Sentry.captureException);
         queryClient
           .invalidateQueries(trpc.pitcher.byFuzzyName.pathFilter())
-          .catch(console.error);
+          .catch(Sentry.captureException);
       },
     }),
   );
@@ -242,15 +248,25 @@ export default function Home() {
     if (isSearchActive) setIsEditing(false);
   }, [isSearchActive]);
 
-  const showLoadingIndicator =
-    subscriptionQuery.isLoading || searchQuery.isFetching;
-
   const [isManualRefreshing, setIsManualRefreshing] = useState(false);
+
+  if (subscriptionQuery.isPending) {
+    return (
+      <View className="bg-background flex-1">
+        <Stack.Screen options={{ headerShown: false }} />
+        <ActivityIndicator
+          className={`text-foreground absolute m-auto h-full w-full`}
+          size="large"
+        />
+      </View>
+    );
+  }
 
   return (
     <View className="bg-background flex-1">
       <Stack.Screen
         options={{
+          headerShown: !isSearchActive || Platform.OS === "android",
           headerLeft: () => (
             <AnimatedViewStyled
               entering={FadeInUp.duration(200)}
@@ -266,7 +282,7 @@ export default function Home() {
                 accessibilityLabel="Navigate to Application Settings"
                 className="h-full w-full items-start justify-center pl-2"
               >
-                <Text className="text-primary">
+                <Text className="text-primary" maxFontSizeMultiplier={1.2}>
                   <Feather name="settings" size={22} />
                 </Text>
               </PressableThemed>
@@ -277,7 +293,7 @@ export default function Home() {
               <AnimatedViewStyled
                 entering={FadeInUp.duration(200)}
                 exiting={FadeOutUp.duration(200)}
-                className="-mr-3 h-12 w-16 flex-row items-center justify-end"
+                className="-mr-3 h-12 w-20 flex-row items-center justify-end"
               >
                 <PressableThemed
                   onPress={() => {
@@ -289,23 +305,31 @@ export default function Home() {
                     isEditing ? "Disable edit mode" : "Enable edit mode"
                   }
                 >
-                  {!!subscriptionQuery.data?.length &&
+                  {!!subscriptionQuery.data.length &&
                     (isEditing ? (
                       <Animated.View
                         entering={FadeInRight.duration(200)}
                         exiting={FadeOutRight.duration(100)}
                       >
-                        <Text className="text-primary text-xl font-bold">
+                        <Text
+                          className="text-primary text-xl font-bold"
+                          maxFontSizeMultiplier={1.15}
+                        >
                           Done
                         </Text>
                       </Animated.View>
                     ) : (
-                      <AnimatedViewStyled
+                      <Animated.View
                         entering={FadeIn.duration(200)}
                         exiting={FadeOut.duration(100)}
                       >
-                        <Text className="text-primary text-xl">Edit</Text>
-                      </AnimatedViewStyled>
+                        <Text
+                          className="text-primary text-xl"
+                          maxFontSizeMultiplier={1.15}
+                        >
+                          Edit
+                        </Text>
+                      </Animated.View>
                     ))}
                 </PressableThemed>
               </AnimatedViewStyled>
@@ -328,7 +352,7 @@ export default function Home() {
                     trpc.subscription.byUserId.pathFilter(),
                   );
                 } catch (e) {
-                  console.error(e);
+                  Sentry.captureException(e);
                 } finally {
                   setIsManualRefreshing(false);
                 }
@@ -354,7 +378,7 @@ export default function Home() {
         ListHeaderComponent={
           <AnimatedViewStyled
             layout={LinearTransition.duration(200)}
-            className={twMerge("bg-background/80 mb-3")}
+            className={"bg-background/80 mb-3"}
           >
             <AnimatedViewStyled
               layout={LinearTransition}
@@ -370,6 +394,7 @@ export default function Home() {
                     ? "text-transparent"
                     : null,
                 )}
+                maxFontSizeMultiplier={1.5}
                 accessibilityRole="header"
               >
                 Probable Pitcher
@@ -392,7 +417,12 @@ export default function Home() {
                 exiting={FadeOut}
                 className="mx-6 mb-1"
               >
-                <Text className="text-muted text-base uppercase">{item}</Text>
+                <Text
+                  maxFontSizeMultiplier={2}
+                  className="text-muted text-base uppercase"
+                >
+                  {item}
+                </Text>
               </AnimatedViewStyled>
             );
           } else {
@@ -438,25 +468,9 @@ export default function Home() {
         }}
         ListEmptyComponent={
           <View>
-            {showLoadingIndicator ? (
+            {searchQuery.isFetching ? (
               <AnimatedViewStyled entering={FadeIn} exiting={FadeOut}>
-                <ActivityIndicator
-                  className="text-primary top-11"
-                  size="large"
-                />
-              </AnimatedViewStyled>
-            ) : subscriptionQuery.isError ? (
-              <AnimatedViewStyled
-                entering={FadeIn.delay(150)}
-                exiting={FadeOut}
-              >
-                <Text
-                  className="text-destructive mx-6 mb-6 text-base"
-                  accessibilityRole="alert"
-                >
-                  An error occurred while loading your subscriptions, please try
-                  again later
-                </Text>
+                <ActivityIndicator className="text-muted top-9" size="large" />
               </AnimatedViewStyled>
             ) : searchQuery.isSuccess ? (
               <AnimatedViewStyled
@@ -466,6 +480,7 @@ export default function Home() {
                 <Text
                   className="text-muted mx-6 mb-6 text-base"
                   accessibilityRole="summary"
+                  maxFontSizeMultiplier={1.5}
                 >
                   No pitchers found, try changing your search
                 </Text>
@@ -478,6 +493,7 @@ export default function Home() {
                 <Text
                   className="text-destructive mx-6 mb-6 text-base"
                   accessibilityRole="alert"
+                  maxFontSizeMultiplier={1.5}
                 >
                   An error occurred while performing your search, please try
                   again later
@@ -490,8 +506,9 @@ export default function Home() {
                 exiting={FadeOut}
               >
                 <Text
-                  className="text-muted mx-6 mb-6 text-sm"
+                  className="text-muted mx-6 mb-6 text-base"
                   accessibilityRole="summary"
+                  maxFontSizeMultiplier={1.5}
                 >
                   Search for your favorite pitcher to add them to your list of
                   subscriptions
@@ -531,7 +548,7 @@ const PitcherCard = ({
             disabled={disabled}
           >
             <AnimatedViewStyled style={buttonStyle}>
-              <Text className="text-destructive">
+              <Text maxFontSizeMultiplier={2.5} className="text-destructive">
                 <FontAwesome name="minus-circle" size={18} />
               </Text>
             </AnimatedViewStyled>
@@ -539,29 +556,35 @@ const PitcherCard = ({
         </AnimatedViewStyled>
       )}
       <AnimatedViewStyled
-        className="flex-1 flex-row items-center justify-between"
+        className="flex-1 flex-row flex-wrap items-center justify-between"
         layout={LinearTransition}
       >
         <AnimatedViewStyled
-          className="flex-row items-center"
+          className="shrink flex-row items-center"
           layout={LinearTransition}
         >
-          <Text className="text-foreground text-xl" numberOfLines={2}>
+          <Text
+            maxFontSizeMultiplier={2.5}
+            className="text-foreground shrink text-xl"
+          >
             {pitcher.name}
           </Text>
-          <AnimatedViewStyled
-            className="mx-3 -my-1.5 items-center"
-            layout={LinearTransition}
-          >
+          <View className="mx-3 -my-1.5 items-center">
             {pitcher.number && (
-              <Text className="text-muted -mb-0.5 text-sm leading-none">
+              <Text
+                maxFontSizeMultiplier={2.5}
+                className="text-muted -mb-0.5 text-sm leading-none"
+              >
                 {pitcher.number}
               </Text>
             )}
-            <Text className="text-muted text-sm leading-none tracking-tight">
+            <Text
+              maxFontSizeMultiplier={2.5}
+              className="text-muted text-sm leading-none tracking-tight"
+            >
               {pitcher.team.abbreviation}
             </Text>
-          </AnimatedViewStyled>
+          </View>
         </AnimatedViewStyled>
         {pitcher.nextGameDate && !unsubscribeHandler && (
           <AnimatedViewStyled
@@ -569,29 +592,36 @@ const PitcherCard = ({
             exiting={FadeOutRight}
             layout={LinearTransition}
           >
-            <Text className="text-muted ml-1.5 text-sm">
+            <Text
+              maxFontSizeMultiplier={2.5}
+              className="text-muted ml-1.5 text-base tracking-tight"
+            >
               {new TZDate(
                 pitcher.nextGameDate,
                 Intl.DateTimeFormat().resolvedOptions().timeZone ||
                   "America/New_York",
-              ).toLocaleTimeString([], {
-                hour: "numeric",
-                minute: "2-digit",
-                hour12: true,
-              })}
+              )
+                .toLocaleTimeString([], {
+                  hour: "numeric",
+                  minute: "2-digit",
+                  hour12: true,
+                })
+                .toLowerCase()
+                .replace(" ", "")
+                .replace("m", "")}
             </Text>
           </AnimatedViewStyled>
         )}
       </AnimatedViewStyled>
       {!pitcher.subscription && (
         <PressableThemed
-          className="absolute right-0 -m-3 items-end p-3"
+          className="-my-3 -mr-6 p-3"
           onPress={subscribeHandler}
           accessibilityLabel={""}
           disabled={disabled}
         >
           <AnimatedViewStyled style={buttonStyle}>
-            <Text className="text-primary pr-3">
+            <Text maxFontSizeMultiplier={2.5} className="text-primary pr-3">
               <FontAwesome
                 className="text-primary"
                 name="plus-circle"

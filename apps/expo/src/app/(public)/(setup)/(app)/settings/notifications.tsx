@@ -39,7 +39,7 @@ export default function Notifications() {
         );
         queryClient
           .invalidateQueries(trpc.device.byPushToken.pathFilter())
-          .catch(console.error);
+          .catch(Sentry.captureException);
         return { currentDevice };
       },
       onError: (err, _, context) => {
@@ -52,7 +52,7 @@ export default function Notifications() {
       onSettled: () => {
         queryClient
           .invalidateQueries(trpc.device.byPushToken.pathFilter())
-          .catch(console.error);
+          .catch(Sentry.captureException);
       },
     }),
   );
@@ -70,13 +70,13 @@ export default function Notifications() {
       .then(({ status }) => {
         setPushPermissionStatus(status);
       })
-      .catch(console.error);
+      .catch(Sentry.captureException);
 
     ExpoNotifications.getExpoPushTokenAsync()
       .then(({ data: token }) => {
         setExpoPushToken(token);
       })
-      .catch(console.error);
+      .catch(Sentry.captureException);
   }
 
   useEffect(() => {
@@ -100,8 +100,10 @@ export default function Notifications() {
 
   return (
     <View className="bg-background flex-1 pt-8">
-      <Card className="py-0">
-        <Text className="text-foreground text-xl">Notifications Enabled</Text>
+      <Card className="flex-wrap py-2">
+        <Text maxFontSizeMultiplier={2} className="text-foreground text-xl">
+          Notifications Enabled
+        </Text>
         <Switch
           trackColor={{
             true: primaryColor,
@@ -125,16 +127,22 @@ export default function Notifications() {
       </Card>
       {!permissionGranted && (
         <View className="mx-6 mt-4.5">
-          <Text className="text-muted text-base" accessibilityRole="summary">
+          <Text
+            maxFontSizeMultiplier={2}
+            className="text-muted text-base"
+            accessibilityRole="summary"
+          >
             Permission to receive notifications from this app has been denied in
             your device&apos;s settings. To receive Probable Pitcher alerts,
             allow this app to send notifications.
           </Text>
           <PressableThemed
             className="mt-1.5"
-            onPress={() => Linking.openSettings().catch(console.error)}
+            onPress={() =>
+              Linking.openSettings().catch(Sentry.captureException)
+            }
           >
-            <Text className="text-primary text-base">
+            <Text maxFontSizeMultiplier={2} className="text-primary text-base">
               Open Application Settings
             </Text>
           </PressableThemed>

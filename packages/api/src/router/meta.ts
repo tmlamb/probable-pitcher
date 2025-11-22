@@ -3,8 +3,8 @@ import { TRPCError } from "@trpc/server";
 
 import { publicProcedure } from "../trpc";
 
-export const healthRouter = {
-  check: publicProcedure.query(async ({ ctx }) => {
+export const metaRouter = {
+  health: publicProcedure.query(async ({ ctx }) => {
     return ctx.db
       .execute(`SELECT 1`)
       .then(() => {
@@ -17,5 +17,8 @@ export const healthRouter = {
           cause: e,
         });
       });
+  }),
+  version: publicProcedure.query(() => {
+    return { minVersion: "2.1.0" };
   }),
 } satisfies TRPCRouterRecord;

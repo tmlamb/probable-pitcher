@@ -56,8 +56,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       }`,
       icon: "./assets/icon_light.png",
       adaptiveIcon: {
-        foregroundImage: "./assets/adaptive_icon_light.png",
-        backgroundColor: "#79af6d",
+        foregroundImage: "./assets/adaptive_icon.png",
+        backgroundColor: "#a1d995",
       },
       googleServicesFile:
         process.env.GOOGLE_SERVICES_JSON ?? "./google-services.json",
@@ -90,11 +90,12 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         "expo-splash-screen",
         {
           backgroundColor: "#a1d995",
-          image: "./assets/adaptive_icon_light.png",
+          image: "./assets/adaptive_icon.png",
           dark: {
-            backgroundColor: "#79af6d",
-            image: "./assets/adaptive_icon_light.png",
+            backgroundColor: "#a1d995",
+            image: "./assets/adaptive_icon.png",
           },
+          imageWidth: 200,
         },
       ],
       "expo-localization",
@@ -110,8 +111,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         "expo-asset",
         {
           assets: [
-            "./assets/adaptive_icon_light.png",
-            "./assets/adaptive_icon_dark.png",
+            "./assets/adaptive_icon.png",
+            "./assets/brand_icon.png",
             "./assets/google_signin_neutral.png",
           ],
         },

@@ -206,6 +206,9 @@ importers:
       react-native-worklets:
         specifier: 0.5.1
         version: 0.5.1(@babel/core@7.28.5)(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.12)(react@19.1.1))(react@19.1.1)
+      semver:
+        specifier: ^7.7.3
+        version: 7.7.3
       superjson:
         specifier: 2.2.3
         version: 2.2.3

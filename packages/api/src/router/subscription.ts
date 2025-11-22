@@ -7,7 +7,7 @@ import { subscription } from "@probable/db/schema";
 import { protectedProcedure } from "../trpc";
 
 export const subscriptionRouter = {
-  byUserId: protectedProcedure.query(({ ctx }) => {
+  byUserId: protectedProcedure.query(async ({ ctx }) => {
     return ctx.db.query.subscription.findMany({
       where: eq(subscription.userId, ctx.session.user.id),
       with: {
