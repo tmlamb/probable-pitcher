@@ -56,7 +56,6 @@ export default function TextInputThemed({
   textInputClassName,
   labelClassName,
   label,
-  leftIcon,
   leftIconName,
   placeholder,
   maxLength,
