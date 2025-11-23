@@ -1,5 +1,5 @@
 import type { TRPCRouterRecord } from "@trpc/server";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 import { and, eq } from "@probable/db";
 import { subscription } from "@probable/db/schema";
@@ -7,7 +7,7 @@ import { subscription } from "@probable/db/schema";
 import { protectedProcedure } from "../trpc";
 
 export const subscriptionRouter = {
-  byUserId: protectedProcedure.query(({ ctx }) => {
+  byUserId: protectedProcedure.query(async ({ ctx }) => {
     return ctx.db.query.subscription.findMany({
       where: eq(subscription.userId, ctx.session.user.id),
       with: {

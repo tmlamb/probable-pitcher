@@ -1,29 +1,28 @@
 {
   "name": "@probable/tailwind-config",
-  "version": "2.0.0",
   "private": true,
   "type": "module",
   "exports": {
-    "./native": "./native.ts",
-    "./web": "./web.ts"
+    "./theme": "./theme.css",
+    "./postcss-config": "./postcss-config.js"
   },
   "license": "MIT",
   "scripts": {
     "clean": "git clean -xdf .cache .turbo node_modules",
     "format": "prettier --check . --ignore-path ../../.gitignore",
-    "lint": "eslint",
+    "lint": "eslint --flag unstable_native_nodejs_ts_config",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "postcss": "8.5.3",
-    "tailwindcss": "catalog:",
-    "tailwindcss-animate": "1.0.7"
+    "@tailwindcss/postcss": "catalog:",
+    "postcss": "8.5.6",
+    "tailwindcss": "catalog:"
   },
   "devDependencies": {
     "@probable/eslint-config": "workspace:*",
     "@probable/prettier-config": "workspace:*",
     "@probable/tsconfig": "workspace:*",
-    "@types/node": "22.15.3",
+    "@types/node": "catalog:",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"

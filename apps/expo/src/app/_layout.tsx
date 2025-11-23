@@ -1,15 +1,26 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Appearance, AppState, Platform, UIManager } from "react-native";
+import {
+  AppState,
+  PixelRatio,
+  Platform,
+  Text,
+  UIManager,
+  View,
+} from "react-native";
 import Constants from "expo-constants";
-import { Slot, useFocusEffect } from "expo-router";
+import { Slot } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import * as Updates from "expo-updates";
 import * as Sentry from "@sentry/react-native";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { useDeviceContext } from "twrnc";
+import { focusManager, QueryClientProvider } from "@tanstack/react-query";
 
-import Background from "~/components/Background";
 import { queryClient } from "~/utils/api";
-import { authClient } from "~/utils/auth";
-import tw from "~/utils/tailwind";
+
+import "~/global.css";
+
+import { useEffect, useRef } from "react";
+
+import Card from "~/components/Card";
+import PressableThemed from "~/components/PressableThemed";
 
 const { sentryPublicDsn } = Constants.expoConfig?.extra ?? {};
 if (sentryPublicDsn) {
@@ -27,56 +38,86 @@ if (Platform.OS === "android") {
   }
 }
 
+SplashScreen.preventAutoHideAsync().catch(Sentry.captureException);
+SplashScreen.setOptions({ fade: true, duration: 400 });
+
 export default function RootLayout() {
-  useDeviceContext(tw);
+  //TODO: Fetch updates in background! https://expo.dev/changelog/sdk-53#improved-background-tasks
 
-  const session = authClient.useSession();
-
-  const [forceRenderKey, setForceRenderKey] = useState(0);
-  const colorScheme = useRef(Appearance.getColorScheme());
-
-  const handleColorSchemeChange = () => {
-    const systemColorScheme = Appearance.getColorScheme();
-    if (colorScheme.current !== systemColorScheme) {
-      setForceRenderKey((v: number) => v + 1);
-      colorScheme.current = systemColorScheme;
-    }
-  };
-
-  useFocusEffect(useCallback(() => handleColorSchemeChange(), []));
-
-  const appState = useRef(AppState.currentState);
   useEffect(() => {
-    const listener = AppState.addEventListener("change", (nextAppState) => {
-      if (
-        /inactive|background/.exec(appState.current) &&
-        nextAppState === "active"
-      ) {
-        handleColorSchemeChange();
+    const listener = AppState.addEventListener("change", (status) => {
+      if (status === "active") {
+        // Manage react-query focus state based on app state. Allows triggering refetches on app foregrounding.
+        focusManager.setFocused(true);
+
+        // Reload the JS bundle if the font scale has changed, to avoid layout issues.
+        const newFontScale = PixelRatio.getFontScale();
+        if (newFontScale !== currentFontScale.current) {
+          currentFontScale.current = newFontScale;
+          Updates.reloadAsync().catch(Sentry.captureException);
+        }
       }
-      appState.current = nextAppState;
     });
     return () => {
       listener.remove();
     };
   }, []);
 
-  //TODO Fetch updates in background! https://expo.dev/changelog/sdk-53#improved-background-tasks
+  const currentFontScale = useRef(PixelRatio.getFontScale());
 
   return (
-    <Background
-      key={forceRenderKey}
-      style={tw.style(
-        !session.data
-          ? colorScheme.current === "dark"
-            ? "bg-[#567259]"
-            : "bg-[#789d7c]"
-          : null,
-      )}
-    >
+    <View className="bg-background flex-1">
       <QueryClientProvider client={queryClient}>
         <Slot />
       </QueryClientProvider>
-    </Background>
+    </View>
+  );
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  useEffect(() => {
+    SplashScreen.hide();
+
+    Sentry.captureException(error);
+
+    const listener = AppState.addEventListener("change", () => {
+      Updates.reloadAsync().catch(Sentry.captureException);
+    });
+    return () => {
+      listener.remove();
+    };
+  }, [error]);
+
+  return (
+    <View className="bg-background flex flex-1 justify-end gap-8 px-4 pb-16">
+      <View className="flex grow justify-center gap-4">
+        <Text
+          maxFontSizeMultiplier={1.5}
+          className="text-foreground text-3xl font-semibold sm:text-4xl md:text-5xl"
+        >
+          Something Went Wrong
+        </Text>
+        <Text
+          maxFontSizeMultiplier={2}
+          className="text-foreground text-lg md:text-xl"
+        >
+          We're currently experiencing technical difficulties. Please try again
+          later.
+        </Text>
+      </View>
+      <PressableThemed
+        onPress={() => Updates.reloadAsync().catch(Sentry.captureException)}
+        accessibilityLabel={`Reload application`}
+      >
+        <Card className="bg-destructive mx-0 justify-center">
+          <Text
+            maxFontSizeMultiplier={2.5}
+            className="text-destructive-foreground text-xl font-bold"
+          >
+            Reload
+          </Text>
+        </Card>
+      </PressableThemed>
+    </View>
   );
 }

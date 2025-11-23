@@ -21,9 +21,15 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     slug: "probable-pitchers",
     scheme: "probablepitcher",
     owner: EXPO_OWNER,
-    version: "2.0.1",
+    version: "2.1.0",
     orientation: "portrait",
     userInterfaceStyle: "automatic",
+    experiments: {
+      tsconfigPaths: true,
+      typedRoutes: true,
+      reactCanary: true,
+      reactCompiler: true,
+    },
     updates: {
       fallbackToCacheTimeout: 10000,
       url: "https://u.expo.dev/abd1f73f-1027-4617-a091-abea678a0784",
@@ -42,10 +48,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
       },
-      icon: {
-        light: "./assets/icon_light.png",
-        dark: "./assets/icon_dark.png",
-      },
+      icon: "./assets/probable-ios.icon",
     },
     android: {
       package: `${ANDROID_PACKAGE_NAME}${
@@ -53,10 +56,11 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       }`,
       icon: "./assets/icon_light.png",
       adaptiveIcon: {
-        foregroundImage: "./assets/adaptive_icon_light.png",
-        backgroundColor: "#789d7c",
+        foregroundImage: "./assets/adaptive_icon.png",
+        backgroundColor: "#a1d995",
       },
-      googleServicesFile: "./google-services.json",
+      googleServicesFile:
+        process.env.GOOGLE_SERVICES_JSON ?? "./google-services.json",
       edgeToEdgeEnabled: true,
       softwareKeyboardLayoutMode: "pan",
     },
@@ -67,10 +71,6 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       apiBaseUrl: BETTER_AUTH_URL,
       sentryPublicDsn: SENTRY_PUBLIC_DSN,
       appEnv: APP_ENV,
-    },
-    experiments: {
-      tsconfigPaths: true,
-      typedRoutes: true,
     },
     plugins: [
       "expo-web-browser",
@@ -89,12 +89,13 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       [
         "expo-splash-screen",
         {
-          backgroundColor: "#789d7c",
-          image: "./assets/icon_light.png",
+          backgroundColor: "#a1d995",
+          image: "./assets/adaptive_icon.png",
           dark: {
-            backgroundColor: "#567259",
-            image: "./assets/icon_dark.png",
+            backgroundColor: "#a1d995",
+            image: "./assets/adaptive_icon.png",
           },
+          imageWidth: 200,
         },
       ],
       "expo-localization",
@@ -110,8 +111,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         "expo-asset",
         {
           assets: [
-            "./assets/adaptive_icon_light.png",
-            "./assets/adaptive_icon_dark.png",
+            "./assets/adaptive_icon.png",
+            "./assets/brand_icon.png",
             "./assets/google_signin_neutral.png",
           ],
         },

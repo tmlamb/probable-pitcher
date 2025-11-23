@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { TZDate } from "@date-fns/tz";
 import { MinusCircledIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { formatInTimeZone } from "date-fns-tz";
 
-import * as ui from "@probable/ui";
+import type { PitcherSubscription } from "@probable/ui/utils";
 import { cn } from "@probable/ui";
 import { Button } from "@probable/ui/button";
 import { Input } from "@probable/ui/input";
@@ -141,8 +141,7 @@ export default function PitcherSearch() {
     }),
   );
 
-  const subscribedAndAvailablePitchers: (string | ui.PitcherSubscription)[] =
-    [];
+  const subscribedAndAvailablePitchers: (string | PitcherSubscription)[] = [];
 
   const subscribedPitchers = pitchers
     ?.filter((p) => p.subscription)
@@ -180,19 +179,19 @@ export default function PitcherSearch() {
     subscriptionQuery.isFetching;
 
   return (
-    <div className="bg-accent z-10 m-3 flex flex-col gap-3">
+    <div className="z-10 m-3 flex flex-col gap-3">
       <Input
-        className="bg-background border-primary"
+        className="bg-input placeholder:text-muted border-border"
         placeholder="Search for a pitcher"
         onChange={(e) => setSearchFilter(e.target.value)}
       />
-      <div className="max-w-96">
+      <div className="max-w-96 overflow-y-auto">
         {subscribedAndAvailablePitchers.map((pitcher) => {
           if (typeof pitcher === "string") {
             return (
               <h2
                 key={pitcher}
-                className="text-muted-foreground mt-3 text-left text-xs uppercase tracking-wider"
+                className="text-muted mt-3 text-left text-xs tracking-wider uppercase"
               >
                 {pitcher}
               </h2>
@@ -204,9 +203,7 @@ export default function PitcherSearch() {
               pitcher={pitcher}
               subscribeHandler={() =>
                 subscribeMutation.mutate({
-                  // TODO correctly type this
-                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                  pitcherId: pitcher.id!,
+                  pitcherId: pitcher.id,
                 })
               }
               unsubscribeHandler={() =>
@@ -232,12 +229,12 @@ const PitcherCard = ({
 }: {
   subscribeHandler: () => void;
   unsubscribeHandler?: () => void;
-  pitcher: ui.PitcherSubscription;
+  pitcher: PitcherSubscription;
   disabled?: boolean;
   className?: string;
 }) => {
   return (
-    <div className={ui.cn("relative flex flex-row items-center", className)}>
+    <div className={cn("relative flex flex-row items-center", className)}>
       {pitcher.subscription && unsubscribeHandler && (
         <Button
           className="-my-3 -ml-3 p-3"
@@ -252,9 +249,9 @@ const PitcherCard = ({
         </Button>
       )}
       <div className="flex-1 flex-row items-center justify-between">
-        <div className={cn("border-muted flex flex-row items-center gap-1.5")}>
+        <div className={cn("border-border flex flex-row items-center gap-1.5")}>
           <p className="p-[.425rem]">{pitcher.name}</p>
-          <div className="text-muted-foreground flex flex-col items-center text-xs">
+          <div className="text-muted flex flex-col items-center text-xs">
             <p className="">{pitcher.number}</p>
             <p className="">{pitcher.team.abbreviation}</p>
           </div>
@@ -262,13 +259,16 @@ const PitcherCard = ({
 
         {pitcher.nextGameDate && !unsubscribeHandler && (
           <div>
-            <span className="text-muted-foreground ml-1.5 text-sm">
-              {formatInTimeZone(
+            <span className="text-muted ml-1.5 text-sm">
+              {new TZDate(
                 pitcher.nextGameDate,
                 Intl.DateTimeFormat().resolvedOptions().timeZone ||
                   "America/New_York",
-                "h:mmaaaaa",
-              )}
+              ).toLocaleTimeString([], {
+                hour: "numeric",
+                minute: "2-digit",
+                hour12: true,
+              })}
             </span>
           </div>
         )}

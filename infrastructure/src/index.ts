@@ -668,7 +668,8 @@ const appDeployment = new k8s.apps.v1.Deployment(
                 httpGet: { path: "/sign-in", port: "http" },
               },
               readinessProbe: {
-                httpGet: { path: "/api/trpc/health.check", port: "http" },
+                httpGet: { path: "/api/trpc/meta.health", port: "http" },
+                periodSeconds: 60,
               },
               env: [
                 {
