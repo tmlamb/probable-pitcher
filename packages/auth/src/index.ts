@@ -1,4 +1,3 @@
-import type { BetterAuthOptions } from "better-auth";
 import { expo } from "@better-auth/expo";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
@@ -6,66 +5,48 @@ import { apiKey } from "better-auth/plugins";
 
 import { db } from "@probable/db/client";
 
-export function initAuth({
-  baseURL,
-  secret,
-  googleClientId,
-  googleClientSecret,
-  appleClientId,
-  appleClientSecret,
-  appleBundleId,
-}: {
-  baseURL: string;
-  secret: string | undefined;
+import { env } from "../env";
 
-  googleClientId: string;
-  googleClientSecret: string;
-  appleClientId: string;
-  appleClientSecret: string;
-  appleBundleId: string;
-}) {
-  const config = {
-    database: drizzleAdapter(db, {
-      provider: "pg",
-    }),
-    baseURL,
-    secret,
-    plugins: [expo(), apiKey()],
-    socialProviders: {
-      google: {
-        clientId: googleClientId,
-        clientSecret: googleClientSecret,
-      },
-      apple: {
-        clientId: appleClientId,
-        clientSecret: appleClientSecret,
-        appBundleIdentifier: appleBundleId,
-      },
+export const auth = betterAuth({
+  database: drizzleAdapter(db, {
+    provider: "pg",
+  }),
+  plugins: [expo(), apiKey()],
+  emailAndPassword: {
+    enabled: false,
+  },
+  socialProviders: {
+    google: {
+      clientId: env.AUTH_GOOGLE_ID,
+      clientSecret: env.AUTH_GOOGLE_SECRET,
     },
-    trustedOrigins: [
-      "probablepitcher://",
-      "https://dev.probablepitcher.com",
-      "https://probablepitcher.com",
-      "http://localhost:3000",
-      "https://appleid.apple.com",
-    ],
-    onAPIError: {
-      onError(error, ctx) {
-        console.error("BETTER AUTH API ERROR", error, ctx);
-      },
+    apple: {
+      clientId: env.AUTH_APPLE_SERVICE_ID,
+      clientSecret: env.AUTH_APPLE_SECRET,
+      appBundleIdentifier: env.AUTH_APPLE_BUNDLE_ID,
     },
-    advanced: {
-      cookiePrefix: "probable-pitcher",
+  },
+  trustedOrigins: [
+    "probablepitcher://",
+    "https://dev.probablepitcher.com",
+    "https://probablepitcher.com",
+    "http://localhost:3000",
+    "https://appleid.apple.com",
+  ],
+  logger: {
+    level: "debug",
+    disabled: true,
+  },
+  advanced: {
+    cookiePrefix: "probable-pitcher",
+  },
+  account: {
+    accountLinking: {
+      enabled: true,
+      trustedProviders: ["google", "apple"],
     },
-    account: {
-      accountLinking: {
-        enabled: true,
-        trustedProviders: ["google", "apple"],
-      },
-    },
-  } satisfies BetterAuthOptions;
-  return betterAuth(config);
-}
+  },
+});
 
-export type Auth = ReturnType<typeof initAuth>;
-export type Session = Auth["$Infer"]["Session"];
+export type Session = typeof auth.$Infer.Session;
+export type Auth = typeof auth;

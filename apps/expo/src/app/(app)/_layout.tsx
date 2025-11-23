@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";
-import { useNativeVariable } from "react-native-css";
 import { PermissionStatus } from "expo-modules-core";
 import * as ExpoNotifications from "expo-notifications";
 import { Redirect, Stack } from "expo-router";
 
+import { variantClasses as backgroundClasses } from "~/components/Background";
 import { authClient } from "~/utils/auth";
+import tw from "~/utils/tailwind";
+import { variantClasses as textClasses } from "../../components/TextThemed";
 import useNotifications from "../../hooks/use-notifications";
 
 export default function AppLayout() {
@@ -13,10 +15,6 @@ export default function AppLayout() {
 
   const [pushPermissionStatus, setPushPermissionStatus] =
     useState<PermissionStatus | null>(null);
-
-  const backgroundColor = useNativeVariable("--background") as string;
-  const foregroundColor = useNativeVariable("--foreground") as string;
-  const primaryColor = useNativeVariable("--primary") as string;
 
   useEffect(() => {
     const checkNotificationPermissions = async () => {
@@ -45,8 +43,9 @@ export default function AppLayout() {
   if (session.isPending) {
     return (
       <ActivityIndicator
-        className={`text-foreground absolute m-auto h-full w-full`}
+        style={tw.style("absolute m-auto h-full w-full")}
         size="large"
+        color={tw.style(textClasses.default).color as string}
       />
     );
   }
@@ -62,15 +61,11 @@ export default function AppLayout() {
   return (
     <Stack
       screenOptions={{
-        headerTitleStyle: {
-          color: foregroundColor,
-        },
+        headerTitleStyle: tw.style(textClasses.default),
         headerTransparent: false,
-        headerStyle: {
-          backgroundColor: backgroundColor,
-        },
+        headerStyle: tw.style(backgroundClasses.default),
         headerShadowVisible: false,
-        headerTintColor: primaryColor,
+        headerTintColor: String(tw.style(textClasses.primary).color as string),
       }}
     >
       <Stack.Screen name="index" options={{ headerTitle: "" }} />

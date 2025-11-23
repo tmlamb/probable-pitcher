@@ -1,11 +1,12 @@
 import type { VariantProps } from "class-variance-authority";
+import * as React from "react";
 import { cva } from "class-variance-authority";
 import { Slot } from "radix-ui";
 
 import { cn } from "@probable/ui";
 
 export const buttonVariants = cva(
-  "focus-visible:ring-ring inline-flex cursor-pointer items-center justify-center rounded-md text-sm font-medium whitespace-nowrap transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
+  "focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
@@ -14,7 +15,7 @@ export const buttonVariants = cva(
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm",
         outline:
-          "border-primary hover:bg-primary-foreground text-primary hover:text-primary/90 border bg-transparent shadow-sm",
+          "border-primary hover:bg-accent text-primary hover:text-primary/90 border bg-transparent shadow-sm",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm",
         ghost: "hover:bg-accent hover:text-accent-foreground",

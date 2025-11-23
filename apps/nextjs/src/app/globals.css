@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 126 6% 94%;
+    --foreground: 126 6% 10%;
+    --card: 126 6% 97%;
+    --card-foreground: 126 6% 10%;
+    --popover: 126 6% 97%;
+    --popover-foreground: 126 6% 10%;
+    --primary: 126.43 14% 39.22%;
+    --primary-foreground: 126 15% 98%;
+    --secondary: 126 6% 94%;
+    --secondary-foreground: 126 6% 10%;
+    --muted: 126 6% 100%;
+    --muted-foreground: 126 6% 40%;
+    --accent: 126 6% 88%;
+    --accent-foreground: 126 6% 10%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 126 6% 89%;
+    --input: 126 6% 89%;
+    --ring: 126.49 15.88% 54.31%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 126 6% 10%;
+    --foreground: 126 6% 98%;
+    --card: 126 6% 10%;
+    --card-foreground: 126 6% 98%;
+    --popover: 126 6% 10%;
+    --popover-foreground: 126 6% 98%;
+    --primary: 136.22 26.24% 72.35%;
+    --primary-foreground: 126 15% 12%;
+    --secondary: 126 6% 16%;
+    --secondary-foreground: 126 6% 98%;
+    --muted: 126 6% 16%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 126 6% 16%;
+    --accent-foreground: 126 6% 98%;
+    --destructive: 0 63% 45%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 126 6% 16%;
+    --input: 126 6% 16%;
+    --ring: 126.49 15.88% 54.31%;
+  }
+}
+
+/* In your global CSS file */
+.scroll-shadow-container {
+  position: relative;
+}
+
+.scroll-shadow-container::before,
+.scroll-shadow-container::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50px;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Top overlay */
+.scroll-shadow-container::before {
+  /* top: 0; */
+  /* box-shadow: inset 0 10px 10px -10px rgba(0, 0, 0, 0.3); */
+  /* backdrop-filter: blur(2px); */
+  top: 0;
+  /* Use a gradient for a smooth, subtle fade-to-transparent effect */
+  background-image: linear-gradient(
+    to bottom,
+
+    hsla(var(--background)),
+    transparent
+  );
+}
+
+/* Bottom overlay */
+.scroll-shadow-container::after {
+  /* bottom: 0; */
+  /* box-shadow: inset 0 -10px 10px -10px rgba(0, 0, 0, 0.3); */
+  /* backdrop-filter: blur(2px); */
+  bottom: 0;
+  /* Gradient runs from bottom-to-top */
+  background-image: linear-gradient(
+    to top,
+    hsl(var(--background)),
+    transparent
+  );
+}
+
+/* Visibility classes */
+.scroll-shadow-container.show-top-shadow::before,
+.scroll-shadow-container.show-bottom-shadow::after {
+  opacity: 1;
+}

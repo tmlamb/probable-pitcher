@@ -21,15 +21,9 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     slug: "probable-pitchers",
     scheme: "probablepitcher",
     owner: EXPO_OWNER,
-    version: "2.1.0",
+    version: "2.0.1",
     orientation: "portrait",
     userInterfaceStyle: "automatic",
-    experiments: {
-      tsconfigPaths: true,
-      typedRoutes: true,
-      reactCanary: true,
-      reactCompiler: true,
-    },
     updates: {
       fallbackToCacheTimeout: 10000,
       url: "https://u.expo.dev/abd1f73f-1027-4617-a091-abea678a0784",
@@ -48,7 +42,10 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
       },
-      icon: "./assets/probable-ios.icon",
+      icon: {
+        light: "./assets/icon_light.png",
+        dark: "./assets/icon_dark.png",
+      },
     },
     android: {
       package: `${ANDROID_PACKAGE_NAME}${
@@ -57,10 +54,9 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       icon: "./assets/icon_light.png",
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive_icon_light.png",
-        backgroundColor: "#79af6d",
+        backgroundColor: "#789d7c",
       },
-      googleServicesFile:
-        process.env.GOOGLE_SERVICES_JSON ?? "./google-services.json",
+      googleServicesFile: "./google-services.json",
       edgeToEdgeEnabled: true,
       softwareKeyboardLayoutMode: "pan",
     },
@@ -71,6 +67,10 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       apiBaseUrl: BETTER_AUTH_URL,
       sentryPublicDsn: SENTRY_PUBLIC_DSN,
       appEnv: APP_ENV,
+    },
+    experiments: {
+      tsconfigPaths: true,
+      typedRoutes: true,
     },
     plugins: [
       "expo-web-browser",
@@ -89,11 +89,11 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       [
         "expo-splash-screen",
         {
-          backgroundColor: "#a1d995",
-          image: "./assets/adaptive_icon_light.png",
+          backgroundColor: "#789d7c",
+          image: "./assets/icon_light.png",
           dark: {
-            backgroundColor: "#79af6d",
-            image: "./assets/adaptive_icon_light.png",
+            backgroundColor: "#567259",
+            image: "./assets/icon_dark.png",
           },
         },
       ],

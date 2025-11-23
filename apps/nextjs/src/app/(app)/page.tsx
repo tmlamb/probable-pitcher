@@ -18,7 +18,7 @@ export default function HomePage() {
     <HydrateClient>
       <div className="flex flex-col items-stretch justify-between gap-2 overflow-hidden text-center sm:min-w-80">
         <div className="mx-1.5 flex h-full flex-col">
-          <h1 className="text-primary border-b-border border-b pb-3 text-2xl font-extrabold tracking-normal">
+          <h1 className="text-primary border-b-accent border-b pb-3 text-2xl font-extrabold tracking-normal">
             <Link href="/" className="">
               Probable Pitcher
             </Link>
@@ -42,7 +42,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="bg-card border-border relative mr-0 h-full w-full overflow-x-hidden rounded-none border border-r-0 border-l-0 sm:overflow-y-auto sm:rounded-l-lg sm:border-l md:mr-3 md:rounded-lg md:border-r">
+      <div className="bg-accent border-primary relative mr-0 h-full w-full overflow-x-hidden rounded-none border border-l-0 border-r-0 sm:overflow-y-scroll sm:rounded-l-lg sm:border-l md:mr-3 md:rounded-lg md:border-r">
         <Suspense>
           <PitcherSearch />
         </Suspense>

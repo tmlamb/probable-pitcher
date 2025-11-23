@@ -1,12 +1,14 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { useRouter } from "expo-router";
 import { useQueryClient } from "@tanstack/react-query";
 
-import BrandModal from "~/components/BrandModal";
 import Card from "~/components/Card";
+import IconModal from "~/components/IconModal";
 import PressableThemed from "~/components/PressableThemed";
 import { registerForPushNotifications } from "~/hooks/use-notifications";
 import { trpc } from "~/utils/api";
+import tw from "~/utils/tailwind";
+import TextThemed from "../components/TextThemed";
 
 export default function DeviceSetup() {
   const queryClient = useQueryClient();
@@ -17,21 +19,21 @@ export default function DeviceSetup() {
     .catch(console.error);
 
   return (
-    <BrandModal>
-      <View className="flex grow justify-center gap-4">
-        <Text className="text-foreground text-3xl font-semibold sm:text-4xl md:text-5xl">
-          Enable game day alerts
-        </Text>
-        <Text className="text-foreground text-lg md:text-xl">
+    <IconModal>
+      <View style={tw`flex grow justify-center gap-4`}>
+        <TextThemed style={tw`text-2xl font-semibold`}>
+          Enable game-day alerts
+        </TextThemed>
+        <TextThemed style={tw`text-base`} variant="muted">
           Probable Pitcher notifies you in the morning on days when a pitcher
           you follow is scheduled to start. You'll only get one notification per
           day, unless there is a late schedule change for a pitcher you follow.
-        </Text>
-        <Text className="text-foreground text-lg md:text-xl">
-          Select <Text className="font-bold">“Allow”</Text> on the next screen
-          to enable notifications. You can change this option later in the
-          application settings.
-        </Text>
+        </TextThemed>
+        <TextThemed style={tw`text-base`} variant="muted">
+          Select <TextThemed style={tw`font-bold`}>“Allow”</TextThemed> on the
+          next screen to enable notifications. You can change this option later
+          in the application settings.
+        </TextThemed>
       </View>
       <PressableThemed
         onPress={() =>
@@ -39,12 +41,10 @@ export default function DeviceSetup() {
         }
         accessibilityLabel={`Configure application's notification permissions`}
       >
-        <Card className="bg-primary mx-0 justify-center">
-          <Text className="text-primary-foreground text-xl font-bold">
-            Continue
-          </Text>
+        <Card style={tw`mx-0 justify-center`} variant="primary">
+          <TextThemed variant="secondary">Continue</TextThemed>
         </Card>
       </PressableThemed>
-    </BrandModal>
+    </IconModal>
   );
 }

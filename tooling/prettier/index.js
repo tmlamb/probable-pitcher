@@ -1,12 +1,8 @@
+import { fileURLToPath } from "url";
+
 /** @typedef {import("prettier").Config} PrettierConfig */
-/**
- * @typedef {import("prettier-plugin-tailwindcss").PluginOptions}
- * TailwindConfig
- */
-/**
- * @typedef {import("@ianvs/prettier-plugin-sort-imports").PluginConfig}
- * SortImportsConfig
- */
+/** @typedef {import("prettier-plugin-tailwindcss").PluginOptions} TailwindConfig */
+/** @typedef {import("@ianvs/prettier-plugin-sort-imports").PluginConfig} SortImportsConfig */
 
 /** @type { PrettierConfig | SortImportsConfig | TailwindConfig } */
 const config = {
@@ -14,7 +10,11 @@ const config = {
     "@ianvs/prettier-plugin-sort-imports",
     "prettier-plugin-tailwindcss",
   ],
-  tailwindFunctions: ["cn", "cva"],
+  tailwindConfig: fileURLToPath(
+    new URL("../../tooling/tailwind/base.ts", import.meta.url),
+  ),
+  tailwindFunctions: ["cn", "cva", "tw", "tw.style"],
+  tailwindAttributes: ["className", "class", "style"],
   importOrder: [
     "<TYPES>",
     "^(react/(.*)$)|^(react$)|^(react-native(.*)$)",
@@ -31,7 +31,7 @@ const config = {
     "^[./]",
   ],
   importOrderParserPlugins: ["typescript", "jsx", "decorators-legacy"],
-  importOrderTypeScriptVersion: "5.0.0",
+  importOrderTypeScriptVersion: "4.4.0",
   overrides: [
     {
       files: "*.json.hbs",
@@ -40,7 +40,7 @@ const config = {
       },
     },
     {
-      files: "*.ts.hbs",
+      files: "*.js.hbs",
       options: {
         parser: "babel",
       },

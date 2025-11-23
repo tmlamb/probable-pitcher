@@ -1,11 +1,12 @@
 {
   "name": "@probable/eslint-config",
   "private": true,
+  "version": "2.0.0",
   "type": "module",
   "exports": {
-    "./base": "./base.ts",
-    "./nextjs": "./nextjs.ts",
-    "./react": "./react.ts"
+    "./base": "./base.js",
+    "./nextjs": "./nextjs.js",
+    "./react": "./react.js"
   },
   "scripts": {
     "clean": "git clean -xdf .cache .turbo node_modules",
@@ -13,20 +14,18 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@eslint/compat": "1.4.1",
-    "@eslint/js": "catalog:",
-    "@next/eslint-plugin-next": "16.0.1",
-    "eslint-plugin-import": "2.32.0",
+    "@eslint/compat": "1.2.8",
+    "@next/eslint-plugin-next": "canary",
+    "eslint-plugin-import": "2.31.0",
     "eslint-plugin-jsx-a11y": "6.10.2",
     "eslint-plugin-react": "7.37.5",
-    "eslint-plugin-react-hooks": "7.0.1",
-    "eslint-plugin-turbo": "2.6.0",
-    "typescript-eslint": "8.46.3"
+    "eslint-plugin-react-hooks": "6.0.0-rc.1",
+    "eslint-plugin-turbo": "2.5.1",
+    "typescript-eslint": "8.31.1"
   },
   "devDependencies": {
     "@probable/prettier-config": "workspace:*",
     "@probable/tsconfig": "workspace:*",
-    "@types/node": "catalog:",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"

@@ -1,25 +1,25 @@
 import type { CodedError } from "expo-modules-core";
 import { useEffect, useRef } from "react";
-import { AppState, Pressable, Text, useColorScheme, View } from "react-native";
+import { AppState, Pressable, View } from "react-native";
 import * as AppleAuthentication from "expo-apple-authentication";
+import { Image } from "expo-image";
 import { Platform } from "expo-modules-core";
 import { useRouter } from "expo-router";
 import { useQueryClient } from "@tanstack/react-query";
+import { useAppColorScheme } from "twrnc";
 
-import BrandModal from "~/components/BrandModal";
-import {
-  AppleAuthenticationButtonStyled,
-  ImageStyled,
-} from "~/components/Styled";
+import IconModal from "~/components/IconModal";
 import { trpc } from "~/utils/api";
 import { authClient } from "~/utils/auth";
+import tw from "~/utils/tailwind";
+import TextThemed from "../components/TextThemed";
 
 export default function SignIn() {
   const queryClient = useQueryClient();
   const router = useRouter();
 
   // TODO add color scheme toggle to sign-in page
-  const colorScheme = useColorScheme();
+  const [colorScheme] = useAppColorScheme(tw);
 
   const appState = useRef(AppState.currentState);
 
@@ -47,26 +47,31 @@ export default function SignIn() {
     return () => {
       listener.remove();
     };
-  }, [router, session.data]);
+  });
 
   return (
-    <BrandModal>
-      <View className="flex grow justify-center gap-4">
-        <Text className="text-foreground text-center text-4xl font-semibold sm:text-5xl md:text-6xl">
-          Welcome to{"\n"}Probable Pitcher
-        </Text>
-        <Text className="text-muted text-center text-lg md:text-xl">
+    <IconModal>
+      <View style={tw`flex grow justify-center gap-4`}>
+        <TextThemed style={tw`px-8 text-center text-4xl font-semibold`}>
+          Welcome to Probable Pitcher
+        </TextThemed>
+        <TextThemed style={tw`text-center text-base`} variant="muted">
           Sign in with one of the options below to start
-        </Text>
+        </TextThemed>
       </View>
-      <View className="flex gap-8">
+      <View style={tw`flex gap-8`}>
         <Pressable
-          className="flex h-[45px] justify-center rounded-lg border-1 border-gray-200 bg-[#f2f2f2] py-[.65rem] shadow-2xs transition-opacity duration-200 active:opacity-40 dark:active:opacity-60"
+          style={tw`flex h-[44px] justify-center rounded-xl bg-[#f2f2f2] shadow-sm active:opacity-10`}
           onPress={async () => {
             try {
               await authClient.signIn.social({
                 provider: "google",
                 callbackURL: "/",
+                fetchOptions: {
+                  onSuccess: () => {
+                    router.replace("/");
+                  },
+                },
               });
               queryClient
                 .invalidateQueries(trpc.pathFilter())
@@ -77,15 +82,15 @@ export default function SignIn() {
             }
           }}
         >
-          <ImageStyled
+          <Image
             alt="Sign in with Google"
-            className="h-full"
+            style={tw`h-1/2`}
             contentFit="contain"
             source={{ uri: "google_signin_neutral" }}
           />
         </Pressable>
         {(Platform.OS === "ios" || Platform.OS === "macos") && (
-          <AppleAuthenticationButtonStyled
+          <AppleAuthentication.AppleAuthenticationButton
             buttonType={
               AppleAuthentication.AppleAuthenticationButtonType.CONTINUE
             }
@@ -94,7 +99,7 @@ export default function SignIn() {
                 ? AppleAuthentication.AppleAuthenticationButtonStyle.WHITE
                 : AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
             }
-            className="h-[45px] w-full overflow-hidden rounded-lg"
+            style={tw`mx-auto h-[44px] w-full overflow-hidden rounded-xl active:opacity-10`}
             onPress={async () => {
               try {
                 const credential = await AppleAuthentication.signInAsync({
@@ -129,7 +134,7 @@ export default function SignIn() {
           />
         )}
       </View>
-    </BrandModal>
+    </IconModal>
   );
 }
 

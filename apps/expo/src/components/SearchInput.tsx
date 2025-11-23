@@ -1,5 +1,6 @@
+import type { ClassInput } from "twrnc";
 import { useState } from "react";
-import { Dimensions, Keyboard, Platform, Text, View } from "react-native";
+import { Dimensions, Keyboard, Platform, View } from "react-native";
 import Animated, {
   FadeInRight,
   FadeOutRight,
@@ -8,19 +9,27 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import Feather from "@expo/vector-icons/Feather";
+import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
+import tw from "~/utils/tailwind";
 import PressableThemed from "./PressableThemed";
 import TextInputThemed from "./TextInputThemed";
+import TextThemed from "./TextThemed";
 
 interface Props {
   onChange: (text?: string) => void;
   onActive: () => void;
   onCancel: () => void;
+  style?: ClassInput;
 }
 
-export default function SearchInput({ onChange, onActive, onCancel }: Props) {
+export default function SearchInput({
+  onChange,
+  onActive,
+  onCancel,
+  style,
+}: Props) {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState<string>();
   const [showCancelButton, setShowCancelButton] = useState(false);
@@ -39,6 +48,7 @@ export default function SearchInput({ onChange, onActive, onCancel }: Props) {
   return (
     <Animated.View
       layout={LinearTransition}
+      style={tw.style(style)}
       onLayout={(event) => {
         const roundedWidth = Math.round(event.nativeEvent.layout.width);
         if (roundedWidth !== searchComponentWidth) {
@@ -51,7 +61,11 @@ export default function SearchInput({ onChange, onActive, onCancel }: Props) {
         }
       }}
     >
-      <View className="mb-1.5 flex w-full flex-row flex-nowrap items-center justify-between">
+      <View
+        style={tw.style(
+          "mb-1.5 flex w-full flex-row flex-nowrap items-center justify-between",
+        )}
+      >
         <Animated.View style={searchFilterStyle}>
           <TextInputThemed
             onFocus={() => {
@@ -89,12 +103,12 @@ export default function SearchInput({ onChange, onActive, onCancel }: Props) {
               setSearchText(text);
             }}
             value={searchText ?? ""}
-            className="bg-card"
+            style={tw.style("rounded-xl")}
             leftIcon={
               <>
-                <Text className="text-muted absolute ml-2">
-                  <Feather name="search" size={18} />
-                </Text>
+                <TextThemed variant="muted" style={tw`absolute ml-2`}>
+                  <AntDesign name="search1" size={18} />
+                </TextThemed>
               </>
             }
             placeholder="Search"
@@ -112,7 +126,7 @@ export default function SearchInput({ onChange, onActive, onCancel }: Props) {
                 setCancelButtonWidth(roundedWidth);
                 searchFilterWidth.set(() =>
                   withTiming(searchComponentWidth - roundedWidth, {
-                    duration: 100,
+                    duration: 400,
                   }),
                 );
               }
@@ -138,9 +152,12 @@ export default function SearchInput({ onChange, onActive, onCancel }: Props) {
               }}
               accessibilityLabel="Clear search filter"
             >
-              <Text className="text-primary pl-3 text-lg font-bold tracking-tight">
+              <TextThemed
+                variant="primary"
+                style={tw`pl-3 text-lg font-bold tracking-tight`}
+              >
                 Done
-              </Text>
+              </TextThemed>
             </PressableThemed>
           </Animated.View>
         )}

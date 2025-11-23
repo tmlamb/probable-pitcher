@@ -1,6 +1,7 @@
 {
   "extends": ["@probable/tsconfig/base.json"],
   "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]
     },
@@ -8,15 +9,6 @@
     "checkJs": false,
     "moduleSuffixes": [".ios", ".android", ".native", ""]
   },
-  "include": [
-    "src",
-    "*.ts",
-    "*.js",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts",
-    "nativewind-env.d.ts",
-    "postcss.config.js",
-    "metro.config.cjs"
-  ],
+  "include": ["src", "*.ts", "*.js", ".expo/types/**/*.ts", "expo-env.d.ts"],
   "exclude": ["node_modules"]
 }

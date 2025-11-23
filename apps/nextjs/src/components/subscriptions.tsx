@@ -3,9 +3,8 @@
 import { useRef } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
-import type { PitcherSubscription } from "@probable/ui/utils";
-import { cn } from "@probable/ui";
-import { subscriptionSchedule } from "@probable/ui/utils";
+import type { PitcherSubscription } from "@probable/ui";
+import { cn, subscriptionSchedule } from "@probable/ui";
 
 import { useScrollShadow } from "~/hooks/use-scroll-shadow";
 import { useTRPC } from "~/trpc/react";
@@ -21,9 +20,11 @@ export function Subscriptions() {
 
   if (subscriptions.length === 0) {
     return (
-      <div className="flex w-full flex-grow flex-col gap-4 pt-3">
+      <div className="flex w-full flex-col gap-4">
         <div className="inset-0 flex flex-col items-center justify-center">
-          <p className="text-foreground text-lg">No subscriptions yet</p>
+          <p className="text-accent-foreground text-2xl font-bold">
+            No subscriptions yet
+          </p>
         </div>
       </div>
     );
@@ -40,7 +41,7 @@ export function Subscriptions() {
     >
       <div
         ref={scrollRef}
-        className="relative z-0 mr-1 flex h-full w-full flex-col gap-4 overflow-y-auto p-3"
+        className="relative z-0 mr-1 flex h-full w-full flex-col gap-4 overflow-y-scroll p-3"
       >
         {schedule.map(({ nextGameDay, data }) => {
           return (
@@ -48,7 +49,7 @@ export function Subscriptions() {
               key={nextGameDay}
               className="flex flex-col items-stretch first:mt-3"
             >
-              <h2 className="text-muted text-left text-xs tracking-wider uppercase">
+              <h2 className="text-muted-foreground text-left text-xs uppercase tracking-wider">
                 {nextGameDay}
               </h2>
               <div className="flex flex-col">
@@ -79,8 +80,8 @@ export function PitcherCard(props: {
 }) {
   return (
     <div className={cn("flex flex-row items-center gap-1.5", props.className)}>
-      <p className="text-foreground p-[.425rem]">{props.pitcher.name}</p>
-      <div className="text-muted flex flex-col items-center text-xs">
+      <p className="p-[.425rem]">{props.pitcher.name}</p>
+      <div className="text-muted-foreground flex flex-col items-center text-xs">
         <p className="">{props.pitcher.number}</p>
         <p className="">{props.pitcher.team.abbreviation}</p>
       </div>
@@ -95,7 +96,7 @@ export function SubscriptionsSkeleton(props: { pulse?: boolean }) {
       <div className="mt-3 flex flex-col items-stretch">
         <h2
           className={cn(
-            "bg-muted-foreground w-1/3 rounded text-left text-xs tracking-wider uppercase",
+            "bg-muted-foreground w-1/3 rounded text-left text-xs uppercase tracking-wider",
             pulse && "animate-pulse",
           )}
         >
@@ -116,7 +117,7 @@ export function SubscriptionsSkeleton(props: { pulse?: boolean }) {
       <div className="flex flex-col items-stretch">
         <h2
           className={cn(
-            "bg-muted-foreground w-1/3 rounded text-left text-xs tracking-wider uppercase",
+            "bg-muted-foreground w-1/3 rounded text-left text-xs uppercase tracking-wider",
             pulse && "animate-pulse",
           )}
         >

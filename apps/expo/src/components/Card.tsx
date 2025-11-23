@@ -1,14 +1,19 @@
 import type { AccessibilityState } from "react-native";
+import type { ClassInput } from "twrnc";
+import React from "react";
 import { View } from "react-native";
-import { twMerge } from "tailwind-merge";
+
+import tw from "~/utils/tailwind";
 
 const variantClasses = {
-  default: "bg-card",
+  default:
+    "bg-slate-200 border-slate-300 dark:bg-slate-800 dark:border-slate-600",
+  primary: "bg-sky-600",
 };
 
 interface CardProps {
   children: React.ReactNode;
-  className?: string;
+  style?: ClassInput;
   variant?: keyof typeof variantClasses;
   accessible?: boolean;
   accessibilityLabel?: string;
@@ -17,7 +22,7 @@ interface CardProps {
 
 export default function Card({
   children,
-  className,
+  style,
   variant = "default",
   accessible = false,
   accessibilityLabel,
@@ -25,10 +30,10 @@ export default function Card({
 }: CardProps) {
   return (
     <View
-      className={twMerge(
-        "mx-3 min-h-[45px] flex-row items-center justify-between rounded-lg px-3 py-2.5",
+      style={tw.style(
+        style,
+        "mx-3 flex-row items-center justify-between rounded-xl px-3 py-2",
         variantClasses[variant],
-        className,
       )}
       accessible={accessible}
       accessibilityLabel={accessibilityLabel}

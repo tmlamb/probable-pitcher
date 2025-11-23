@@ -1,4 +1,4 @@
-import type { z } from "zod/v4";
+import type { z } from "zod";
 import { relations } from "drizzle-orm";
 import { pgTable, unique } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
@@ -39,10 +39,8 @@ export const pitcherRelations = relations(pitcher, ({ one, many }) => ({
 }));
 
 export const createPitcherSchema = createInsertSchema(pitcher);
-export const selectPitcherSchema = createSelectSchema(pitcher);
 
-export type PitcherUpsert = z.infer<typeof createPitcherSchema>;
-export type PitcherRef = z.infer<typeof selectPitcherSchema>;
+export type PitcherRef = z.infer<typeof createPitcherSchema>;
 export type Pitcher = Omit<PitcherRef, "ref">;
 
 export const game = pgTable("game", (t) => ({
