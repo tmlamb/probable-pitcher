@@ -1,4 +1,5 @@
 import { Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Application from "expo-application";
 import { Link } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
@@ -8,6 +9,7 @@ import PressableThemed from "~/components/PressableThemed";
 
 // TODO add color theme toggle to settings screen
 export default function Settings() {
+  const insets = useSafeAreaInsets();
   return (
     <View className="bg-background flex-1">
       <View className="mt-8 flex-1 justify-between">
@@ -58,13 +60,19 @@ export default function Settings() {
             </PressableThemed>
           </Link>
         </View>
-        <Text
-          maxFontSizeMultiplier={1.5}
-          className={`text-muted mb-6 self-center text-base`}
+        <View
+          style={{
+            marginBottom: insets.bottom,
+          }}
         >
-          Probable Pitcher v{Application.nativeApplicationVersion}b
-          {Application.nativeBuildVersion}
-        </Text>
+          <Text
+            maxFontSizeMultiplier={1.5}
+            className={`text-muted self-center text-base`}
+          >
+            Probable Pitcher v{Application.nativeApplicationVersion}b
+            {Application.nativeBuildVersion}
+          </Text>
+        </View>
       </View>
     </View>
   );

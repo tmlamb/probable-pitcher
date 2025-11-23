@@ -98,6 +98,16 @@ export const faqs = [
     answer:
       "You can remove pitchers you no longer wish to receive notifications for using the Edit button on the homepage. You can also disable all notifications in the application settings.",
   },
+  {
+    question: "What time are notifications sent?",
+    answer:
+      "Morning notifications are sent at approximately 9 AM in your local time zone. Additional notifications are sent as lineup changes are detected throughout the day.",
+  },
+  {
+    question: "What time zone are game times displayed in?",
+    answer:
+      "Game times are displayed in your local time zone based on the time zone settings of your device.",
+  },
 ];
 
 export function capitalizeFirstLetter(word: string) {

@@ -93,12 +93,12 @@ export async function sendNotifications(sendStartTime: Date) {
     const localHour = new TZDate(sendStartTime, device.timezone).getHours();
     if (localHour < 9 || localHour >= 21) {
       console.debug(
-        `User device ${device.id} skipped alert because ${localHour} is in quiet hours for the timezone '${device.timezone}'.`,
+        `User device ${device.id} skipped alert because ${localHour} is in quiet hours for the time zone '${device.timezone}'.`,
       );
       continue;
     }
     console.debug(
-      `User device ${device.id} sent alert because ${localHour} is in working hours for the timezone '${device.timezone}'.`,
+      `User device ${device.id} sent alert because ${localHour} is in working hours for the time zone '${device.timezone}'.`,
     );
 
     console.debug(

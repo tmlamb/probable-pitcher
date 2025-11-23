@@ -1,4 +1,4 @@
-import { useColorScheme, View } from "react-native";
+import { View } from "react-native";
 import { FadeInDown } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
@@ -14,7 +14,6 @@ interface BrandModalProps {
 }
 
 export default function BrandModal({ children }: BrandModalProps) {
-  const colorScheme = useColorScheme();
   const insets = useSafeAreaInsets();
 
   return (
@@ -26,7 +25,7 @@ export default function BrandModal({ children }: BrandModalProps) {
         locations={[0, 0.15, 0.4]}
         className="flex-1"
       >
-        <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
+        <StatusBar style="dark" />
         <View className="flex flex-1 justify-end">
           <View className="flex h-1/3 items-center justify-center">
             <View style={{ paddingTop: insets.top, height: "100%" }}>

@@ -586,7 +586,7 @@ const PitcherCard = ({
             </Text>
           </View>
         </AnimatedViewStyled>
-        {pitcher.nextGameDate && !unsubscribeHandler && (
+        {!pitcher.nextGameDate && !unsubscribeHandler && (
           <AnimatedViewStyled
             entering={FadeInRight}
             exiting={FadeOutRight}
@@ -597,7 +597,7 @@ const PitcherCard = ({
               className="text-muted ml-1.5 text-base tracking-tight"
             >
               {new TZDate(
-                pitcher.nextGameDate,
+                new Date(),
                 Intl.DateTimeFormat().resolvedOptions().timeZone ||
                   "America/New_York",
               )
@@ -607,7 +607,6 @@ const PitcherCard = ({
                   hour12: true,
                 })
                 .toLowerCase()
-                .replace(" ", "")
                 .replace("m", "")}
             </Text>
           </AnimatedViewStyled>
