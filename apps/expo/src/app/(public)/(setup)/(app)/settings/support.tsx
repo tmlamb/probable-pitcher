@@ -1,4 +1,5 @@
 import { Linking, ScrollView, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Feather from "@expo/vector-icons/Feather";
 
 import { faqs } from "@probable/ui/utils";
@@ -6,6 +7,7 @@ import { faqs } from "@probable/ui/utils";
 import PressableThemed from "~/components/PressableThemed";
 
 export default function Support() {
+  const insets = useSafeAreaInsets();
   return (
     <View className="bg-background flex-1 justify-between">
       <ScrollView contentContainerClassName="justify-start px-3 pt-6">
@@ -29,24 +31,32 @@ export default function Support() {
           </View>
         ))}
       </ScrollView>
-      <PressableThemed
-        onPress={() =>
-          Linking.openURL("https://github.com/tmlamb/probable-pitcher/issues/")
-        }
-        accessibilityRole="link"
-        accessibilityLabel="Open Application Feedback Page Link In Browser"
-        className={`mb-6 flex-row items-center justify-center self-center`}
+      <View
+        style={{
+          marginBottom: insets.bottom,
+        }}
       >
-        <Text maxFontSizeMultiplier={2} className="text-muted mr-2">
-          <Feather name="github" size={16} />
-        </Text>
-        <Text
-          maxFontSizeMultiplier={2}
-          className="text-primary self-center text-lg font-semibold"
+        <PressableThemed
+          onPress={() =>
+            Linking.openURL(
+              "https://github.com/tmlamb/probable-pitcher/issues/",
+            )
+          }
+          accessibilityRole="link"
+          accessibilityLabel="Open Application Feedback Page Link In Browser"
+          className="flex-row items-center justify-center self-center p-3"
         >
-          Send Feedback
-        </Text>
-      </PressableThemed>
+          <Text maxFontSizeMultiplier={2} className="text-muted mr-2">
+            <Feather name="github" size={16} />
+          </Text>
+          <Text
+            maxFontSizeMultiplier={2}
+            className="text-primary self-center text-lg font-semibold"
+          >
+            Send Feedback
+          </Text>
+        </PressableThemed>
+      </View>
     </View>
   );
 }

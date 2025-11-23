@@ -607,7 +607,6 @@ const PitcherCard = ({
                   hour12: true,
                 })
                 .toLowerCase()
-                .replace(" ", "")
                 .replace("m", "")}
             </Text>
           </AnimatedViewStyled>
