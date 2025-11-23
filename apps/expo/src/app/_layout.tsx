@@ -18,6 +18,7 @@ import { queryClient } from "~/utils/api";
 import "~/global.css";
 
 import { useEffect, useRef } from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import Card from "~/components/Card";
 import PressableThemed from "~/components/PressableThemed";
@@ -67,9 +68,11 @@ export default function RootLayout() {
 
   return (
     <View className="bg-background flex-1">
-      <QueryClientProvider client={queryClient}>
-        <Slot />
-      </QueryClientProvider>
+      <SafeAreaProvider>
+        <QueryClientProvider client={queryClient}>
+          <Slot />
+        </QueryClientProvider>
+      </SafeAreaProvider>
     </View>
   );
 }

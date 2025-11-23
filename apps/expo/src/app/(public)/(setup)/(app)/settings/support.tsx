@@ -44,7 +44,7 @@ export default function Support() {
           }
           accessibilityRole="link"
           accessibilityLabel="Open Application Feedback Page Link In Browser"
-          className="flex-row items-center justify-center self-center pt-2"
+          className="flex-row items-center justify-center self-center p-3"
         >
           <Text maxFontSizeMultiplier={2} className="text-muted mr-2">
             <Feather name="github" size={16} />

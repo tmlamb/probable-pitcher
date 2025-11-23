@@ -67,7 +67,7 @@ export default function Settings() {
         >
           <Text
             maxFontSizeMultiplier={1.5}
-            className={`text-muted self-center text-base`}
+            className={`text-muted self-center p-1 text-base`}
           >
             Probable Pitcher v{Application.nativeApplicationVersion}b
             {Application.nativeBuildVersion}
