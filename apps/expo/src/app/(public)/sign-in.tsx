@@ -56,7 +56,7 @@ export default function SignIn() {
       <View className="flex gap-8">
         <Pressable
           className={twMerge(
-            "flex h-[45px] justify-center rounded-lg border-1 border-gray-200 bg-[#f2f2f2] py-[.65rem] shadow-2xs transition-opacity duration-200 active:opacity-40 dark:active:opacity-60",
+            "flex h-[45px] justify-center rounded-lg border-1 border-gray-200 bg-[#f2f2f2] py-[.65rem] shadow-2xs transition-opacity duration-200",
             signInPending ? "opacity-20" : "",
           )}
           disabled={signInPending}
@@ -77,10 +77,7 @@ export default function SignIn() {
         >
           <ImageStyled
             alt="Sign in with Google"
-            className={twMerge(
-              "h-full active:opacity-40 dark:active:opacity-60",
-              signInPending ? "opacity-20" : "",
-            )}
+            className={twMerge("h-full", signInPending ? "opacity-20" : "")}
             contentFit="contain"
             source={{ uri: "google_signin_neutral" }}
           />
