@@ -33,11 +33,11 @@ if (sentryPublicDsn) {
   });
 }
 
-if (Platform.OS === "android") {
-  if (UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
-  }
-}
+// if (Platform.OS === "android") {
+//   if (UIManager.setLayoutAnimationEnabledExperimental) {
+//     UIManager.setLayoutAnimationEnabledExperimental(true);
+//   }
+// }
 
 SplashScreen.preventAutoHideAsync().catch(Sentry.captureException);
 SplashScreen.setOptions({ fade: true, duration: 400 });
@@ -67,9 +67,11 @@ export default function RootLayout() {
   const currentFontScale = useRef(PixelRatio.getFontScale());
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Slot />
-    </QueryClientProvider>
+    <SafeAreaProvider>
+      <QueryClientProvider client={queryClient}>
+        <Slot />
+      </QueryClientProvider>
+    </SafeAreaProvider>
   );
 }
 

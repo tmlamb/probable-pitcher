@@ -31,7 +31,7 @@ export default function AppLayout() {
   }
 
   return (
-    <>
+    <View className="bg-background flex-1">
       <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
       <Stack
         screenOptions={{
@@ -64,6 +64,6 @@ export default function AppLayout() {
           options={{ headerTitle: "Support" }}
         />
       </Stack>
-    </>
+    </View>
   );
 }
