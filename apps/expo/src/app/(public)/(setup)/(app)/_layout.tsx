@@ -1,4 +1,4 @@
-import { ActivityIndicator, useColorScheme } from "react-native";
+import { ActivityIndicator, useColorScheme, View } from "react-native";
 import { useNativeVariable } from "react-native-css";
 import { PermissionStatus } from "expo-notifications";
 import { Redirect, SplashScreen, Stack } from "expo-router";
@@ -16,10 +16,12 @@ export default function AppLayout() {
 
   if (isPending) {
     return (
-      <ActivityIndicator
-        className={`text-foreground absolute m-auto h-full w-full`}
-        size="large"
-      />
+      <View className="bg-background flex-1">
+        <ActivityIndicator
+          className={`text-foreground absolute m-auto h-full w-full`}
+          size="large"
+        />
+      </View>
     );
   }
 

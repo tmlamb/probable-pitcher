@@ -1,4 +1,4 @@
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import * as Application from "expo-application";
 import { Redirect, Slot, SplashScreen } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
@@ -27,10 +27,12 @@ export default function SetupLayout() {
 
   if (versionQuery.isPending || session.isPending) {
     return (
-      <ActivityIndicator
-        className={`text-foreground absolute m-auto h-full w-full`}
-        size="large"
-      />
+      <View className="bg-background flex-1">
+        <ActivityIndicator
+          className={`text-foreground absolute m-auto h-full w-full`}
+          size="large"
+        />
+      </View>
     );
   }
 
