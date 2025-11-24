@@ -6,6 +6,7 @@ import { Platform } from "expo-modules-core";
 import { useRouter } from "expo-router";
 import * as Sentry from "@sentry/react-native";
 import { useQueryClient } from "@tanstack/react-query";
+import { twMerge } from "tailwind-merge";
 
 import BrandModal from "~/components/BrandModal";
 import {
@@ -54,7 +55,10 @@ export default function SignIn() {
       </View>
       <View className="flex gap-8">
         <Pressable
-          className={`flex h-[45px] justify-center rounded-lg border-1 border-gray-200 bg-[#f2f2f2] py-[.65rem] shadow-2xs transition-opacity duration-200 active:opacity-40 dark:active:opacity-60 ${signInPending ? "opacity-20" : ""}`}
+          className={twMerge(
+            "flex h-[45px] justify-center rounded-lg border-1 border-gray-200 bg-[#f2f2f2] py-[.65rem] shadow-2xs transition-opacity duration-200 active:opacity-40 dark:active:opacity-60",
+            signInPending ? "opacity-20" : "",
+          )}
           disabled={signInPending}
           onPress={async () => {
             try {
@@ -73,7 +77,10 @@ export default function SignIn() {
         >
           <ImageStyled
             alt="Sign in with Google"
-            className="h-full"
+            className={twMerge(
+              "h-full active:opacity-40 dark:active:opacity-60",
+              signInPending ? "opacity-20" : "",
+            )}
             contentFit="contain"
             source={{ uri: "google_signin_neutral" }}
           />

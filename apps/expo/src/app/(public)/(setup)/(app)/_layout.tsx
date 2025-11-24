@@ -6,7 +6,7 @@ import { StatusBar } from "expo-status-bar";
 
 import useDeviceSetup from "~/hooks/use-device-setup";
 
-export default function ProtectedLayout() {
+export default function AppLayout() {
   const colorScheme = useColorScheme();
   const backgroundColor = useNativeVariable("--background") as string;
   const foregroundColor = useNativeVariable("--foreground") as string;

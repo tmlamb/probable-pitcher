@@ -67,13 +67,13 @@ export default function RootLayout() {
   const currentFontScale = useRef(PixelRatio.getFontScale());
 
   return (
-    <View className="bg-background flex-1">
-      <SafeAreaProvider>
+    <SafeAreaProvider>
+      <View className="bg-background flex-1">
         <QueryClientProvider client={queryClient}>
           <Slot />
         </QueryClientProvider>
-      </SafeAreaProvider>
-    </View>
+      </View>
+    </SafeAreaProvider>
   );
 }
 
