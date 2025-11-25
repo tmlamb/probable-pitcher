@@ -1,10 +1,4 @@
-import { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  Platform,
-  useColorScheme,
-  View,
-} from "react-native";
+import { ActivityIndicator, useColorScheme, View } from "react-native";
 import { useNativeVariable } from "react-native-css";
 import { PermissionStatus } from "expo-notifications";
 import { Redirect, SplashScreen, Stack } from "expo-router";
@@ -17,20 +11,6 @@ export default function AppLayout() {
   const backgroundColor = useNativeVariable("--background") as string;
   const foregroundColor = useNativeVariable("--foreground") as string;
   const primaryColor = useNativeVariable("--primary") as string;
-
-  const [layoutKick, setLayoutKick] = useState(false);
-  useEffect(() => {
-    if (Platform.OS === "android") {
-      // Force a re-render/layout update 1 frame after mount
-      // to account for the status bar height not being available
-      // during the initial render on Android devices.
-      //
-      // Without this, the header overlaps the status bar on initial load.
-      requestAnimationFrame(() => {
-        setLayoutKick(true);
-      });
-    }
-  }, []);
 
   const { pushPermissionStatus, isPending } = useDeviceSetup();
 
@@ -51,8 +31,12 @@ export default function AppLayout() {
   }
 
   return (
-    <View style={{ flex: 1, paddingBottom: layoutKick ? 0 : 0.1 }}>
-      <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
+    <View className="bg-background flex-1">
+      <StatusBar
+        translucent={false}
+        backgroundColor={backgroundColor}
+        style={colorScheme === "dark" ? "light" : "dark"}
+      />
       <Stack
         screenOptions={{
           headerTitleStyle: {

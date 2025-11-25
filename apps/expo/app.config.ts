@@ -61,7 +61,13 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       },
       googleServicesFile:
         process.env.GOOGLE_SERVICES_JSON ?? "./google-services.json",
+      edgeToEdgeEnabled: false,
       softwareKeyboardLayoutMode: "pan",
+    },
+    androidStatusBar: {
+      translucent: false,
+      backgroundColor: "#a1d995",
+      barStyle: "dark-content",
     },
     extra: {
       eas: {
