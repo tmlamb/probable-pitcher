@@ -378,7 +378,7 @@ export default function Home() {
         ListHeaderComponent={
           <AnimatedViewStyled
             layout={LinearTransition.duration(200)}
-            className={"bg-background/80 mb-3"}
+            className={"mb-3"}
           >
             <AnimatedViewStyled
               layout={LinearTransition}

@@ -61,7 +61,6 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       },
       googleServicesFile:
         process.env.GOOGLE_SERVICES_JSON ?? "./google-services.json",
-      edgeToEdgeEnabled: true,
       softwareKeyboardLayoutMode: "pan",
     },
     extra: {

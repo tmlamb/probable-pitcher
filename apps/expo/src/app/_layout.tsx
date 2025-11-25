@@ -1,11 +1,4 @@
-import {
-  AppState,
-  PixelRatio,
-  Platform,
-  Text,
-  UIManager,
-  View,
-} from "react-native";
+import { AppState, PixelRatio, Text, View } from "react-native";
 import Constants from "expo-constants";
 import { Slot } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -18,7 +11,6 @@ import { queryClient } from "~/utils/api";
 import "~/global.css";
 
 import { useEffect, useRef } from "react";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import Card from "~/components/Card";
 import PressableThemed from "~/components/PressableThemed";
@@ -32,12 +24,6 @@ if (sentryPublicDsn) {
     // spotlight: __DEV__,
   });
 }
-
-// if (Platform.OS === "android") {
-//   if (UIManager.setLayoutAnimationEnabledExperimental) {
-//     UIManager.setLayoutAnimationEnabledExperimental(true);
-//   }
-// }
 
 SplashScreen.preventAutoHideAsync().catch(Sentry.captureException);
 SplashScreen.setOptions({ fade: true, duration: 400 });
@@ -67,11 +53,9 @@ export default function RootLayout() {
   const currentFontScale = useRef(PixelRatio.getFontScale());
 
   return (
-    <SafeAreaProvider>
-      <QueryClientProvider client={queryClient}>
-        <Slot />
-      </QueryClientProvider>
-    </SafeAreaProvider>
+    <QueryClientProvider client={queryClient}>
+      <Slot />
+    </QueryClientProvider>
   );
 }
 

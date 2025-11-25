@@ -1,6 +1,13 @@
 import type { CodedError } from "expo-modules-core";
 import { useEffect, useState } from "react";
-import { Pressable, Text, useColorScheme, View } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  Text,
+  useColorScheme,
+  View,
+} from "react-native";
+import Animated, { FadeIn } from "react-native-reanimated";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { Platform } from "expo-modules-core";
 import { useRouter } from "expo-router";
@@ -10,6 +17,7 @@ import { twMerge } from "tailwind-merge";
 
 import BrandModal from "~/components/BrandModal";
 import {
+  AnimatedViewStyled,
   AppleAuthenticationButtonStyled,
   ImageStyled,
 } from "~/components/Styled";
@@ -74,13 +82,21 @@ export default function SignIn() {
               setSignInPending(false);
             }
           }}
+          accessibilityLabel="Sign in with Google"
+          accessibilityState={{ busy: signInPending, disabled: signInPending }}
         >
-          <ImageStyled
-            alt="Sign in with Google"
-            className={twMerge("h-full", signInPending ? "opacity-20" : "")}
-            contentFit="contain"
-            source={{ uri: "google_signin_neutral" }}
-          />
+          {signInPending ? (
+            <Animated.View entering={FadeIn.duration(500)}>
+              <ActivityIndicator className={`text-muted m-auto`} size="small" />
+            </Animated.View>
+          ) : (
+            <ImageStyled
+              alt="Sign in with Google"
+              className="h-full"
+              contentFit="contain"
+              source={{ uri: "google_signin_neutral" }}
+            />
+          )}
         </Pressable>
         {(Platform.OS === "ios" || Platform.OS === "macos") && (
           <AppleAuthenticationButtonStyled
@@ -93,6 +109,11 @@ export default function SignIn() {
                 : AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
             }
             className={`h-[45px] w-full overflow-hidden rounded-lg ${signInPending ? "opacity-20" : ""}`}
+            accessibilityLabel="Sign in with Apple"
+            accessibilityState={{
+              busy: signInPending,
+              disabled: signInPending,
+            }}
             onPress={async () => {
               if (signInPending) return;
               try {
