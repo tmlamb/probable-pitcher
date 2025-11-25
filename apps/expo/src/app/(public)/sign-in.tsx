@@ -17,7 +17,6 @@ import { twMerge } from "tailwind-merge";
 
 import BrandModal from "~/components/BrandModal";
 import {
-  AnimatedViewStyled,
   AppleAuthenticationButtonStyled,
   ImageStyled,
 } from "~/components/Styled";
@@ -41,6 +40,7 @@ export default function SignIn() {
 
   useEffect(() => {
     if (session.data) {
+      if (router.canDismiss()) router.dismissAll();
       router.replace("/");
     }
   }, [router, session.data]);
@@ -75,6 +75,7 @@ export default function SignIn() {
                 provider: "google",
                 callbackURL: "/",
               });
+              if (router.canDismiss()) router.dismissAll();
               queryClient
                 .invalidateQueries(trpc.pathFilter())
                 .catch(Sentry.captureException);

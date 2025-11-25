@@ -25,7 +25,7 @@ export default function BrandModal({ children }: BrandModalProps) {
         locations={[0, 0.15, 0.4]}
         className="flex-1"
       >
-        <StatusBar style="dark" />
+        <StatusBar style="dark" backgroundColor="transparent" />
         <View className="flex flex-1 justify-end">
           <View className="flex h-1/3 items-center justify-center">
             <View style={{ paddingTop: insets.top, height: "100%" }}>

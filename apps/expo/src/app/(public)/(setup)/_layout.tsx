@@ -47,6 +47,7 @@ export default function SetupLayout() {
     return <Redirect href="/force-update" />;
   }
 
+  // TODO: Try new Protected routes: https://docs.expo.dev/router/advanced/protected/
   if (!session.data) {
     SplashScreen.hide();
     return <Redirect href="/sign-in" />;

@@ -39,6 +39,7 @@ export default function AppLayout() {
       />
       <Stack
         screenOptions={{
+          animation: "ios_from_right",
           headerTitleStyle: {
             color: foregroundColor,
           },

@@ -116,7 +116,7 @@ export default function TextInputThemed({
           onBlur={onBlur}
           value={value ? nbspReplace(value) : value}
           className={twMerge(
-            "text-foreground placeholder:text-muted z-20 w-full px-0 py-1.5 text-xl leading-tight tracking-normal",
+            "text-foreground placeholder:text-muted android:py-0 z-20 w-full px-0 py-1.5 text-xl leading-tight tracking-normal",
             textInputClassName,
           )}
           placeholder={placeholder}
