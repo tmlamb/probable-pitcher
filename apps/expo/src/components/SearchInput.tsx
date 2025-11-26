@@ -8,6 +8,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { Stack } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
 import { useNavigation } from "@react-navigation/native";
 
@@ -55,11 +56,6 @@ export default function SearchInput({ onChange, onActive, onCancel }: Props) {
         <Animated.View style={searchFilterStyle}>
           <TextInputThemed
             onFocus={() => {
-              if (Platform.OS !== "android") {
-                navigation.setOptions({
-                  headerShown: false,
-                });
-              }
               searchFilterWidth.set(() => {
                 return withTiming(searchComponentWidth - cancelButtonWidth, {
                   duration: 300,
@@ -70,11 +66,6 @@ export default function SearchInput({ onChange, onActive, onCancel }: Props) {
             }}
             onBlur={() => {
               if (!searchText) {
-                if (Platform.OS !== "android") {
-                  navigation.setOptions({
-                    headerShown: true,
-                  });
-                }
                 searchFilterWidth.set(() =>
                   withTiming(searchComponentWidth, {
                     duration: 300,
@@ -121,11 +112,6 @@ export default function SearchInput({ onChange, onActive, onCancel }: Props) {
           >
             <PressableThemed
               onPress={() => {
-                if (Platform.OS !== "android") {
-                  navigation.setOptions({
-                    headerShown: true,
-                  });
-                }
                 searchFilterWidth.set(() =>
                   withTiming(searchComponentWidth, {
                     duration: 300,

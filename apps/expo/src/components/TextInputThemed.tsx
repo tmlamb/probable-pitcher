@@ -81,7 +81,7 @@ export default function TextInputThemed({
         className,
       )}
     >
-      <View className="relative ml-2 w-full flex-row items-center justify-between gap-2">
+      <View className="relative ml-2 flex-1 flex-row items-center justify-between gap-2">
         {(leftIconName && (
           <Text maxFontSizeMultiplier={2} className="text-muted">
             <Feather name="search" size={18} />
@@ -116,9 +116,10 @@ export default function TextInputThemed({
           onBlur={onBlur}
           value={value ? nbspReplace(value) : value}
           className={twMerge(
-            "text-foreground placeholder:text-muted android:py-0 z-20 w-full px-0 py-1.5 text-xl leading-tight tracking-normal",
+            "text-foreground placeholder:text-muted z-20 flex-1 px-0 py-1.5 text-xl leading-tight tracking-normal",
             textInputClassName,
           )}
+          style={{ includeFontPadding: false }}
           placeholder={placeholder}
           maxLength={maxLength}
           keyboardType={keyboardType}
@@ -129,7 +130,6 @@ export default function TextInputThemed({
           editable={editable}
           selection={selection}
           onKeyPress={onKeyPress}
-          multiline
           numberOfLines={1}
           scrollEnabled={false}
           submitBehavior="blurAndSubmit"

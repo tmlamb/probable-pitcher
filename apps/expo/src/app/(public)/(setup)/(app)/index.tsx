@@ -24,6 +24,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SplashScreen, Stack, useRouter } from "expo-router";
 import { TZDate } from "@date-fns/tz";
 import Feather from "@expo/vector-icons/Feather";
@@ -250,6 +251,8 @@ export default function Home() {
 
   const [isManualRefreshing, setIsManualRefreshing] = useState(false);
 
+  const insets = useSafeAreaInsets();
+
   if (subscriptionQuery.isPending) {
     return (
       <View className="bg-background flex-1">
@@ -267,27 +270,33 @@ export default function Home() {
       <Stack.Screen
         options={{
           headerShown: !isSearchActive || Platform.OS === "android",
-          headerLeft: () => (
-            <AnimatedViewStyled
-              entering={FadeInUp.duration(200)}
-              exiting={FadeOutUp.duration(200)}
-              className="-ml-3 h-12 w-12 flex-row items-center justify-start"
-            >
-              <PressableThemed
-                onPress={() => {
-                  Keyboard.dismiss();
-                  setIsEditing(false);
-                  router.navigate("/settings");
-                }}
-                accessibilityLabel="Navigate to Application Settings"
-                className="h-full w-full items-start justify-center pl-2"
-              >
-                <Text className="text-primary" maxFontSizeMultiplier={1.2}>
-                  <Feather name="settings" size={22} />
-                </Text>
-              </PressableThemed>
-            </AnimatedViewStyled>
-          ),
+          headerLeft:
+            Platform.OS === "ios" || !isSearchActive
+              ? () => (
+                  <AnimatedViewStyled
+                    entering={FadeInUp.duration(200)}
+                    exiting={FadeOutUp.duration(200)}
+                    className="-ml-3 h-12 w-12 flex-row items-center justify-start"
+                  >
+                    <PressableThemed
+                      onPress={() => {
+                        Keyboard.dismiss();
+                        setIsEditing(false);
+                        router.navigate("/settings");
+                      }}
+                      accessibilityLabel="Navigate to Application Settings"
+                      className="h-full w-full items-start justify-center pl-2"
+                    >
+                      <Text
+                        className="text-primary"
+                        maxFontSizeMultiplier={1.2}
+                      >
+                        <Feather name="settings" size={22} />
+                      </Text>
+                    </PressableThemed>
+                  </AnimatedViewStyled>
+                )
+              : undefined,
           headerRight: () =>
             !isSearchActive && (
               <AnimatedViewStyled
@@ -380,26 +389,26 @@ export default function Home() {
             layout={LinearTransition.duration(200)}
             className="bg-background/80 mb-3"
           >
-            <AnimatedViewStyled
-              layout={LinearTransition}
-              className={twMerge(
-                isSearchActive && Platform.OS === "ios" ? "mt-2" : "mt-8",
-                "mb-3 pl-3",
+            <View style={{ paddingTop: isSearchActive ? insets.top : 0 }}>
+              {!isSearchActive && (
+                <AnimatedViewStyled
+                  entering={FadeIn.duration(500)}
+                  exiting={FadeOut.duration(100)}
+                  layout={LinearTransition}
+                  className={twMerge("android:mt-6 mt-8", "mb-3 pl-3")}
+                >
+                  <Text
+                    className={twMerge(
+                      "text-foreground text-4xl font-bold tracking-tight",
+                    )}
+                    maxFontSizeMultiplier={1.5}
+                    accessibilityRole="header"
+                  >
+                    Probable Pitcher
+                  </Text>
+                </AnimatedViewStyled>
               )}
-            >
-              <Text
-                className={twMerge(
-                  "text-foreground text-4xl font-bold tracking-tight",
-                  isSearchActive && Platform.OS === "ios"
-                    ? "text-transparent"
-                    : null,
-                )}
-                maxFontSizeMultiplier={1.5}
-                accessibilityRole="header"
-              >
-                Probable Pitcher
-              </Text>
-            </AnimatedViewStyled>
+            </View>
             <AnimatedViewStyled layout={LinearTransition} className="mx-3">
               <SearchInput
                 onChange={(text) => setSearchFilter(text ?? "")}
