@@ -14,7 +14,6 @@ import { trpc } from "~/utils/api";
 const openAppStore = () => {
   const storeUrl = Platform.select({
     ios: "https://apps.apple.com/app/id6443663031",
-    // TODO: Confirm this works on android
     android: "market://details?id=com.triplesight.probablepitchers",
   });
 
