@@ -6,6 +6,7 @@ import {
   sendNotifications,
 } from "./jobs/notifications.js";
 import { ingestPitchers } from "./jobs/pitchers.js";
+import { reap } from "./jobs/reaper.js";
 import { ingestTeams } from "./jobs/teams.js";
 
 dotenv.config({ path: "../../.env" });
@@ -42,5 +43,11 @@ if (ingestJobs) {
     console.info("----------SENDING NOTIFICATIONS START----------");
     await sendNotifications(ingestDate);
     console.info("----------SENDING NOTIFICATIONS END----------");
+  }
+
+  if (ingestJobs.includes("reaper")) {
+    console.info("----------REAPING START----------");
+    await reap(ingestDate);
+    console.info("----------REAPING END----------");
   }
 }

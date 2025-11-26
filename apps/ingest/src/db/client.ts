@@ -71,6 +71,12 @@ export const client = {
         })
         .returning();
     },
+    all: () => {
+      return db.query.pitcher.findMany();
+    },
+    deleteById: (id: string) => {
+      return db.delete(pitcher).where(eq(pitcher.id, id));
+    },
   },
   game: {
     byRef: (ref: number) => {

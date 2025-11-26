@@ -15,6 +15,7 @@ const pitcher = z.object({
   number: z.string().nullish(),
   team: z.number(),
   position: z.string().optional(),
+  active: z.boolean().optional(),
 });
 
 export type Pitcher = z.infer<typeof pitcher>;
