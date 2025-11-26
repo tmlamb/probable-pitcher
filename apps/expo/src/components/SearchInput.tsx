@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dimensions, Keyboard, Platform, Text, View } from "react-native";
+import { Dimensions, Keyboard, Text, View } from "react-native";
 import Animated, {
   FadeInRight,
   FadeOutRight,
@@ -8,9 +8,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { Stack } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
-import { useNavigation } from "@react-navigation/native";
 
 import PressableThemed from "./PressableThemed";
 import TextInputThemed from "./TextInputThemed";
@@ -22,7 +20,6 @@ interface Props {
 }
 
 export default function SearchInput({ onChange, onActive, onCancel }: Props) {
-  const navigation = useNavigation();
   const [searchText, setSearchText] = useState<string>();
   const [showCancelButton, setShowCancelButton] = useState(false);
   const [searchComponentWidth, setSearchComponentWidth] = useState<number>(
