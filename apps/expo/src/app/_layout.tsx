@@ -33,10 +33,10 @@ export default function RootLayout() {
 
   useEffect(() => {
     const listener = AppState.addEventListener("change", (status) => {
-      if (status === "active") {
-        // Manage react-query focus state based on app state. Allows triggering refetches on app foregrounding.
-        focusManager.setFocused(true);
+      // Manage react-query focus state based on app state. Allows triggering refetches on app foregrounding.
+      focusManager.setFocused(status === "active");
 
+      if (status === "active") {
         // Reload the JS bundle if the font scale has changed, to avoid layout issues.
         const newFontScale = PixelRatio.getFontScale();
         if (newFontScale !== currentFontScale.current) {
