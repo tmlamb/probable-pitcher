@@ -12,6 +12,22 @@ export async function ingestPitchers(ingestDate: Date) {
   for (const pitcher of pitchers) {
     await processPitcher(pitcher);
   }
+
+  const dbPitchers = await client.pitcher.all();
+
+  for (const dbPitcher of dbPitchers) {
+    if (pitchers.every((p) => p.ref !== dbPitcher.ref)) {
+      console.info("Marking pitcher as gone not returned by API: ", dbPitcher);
+      // await client.pitcher.upsert({
+      //   ref: dbPitcher.ref,
+      //   name: dbPitcher.name,
+      //   teamId: dbPitcher.teamId,
+      //   number: dbPitcher.number ?? null,
+      //   active: dbPitcher.active ?? null,
+      //   gone: true,
+      // });
+    }
+  }
 }
 
 export async function processPitcher(pitcher: Pitcher) {
@@ -29,7 +45,8 @@ export async function processPitcher(pitcher: Pitcher) {
     !existing ||
     existing.name !== pitcher.name ||
     existing.teamId !== existingTeam.id ||
-    (pitcher.number && existing.number !== pitcher.number)
+    (pitcher.number && existing.number !== pitcher.number) ||
+    existing.active !== pitcher.active
   ) {
     console.debug("Upserting pitcher: ", pitcher);
     await client.pitcher.upsert({
@@ -37,6 +54,8 @@ export async function processPitcher(pitcher: Pitcher) {
       name: pitcher.name,
       teamId: existingTeam.id,
       number: pitcher.number ?? null,
+      active: pitcher.active ?? null,
+      gone: false,
     });
 
     const pitchersWithName = await client.pitcher.byName(pitcher.name);

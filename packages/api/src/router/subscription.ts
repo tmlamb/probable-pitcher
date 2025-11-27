@@ -28,6 +28,8 @@ export const subscriptionRouter = {
             name: true,
             number: true,
             teamId: true,
+            active: true,
+            gone: true,
           },
         },
       },

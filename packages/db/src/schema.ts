@@ -28,6 +28,8 @@ export const pitcher = pgTable("pitcher", (t) => ({
     .notNull()
     .references(() => team.id, { onDelete: "restrict" }),
   number: t.text(),
+  active: t.boolean(),
+  gone: t.boolean().default(false).notNull(),
 }));
 
 export const pitcherRelations = relations(pitcher, ({ one, many }) => ({

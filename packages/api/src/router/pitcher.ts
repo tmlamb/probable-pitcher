@@ -18,6 +18,8 @@ export const pitcherRouter = {
           teamId: pitcher.teamId,
           number: pitcher.number,
           teamAbbreviation: team.abbreviation,
+          active: pitcher.active,
+          gone: pitcher.gone,
         })
         .from(pitcher)
         .innerJoin(team, eq(pitcher.teamId, team.id))

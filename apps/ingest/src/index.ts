@@ -44,10 +44,4 @@ if (ingestJobs) {
     await sendNotifications(ingestDate);
     console.info("----------SENDING NOTIFICATIONS END----------");
   }
-
-  if (ingestJobs.includes("reaper")) {
-    console.info("----------REAPING START----------");
-    await reap(ingestDate);
-    console.info("----------REAPING END----------");
-  }
 }
