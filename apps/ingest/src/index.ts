@@ -6,7 +6,6 @@ import {
   sendNotifications,
 } from "./jobs/notifications.js";
 import { ingestPitchers } from "./jobs/pitchers.js";
-import { reap } from "./jobs/reaper.js";
 import { ingestTeams } from "./jobs/teams.js";
 
 dotenv.config({ path: "../../.env" });
