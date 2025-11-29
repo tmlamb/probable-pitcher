@@ -31,5 +31,8 @@ USER root
 
 ARG DATABASE_URL
 
+RUN apk add --no-cache postgresql-client
+
 WORKDIR /probable-pitcher/packages/db
-CMD ["sh", "-c", "pnpm run push && pnpm run migrate"]
+
+CMD ["sh", "-c", "psql \"$DATABASE_URL\" -f init.sql && pnpm push"]

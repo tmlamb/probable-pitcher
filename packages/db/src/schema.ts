@@ -1,6 +1,6 @@
 import type { z } from "zod/v4";
-import { relations } from "drizzle-orm";
-import { pgTable, unique } from "drizzle-orm/pg-core";
+import { relations, sql } from "drizzle-orm";
+import { index, pgTable, unique } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const team = pgTable("team", (t) => ({
@@ -19,18 +19,22 @@ export const createTeamSchema = createInsertSchema(team);
 export type TeamRef = z.infer<typeof createTeamSchema>;
 export type Team = Omit<TeamRef, "ref">;
 
-export const pitcher = pgTable("pitcher", (t) => ({
-  id: t.uuid().notNull().primaryKey().defaultRandom(),
-  ref: t.integer().notNull().unique(),
-  name: t.varchar({ length: 127 }).notNull(),
-  teamId: t
-    .uuid()
-    .notNull()
-    .references(() => team.id, { onDelete: "restrict" }),
-  number: t.text(),
-  active: t.boolean(),
-  gone: t.boolean().default(false).notNull(),
-}));
+export const pitcher = pgTable(
+  "pitcher",
+  (t) => ({
+    id: t.uuid().notNull().primaryKey().defaultRandom(),
+    ref: t.integer().notNull().unique(),
+    name: t.varchar({ length: 127 }).notNull(),
+    teamId: t
+      .uuid()
+      .notNull()
+      .references(() => team.id, { onDelete: "restrict" }),
+    number: t.text(),
+    active: t.boolean(),
+    gone: t.boolean().default(false).notNull(),
+  }),
+  () => [index("name_search_index").using("gin", sql.raw("name gin_trgm_ops"))],
+);
 
 export const pitcherRelations = relations(pitcher, ({ one, many }) => ({
   team: one(team, { fields: [pitcher.teamId], references: [team.id] }),
@@ -156,7 +160,7 @@ export const device = pgTable(
     timezone: t.varchar({ length: 255 }).notNull(),
     notificationsEnabled: t.boolean().default(true).notNull(),
   }),
-  (t) => [unique().on(t.pushToken, t.userId)],
+  (t) => [unique("device_pushToken_userId_unique").on(t.userId, t.pushToken)],
 );
 
 export const deviceRelations = relations(device, ({ one, many }) => ({
