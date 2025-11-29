@@ -281,3 +281,7 @@ export function isQueryError(error: unknown): error is QueryError {
     typeof (error as Record<string, unknown>).code === "string"
   );
 }
+
+export function isUniqueViolationError(error: unknown): boolean {
+  return isQueryError(error) && error.code === "23505";
+}
