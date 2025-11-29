@@ -239,6 +239,7 @@ export const verification = pgTable("verification", (t) => ({
   updatedAt: t.timestamp(),
 }));
 
+// API Key table definition used only for testing in dev
 export const apikey = pgTable("apikey", (t) => ({
   id: t.text().primaryKey(),
   name: t.text(),
