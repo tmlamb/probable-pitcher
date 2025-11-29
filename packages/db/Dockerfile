@@ -35,4 +35,6 @@ RUN apk add --no-cache postgresql-client
 
 WORKDIR /probable-pitcher/packages/db
 
-CMD ["sh", "-c", "psql \"$DATABASE_URL\" -f init.sql && pnpm push"]
+RUN chmod +x ./entrypoint.sh
+
+ENTRYPOINT ["./entrypoint.sh"]

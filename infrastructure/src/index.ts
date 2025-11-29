@@ -246,12 +246,6 @@ const migrationJob = new k8s.batch.v1.Job(
                   },
                 },
               ],
-
-              command: ["sh", "-c"],
-              args: [
-                'psql "$DATABASE_URL" -f init.sql && pnpm push; curl -s http://localhost:9091/quitquitquit',
-              ],
-
               resources: {
                 requests: {
                   cpu: isProd ? "25m" : "5m",
