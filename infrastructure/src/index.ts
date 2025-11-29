@@ -236,6 +236,7 @@ const migrationJob = new k8s.batch.v1.Job(
               image: `ghcr.io/tmlamb/probable-migration:${
                 changedDatabase ? imageTag : "latest"
               }`,
+              imagePullPolicy: "Always",
               env: [
                 {
                   name: "DATABASE_URL",
@@ -327,6 +328,7 @@ const seedJob = new k8s.batch.v1.CronJob(
                   image: `ghcr.io/tmlamb/probable-ingest:${
                     changedIngest ? imageTag : "latest"
                   }`,
+                  imagePullPolicy: "Always",
                   env: [
                     {
                       name: "DATABASE_URL",
@@ -429,6 +431,7 @@ const playerJob = new k8s.batch.v1.CronJob(
                   image: `ghcr.io/tmlamb/probable-ingest:${
                     changedIngest ? imageTag : "latest"
                   }`,
+                  imagePullPolicy: "Always",
                   env: [
                     {
                       name: "DATABASE_URL",
@@ -535,6 +538,7 @@ const notifyJob = new k8s.batch.v1.CronJob(
                   image: `ghcr.io/tmlamb/probable-ingest:${
                     changedIngest ? imageTag : "latest"
                   }`,
+                  imagePullPolicy: "Always",
                   env: [
                     {
                       name: "DATABASE_URL",
@@ -650,7 +654,7 @@ const appDeployment = new k8s.apps.v1.Deployment(
               image: `ghcr.io/tmlamb/probable-nextjs:${
                 changedNextjs ? imageTag : "latest"
               }`,
-
+              imagePullPolicy: "Always",
               ports: [{ name: "http", containerPort: 3000 }],
               resources: {
                 requests: {
