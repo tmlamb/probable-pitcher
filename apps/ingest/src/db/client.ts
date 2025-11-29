@@ -52,7 +52,7 @@ export const client = {
         where: eq(pitcher.ref, ref),
       });
     },
-    upsert: ({ ref, name, teamId, number }: PitcherUpsert) => {
+    upsert: ({ ref, name, teamId, number, active, gone }: PitcherUpsert) => {
       return db
         .insert(pitcher)
         .values({
@@ -60,6 +60,8 @@ export const client = {
           name,
           number,
           teamId,
+          active,
+          gone,
         })
         .onConflictDoUpdate({
           target: pitcher.ref,
@@ -67,6 +69,8 @@ export const client = {
             name,
             number,
             teamId,
+            active,
+            gone,
           },
         })
         .returning();

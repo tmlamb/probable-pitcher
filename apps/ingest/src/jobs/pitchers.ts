@@ -8,7 +8,7 @@ export async function ingestPitchers(ingestDate: Date) {
   const date = formatISO(ingestDate, { representation: "date" });
 
   const pitchers = await getPitchers(date);
-  console.debug("Found pitchers: ", pitchers);
+  console.debug("Found pitchers: ", JSON.stringify(pitchers));
   for (const pitcher of pitchers) {
     await processPitcher(pitcher);
   }
@@ -17,15 +17,14 @@ export async function ingestPitchers(ingestDate: Date) {
 
   for (const dbPitcher of dbPitchers) {
     if (pitchers.every((p) => p.ref !== dbPitcher.ref)) {
-      console.info("Marking pitcher as gone not returned by API: ", dbPitcher);
-      // await client.pitcher.upsert({
-      //   ref: dbPitcher.ref,
-      //   name: dbPitcher.name,
-      //   teamId: dbPitcher.teamId,
-      //   number: dbPitcher.number ?? null,
-      //   active: dbPitcher.active ?? null,
-      //   gone: true,
-      // });
+      console.info(
+        "Marking pitcher as gone not returned by API: ",
+        JSON.stringify(dbPitcher),
+      );
+      await client.pitcher.upsert({
+        ...dbPitcher,
+        gone: true,
+      });
     }
   }
 }
