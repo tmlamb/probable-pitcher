@@ -58,7 +58,12 @@ export const subscriptionSchedule = (
       },
     }))
     .orderBy((p) => p.nextGameDate)
+    .orderBy((p) => (p.active ? 0 : 1))
+    .orderBy((p) => (p.gone ? 1 : 0))
     .groupBy((p) => {
+      if (p.gone) return "Show's Over";
+      if (p.active === false) return "Inactive";
+
       const date = p.nextGameDate;
       if (date) {
         const dateForSection = format(date, "EEE, MMM d");

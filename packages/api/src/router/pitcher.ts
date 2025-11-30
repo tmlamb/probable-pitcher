@@ -1,7 +1,7 @@
 import type { TRPCRouterRecord } from "@trpc/server";
 import { z } from "zod/v4";
 
-import { eq, ilike, or, sql } from "@probable/db";
+import { and, eq, ilike, or, sql } from "@probable/db";
 import { pitcher, team } from "@probable/db/schema";
 
 import { protectedProcedure } from "../trpc";
@@ -24,11 +24,14 @@ export const pitcherRouter = {
         .from(pitcher)
         .innerJoin(team, eq(pitcher.teamId, team.id))
         .where(
-          or(
-            sql`similarity(${pitcher.name}, ${name}) > 0.25`,
-            ilike(pitcher.name, `%${name}%`),
-            ilike(team.name, `%${name}%`),
-            eq(team.abbreviation, name.toUpperCase()),
+          and(
+            eq(pitcher.gone, false),
+            or(
+              sql`similarity(${pitcher.name}, ${name}) > 0.25`,
+              ilike(pitcher.name, `%${name}%`),
+              ilike(team.name, `%${name}%`),
+              eq(team.abbreviation, name.toUpperCase()),
+            ),
           ),
         )
         .orderBy(sql`similarity(${pitcher.name}, ${name}) DESC`)

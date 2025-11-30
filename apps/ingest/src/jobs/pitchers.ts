@@ -53,7 +53,7 @@ export async function processPitcher(pitcher: Pitcher) {
       name: pitcher.name,
       teamId: existingTeam.id,
       number: pitcher.number ?? null,
-      active: pitcher.active ?? null,
+      active: pitcher.active,
       gone: false,
     });
 

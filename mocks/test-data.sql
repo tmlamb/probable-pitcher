@@ -1380,3 +1380,24 @@ VALUES
     '9a1f1f3b-1b1b-4b1b-8b1b-1b1b1b1b1b1b',
     null
   );
+
+-- Verify existing pitcher in the database that's not returned by the API is marked as "gone"
+INSERT INTO
+  pitcher (
+    id,
+    ref,
+    name,
+    team_id,
+    number,
+    active
+  )
+VALUES
+  (
+    'deadbeef-0000-0000-0000-00000000dead',
+    999,
+    'Gone Zucchini',
+    '6e1bc9b2-0ae4-4484-b9ed-b3e8d4c86580',
+    '99',
+    true
+  );
+
