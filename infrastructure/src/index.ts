@@ -210,84 +210,84 @@ const dbcred = new k8s.core.v1.Secret(
   { provider: clusterProvider },
 );
 
-const migrationLabels = { app: `probable-migration-${env}` };
-
-const migrationJob = new k8s.batch.v1.Job(
-  migrationLabels.app,
-  {
-    metadata: {
-      namespace: namespaceName,
-    },
-    spec: {
-      activeDeadlineSeconds: 20 * 60,
-      backoffLimit: 3,
-      parallelism: 1,
-      completions: 1,
-      ttlSecondsAfterFinished: 600,
-      template: {
-        spec: {
-          restartPolicy: "OnFailure",
-          imagePullSecrets: [{ name: regcred.metadata.apply((m) => m.name) }],
-          serviceAccountName: ksa.metadata.apply((m) => m.name),
-          containers: [
-            {
-              name: migrationLabels.app,
-              image: `ghcr.io/tmlamb/probable-migration:${
-                changedDatabase ? imageTag : "latest"
-              }`,
-              env: [
-                {
-                  name: "DATABASE_URL",
-                  valueFrom: {
-                    secretKeyRef: {
-                      name: dbcred.metadata.apply((m) => m.name),
-                      key: "databaseUrl",
-                    },
-                  },
-                },
-              ],
-              resources: {
-                requests: {
-                  cpu: isProd ? "25m" : "5m",
-                  memory: isProd ? "256Mi" : "128Mi",
-                },
-                limits: {
-                  cpu: isProd ? "100m" : "50m",
-                  memory: isProd ? "512Mi" : "256Mi",
-                  "ephemeral-storage": "1Gi",
-                },
-              },
-            },
-            {
-              name: "cloudsql-proxy",
-              image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
-              args: [
-                "--private-ip",
-                "--port=5432",
-                pgDatabaseInstance.connectionName,
-                "--quitquitquit",
-                "--exit-zero-on-sigterm",
-              ],
-              securityContext: {
-                runAsNonRoot: true,
-              },
-              resources: {
-                limits: {
-                  cpu: isProd ? "25m" : "5m",
-                  memory: isProd ? "64Mi" : "32Mi",
-                  "ephemeral-storage": "1Gi",
-                },
-              },
-            },
-          ],
-        },
-      },
-    },
-  },
-  {
-    provider: clusterProvider,
-  },
-);
+// const migrationLabels = { app: `probable-migration-${env}` };
+//
+// const migrationJob = new k8s.batch.v1.Job(
+//   migrationLabels.app,
+//   {
+//     metadata: {
+//       namespace: namespaceName,
+//     },
+//     spec: {
+//       activeDeadlineSeconds: 20 * 60,
+//       backoffLimit: 3,
+//       parallelism: 1,
+//       completions: 1,
+//       ttlSecondsAfterFinished: 600,
+//       template: {
+//         spec: {
+//           restartPolicy: "OnFailure",
+//           imagePullSecrets: [{ name: regcred.metadata.apply((m) => m.name) }],
+//           serviceAccountName: ksa.metadata.apply((m) => m.name),
+//           containers: [
+//             {
+//               name: migrationLabels.app,
+//               image: `ghcr.io/tmlamb/probable-migration:${
+//                 changedDatabase ? imageTag : "latest"
+//               }`,
+//               env: [
+//                 {
+//                   name: "DATABASE_URL",
+//                   valueFrom: {
+//                     secretKeyRef: {
+//                       name: dbcred.metadata.apply((m) => m.name),
+//                       key: "databaseUrl",
+//                     },
+//                   },
+//                 },
+//               ],
+//               resources: {
+//                 requests: {
+//                   cpu: isProd ? "25m" : "5m",
+//                   memory: isProd ? "256Mi" : "128Mi",
+//                 },
+//                 limits: {
+//                   cpu: isProd ? "100m" : "50m",
+//                   memory: isProd ? "512Mi" : "256Mi",
+//                   "ephemeral-storage": "1Gi",
+//                 },
+//               },
+//             },
+//             {
+//               name: "cloudsql-proxy",
+//               image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
+//               args: [
+//                 "--private-ip",
+//                 "--port=5432",
+//                 pgDatabaseInstance.connectionName,
+//                 "--quitquitquit",
+//                 "--exit-zero-on-sigterm",
+//               ],
+//               securityContext: {
+//                 runAsNonRoot: true,
+//               },
+//               resources: {
+//                 limits: {
+//                   cpu: isProd ? "25m" : "5m",
+//                   memory: isProd ? "64Mi" : "32Mi",
+//                   "ephemeral-storage": "1Gi",
+//                 },
+//               },
+//             },
+//           ],
+//         },
+//       },
+//     },
+//   },
+//   {
+//     provider: clusterProvider,
+//   },
+// );
 
 const seedLabels = { app: `probable-seed-${env}` };
 
