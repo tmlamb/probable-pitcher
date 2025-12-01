@@ -3,7 +3,12 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod/v4";
 
 import { and, eq } from "@probable/db";
-import { createDeviceSchema, device } from "@probable/db/schema";
+import {
+  createDeviceSchema,
+  device,
+  selectDeviceSchema,
+  updateDeviceSchema,
+} from "@probable/db/schema";
 
 import { protectedProcedure } from "../trpc";
 
@@ -24,12 +29,15 @@ export const deviceRouter = {
         .then((devices) => {
           if (devices.length > 64) {
             console.warn(
-              `Warning: Approaching 164 device per user system limit for User ID: ${ctx.session.user.id}`,
+              `Approaching 164 device per user system limit for User ID: ${ctx.session.user.id}`,
             );
             if (devices.length > 164) {
+              console.warn(
+                `Reached 164 device per user system limit for User ID: ${ctx.session.user.id}`,
+              );
               throw new TRPCError({
                 code: "TOO_MANY_REQUESTS",
-                message: `Error: User has way too many devices. User ID: ${ctx.session.user.id}.`,
+                message: `Error: User has way too many devices`,
               });
             }
           }
@@ -40,14 +48,8 @@ export const deviceRouter = {
         });
     }),
   update: protectedProcedure
-    .input(
-      z.object({
-        id: z.string(),
-        pushToken: z.string(),
-        timezone: z.string(),
-      }),
-    )
-    .mutation(async ({ input, ctx }) => {
+    .input(updateDeviceSchema)
+    .mutation(async ({ ctx, input }) => {
       return ctx.db
         .update(device)
         .set({
@@ -59,7 +61,7 @@ export const deviceRouter = {
         );
     }),
   byPushToken: protectedProcedure
-    .input(z.string())
+    .input(selectDeviceSchema.shape.pushToken)
     .query(async ({ ctx, input: pushToken }) => {
       return ctx.db.query.device
         .findFirst({
@@ -68,7 +70,7 @@ export const deviceRouter = {
         .then((result) => result ?? null);
     }),
   toggleNotifications: protectedProcedure
-    .input(z.object({ id: z.string(), enabled: z.boolean() }))
+    .input(z.object({ id: updateDeviceSchema.shape.id, enabled: z.boolean() }))
     .mutation(async ({ ctx, input: { id: deviceId, enabled } }) => {
       return ctx.db
         .update(device)

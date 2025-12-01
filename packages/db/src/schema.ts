@@ -1,7 +1,11 @@
 import type { z } from "zod/v4";
 import { relations, sql } from "drizzle-orm";
 import { index, pgTable, unique } from "drizzle-orm/pg-core";
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
+import {
+  createInsertSchema,
+  createSelectSchema,
+  createUpdateSchema,
+} from "drizzle-zod";
 
 export const team = pgTable("team", (t) => ({
   id: t.uuid().notNull().primaryKey().defaultRandom(),
@@ -171,6 +175,11 @@ export const deviceRelations = relations(device, ({ one, many }) => ({
 export const createDeviceSchema = createInsertSchema(device).omit({
   userId: true,
 });
+export const updateDeviceSchema = createUpdateSchema(device)
+  .required({
+    id: true,
+  })
+  .omit({ userId: true });
 export const selectDeviceSchema = createSelectSchema(device);
 
 export type Device = z.infer<typeof selectDeviceSchema>;
