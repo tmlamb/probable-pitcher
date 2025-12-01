@@ -220,7 +220,7 @@ const migrationJob = new k8s.batch.v1.Job(
     },
     spec: {
       activeDeadlineSeconds: 20 * 60,
-      backoffLimit: 3,
+      backoffLimit: 4,
       parallelism: 1,
       completions: 1,
       ttlSecondsAfterFinished: 600,
@@ -229,6 +229,27 @@ const migrationJob = new k8s.batch.v1.Job(
           restartPolicy: "OnFailure",
           imagePullSecrets: [{ name: regcred.metadata.apply((m) => m.name) }],
           serviceAccountName: ksa.metadata.apply((m) => m.name),
+          initContainers: [
+            {
+              name: "wait-for-proxy",
+              image: "busybox:1.36",
+              command: ["sh", "-c"],
+              args: [
+                // Wait until proxy port answers
+                'echo "Waiting for 127.0.0.1:5432..." ; ' +
+                  "for i in $(seq 1 120); do " +
+                  '  nc -z 127.0.0.1 5432 && echo "Proxy up" && exit 0; ' +
+                  "  sleep 1; " +
+                  "done; " +
+                  'echo "Timeout waiting for proxy" ; exit 1;',
+              ],
+              securityContext: { runAsNonRoot: true },
+              resources: {
+                requests: { cpu: "5m", memory: "16Mi" },
+                limits: { cpu: "25m", memory: "32Mi" },
+              },
+            },
+          ],
           containers: [
             {
               name: migrationLabels.app,
@@ -271,9 +292,19 @@ const migrationJob = new k8s.batch.v1.Job(
               securityContext: {
                 runAsNonRoot: true,
               },
+              readinessProbe: {
+                tcpSocket: { port: 5432 },
+                initialDelaySeconds: 1,
+                periodSeconds: 1,
+                failureThreshold: 30,
+              },
               resources: {
+                requests: {
+                  cpu: isProd ? "50m" : "25m",
+                  memory: isProd ? "32Mi" : "16Mi",
+                },
                 limits: {
-                  cpu: isProd ? "25m" : "5m",
+                  cpu: isProd ? "75m" : "50m",
                   memory: isProd ? "64Mi" : "32Mi",
                   "ephemeral-storage": "1Gi",
                 },
