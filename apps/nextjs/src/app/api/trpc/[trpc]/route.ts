@@ -9,18 +9,34 @@ import { auth } from "~/auth/server";
  * Configure basic CORS headers
  * You should extend this to match your needs
  */
-const setCorsHeaders = (res: Response) => {
-  res.headers.set("Access-Control-Allow-Origin", "*");
-  res.headers.set("Access-Control-Request-Method", "*");
-  res.headers.set("Access-Control-Allow-Methods", "OPTIONS, GET, POST");
-  res.headers.set("Access-Control-Allow-Headers", "*");
+const setCorsHeaders = (req: Request, res: Response) => {
+  const origin = req.headers.get("origin");
+  const userAgent = req.headers.get("user-agent") ?? "";
+
+  if (userAgent.includes("Mozilla") && origin) {
+    const allowedOrigins = [
+      "https://probablepitcher.com",
+      "https://dev.probablepitcher.com",
+      "http://localhost:3000", // for development
+    ];
+
+    if (allowedOrigins.includes(origin)) {
+      res.headers.set("Access-Control-Allow-Origin", origin);
+      res.headers.set("Access-Control-Allow-Credentials", "true");
+      res.headers.set("Access-Control-Allow-Methods", "OPTIONS, GET, POST");
+      res.headers.set(
+        "Access-Control-Allow-Headers",
+        "content-type, authorization",
+      );
+    }
+  }
 };
 
-export const OPTIONS = () => {
+export const OPTIONS = (req: NextRequest) => {
   const response = new Response(null, {
     status: 204,
   });
-  setCorsHeaders(response);
+  setCorsHeaders(req, response);
   return response;
 };
 
@@ -39,7 +55,7 @@ const handler = async (req: NextRequest) => {
     },
   });
 
-  setCorsHeaders(response);
+  setCorsHeaders(req, response);
   return response;
 };
 
