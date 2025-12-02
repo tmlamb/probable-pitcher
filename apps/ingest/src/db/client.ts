@@ -165,7 +165,7 @@ export const client = {
   device: {
     byUserId: (userId: string) => {
       return db.query.device.findMany({
-        where: eq(user.id, userId),
+        where: eq(device.userId, userId),
       });
     },
     withPendingNotificationsInRange: (start: Date, end: Date) => {
