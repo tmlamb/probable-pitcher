@@ -29,6 +29,7 @@ export function useScrollShadow(scrollRef: RefObject<HTMLElement | null>) {
     return () => {
       element.removeEventListener("scroll", handleScroll);
       resizeObserver.unobserve(element);
+      resizeObserver.disconnect();
     };
   }, [scrollRef]);
 
