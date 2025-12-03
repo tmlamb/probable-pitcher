@@ -39,3 +39,5 @@ config:
     secure: AAABADTlZ/JlVhOpWxSJNFwosByFmNVsP/6zAev+QfC2nQ1pw1BFmXkhEytUNpB3
   probable-pitcher:baseApiUrl:
     secure: AAABAIzjnTtvIRONNTYUxEmyp6ZZR2hydRVdEaacEzcjFsvTMPJr3BsBIVFLm9gQhQL4Qgw+AndVqT0DwBBrKnLFmyvKCfsyv1UfDxFY
+  probable-pitcher:betterAuthProductionUrl:
+    secure: AAABAAkhD0Th9hkrOP97Qgcny8Tnn/DOyJua9qXbxjvc1bpJpvYhjH0oUHLIWbv9Z6awefExU5nWZ3L8poDF

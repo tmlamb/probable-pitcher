@@ -11,6 +11,7 @@ export function authEnv() {
       AUTH_APPLE_SECRET: z.string().min(1),
       BETTER_AUTH_SECRET: z.string().min(1),
       BETTER_AUTH_URL: z.string().min(1),
+      BETTER_AUTH_PRODUCTION_URL: z.string().min(1),
       NODE_ENV: z.enum(["development", "production"]).optional(),
     },
     runtimeEnv: process.env,

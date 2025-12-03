@@ -97,6 +97,7 @@ services:
       - AUTH_APPLE_SECRET=${AUTH_APPLE_SECRET}
       - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
       - BETTER_AUTH_URL=${BETTER_AUTH_URL}
+      - BETTER_AUTH_PRODUCTION_URL=${BETTER_AUTH_PRODUCTION_URL}
     build:
       dockerfile: apps/nextjs/Dockerfile
     healthcheck:

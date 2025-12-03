@@ -706,6 +706,10 @@ const appDeployment = new k8s.apps.v1.Deployment(
                   name: "BETTER_AUTH_URL",
                   value: config.requireSecret("betterAuthUrl"),
                 },
+                {
+                  name: "BETTER_AUTH_PRODUCTION_URL",
+                  value: config.requireSecret("betterAuthProductionUrl"),
+                },
               ],
             },
             {
