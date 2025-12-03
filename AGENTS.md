@@ -2,26 +2,20 @@
 
 ## Commands
 
-- Build: `pnpm build` (Turbo across all workspaces)
-- Lint: `pnpm lint` / `pnpm lint:fix`
-- Typecheck: `pnpm typecheck`
-- Test: `pnpm test` (all) or `pnpm -F @probable/integration test -- notifications.test.ts` (single)
-- Format: `pnpm format:fix`
-- Dev: `pnpm dev:next` / `pnpm dev:expo`
+- Build: `pnpm build` | Lint: `pnpm lint:fix` | Typecheck: `pnpm typecheck` | Format: `pnpm format:fix`
+- Test: `pnpm test` (all) or `pnpm -F @probable/integration test -- notifications.test.ts` (single file)
+- Dev: `pnpm dev:next` / `pnpm dev:expo` | DB: `pnpm db:push` / `pnpm db:studio`
 
 ## Code Style
 
-- Use `import type` for type-only imports, separate from value imports
-- Import order: React/Next/Expo → third-party → @probable packages → relative imports
-- Environment: Use `import { env } from '~/env'` instead of `process.env`
-- TypeScript: Strict mode, no non-null assertions unless necessary
-- Error handling: tRPC procedures with Zod validation, proper error formatting
-- Components: cva for variants, cn() for className merging
-- Naming: PascalCase components, camelCase functions/variables
+- Imports: Use `import type` for types (separate statements). Order: React/Next/Expo → third-party → @probable → relative
+- Environment: `import { env } from '~/env'` NOT `process.env`
+- TypeScript: Strict mode, avoid non-null assertions
+- Components: Use `cn()` for className merging, `cva` for variants
+- Naming: PascalCase (components), camelCase (functions/variables)
 
 ## Conventions
 
-- Workspaces: `@probable/package-name` pattern
-- Database: Drizzle schema from `@probable/db`
-- Auth: Better Auth with session-based tRPC procedures
-- Testing: Vitest integration tests in `/tests/integration/`
+- Workspaces: `@probable/package-name` | Database: Drizzle with snake_case
+- Auth: Better Auth session-based | tRPC: Routers use `satisfies TRPCRouterRecord`
+- Testing: Vitest in `/tests/integration/` | Validation: Zod schemas in tRPC procedures
