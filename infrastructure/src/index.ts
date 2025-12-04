@@ -90,6 +90,17 @@ const database = new gcp.sql.Database(`probable-db-${env}`, {
   charset: "utf8",
 });
 
+const databaseUrl = pulumi
+  .all([
+    pgDatabaseInstance.publicIpAddress,
+    database.name,
+    databaseUser.name,
+    databaseUser.password,
+  ])
+  .apply(([ipAddress, database, username, password]) => {
+    return `postgres://${username}:${password}@${ipAddress}/${database}`;
+  });
+
 export const clusterProvider = new k8s.Provider(`probable-pitchers-${env}`, {
   kubeconfig: process.env.KUBECONFIG,
 });
