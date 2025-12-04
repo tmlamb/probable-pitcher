@@ -85,6 +85,7 @@ jobs:
       - name: Run integration tests using Docker Compose
         run: |
           BETTER_AUTH_URL=http://localhost:3000 \
+          BETTER_AUTH_PRODUCTION_URL=https://dev.probablepitcher.com \
           BETTER_AUTH_SECRET=secretsecretsecretsecretsecretsecretsecretse \
           AUTH_GOOGLE_ID=secret \
           AUTH_GOOGLE_SECRET=secret \
