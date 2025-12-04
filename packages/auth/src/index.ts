@@ -6,7 +6,7 @@ import type {
 import { expo } from "@better-auth/expo";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { apiKey, oAuthProxy } from "better-auth/plugins";
+import { oAuthProxy } from "better-auth/plugins";
 
 import { db } from "@probable/db/client";
 
@@ -32,7 +32,6 @@ export function initAuth<
     secret: options.secret,
     plugins: [
       expo(),
-      apiKey(),
       oAuthProxy({
         productionURL: options.productionURL,
       }),

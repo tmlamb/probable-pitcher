@@ -6,7 +6,7 @@ import { Notification } from "@probable/db/schema";
 // See test-data.sql for test data
 const TEST_USER_SCENARIOS = [
   {
-    apiKey: "UAWNAsCXrOGywTkhgmwYLAHRggUNsscZfNgqOSsDEFWyubjEmKqCZzkLShePujgL",
+    apiKey: "SUcKsKtkjdHvacmZpoGZvHhdrESeDlyhWazfdLXEIxPcAqzUzixYWpJedVppGVBf",
     deviceId: "d11186c4-4d5c-4a4e-95c7-fd4c382c111d",
     notifications: [
       {
@@ -20,7 +20,7 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    apiKey: "PNaqyECFFEIFDxDwWYhcHagbumnAmWrqlFJJzTzrgAvHsatlpknEaURqdJbnAdnv",
+    apiKey: "OelGKPLTcfHGiTXwmxGKWQpGiIquYYusCRiadsxGXyzUZqwdKrAnZfiQvdYnprvT",
     deviceId: "d2220614-e86b-43e5-a6ea-f4d7816a222d",
     notifications: [
       {
@@ -34,7 +34,7 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    apiKey: "WgmQgbZUdBHPQPCrbfpxywxrMgggoEiLsPBnyhMRdasbghJqCUqLHfmsLRSgdbKL",
+    apiKey: "JticXhOaPYRgpJyOMRDnLceeqOZDmjoZtUnyvMbFiLsCIenRXWHbExcBKuhSZLUB",
     deviceId: "d333ca0c-de64-4e25-9de7-bea768bc333d",
     notifications: [
       {
@@ -44,7 +44,7 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    apiKey: "WgmQgbZUdBHPQPCrbfpxywxrMgggoEiLsPBnyhMRdasbghJqCUqLHfmsLRSgdbKL",
+    apiKey: "JticXhOaPYRgpJyOMRDnLceeqOZDmjoZtUnyvMbFiLsCIenRXWHbExcBKuhSZLUB",
     deviceId: "d3232a0c-de64-4e25-9de7-bea768b2323d",
     notifications: [
       {
@@ -54,7 +54,7 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    apiKey: "dsbxHIzxAbprmNsRlanEAjsJPdbeJrdeMjJGkmcwarfkCzcbIkazxRajbVNuNNqT",
+    apiKey: "FJrjqYWUBJsQEvopCRUDnNucuLzcbCurYJWLSMmHeWlNkMWUpiBXICSVZRoZMdpQ",
     deviceId: "d444ca0c-de64-4e25-9de7-bea768b8444d",
     notifications: [
       {
@@ -68,7 +68,7 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    apiKey: "dsbxHIzxAbprmNsRlanEAjsJPdbeJrdeMjJGkmcwarfkCzcbIkazxRajbVNuNNqT",
+    apiKey: "FJrjqYWUBJsQEvopCRUDnNucuLzcbCurYJWLSMmHeWlNkMWUpiBXICSVZRoZMdpQ",
     deviceId: "d4242c0c-de64-4e25-9de7-bea768b2424d",
     notifications: [
       {
@@ -78,7 +78,7 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    apiKey: "wdKXjGAEMdECAlqTvyXgYYhMJacVtwZJCSkWNAaxDRimmAnnyhiphArMTvOLzmxu",
+    apiKey: "OomxVTCQqNekDIrDpCTScivuDSYRKcDgMOlDlXsEWjtxmEzjNIotYNXHILwmckxd",
     deviceId: "d555ca0c-de64-4e25-9de7-bea768bc555d",
     notifications: [
       {
@@ -88,7 +88,7 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    apiKey: "wdKXjGAEMdECAlqTvyXgYYhMJacVtwZJCSkWNAaxDRimmAnnyhiphArMTvOLzmxu",
+    apiKey: "OomxVTCQqNekDIrDpCTScivuDSYRKcDgMOlDlXsEWjtxmEzjNIotYNXHILwmckxd",
     deviceId: "d5252a0c-de64-4e25-9de7-bea768b2525d",
     notifications: [
       {
@@ -98,12 +98,12 @@ const TEST_USER_SCENARIOS = [
     ],
   },
   {
-    apiKey: "eXsPBEzyXPDlODBTBrNwPPPeVLiLDnnFMBONnqcjGbvXdxbzZClUGZiEjPbFlnRM",
+    apiKey: "tMsazNsBGVmvdukrbiwhGtVtKUpQxgXgNHQdcDMAHRIvbbMFfrgAsGyhdTicHdjS",
     deviceId: "d666ca0c-de64-4e25-9de7-bea768bc666d",
     notifications: [],
   },
   {
-    apiKey: "lHiMkubbPFxEJsTSMfpsNmYuNMRvMklAXWlNSFjfPplHOyZEnsBnBeHuYgbuVUDo",
+    apiKey: "mhVRJaTRJSUJkWaGKfZBIBAnlHILjyQGZswQyTWjsrSBcncejjyrmiBdrmLOjkCv",
     deviceId: "d777aa0c-de64-4e25-9de7-bea768ba777d",
     notifications: [
       {

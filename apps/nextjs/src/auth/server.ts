@@ -3,6 +3,7 @@ import "server-only";
 import { cache } from "react";
 import { headers } from "next/headers";
 import { nextCookies } from "better-auth/next-js";
+import { apiKey } from "better-auth/plugins";
 
 import { initAuth } from "@probable/auth";
 
@@ -20,7 +21,16 @@ export const auth = initAuth({
   appleClientId: env.AUTH_APPLE_SERVICE_ID,
   appleClientSecret: env.AUTH_APPLE_SECRET,
   appleBundleId: env.AUTH_APPLE_BUNDLE_ID,
-  extraPlugins: [nextCookies()],
+  extraPlugins: [
+    nextCookies(),
+    ...(env.BETTER_AUTH_URL === "http://localhost:3000"
+      ? [
+          apiKey({
+            enableSessionForAPIKeys: true,
+          }),
+        ]
+      : []),
+  ],
 });
 
 export const getSession = cache(async () =>

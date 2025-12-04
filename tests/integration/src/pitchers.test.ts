@@ -6,17 +6,17 @@ import { Pitcher } from "@probable/db/schema";
 // See test-data.sql for test data
 const TEST_SEARCH_SCENARIOS = [
   {
-    apiKey: "UAWNAsCXrOGywTkhgmwYLAHRggUNsscZfNgqOSsDEFWyubjEmKqCZzkLShePujgL",
+    apiKey: "SUcKsKtkjdHvacmZpoGZvHhdrESeDlyhWazfdLXEIxPcAqzUzixYWpJedVppGVBf",
     searchTerms: ["Miles"],
     pitchersExpected: 17,
   },
   {
-    apiKey: "PNaqyECFFEIFDxDwWYhcHagbumnAmWrqlFJJzTzrgAvHsatlpknEaURqdJbnAdnv",
+    apiKey: "OelGKPLTcfHGiTXwmxGKWQpGiIquYYusCRiadsxGXyzUZqwdKrAnZfiQvdYnprvT",
     searchTerms: ["Blaze", "Porter"],
     pitchersExpected: 10,
   },
   {
-    apiKey: "WgmQgbZUdBHPQPCrbfpxywxrMgggoEiLsPBnyhMRdasbghJqCUqLHfmsLRSgdbKL",
+    apiKey: "JticXhOaPYRgpJyOMRDnLceeqOZDmjoZtUnyvMbFiLsCIenRXWHbExcBKuhSZLUB",
     searchTerms: ["Roll", "Fizzlebeef"],
     pitchersExpected: 0,
   },

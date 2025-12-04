@@ -1,6 +1,6 @@
 import { URL } from "https://jslib.k6.io/url/1.0.0/index.js";
-import http from "k6/http";
 import { check } from "k6";
+import http from "k6/http";
 
 export const options = {
   vus: 4,
@@ -34,7 +34,7 @@ const params = {
   headers: {
     "Content-Type": "application/json",
     "x-api-key":
-      "UAWNAsCXrOGywTkhgmwYLAHRggUNsscZfNgqOSsDEFWyubjEmKqCZzkLShePujgL",
+      "OelGKPLTcfHGiTXwmxGKWQpGiIquYYusCRiadsxGXyzUZqwdKrAnZfiQvdYnprvT",
   },
 };
 
