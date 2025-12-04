@@ -54,19 +54,8 @@ const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
       tier: "db-f1-micro",
       availabilityType: isProd ? "REGIONAL" : "ZONAL",
       ipConfiguration: {
-        ipv4Enabled: !isProd,
-        ...(isProd ? { privateNetwork: defaultVpc.then((vpc) => vpc.id) } : {}),
-        ...(isProd
-          ? {}
-          : {
-              authorizedNetworks: [
-                {
-                  name: "dev-network",
-                  value: config.requireSecret("testNetwork"),
-                },
-              ],
-            }),
-        sslMode: "ENCRYPTED_ONLY",
+        ipv4Enabled: false,
+        privateNetwork: defaultVpc.then((vpc) => vpc.id),
       },
       backupConfiguration: {
         enabled: isProd ? true : false,
