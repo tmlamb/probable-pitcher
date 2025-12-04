@@ -54,8 +54,19 @@ const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
       tier: "db-f1-micro",
       availabilityType: isProd ? "REGIONAL" : "ZONAL",
       ipConfiguration: {
-        ipv4Enabled: false,
-        privateNetwork: defaultVpc.then((vpc) => vpc.id),
+        ipv4Enabled: !isProd,
+        ...(isProd ? { privateNetwork: defaultVpc.then((vpc) => vpc.id) } : {}),
+        ...(isProd
+          ? {}
+          : {
+              authorizedNetworks: [
+                {
+                  name: "dev-network",
+                  value: config.requireSecret("testNetwork"),
+                },
+              ],
+            }),
+        sslMode: "ENCRYPTED_ONLY",
       },
       backupConfiguration: {
         enabled: isProd ? true : false,
@@ -78,17 +89,6 @@ const database = new gcp.sql.Database(`probable-db-${env}`, {
   instance: pgDatabaseInstance.name,
   charset: "utf8",
 });
-
-const databaseUrl = pulumi
-  .all([
-    pgDatabaseInstance.publicIpAddress,
-    database.name,
-    databaseUser.name,
-    databaseUser.password,
-  ])
-  .apply(([ipAddress, database, username, password]) => {
-    return `postgres://${username}:${password}@${ipAddress}/${database}`;
-  });
 
 export const clusterProvider = new k8s.Provider(`probable-pitchers-${env}`, {
   kubeconfig: process.env.KUBECONFIG,

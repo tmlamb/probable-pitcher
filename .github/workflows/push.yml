@@ -92,7 +92,7 @@ jobs:
           AUTH_APPLE_BUNDLE_ID=secret \
           AUTH_APPLE_SERVICE_ID=secret \
           AUTH_APPLE_SECRET=secret \
-          docker compose up --build --abort-on-container-failure integration stress
+          cd tests && docker compose up --build --abort-on-container-failure integration stress
 
   lint:
     name: Lint
