@@ -36,7 +36,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     },
     newArchEnabled: true,
     runtimeVersion: {
-      policy: "sdkVersion",
+      policy: "appVersion",
     },
     assetBundlePatterns: ["**/*"],
     ios: {
