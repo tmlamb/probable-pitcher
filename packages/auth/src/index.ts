@@ -63,7 +63,7 @@ export function initAuth<
       },
     },
     advanced: {
-      cookiePrefix: "probable-pitcher",
+      useSecureCookies: true,
     },
     account: {
       accountLinking: {
