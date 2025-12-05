@@ -49,7 +49,7 @@
     "@probable/tsconfig": "workspace:*",
     "@types/pg": "8.15.5",
     "dotenv-cli": "10.0.0",
-    "drizzle-kit": "0.31.5",
+    "drizzle-kit": "0.31.8",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"
