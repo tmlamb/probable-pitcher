@@ -65,7 +65,10 @@ export const deviceRouter = {
     .query(async ({ ctx, input: pushToken }) => {
       return ctx.db.query.device
         .findFirst({
-          where: eq(device.pushToken, pushToken),
+          where: and(
+            eq(device.pushToken, pushToken),
+            eq(device.userId, ctx.session.user.id),
+          ),
         })
         .then((result) => result ?? null);
     }),
