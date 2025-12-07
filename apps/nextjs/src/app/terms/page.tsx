@@ -158,17 +158,13 @@ export default function TermsOfService() {
         </h2>
         <p>
           These Terms shall be governed by and construed in accordance with the
-          laws of <strong>[Your State, e.g., California]</strong>, without
-          regard to its conflict of law principles.
+          laws of <strong>the State of Delaware</strong>, without regard to its
+          conflict of law principles.
         </p>
         <p>
           Any legal suit, action, or proceeding arising out of these Terms or
           the Service shall be instituted exclusively in the federal or state
-          courts located in{" "}
-          <strong>
-            [Your City and State, e.g., San Francisco, California]
-          </strong>
-          .
+          courts located in <strong>Wilmington, Delaware</strong>.
         </p>
 
         <h2 className="pt-4 text-2xl font-bold">11. Changes to These Terms</h2>

@@ -5,7 +5,7 @@ import { Slot } from "radix-ui";
 import { cn } from "@probable/ui";
 
 export const buttonVariants = cva(
-  "focus-visible:ring-ring inline-flex cursor-pointer items-center justify-center rounded-md text-sm font-medium whitespace-nowrap transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
+  "focus-visible:ring-ring inline-flex cursor-pointer items-center justify-center overflow-hidden rounded-sm text-sm font-medium whitespace-nowrap transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
