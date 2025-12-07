@@ -81,6 +81,8 @@ export default function PitcherSearch() {
                         id: "",
                         abbreviation: "",
                       },
+                      gone: pitcher.gone,
+                      active: pitcher.active,
                     },
                   },
                 ];

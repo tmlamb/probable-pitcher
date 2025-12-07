@@ -119,6 +119,9 @@ jobs:
       - name: Run Lint Checker
         run: pnpm lint
 
+      - name: Run Type Checker
+        run: pnpm typecheck
+
   format:
     name: Format
     runs-on: ubuntu-latest

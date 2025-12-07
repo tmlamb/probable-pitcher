@@ -122,6 +122,8 @@ export default function Home() {
                         id: "",
                         abbreviation: pitcher.teamAbbreviation,
                       },
+                      gone: pitcher.gone,
+                      active: pitcher.active,
                     },
                   },
                 ];
