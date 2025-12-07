@@ -1,1 +1,42 @@
-# Probable Pitcher
+# Probable Pitcher ⚾
+
+> Get notified when your favorite MLB pitchers are starting
+
+Never miss a game. Subscribe to pitchers and get push notifications when they're scheduled to start.
+
+[Website](https://probablepitcher.com) · [iOS](https://apps.apple.com/us/app/probable-pitcher/id6443663031) · [Android](https://play.google.com/store/apps/details?id=com.triplesight.probablepitchers)
+
+---
+
+## Features
+
+- 🔔 Morning notifications when your pitchers are starting
+- ⚡ Real-time lineup updates
+- 🌍 Timezone-aware game times
+- 📱 Cross-platform (iOS, Android, Web)
+
+## Tech Stack
+
+**Frontend:** Next.js, Expo, React Native, TailwindCSS
+**Backend:** tRPC, PostgreSQL, Drizzle ORM
+**Auth:** Better Auth (Google & Apple)
+**Infrastructure:** GCP (GKE, Cloud SQL), Pulumi
+**Tooling:** Turborepo monorepo, pnpm
+
+## Project Structure
+
+```
+apps/
+  ├── nextjs/     # Web application
+  ├── expo/       # Mobile app (iOS/Android)
+  └── ingest/     # Data ingestion & notifications
+packages/
+  ├── api/        # tRPC API
+  ├── db/         # Database schema
+  ├── auth/       # Authentication
+  └── ui/         # Shared components
+```
+
+## License
+
+MIT
