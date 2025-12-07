@@ -67,6 +67,10 @@ export function initAuth<
         trustedProviders: ["google", "apple"],
       },
     },
+    session: {
+      expiresIn: 60 * 60 * 24 * 365, // 1 year in seconds
+      updateAge: 60 * 60 * 24 * 30, // Refresh every 30 days (when user is active)
+    },
   } satisfies BetterAuthOptions;
   return betterAuth(config);
 }
