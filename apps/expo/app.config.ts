@@ -21,7 +21,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     slug: "probable-pitchers",
     scheme: "probablepitcher",
     owner: EXPO_OWNER,
-    version: "2.2.0",
+    version: "2.3.0",
     orientation: "portrait",
     userInterfaceStyle: "automatic",
     experiments: {
