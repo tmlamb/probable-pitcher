@@ -92,14 +92,6 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
-      - name: Run semver-diff
-        id: semver-diff
-        uses: tj-actions/semver-diff@v2.1.0
-
-      - name: Show release type
-        run: |
-          echo "Release type: ${{ steps.semver-diff.outputs.release_type }}"
-
       - name: Check for EXPO_TOKEN
         run: |
           if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then
@@ -130,5 +122,4 @@ jobs:
         run: pnpm install
 
       - name: Publish Live Update
-        if: ${{ steps.semver-diff.outputs.release_type == 'patch' }}
         run: cd apps/expo && APP_ENV=production BETTER_AUTH_URL="https://probablepitcher.com" eas update --environment production --branch production --message "${{ github.event.release.name }}"
