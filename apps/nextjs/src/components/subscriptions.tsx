@@ -23,7 +23,11 @@ export function Subscriptions() {
     return (
       <div className="flex w-full flex-grow flex-col gap-4 pt-3">
         <div className="inset-0 flex flex-col items-center justify-center">
-          <p className="text-foreground text-lg">No subscriptions yet</p>
+          <p className="text-foreground text-lg">No subscriptions</p>
+          <p className="text-muted mb-4 px-2 text-sm">
+            Search for your favorite pitchers to add them to your list of
+            subscriptions
+          </p>
         </div>
       </div>
     );

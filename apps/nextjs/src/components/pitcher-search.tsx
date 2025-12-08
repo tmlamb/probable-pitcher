@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { TZDate } from "@date-fns/tz";
 import { MinusCircledIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -10,6 +10,7 @@ import { cn } from "@probable/ui";
 import { Button } from "@probable/ui/button";
 import { Input } from "@probable/ui/input";
 
+import { useScrollShadow } from "~/hooks/use-scroll-shadow";
 import { useTRPC } from "~/trpc/react";
 
 export default function PitcherSearch() {
@@ -79,7 +80,7 @@ export default function PitcherSearch() {
                       team: {
                         name: "",
                         id: "",
-                        abbreviation: "",
+                        abbreviation: pitcher.teamAbbreviation,
                       },
                       gone: pitcher.gone,
                       active: pitcher.active,
@@ -180,43 +181,57 @@ export default function PitcherSearch() {
     (!searchQuery.isSuccess && !!searchFilter) ||
     subscriptionQuery.isFetching;
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const { showTopShadow, showBottomShadow } = useScrollShadow(scrollRef);
+
   return (
-    <div className="z-10 m-3 flex flex-col gap-3">
+    <div className="z-10 m-3 flex h-full flex-col gap-0.5">
       <Input
         className="bg-input placeholder:text-muted border-border"
         placeholder="Search for a pitcher"
         onChange={(e) => setSearchFilter(e.target.value)}
       />
-      <div className="max-w-96 overflow-y-auto">
-        {subscribedAndAvailablePitchers.map((pitcher) => {
-          if (typeof pitcher === "string") {
-            return (
-              <h2
-                key={pitcher}
-                className="text-muted mt-3 text-left text-xs tracking-wider uppercase"
-              >
-                {pitcher}
-              </h2>
-            );
-          }
-          return (
-            <PitcherCard
-              key={pitcher.id}
-              pitcher={pitcher}
-              subscribeHandler={() =>
-                subscribeMutation.mutate({
-                  pitcherId: pitcher.id,
-                })
-              }
-              unsubscribeHandler={() =>
-                unsubscribeMutation.mutate({
-                  subscriptionId: pitcher.subscription?.id ?? "",
-                })
-              }
-              disabled={pauseMutations}
-            />
-          );
+      <div
+        className={cn("scroll-shadow-container flex-grow overflow-hidden", {
+          "show-top-shadow": showTopShadow,
+          "show-bottom-shadow": showBottomShadow,
         })}
+        style={{ "--scroll-shadow-bg": "var(--card)" } as React.CSSProperties}
+      >
+        <div
+          ref={scrollRef}
+          className="relative z-0 mr-1 flex h-full w-full flex-col overflow-y-scroll p-3"
+        >
+          {subscribedAndAvailablePitchers.map((pitcher) => {
+            if (typeof pitcher === "string") {
+              return (
+                <h2
+                  key={pitcher}
+                  className="text-muted mt-3 text-left text-xs tracking-wider uppercase"
+                >
+                  {pitcher}
+                </h2>
+              );
+            }
+            return (
+              <PitcherCard
+                key={pitcher.id}
+                pitcher={pitcher}
+                subscribeHandler={() =>
+                  subscribeMutation.mutate({
+                    pitcherId: pitcher.id,
+                  })
+                }
+                unsubscribeHandler={() =>
+                  unsubscribeMutation.mutate({
+                    subscriptionId: pitcher.subscription?.id ?? "",
+                  })
+                }
+                disabled={pauseMutations}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );
@@ -239,7 +254,7 @@ const PitcherCard = ({
     <div className={cn("relative flex flex-row items-center", className)}>
       {pitcher.subscription && unsubscribeHandler && (
         <Button
-          className="-my-3 -ml-3 p-3"
+          className="-my-3 -ml-2.5 p-3"
           variant="none"
           size="icon"
           onClick={unsubscribeHandler}

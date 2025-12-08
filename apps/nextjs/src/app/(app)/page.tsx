@@ -13,6 +13,7 @@ import { HydrateClient, prefetch, trpc } from "~/trpc/server";
 
 export default function HomePage() {
   prefetch(trpc.subscription.byUserId.queryOptions());
+  prefetch(trpc.account.byUserId.queryOptions());
 
   return (
     <HydrateClient>
@@ -42,7 +43,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="bg-card border-border relative mr-0 h-full w-full overflow-x-hidden rounded-none border border-r-0 border-l-0 sm:overflow-y-auto sm:rounded-l-lg sm:border-l md:mr-3 md:rounded-lg md:border-r">
+      <div className="bg-card border-border relative mr-0 h-full w-full overflow-x-hidden overflow-y-hidden rounded-none border border-r-0 border-l-0 sm:rounded-l-lg sm:border-l md:mr-3 md:rounded-lg md:border-r">
         <Suspense>
           <PitcherSearch />
         </Suspense>

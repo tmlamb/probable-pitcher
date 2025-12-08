@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 
 import { Accounts } from "~/components/accounts";
-import SignOut from "~/components/signout";
 import { HydrateClient, prefetch, trpc } from "~/trpc/server";
 
 export default function Account() {
@@ -9,7 +8,7 @@ export default function Account() {
 
   return (
     <HydrateClient>
-      <div className="flex flex-col gap-4 p-4">
+      <div className="mx-auto flex max-w-xl flex-col gap-4 p-4">
         <Suspense
           fallback={
             <div className="flex w-full flex-col gap-4">
@@ -18,7 +17,6 @@ export default function Account() {
           }
         >
           <Accounts />
-          <SignOut />
         </Suspense>
       </div>
     </HydrateClient>

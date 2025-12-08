@@ -12,6 +12,7 @@ export default function SignOut() {
     <form>
       <Button
         size="lg"
+        variant="outline"
         formAction={() => {
           authClient
             .signOut({

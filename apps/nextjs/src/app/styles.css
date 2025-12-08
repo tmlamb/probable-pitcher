@@ -47,15 +47,18 @@
   top: 0;
   background-image: linear-gradient(
     to bottom,
-
-    var(--background),
+    var(--scroll-shadow-bg, var(--background)),
     transparent
   );
 }
 
 .scroll-shadow-container::after {
   bottom: 0;
-  background-image: linear-gradient(to top, var(--background), transparent);
+  background-image: linear-gradient(
+    to top,
+    var(--scroll-shadow-bg, var(--background)),
+    transparent
+  );
 }
 
 .scroll-shadow-container.show-top-shadow::before,
