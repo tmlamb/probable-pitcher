@@ -11,9 +11,11 @@ import { queryClient } from "~/utils/api";
 import "~/global.css";
 
 import { useEffect, useRef } from "react";
+import * as SecureStorage from "expo-secure-store";
 
 import Card from "~/components/Card";
 import PressableThemed from "~/components/PressableThemed";
+import { authClient } from "~/utils/auth";
 
 const { sentryPublicDsn } = Constants.expoConfig?.extra ?? {};
 if (sentryPublicDsn) {
@@ -68,6 +70,14 @@ export function ErrorBoundary({ error }: { error: Error }) {
     const listener = AppState.addEventListener("change", () => {
       Updates.reloadAsync().catch(Sentry.captureException);
     });
+
+    SecureStorage.deleteItemAsync("better-auth_cookie").catch(
+      Sentry.captureException,
+    );
+    SecureStorage.deleteItemAsync("better-auth_session_data").catch(
+      Sentry.captureException,
+    );
+
     return () => {
       listener.remove();
     };
@@ -91,7 +101,12 @@ export function ErrorBoundary({ error }: { error: Error }) {
         </Text>
       </View>
       <PressableThemed
-        onPress={() => Updates.reloadAsync().catch(Sentry.captureException)}
+        onPress={() =>
+          authClient
+            .signOut()
+            .catch(Sentry.captureException)
+            .finally(() => Updates.reloadAsync().catch(Sentry.captureException))
+        }
         accessibilityLabel={`Reload application`}
       >
         <Card className="bg-destructive mx-0 justify-center">
