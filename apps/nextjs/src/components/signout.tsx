@@ -9,20 +9,18 @@ import { authClient } from "~/auth/client";
 export default function SignOut() {
   const router = useRouter();
   return (
-    <form>
-      <Button
-        size="lg"
-        variant="outline"
-        formAction={() => {
-          authClient
-            .signOut({
-              fetchOptions: { onSuccess: () => router.push("/signin") },
-            })
-            .catch(console.error);
-        }}
-      >
-        Sign out
-      </Button>
-    </form>
+    <Button
+      size="lg"
+      variant="outline"
+      onClick={() => {
+        authClient
+          .signOut({
+            fetchOptions: { onSuccess: () => router.push("/signin") },
+          })
+          .catch(console.error);
+      }}
+    >
+      Sign out
+    </Button>
   );
 }

@@ -61,12 +61,12 @@ export function Accounts() {
         <Link href="../">Back to Subscriptions</Link>
       </Button>
       <div className="flex flex-col items-stretch gap-1">
-        <div className="bg-card flex flex-col items-stretch gap-6 rounded-md p-4 sm:p-8">
-          <div className="flex flex-row items-baseline justify-between gap-2">
+        <div className="bg-card flex flex-col items-start gap-6 rounded-md p-4 sm:p-8">
+          <div className="flex w-full flex-row items-baseline justify-between gap-2">
             <h2 className="text-lg font-bold">Email</h2>
             <p className="text-muted font-semibold">{email}</p>
           </div>
-          <div className="flex flex-row items-baseline justify-between gap-2">
+          <div className="flex w-full flex-row items-baseline justify-between gap-2">
             <h2 className="text-lg font-bold">Identity Providers</h2>
             <p className="text-muted font-semibold capitalize">{providers}</p>
           </div>
@@ -105,7 +105,7 @@ export function Accounts() {
                     <Button
                       variant="destructive"
                       size="lg"
-                      formAction={() => {
+                      onClick={() => {
                         deleteUser.mutate();
                       }}
                     >
