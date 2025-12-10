@@ -21,7 +21,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     slug: "probable-pitchers",
     scheme: "probablepitcher",
     owner: EXPO_OWNER,
-    version: "2.3.0",
+    version: "2.4.0",
     orientation: "portrait",
     userInterfaceStyle: "automatic",
     experiments: {
@@ -47,6 +47,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       supportsTablet: true,
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
+        UIDesignRequiresCompatibility: true,
       },
       icon: "./assets/probable-ios.icon",
     },

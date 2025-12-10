@@ -19,6 +19,6 @@ export const metaRouter = {
       });
   }),
   version: publicProcedure.query(() => {
-    return { minVersion: "2.3.0" };
+    return { minVersion: "2.4.0" };
   }),
 } satisfies TRPCRouterRecord;
