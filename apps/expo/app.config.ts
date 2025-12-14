@@ -21,7 +21,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     slug: "probable-pitchers",
     scheme: "probablepitcher",
     owner: EXPO_OWNER,
-    version: "2.4.0",
+    version: "2.5.0",
     orientation: "portrait",
     userInterfaceStyle: "automatic",
     experiments: {
@@ -62,7 +62,6 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       },
       googleServicesFile:
         process.env.GOOGLE_SERVICES_JSON ?? "./google-services.json",
-      edgeToEdgeEnabled: false,
       softwareKeyboardLayoutMode: "pan",
     },
     androidStatusBar: {

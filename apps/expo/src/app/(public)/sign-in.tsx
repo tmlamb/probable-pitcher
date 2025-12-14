@@ -75,10 +75,15 @@ export default function SignIn() {
                 provider: "google",
                 callbackURL: "/",
               });
-              if (router.canDismiss()) router.dismissAll();
               queryClient
                 .invalidateQueries(trpc.pathFilter())
                 .catch(Sentry.captureException);
+            } catch (e) {
+              setSignInError(
+                new Error("Unknown error during Google Sign-In", {
+                  cause: e,
+                }),
+              );
             } finally {
               setSignInPending(false);
             }
@@ -137,9 +142,9 @@ export default function SignIn() {
                   callbackURL: "/",
                 });
                 if (result.error) {
-                  throw new Error(
-                    `Apple Sign-In failed: ${JSON.stringify(result.error)}`,
-                  );
+                  throw new Error("Apple Sign-In failed", {
+                    cause: result.error,
+                  });
                 }
                 queryClient
                   .invalidateQueries(trpc.pathFilter())
@@ -151,9 +156,9 @@ export default function SignIn() {
                   setSignInError(e);
                 } else {
                   setSignInError(
-                    new Error(
-                      `Unknown error during Apple Sign-In: ${JSON.stringify(e)}`,
-                    ),
+                    new Error("Unknown error during Apple Sign-In", {
+                      cause: e,
+                    }),
                   );
                 }
               } finally {

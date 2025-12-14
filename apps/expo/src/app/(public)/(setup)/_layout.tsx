@@ -12,17 +12,13 @@ export default function SetupLayout() {
   const session = authClient.useSession();
 
   if (versionQuery.isError) {
-    throw new Error(
-      `Error fetching min version for force update: ${JSON.stringify(
-        versionQuery.error,
-      )}`,
-    );
+    throw new Error("Error fetching version metadata for force update", {
+      cause: versionQuery.error,
+    });
   }
 
   if (session.error) {
-    throw new Error(
-      `Error fetching session data : ${JSON.stringify(session.error)}`,
-    );
+    throw new Error("Error fetching session data", { cause: session.error });
   }
 
   if (versionQuery.isPending || session.isPending) {

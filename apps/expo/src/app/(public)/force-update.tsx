@@ -31,15 +31,13 @@ export default function ForceUpdate() {
   const versionQuery = useQuery(trpc.meta.version.queryOptions());
 
   if (versionQuery.isError) {
-    throw new Error(
-      `Error fetching min version for force update: ${JSON.stringify(
-        versionQuery.error,
-      )}`,
-    );
+    throw new Error("Error fetching version metadata for force update", {
+      cause: versionQuery.error,
+    });
   }
 
   if (!Application.nativeApplicationVersion) {
-    throw new Error(`Unable to determine app version for force update check.`);
+    throw new Error("Unable to determine app version for force update");
   }
 
   if (

@@ -55,9 +55,9 @@ export default function Home() {
   }, [subscriptionQuery.isFetched]);
 
   if (subscriptionQuery.isError) {
-    throw new Error(
-      `Error fetching subscriptions: ${JSON.stringify(subscriptionQuery.error)}`,
-    );
+    throw new Error("Error fetching subscriptions", {
+      cause: subscriptionQuery.error,
+    });
   }
 
   const schedule = subscriptionSchedule(subscriptionQuery.data);
