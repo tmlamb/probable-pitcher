@@ -25,7 +25,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { SplashScreen, Stack, useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { TZDate } from "@date-fns/tz";
 import Feather from "@expo/vector-icons/Feather";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -47,18 +47,6 @@ export default function Home() {
   const router = useRouter();
 
   const subscriptionQuery = useQuery(trpc.subscription.byUserId.queryOptions());
-
-  useEffect(() => {
-    if (subscriptionQuery.isFetched) {
-      SplashScreen.hide();
-    }
-  }, [subscriptionQuery.isFetched]);
-
-  if (subscriptionQuery.isError) {
-    throw new Error("Error fetching subscriptions", {
-      cause: subscriptionQuery.error,
-    });
-  }
 
   const schedule = subscriptionSchedule(subscriptionQuery.data);
 
@@ -255,23 +243,15 @@ export default function Home() {
 
   const insets = useSafeAreaInsets();
 
-  if (subscriptionQuery.isPending) {
-    return (
-      <View className="bg-background flex-1">
-        <Stack.Screen options={{ headerShown: false }} />
-        <ActivityIndicator
-          className={`text-foreground absolute m-auto h-full w-full`}
-          size="large"
-        />
-      </View>
-    );
-  }
-
   return (
     <View className="bg-background flex-1">
       <Stack.Screen
         options={{
           headerShown: !isSearchActive || Platform.OS === "android",
+          headerTitle:
+            isSearchActive && Platform.OS === "android"
+              ? "Probable Pitcher"
+              : "",
           headerLeft:
             Platform.OS === "ios" || !isSearchActive
               ? () => (
@@ -316,7 +296,7 @@ export default function Home() {
                     isEditing ? "Disable edit mode" : "Enable edit mode"
                   }
                 >
-                  {!!subscriptionQuery.data.length &&
+                  {!!subscriptionQuery.data?.length &&
                     (isEditing ? (
                       <Animated.View
                         entering={FadeInRight.duration(200)}
@@ -391,11 +371,16 @@ export default function Home() {
             layout={LinearTransition.duration(200)}
             className="bg-background/80 mb-3"
           >
-            <View style={{ paddingTop: isSearchActive ? insets.top : 0 }}>
+            <View
+              style={{
+                paddingTop:
+                  isSearchActive && Platform.OS !== "android" ? insets.top : 0,
+              }}
+            >
               {!isSearchActive && (
                 <AnimatedViewStyled
-                  entering={FadeIn.duration(500)}
-                  exiting={FadeOut.duration(100)}
+                  entering={FadeInUp.duration(300)}
+                  exiting={FadeOutUp.duration(200)}
                   layout={LinearTransition}
                   className={twMerge("android:mt-6 mt-8", "mb-3 pl-3")}
                 >
@@ -411,7 +396,10 @@ export default function Home() {
                 </AnimatedViewStyled>
               )}
             </View>
-            <AnimatedViewStyled layout={LinearTransition} className="mx-3">
+            <AnimatedViewStyled
+              layout={LinearTransition}
+              className={twMerge("mx-3", isSearchActive ? "mt-1.5" : "mt-1.5")}
+            >
               <SearchInput
                 onChange={(text) => setSearchFilter(text ?? "")}
                 onActive={() => setIsSearchActive(true)}

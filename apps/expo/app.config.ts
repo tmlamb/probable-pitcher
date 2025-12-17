@@ -66,8 +66,6 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     },
     androidStatusBar: {
       translucent: false,
-      backgroundColor: "#a1d995",
-      barStyle: "dark-content",
     },
     extra: {
       eas: {
@@ -122,6 +120,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
           ],
         },
       ],
+      "expo-navigation-bar",
     ],
   };
 };

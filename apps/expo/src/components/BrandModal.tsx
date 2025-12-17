@@ -25,7 +25,7 @@ export default function BrandModal({ children }: BrandModalProps) {
         locations={[0, 0.15, 0.4]}
         className="flex-1"
       >
-        <StatusBar style="dark" backgroundColor="transparent" />
+        <StatusBar style="dark" />
         <View className="flex flex-1 justify-end">
           <View className="flex h-1/3 items-center justify-center">
             <View style={{ paddingTop: insets.top, height: "100%" }}>
@@ -38,7 +38,7 @@ export default function BrandModal({ children }: BrandModalProps) {
               />
             </View>
           </View>
-          <View className="bg-background flex h-2/3 justify-end gap-8 rounded-t-3xl px-4 pb-16 shadow-2xl">
+          <View className="bg-background android:pb-24 flex h-2/3 justify-end gap-8 rounded-t-3xl px-4 pb-16 shadow-2xl">
             {children}
           </View>
         </View>

@@ -11,6 +11,10 @@ import { queryClient } from "~/utils/api";
 import "~/global.css";
 
 import { useEffect, useRef } from "react";
+import { useColorScheme } from "react-native";
+import { useNativeVariable } from "react-native-css";
+import * as NavigationBar from "expo-navigation-bar";
+import { StatusBar } from "expo-status-bar";
 
 import Card from "~/components/Card";
 import PressableThemed from "~/components/PressableThemed";
@@ -30,6 +34,7 @@ SplashScreen.setOptions({ fade: true, duration: 400 });
 
 export default function RootLayout() {
   //TODO: Fetch updates in background! https://expo.dev/changelog/sdk-53#improved-background-tasks
+  const colorScheme = useColorScheme();
 
   useEffect(() => {
     const listener = AppState.addEventListener("change", (status) => {
@@ -52,8 +57,17 @@ export default function RootLayout() {
 
   const currentFontScale = useRef(PixelRatio.getFontScale());
 
+  const backgroundColor = useNativeVariable("--background") as string;
+
+  NavigationBar.setBackgroundColorAsync(backgroundColor).catch(
+    Sentry.captureException,
+  );
+
+  NavigationBar.setStyle("auto");
+
   return (
     <QueryClientProvider client={queryClient}>
+      <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
       <Slot />
     </QueryClientProvider>
   );

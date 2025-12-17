@@ -1,20 +1,29 @@
-import { ActivityIndicator, useColorScheme, View } from "react-native";
+import { useEffect } from "react";
+import { ActivityIndicator, View } from "react-native";
 import { useNativeVariable } from "react-native-css";
 import { PermissionStatus } from "expo-notifications";
 import { Redirect, SplashScreen, Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
+import { useQuery } from "@tanstack/react-query";
 
 import useDeviceSetup from "~/hooks/use-device-setup";
+import { trpc } from "~/utils/api";
 
 export default function AppLayout() {
-  const colorScheme = useColorScheme();
   const backgroundColor = useNativeVariable("--background") as string;
   const foregroundColor = useNativeVariable("--foreground") as string;
   const primaryColor = useNativeVariable("--primary") as string;
 
-  const { pushPermissionStatus, isPending } = useDeviceSetup();
+  const deviceSetup = useDeviceSetup();
 
-  if (isPending) {
+  const subscriptionQuery = useQuery(trpc.subscription.byUserId.queryOptions());
+
+  useEffect(() => {
+    if (subscriptionQuery.isFetched) {
+      SplashScreen.hide();
+    }
+  }, [subscriptionQuery.isFetched]);
+
+  if (deviceSetup.isPending || subscriptionQuery.isPending) {
     return (
       <View className="bg-background flex-1">
         <ActivityIndicator
@@ -25,18 +34,19 @@ export default function AppLayout() {
     );
   }
 
-  if (pushPermissionStatus === PermissionStatus.UNDETERMINED) {
+  if (deviceSetup.pushPermissionStatus === PermissionStatus.UNDETERMINED) {
     SplashScreen.hide();
     return <Redirect href="/device-setup" />;
   }
 
+  if (subscriptionQuery.isError) {
+    throw new Error("Error fetching subscriptions", {
+      cause: subscriptionQuery.error,
+    });
+  }
+
   return (
     <View className="bg-background flex-1">
-      <StatusBar
-        translucent={false}
-        backgroundColor={backgroundColor}
-        style={colorScheme === "dark" ? "light" : "dark"}
-      />
       <Stack
         screenOptions={{
           animation: "ios_from_right",
