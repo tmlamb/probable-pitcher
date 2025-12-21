@@ -1,11 +1,11 @@
 export default function Privacy() {
   return (
     <main className="container mx-auto flex min-h-screen max-w-7xl flex-col items-start justify-start space-y-4 px-3 py-8 sm:px-8">
-      <h1 className="text-3xl leading-normal font-extrabold text-gray-700 sm:text-5xl">
+      <h1 className="text-3xl leading-normal font-extrabold sm:text-5xl">
         Privacy Policy
       </h1>
-      <div className="flex max-w-prose flex-col space-y-4 text-gray-800">
-        <p className="text-sm text-gray-500">Effective Date: June 16, 2025</p>
+      <div className="flex max-w-prose flex-col space-y-4">
+        <p className="text-sm">Effective Date: June 16, 2025</p>
 
         <h2 className="pt-4 text-2xl font-bold">1. Introduction</h2>
         <p>
@@ -157,7 +157,7 @@ export default function Privacy() {
           please do not hesitate to contact us at:
           <a
             href="mailto:contact@probablepitcher.com"
-            className="mt-2 block text-blue-600 hover:underline"
+            className="text-primary mt-2 block hover:underline"
           >
             contact@probablepitcher.com
           </a>

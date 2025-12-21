@@ -6,7 +6,7 @@ import { faqs } from "@probable/ui/utils";
 export default function Support() {
   return (
     <main className="container mx-auto flex min-h-screen max-w-7xl flex-col items-start justify-start space-y-4 px-3 py-8 sm:px-8">
-      <h1 className="text-3xl leading-normal font-extrabold text-gray-700 sm:text-5xl">
+      <h1 className="text-3xl leading-normal font-extrabold sm:text-5xl">
         Support
       </h1>
       <div className="flex max-w-prose flex-col space-y-4">
@@ -35,9 +35,12 @@ export default function Support() {
         <p>
           The fastest way to receive support is to open an issue on the GitHub
           page linked above. Emails are also welcome:
-          <span className="block pt-2 text-sm">
+          <a
+            href="mailto:contact@probablepitcher.com"
+            className="text-primary mt-2 block hover:underline"
+          >
             contact@probablepitcher.com
-          </span>
+          </a>
         </p>
       </div>
     </main>
