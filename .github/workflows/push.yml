@@ -92,6 +92,8 @@ jobs:
           AUTH_APPLE_BUNDLE_ID=secret \
           AUTH_APPLE_SERVICE_ID=secret \
           AUTH_APPLE_SECRET=secret \
+          NEXT_PUBLIC_IOS_APP_STORE_ID=123456789 \
+          NEXT_PUBLIC_ANDROID_PACKAGE_NAME=com.example.app \
           docker compose up --build --abort-on-container-failure integration stress
 
   lint:
@@ -164,8 +166,16 @@ jobs:
           password: ${{ secrets.GHCR_ACCESS_TOKEN }}
 
       - name: Build and publish nextjs image
+        env:
+          NEXT_PUBLIC_IOS_APP_STORE_ID: ${{ vars.NEXT_PUBLIC_IOS_APP_STORE_ID }}
+          NEXT_PUBLIC_ANDROID_PACKAGE_NAME: ${{ vars.NEXT_PUBLIC_ANDROID_PACKAGE_NAME }}
         run: |
-          docker build . --file apps/nextjs/Dockerfile --tag ghcr.io/tmlamb/probable-nextjs:sha-${{ github.sha }} --tag ghcr.io/tmlamb/probable-nextjs:latest --build-arg TURBO_TEAM=${{ env.TURBO_TEAM }} --build-arg TURBO_TOKEN=${{ env.TURBO_TOKEN }}
+          docker build . \
+            --file apps/nextjs/Dockerfile \
+            --tag ghcr.io/tmlamb/probable-nextjs:sha-${{ github.sha }} \
+            --tag ghcr.io/tmlamb/probable-nextjs:latest \
+            --build-arg NEXT_PUBLIC_IOS_APP_STORE_ID=${{ env.NEXT_PUBLIC_IOS_APP_STORE_ID }} \
+            --build-arg NEXT_PUBLIC_ANDROID_PACKAGE_NAME=${{ env.NEXT_PUBLIC_ANDROID_PACKAGE_NAME }}
           docker push --all-tags ghcr.io/tmlamb/probable-nextjs
 
   build-ingest:

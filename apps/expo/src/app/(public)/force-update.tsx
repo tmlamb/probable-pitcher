@@ -1,5 +1,6 @@
 import { Platform, Text, View } from "react-native";
 import * as Application from "expo-application";
+import Constants from "expo-constants";
 import * as Linking from "expo-linking";
 import { Redirect } from "expo-router";
 import * as Sentry from "@sentry/react-native";
@@ -11,16 +12,14 @@ import Card from "~/components/Card";
 import PressableThemed from "~/components/PressableThemed";
 import { trpc } from "~/utils/api";
 
-const openAppStore = () => {
-  const storeUrl = Platform.select({
-    ios: "https://apps.apple.com/app/id6443663031",
-    android: "market://details?id=com.triplesight.probablepitchers",
-  });
+const { iosAppStoreId, androidPackageName } = Constants.expoConfig?.extra ?? {};
 
-  if (!storeUrl) return;
-
-  Linking.openURL(storeUrl).catch(Sentry.captureException);
-};
+const storeUrl = Platform.select({
+  ios: iosAppStoreId ? `https://apps.apple.com/app/${iosAppStoreId}` : null,
+  android: androidPackageName
+    ? `market://details?id=${androidPackageName}`
+    : null,
+});
 
 const storeName = Platform.select({
   ios: "App Store",
@@ -67,19 +66,23 @@ export default function ForceUpdate() {
           app, please update to the latest version in the {storeName}.
         </Text>
       </View>
-      <PressableThemed
-        onPress={() => openAppStore()}
-        accessibilityLabel={`Open app store to update application`}
-      >
-        <Card className="bg-secondary mx-0 justify-center">
-          <Text
-            maxFontSizeMultiplier={2}
-            className="text-secondary-foreground text-xl font-bold"
-          >
-            Open {storeName}
-          </Text>
-        </Card>
-      </PressableThemed>
+      {storeUrl && (
+        <PressableThemed
+          onPress={() =>
+            Linking.openURL(storeUrl).catch(Sentry.captureException)
+          }
+          accessibilityLabel={`Open app store to update application`}
+        >
+          <Card className="bg-secondary mx-0 justify-center">
+            <Text
+              maxFontSizeMultiplier={2}
+              className="text-secondary-foreground text-xl font-bold"
+            >
+              Open {storeName}
+            </Text>
+          </Card>
+        </PressableThemed>
+      )}
     </BrandModal>
   );
 }

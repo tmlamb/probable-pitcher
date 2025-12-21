@@ -4,8 +4,6 @@
 
 Never miss a game. Subscribe to pitchers and get push notifications when they're scheduled to start.
 
-[Website](https://probablepitcher.com) · [iOS](https://apps.apple.com/us/app/probable-pitcher/id6443663031) · [Android](https://play.google.com/store/apps/details?id=com.triplesight.probablepitchers)
-
 ---
 
 ## Features

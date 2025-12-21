@@ -12,6 +12,7 @@ const {
   IOS_BUNDLE_ID,
   ANDROID_PACKAGE_NAME,
   EXPO_OWNER,
+  IOS_APP_STORE_ID,
 } = process.env;
 
 export default ({ config }: ConfigContext): ExpoConfig => {
@@ -73,6 +74,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       },
       apiBaseUrl: BETTER_AUTH_URL,
       sentryPublicDsn: SENTRY_PUBLIC_DSN,
+      iosAppStoreId: IOS_APP_STORE_ID,
+      androidPackageName: ANDROID_PACKAGE_NAME,
       appEnv: APP_ENV,
     },
     plugins: [

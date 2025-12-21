@@ -11,7 +11,7 @@ import { queryClient } from "~/utils/api";
 import "~/global.css";
 
 import { useEffect, useRef } from "react";
-import { useColorScheme } from "react-native";
+import { Platform, useColorScheme } from "react-native";
 import { useNativeVariable } from "react-native-css";
 import * as NavigationBar from "expo-navigation-bar";
 import { StatusBar } from "expo-status-bar";
@@ -59,11 +59,12 @@ export default function RootLayout() {
 
   const backgroundColor = useNativeVariable("--background") as string;
 
-  NavigationBar.setBackgroundColorAsync(backgroundColor).catch(
-    Sentry.captureException,
-  );
-
-  NavigationBar.setStyle("auto");
+  if (Platform.OS === "android") {
+    NavigationBar.setBackgroundColorAsync(backgroundColor).catch(
+      Sentry.captureException,
+    );
+    NavigationBar.setStyle("auto");
+  }
 
   return (
     <QueryClientProvider client={queryClient}>

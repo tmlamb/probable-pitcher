@@ -70,7 +70,9 @@
     "EXPO_PROJECT_ID",
     "IOS_BUNDLE_ID",
     "ANDROID_PACKAGE_NAME",
-    "EXPO_OWNER"
+    "EXPO_OWNER",
+    "NEXT_PUBLIC_ANDROID_PACKAGE_NAME",
+    "NEXT_PUBLIC_IOS_APP_STORE_ID"
   ],
   "globalPassThroughEnv": ["NODE_ENV", "CI", "npm_lifecycle_event"]
 }

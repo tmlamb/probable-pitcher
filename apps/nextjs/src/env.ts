@@ -13,15 +13,20 @@ export const env = createEnv({
   server: {
     DATABASE_URL: z.url(),
   },
-
-  client: {},
-
+  client: {
+    NEXT_PUBLIC_IOS_APP_STORE_ID: z.string(),
+    NEXT_PUBLIC_ANDROID_PACKAGE_NAME: z.string(),
+  },
   /**
    * Destructure all variables from `process.env` to make sure they aren't
    * tree-shaken away.
    */
-  experimental__runtimeEnv: {
+  runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
+    DATABASE_URL: process.env.DATABASE_URL,
+    NEXT_PUBLIC_IOS_APP_STORE_ID: process.env.NEXT_PUBLIC_IOS_APP_STORE_ID,
+    NEXT_PUBLIC_ANDROID_PACKAGE_NAME:
+      process.env.NEXT_PUBLIC_ANDROID_PACKAGE_NAME,
   },
   skipValidation:
     !!process.env.CI || process.env.npm_lifecycle_event === "lint",
