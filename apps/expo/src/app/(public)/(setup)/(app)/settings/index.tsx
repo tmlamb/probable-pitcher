@@ -70,7 +70,7 @@ export default function Settings() {
             maxFontSizeMultiplier={1.5}
             className={`text-muted self-center p-1 text-base`}
           >
-            Probable Pitcher v{Application.nativeApplicationVersion}b
+            Probable Pitcher v{Application.nativeApplicationVersion} b
             {Application.nativeBuildVersion}
             {Updates.updateId ? `.${Updates.updateId.slice(0, 3)}` : ""}
           </Text>
