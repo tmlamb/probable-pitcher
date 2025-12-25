@@ -2,6 +2,7 @@ import { Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Application from "expo-application";
 import { Link } from "expo-router";
+import * as Updates from "expo-updates";
 import Feather from "@expo/vector-icons/Feather";
 
 import Card from "~/components/Card";
@@ -71,6 +72,7 @@ export default function Settings() {
           >
             Probable Pitcher v{Application.nativeApplicationVersion}b
             {Application.nativeBuildVersion}
+            {Updates.updateId ? `u${Updates.updateId.slice(0, 8)}` : ""}
           </Text>
         </View>
       </View>
