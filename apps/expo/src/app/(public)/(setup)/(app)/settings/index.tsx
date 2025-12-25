@@ -72,7 +72,7 @@ export default function Settings() {
           >
             Probable Pitcher v{Application.nativeApplicationVersion}b
             {Application.nativeBuildVersion}
-            {Updates.updateId ? `u${Updates.updateId.slice(0, 8)}` : ""}
+            {Updates.updateId ? `.${Updates.updateId.slice(0, 3)}` : ""}
           </Text>
         </View>
       </View>

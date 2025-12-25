@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { ActivityIndicator, AppState, View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import * as Application from "expo-application";
 import { Redirect, Slot, SplashScreen } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
@@ -12,25 +11,13 @@ export default function SetupLayout() {
   const versionQuery = useQuery(trpc.meta.version.queryOptions());
   const session = authClient.useSession();
 
-  const [appState, setAppState] = useState(AppState.currentState);
-
-  useEffect(() => {
-    const listener = AppState.addEventListener("change", (nextAppState) => {
-      setAppState(nextAppState);
-    });
-
-    return () => {
-      listener.remove();
-    };
-  }, []);
-
   if (versionQuery.isError) {
     throw new Error("Error fetching version metadata for force update", {
       cause: versionQuery.error,
     });
   }
 
-  if (versionQuery.isPending || session.isPending || appState !== "active") {
+  if (versionQuery.isPending || session.isPending) {
     return (
       <View className="bg-background flex-1">
         <ActivityIndicator
