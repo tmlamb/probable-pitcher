@@ -1,4 +1,4 @@
-import { ActivityIndicator, AppState, View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import * as Application from "expo-application";
 import { Redirect, Slot, SplashScreen } from "expo-router";
 import * as Sentry from "@sentry/react-native";
