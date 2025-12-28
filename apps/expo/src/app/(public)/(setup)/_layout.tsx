@@ -18,33 +18,7 @@ export default function SetupLayout() {
     });
   }
 
-  let isSecureStoreError = false;
-
-  if (session.error) {
-    const errorMessage = session.error.message || String(session.error);
-    isSecureStoreError =
-      errorMessage.includes("User interaction is not allowed") ||
-      errorMessage.includes("KeyChainException") ||
-      errorMessage.includes("getValueWithKeySync");
-
-    if (isSecureStoreError) {
-      Sentry.captureException(session.error, {
-        level: "warning",
-        tags: {
-          context: "secure-store-access-denied",
-          appState: AppState.currentState,
-        },
-        extra: {
-          errorMessage,
-          isPending: session.isPending,
-        },
-      });
-    } else {
-      throw new Error("Error fetching session data", { cause: session.error });
-    }
-  }
-
-  if (versionQuery.isPending || session.isPending || isSecureStoreError) {
+  if (versionQuery.isPending || session.isPending) {
     return (
       <View className="bg-background flex-1">
         <ActivityIndicator
@@ -53,6 +27,18 @@ export default function SetupLayout() {
         />
       </View>
     );
+  }
+
+  if (session.error) {
+    if (!session.data) {
+      throw new Error("Error fetching session data", {
+        cause: session.error,
+      });
+    } else {
+      Sentry.captureException(session.error, {
+        level: "warning",
+      });
+    }
   }
 
   if (
