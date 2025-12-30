@@ -1,4 +1,4 @@
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, AppState, View } from "react-native";
 import * as Application from "expo-application";
 import { Redirect, Slot, SplashScreen } from "expo-router";
 import * as Sentry from "@sentry/react-native";
@@ -18,7 +18,38 @@ export default function SetupLayout() {
     });
   }
 
-  if (versionQuery.isPending || session.isPending) {
+  // Check for Secure Store access errors due to app being backgrounded
+  let isSecureStoreBackgroundError = false;
+
+  if (session.error) {
+    const errorMessage = session.error.message || String(session.error);
+    isSecureStoreBackgroundError =
+      errorMessage.includes("User interaction is not allowed") ||
+      errorMessage.includes("KeyChainException") ||
+      errorMessage.includes("getValueWithKeySync");
+
+    if (isSecureStoreBackgroundError) {
+      Sentry.captureException(session.error, {
+        level: "warning",
+        tags: {
+          context: "secure-store-access-denied",
+          appState: AppState.currentState,
+        },
+        extra: {
+          errorMessage,
+          isPending: session.isPending,
+        },
+      });
+    } else {
+      throw new Error("Error fetching session data", { cause: session.error });
+    }
+  }
+
+  if (
+    versionQuery.isPending ||
+    session.isPending ||
+    isSecureStoreBackgroundError
+  ) {
     return (
       <View className="bg-background flex-1">
         <ActivityIndicator
@@ -27,18 +58,6 @@ export default function SetupLayout() {
         />
       </View>
     );
-  }
-
-  if (session.error) {
-    if (!session.data) {
-      throw new Error("Error fetching session data", {
-        cause: session.error,
-      });
-    } else {
-      Sentry.captureException(session.error, {
-        level: "warning",
-      });
-    }
   }
 
   if (
