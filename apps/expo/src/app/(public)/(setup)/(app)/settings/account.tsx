@@ -1,8 +1,8 @@
 import { ActivityIndicator, Text, View } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import * as Sentry from "@sentry/react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { usePostHog } from "posthog-react-native";
 
 import { capitalizeFirstLetter } from "@probable/ui/utils";
 
@@ -14,6 +14,7 @@ import { authClient } from "~/utils/auth";
 
 export default function Account() {
   const queryClient = useQueryClient();
+  const posthog = usePostHog();
 
   const { data: accounts } = useQuery(
     trpc.account.byUserId.queryOptions(undefined, {
@@ -78,7 +79,7 @@ export default function Account() {
               deleteAccount();
               queryClient
                 .invalidateQueries(trpc.pathFilter())
-                .catch(Sentry.captureException);
+                .catch((e) => posthog.captureException(e));
             }}
           >
             <Text

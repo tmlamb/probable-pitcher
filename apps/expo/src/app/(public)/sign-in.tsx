@@ -11,8 +11,8 @@ import Animated, { FadeIn } from "react-native-reanimated";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { Platform } from "expo-modules-core";
 import { useRouter } from "expo-router";
-import * as Sentry from "@sentry/react-native";
 import { useQueryClient } from "@tanstack/react-query";
+import { usePostHog } from "posthog-react-native";
 import { twMerge } from "tailwind-merge";
 
 import BrandModal from "~/components/BrandModal";
@@ -25,6 +25,7 @@ import { authClient } from "~/utils/auth";
 
 export default function SignIn() {
   const colorScheme = useColorScheme();
+  const posthog = usePostHog();
 
   const [signInPending, setSignInPending] = useState(false);
   const [signInError, setSignInError] = useState<Error | null>(null);
@@ -77,7 +78,7 @@ export default function SignIn() {
               });
               queryClient
                 .invalidateQueries(trpc.pathFilter())
-                .catch(Sentry.captureException);
+                .catch((e) => posthog.captureException(e));
             } catch (e) {
               setSignInError(
                 new Error("Unknown error during Google Sign-In", {
@@ -148,7 +149,7 @@ export default function SignIn() {
                 }
                 queryClient
                   .invalidateQueries(trpc.pathFilter())
-                  .catch(Sentry.captureException);
+                  .catch((e) => posthog.captureException(e));
               } catch (e: unknown) {
                 if (isCodedError(e) && e.code === "ERR_REQUEST_CANCELED") {
                   return null;

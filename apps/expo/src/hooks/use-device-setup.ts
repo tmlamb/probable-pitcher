@@ -5,10 +5,11 @@ import * as Device from "expo-device";
 import * as ExpoNotifications from "expo-notifications";
 import { PermissionStatus } from "expo-notifications";
 import { useRouter } from "expo-router";
-import * as Sentry from "@sentry/react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { usePostHog } from "posthog-react-native";
 
 import { trpc } from "~/utils/api";
+import { posthog } from "~/utils/posthog";
 
 ExpoNotifications.setNotificationHandler({
   handleNotification: async () => {
@@ -29,6 +30,7 @@ export default function useDeviceSetup() {
   const [expoPushToken, setExpoPushToken] = useState<string>();
   const [, setNotification] = useState(false);
   const router = useRouter();
+  const posthog = usePostHog();
 
   const appState = useRef(AppState.currentState);
   const notificationListener =
@@ -45,7 +47,7 @@ export default function useDeviceSetup() {
           setExpoPushToken(pushToken);
         })
         .catch((error) => {
-          Sentry.captureException(error);
+          posthog.captureException(error);
         });
     }
 
@@ -69,7 +71,7 @@ export default function useDeviceSetup() {
     return () => {
       listener.remove();
     };
-  }, [pushPermissionStatus]);
+  }, [posthog, pushPermissionStatus]);
 
   useEffect(() => {
     const checkNotificationPermissions = async () => {
@@ -84,15 +86,15 @@ export default function useDeviceSetup() {
         setPushPermissionStatus(status);
       })
       .catch((error) => {
-        Sentry.captureException(error);
+        posthog.captureException(error);
         setPushPermissionStatus(undefined);
       });
-  }, []);
+  }, [posthog]);
 
   const { mutate: registerDevice } = useMutation(
     trpc.device.create.mutationOptions({
       onError: (err) => {
-        Sentry.captureException(err);
+        posthog.captureException(err);
       },
       onSettled: () => queryClient.invalidateQueries(trpc.device.pathFilter()),
     }),
@@ -100,7 +102,7 @@ export default function useDeviceSetup() {
   const { mutate: updateDevice } = useMutation(
     trpc.device.update.mutationOptions({
       onError: (err) => {
-        Sentry.captureException(err);
+        posthog.captureException(err);
       },
       onSettled: () => queryClient.invalidateQueries(trpc.device.pathFilter()),
     }),
@@ -163,7 +165,7 @@ export async function registerForPushNotifications() {
       vibrationPattern: [0, 250, 250, 250],
       lightColor: "#FF231F7C",
     }).catch((error) => {
-      Sentry.captureException(error);
+      posthog.captureException(error);
     });
   }
 
@@ -190,7 +192,7 @@ export async function registerForPushNotifications() {
     token = (await ExpoNotifications.getExpoPushTokenAsync({ projectId })).data;
 
     if (!token) {
-      Sentry.captureException(
+      posthog.captureException(
         "Unable to get push token after permission was granted.",
       );
     }
