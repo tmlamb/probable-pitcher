@@ -18,6 +18,21 @@ const config = {
   ],
 
   typescript: { ignoreBuildErrors: true },
+
+  rewrites: async () => {
+    return [
+      {
+        source: "/pt/static/:path*",
+        destination: "https://us-assets.i.posthog.com/static/:path*",
+      },
+      {
+        source: "/pt/:path*",
+        destination: "https://us.i.posthog.com/:path*",
+      },
+    ];
+  },
+
+  skipTrailingSlashRedirect: true,
 };
 
 export default config;
