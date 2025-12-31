@@ -51,6 +51,10 @@ export default function SetupLayout() {
     );
   }
 
+  if (session.data) {
+    posthog.identify(session.data.user.id);
+  }
+
   if (
     Application.nativeApplicationVersion &&
     semver.lt(
