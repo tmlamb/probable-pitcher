@@ -19,8 +19,9 @@ export const config = {
      * - /privacy (the privacy policy page)
      * - /support (the support page)
      * - /download (the download redirect page)
+     * - /pt (PostHog endpoint)
      */
-    "/((?!api|_next/static|_next/image|images|favicon.ico|sign-in|terms|privacy|support|download).*)",
+    "/((?!api|_next/static|_next/image|images|favicon.ico|sign-in|terms|privacy|support|download|pt).*)",
   ],
 };
 

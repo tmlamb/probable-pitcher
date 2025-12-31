@@ -1,8 +1,8 @@
-import { ActivityIndicator, AppState, View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import * as Application from "expo-application";
 import { Redirect, Slot, SplashScreen } from "expo-router";
-import * as Sentry from "@sentry/react-native";
 import { useQuery } from "@tanstack/react-query";
+import { usePostHog } from "posthog-react-native";
 import semver from "semver";
 
 import { trpc } from "~/utils/api";
@@ -11,6 +11,7 @@ import { authClient } from "~/utils/auth";
 export default function SetupLayout() {
   const versionQuery = useQuery(trpc.meta.version.queryOptions());
   const session = authClient.useSession();
+  const posthog = usePostHog();
 
   if (versionQuery.isError) {
     throw new Error("Error fetching version metadata for force update", {
@@ -29,17 +30,7 @@ export default function SetupLayout() {
       errorMessage.includes("getValueWithKeySync");
 
     if (isSecureStoreBackgroundError) {
-      Sentry.captureException(session.error, {
-        level: "warning",
-        tags: {
-          context: "secure-store-access-denied",
-          appState: AppState.currentState,
-        },
-        extra: {
-          errorMessage,
-          isPending: session.isPending,
-        },
-      });
+      posthog.captureException(session.error);
     } else {
       throw new Error("Error fetching session data", { cause: session.error });
     }
@@ -58,6 +49,10 @@ export default function SetupLayout() {
         />
       </View>
     );
+  }
+
+  if (session.data) {
+    posthog.identify(session.data.user.id);
   }
 
   if (

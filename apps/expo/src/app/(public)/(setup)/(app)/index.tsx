@@ -29,8 +29,8 @@ import { Stack, useRouter } from "expo-router";
 import { TZDate } from "@date-fns/tz";
 import Feather from "@expo/vector-icons/Feather";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import * as Sentry from "@sentry/react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { usePostHog } from "posthog-react-native";
 import { twMerge } from "tailwind-merge";
 
 import type { PitcherSubscription } from "@probable/ui/utils";
@@ -45,6 +45,7 @@ import { trpc } from "~/utils/api";
 export default function Home() {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const posthog = usePostHog();
 
   const subscriptionQuery = useQuery(trpc.subscription.byUserId.queryOptions());
 
@@ -60,9 +61,7 @@ export default function Home() {
   );
 
   if (searchQuery.isError) {
-    Sentry.captureException(
-      `Error fuzzy searching for pitchers on homepage: ${JSON.stringify(searchQuery.error)}`,
-    );
+    posthog.captureException(searchQuery.error);
   }
 
   const pitchers = searchQuery.data?.map((pitcher) => ({
@@ -126,15 +125,15 @@ export default function Home() {
           trpc.subscription.byUserId.queryKey(),
           context?.previousSubscriptions,
         );
-        Sentry.captureException(err);
+        posthog.captureException(err);
       },
       onSettled: () => {
         queryClient
           .invalidateQueries(trpc.subscription.byUserId.pathFilter())
-          .catch(Sentry.captureException);
+          .catch((e) => posthog.captureException(e));
         queryClient
           .invalidateQueries(trpc.pitcher.byFuzzyName.pathFilter())
-          .catch(Sentry.captureException);
+          .catch((e) => posthog.captureException(e));
       },
     }),
   );
@@ -159,15 +158,15 @@ export default function Home() {
           trpc.subscription.byUserId.queryKey(),
           context?.previousSubscriptions,
         );
-        Sentry.captureException(err);
+        posthog.captureException(err);
       },
       onSettled: () => {
         queryClient
           .invalidateQueries(trpc.subscription.byUserId.pathFilter())
-          .catch(Sentry.captureException);
+          .catch((e) => posthog.captureException(e));
         queryClient
           .invalidateQueries(trpc.pitcher.byFuzzyName.pathFilter())
-          .catch(Sentry.captureException);
+          .catch((e) => posthog.captureException(e));
       },
     }),
   );
@@ -343,7 +342,7 @@ export default function Home() {
                     trpc.subscription.byUserId.pathFilter(),
                   );
                 } catch (e) {
-                  Sentry.captureException(e);
+                  posthog.captureException(e);
                 } finally {
                   setIsManualRefreshing(false);
                 }

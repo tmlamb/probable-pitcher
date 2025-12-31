@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AppState, Linking, Switch, Text, View } from "react-native";
 import { useNativeVariable } from "react-native-css";
 import { PermissionStatus } from "expo-modules-core";
 import * as ExpoNotifications from "expo-notifications";
-import * as Sentry from "@sentry/react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { usePostHog } from "posthog-react-native";
 
 import Card from "~/components/Card";
 import PressableThemed from "~/components/PressableThemed";
@@ -12,6 +12,7 @@ import { trpc } from "~/utils/api";
 
 export default function Notifications() {
   const queryClient = useQueryClient();
+  const posthog = usePostHog();
   const [expoPushToken, setExpoPushToken] = useState<string>();
   const [pushPermissionStatus, setPushPermissionStatus] =
     useState<PermissionStatus | null>(null);
@@ -39,7 +40,7 @@ export default function Notifications() {
         );
         queryClient
           .invalidateQueries(trpc.device.byPushToken.pathFilter())
-          .catch(Sentry.captureException);
+          .catch((e) => posthog.captureException(e));
         return { currentDevice };
       },
       onError: (err, _, context) => {
@@ -47,12 +48,12 @@ export default function Notifications() {
           trpc.device.byPushToken.queryKey(expoPushToken ?? ""),
           context?.currentDevice,
         );
-        Sentry.captureException("Error toggling notifications", err);
+        posthog.captureException(err);
       },
       onSettled: () => {
         queryClient
           .invalidateQueries(trpc.device.byPushToken.pathFilter())
-          .catch(Sentry.captureException);
+          .catch((e) => posthog.captureException(e));
       },
     }),
   );
@@ -65,19 +66,19 @@ export default function Notifications() {
 
   const appState = useRef(AppState.currentState);
 
-  function checkStatus() {
+  const checkStatus = useCallback(() => {
     ExpoNotifications.getPermissionsAsync()
       .then(({ status }) => {
         setPushPermissionStatus(status);
       })
-      .catch(Sentry.captureException);
+      .catch((e) => posthog.captureException(e));
 
     ExpoNotifications.getExpoPushTokenAsync()
       .then(({ data: token }) => {
         setExpoPushToken(token);
       })
-      .catch(Sentry.captureException);
-  }
+      .catch((e) => posthog.captureException(e));
+  }, [posthog]);
 
   useEffect(() => {
     checkStatus();
@@ -94,7 +95,7 @@ export default function Notifications() {
     return () => {
       listener.remove();
     };
-  }, []);
+  }, [checkStatus]);
 
   const permissionGranted = pushPermissionStatus === PermissionStatus.GRANTED;
 
@@ -139,7 +140,7 @@ export default function Notifications() {
           <PressableThemed
             className="mt-1.5"
             onPress={() =>
-              Linking.openSettings().catch(Sentry.captureException)
+              Linking.openSettings().catch((e) => posthog.captureException(e))
             }
           >
             <Text maxFontSizeMultiplier={2} className="text-primary text-base">

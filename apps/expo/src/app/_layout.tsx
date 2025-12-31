@@ -1,9 +1,7 @@
 import { AppState, PixelRatio, Text, View } from "react-native";
-import Constants from "expo-constants";
 import { Slot } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import * as Updates from "expo-updates";
-import * as Sentry from "@sentry/react-native";
 import { focusManager, QueryClientProvider } from "@tanstack/react-query";
 
 import { queryClient } from "~/utils/api";
@@ -15,25 +13,15 @@ import { Platform, useColorScheme } from "react-native";
 import { useNativeVariable } from "react-native-css";
 import * as NavigationBar from "expo-navigation-bar";
 import { StatusBar } from "expo-status-bar";
+import { PostHogProvider } from "posthog-react-native";
 
 import Card from "~/components/Card";
 import PressableThemed from "~/components/PressableThemed";
-
-const { sentryPublicDsn } = Constants.expoConfig?.extra ?? {};
-if (sentryPublicDsn) {
-  Sentry.init({
-    dsn: String(sentryPublicDsn),
-
-    // TODO uncomment the line below to enable Spotlight (https://spotlightjs.com)
-    // spotlight: __DEV__,
-  });
-}
-
-SplashScreen.preventAutoHideAsync().catch(Sentry.captureException);
-SplashScreen.setOptions({ fade: true, duration: 400 });
+import { posthog } from "~/utils/posthog";
 
 export default function RootLayout() {
-  //TODO: Fetch updates in background! https://expo.dev/changelog/sdk-53#improved-background-tasks
+  //TODO: Fetch updates in background: https://expo.dev/changelog/sdk-53#improved-background-tasks
+
   const colorScheme = useColorScheme();
 
   useEffect(() => {
@@ -46,7 +34,7 @@ export default function RootLayout() {
         const newFontScale = PixelRatio.getFontScale();
         if (newFontScale !== currentFontScale.current) {
           currentFontScale.current = newFontScale;
-          Updates.reloadAsync().catch(Sentry.captureException);
+          Updates.reloadAsync().catch((e) => posthog.captureException(e));
         }
       }
     });
@@ -60,17 +48,19 @@ export default function RootLayout() {
   const backgroundColor = useNativeVariable("--background") as string;
 
   if (Platform.OS === "android") {
-    NavigationBar.setBackgroundColorAsync(backgroundColor).catch(
-      Sentry.captureException,
+    NavigationBar.setBackgroundColorAsync(backgroundColor).catch((e) =>
+      posthog.captureException(e),
     );
     NavigationBar.setStyle("auto");
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
-      <Slot />
-    </QueryClientProvider>
+    <PostHogProvider client={posthog}>
+      <QueryClientProvider client={queryClient}>
+        <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
+        <Slot />
+      </QueryClientProvider>
+    </PostHogProvider>
   );
 }
 
@@ -78,15 +68,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
   useEffect(() => {
     SplashScreen.hide();
 
-    Sentry.captureException(error);
-
-    const listener = AppState.addEventListener("change", () => {
-      Updates.reloadAsync().catch(Sentry.captureException);
-    });
-
-    return () => {
-      listener.remove();
-    };
+    posthog.captureException(error);
   }, [error]);
 
   return (
@@ -107,7 +89,9 @@ export function ErrorBoundary({ error }: { error: Error }) {
         </Text>
       </View>
       <PressableThemed
-        onPress={() => Updates.reloadAsync().catch(Sentry.captureException)}
+        onPress={() =>
+          Updates.reloadAsync().catch((e) => posthog.captureException(e))
+        }
         accessibilityLabel={`Reload application`}
       >
         <Card className="bg-destructive mx-0 justify-center">

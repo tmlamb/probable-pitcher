@@ -3,8 +3,8 @@ import * as Application from "expo-application";
 import Constants from "expo-constants";
 import * as Linking from "expo-linking";
 import { Redirect } from "expo-router";
-import * as Sentry from "@sentry/react-native";
 import { useQuery } from "@tanstack/react-query";
+import { usePostHog } from "posthog-react-native";
 import semver from "semver";
 
 import BrandModal from "~/components/BrandModal";
@@ -27,6 +27,7 @@ const storeName = Platform.select({
 });
 
 export default function ForceUpdate() {
+  const posthog = usePostHog();
   const versionQuery = useQuery(trpc.meta.version.queryOptions());
 
   if (versionQuery.isError) {
@@ -69,7 +70,7 @@ export default function ForceUpdate() {
       {storeUrl && (
         <PressableThemed
           onPress={() =>
-            Linking.openURL(storeUrl).catch(Sentry.captureException)
+            Linking.openURL(storeUrl).catch((e) => posthog.captureException(e))
           }
           accessibilityLabel={`Open app store to update application`}
         >

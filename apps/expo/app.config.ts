@@ -6,9 +6,7 @@ dotenv.config({ path: "../../.env" });
 const {
   APP_ENV,
   BETTER_AUTH_URL,
-  SENTRY_PUBLIC_DSN,
-  SENTRY_PROJECT,
-  SENTRY_ORG,
+  POSTHOG_API_KEY,
   IOS_BUNDLE_ID,
   ANDROID_PACKAGE_NAME,
   EXPO_OWNER,
@@ -22,7 +20,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     slug: "probable-pitchers",
     scheme: "probablepitcher",
     owner: EXPO_OWNER,
-    version: "2.6.0",
+    version: "2.7.0",
     orientation: "portrait",
     userInterfaceStyle: "automatic",
     experiments: {
@@ -73,7 +71,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         projectId: "abd1f73f-1027-4617-a091-abea678a0784",
       },
       apiBaseUrl: BETTER_AUTH_URL,
-      sentryPublicDsn: SENTRY_PUBLIC_DSN,
+      posthogApiKey: POSTHOG_API_KEY,
       iosAppStoreId: IOS_APP_STORE_ID,
       androidPackageName: ANDROID_PACKAGE_NAME,
       appEnv: APP_ENV,
@@ -105,14 +103,6 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         },
       ],
       "expo-localization",
-      [
-        "@sentry/react-native/expo",
-        {
-          url: "https://sentry.io/",
-          project: SENTRY_PROJECT,
-          organization: SENTRY_ORG,
-        },
-      ],
       [
         "expo-asset",
         {

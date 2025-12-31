@@ -1,6 +1,5 @@
 import type { TRPCClientErrorLike } from "@trpc/client";
 import * as Updates from "expo-updates";
-import * as Sentry from "@sentry/react-native";
 import { MutationCache, QueryCache, QueryClient } from "@tanstack/react-query";
 import { createTRPCClient, httpBatchLink, loggerLink } from "@trpc/client";
 import { createTRPCOptionsProxy } from "@trpc/tanstack-react-query";
@@ -10,6 +9,7 @@ import type { AppRouter } from "@probable/api";
 
 import { authClient } from "./auth";
 import { getBaseUrl } from "./base-url";
+import { posthog } from "./posthog";
 
 const isUnauthorizedError = (error: unknown): boolean => {
   return (
@@ -24,9 +24,9 @@ export const queryClient = new QueryClient({
         authClient
           .signOut()
           .then(() => {
-            Updates.reloadAsync().catch(Sentry.captureException);
+            Updates.reloadAsync().catch((e) => posthog.captureException(e));
           })
-          .catch(Sentry.captureException);
+          .catch((e) => posthog.captureException(e));
       }
     },
   }),
@@ -36,9 +36,9 @@ export const queryClient = new QueryClient({
         authClient
           .signOut()
           .then(() => {
-            Updates.reloadAsync().catch(Sentry.captureException);
+            Updates.reloadAsync().catch((e) => posthog.captureException(e));
           })
-          .catch(Sentry.captureException);
+          .catch((e) => posthog.captureException(e));
       }
     },
   }),
