@@ -16,6 +16,8 @@ const isProd = env === "production";
 const domains = config.requireObject<string[]>("domains");
 const replicas = config.requireNumber("nextjsReplicas");
 
+const enabled = config.getBoolean("enabled") ?? true;
+
 const projectCloudSql = new gcp.projects.Service(
   `probable-cloudsql-api-${env}`,
   {
@@ -53,6 +55,7 @@ const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
     settings: {
       tier: "db-f1-micro",
       availabilityType: isProd ? "REGIONAL" : "ZONAL",
+      activationPolicy: isProd || enabled ? "ALWAYS" : "NEVER",
       ipConfiguration: {
         ipv4Enabled: !isProd,
         privateNetwork: defaultVpc.then((vpc) => vpc.id),
@@ -302,6 +305,7 @@ const seedJob = new k8s.batch.v1.CronJob(
       namespace: namespaceName,
     },
     spec: {
+      suspend: !isProd && !enabled,
       schedule: "0 0 1 2,3,4 *",
       jobTemplate: {
         spec: {
@@ -404,6 +408,7 @@ const playerJob = new k8s.batch.v1.CronJob(
       namespace: namespaceName,
     },
     spec: {
+      suspend: !isProd && !enabled,
       schedule: "0 6 * 2,3,4,5,6,7,8,9,10,11,12 *",
       jobTemplate: {
         spec: {
@@ -510,6 +515,7 @@ const notifyJob = new k8s.batch.v1.CronJob(
       namespace: namespaceName,
     },
     spec: {
+      suspend: !isProd && !enabled,
       schedule: "0,30 * * 2,3,4,5,6,7,8,9,10,11,12 *",
       jobTemplate: {
         spec: {
@@ -635,7 +641,7 @@ const appDeployment = new k8s.apps.v1.Deployment(
         },
       },
       selector: { matchLabels: appLabels },
-      replicas: replicas,
+      replicas: isProd || enabled ? replicas : 0,
       template: {
         metadata: { labels: appLabels },
         spec: {
