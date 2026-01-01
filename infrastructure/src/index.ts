@@ -222,7 +222,6 @@ const migrationJob = new k8s.batch.v1.Job(
       namespace: namespaceName,
     },
     spec: {
-      suspend: !isProd && !enabled,
       activeDeadlineSeconds: 20 * 60,
       backoffLimit: 4,
       parallelism: 1,
