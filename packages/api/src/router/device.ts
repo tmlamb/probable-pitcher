@@ -22,30 +22,30 @@ export const deviceRouter = {
   create: protectedProcedure
     .input(createDeviceSchema)
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.query.device
-        .findMany({
-          where: eq(device.userId, ctx.session.user.id),
-        })
-        .then((devices) => {
-          if (devices.length > 64) {
-            console.warn(
-              `Approaching 164 device per user system limit for User ID: ${ctx.session.user.id}`,
-            );
-            if (devices.length > 164) {
-              console.warn(
-                `Reached 164 device per user system limit for User ID: ${ctx.session.user.id}`,
-              );
-              throw new TRPCError({
-                code: "TOO_MANY_REQUESTS",
-                message: `Error: User has way too many devices`,
-              });
-            }
-          }
+      await ctx.db.delete(device).where(eq(device.pushToken, input.pushToken));
 
-          return ctx.db
-            .insert(device)
-            .values({ ...input, userId: ctx.session.user.id });
-        });
+      const devices = await ctx.db.query.device.findMany({
+        where: eq(device.userId, ctx.session.user.id),
+      });
+
+      if (devices.length > 64) {
+        console.warn(
+          `Approaching 164 device per user system limit for User ID: ${ctx.session.user.id}`,
+        );
+        if (devices.length > 164) {
+          console.warn(
+            `Reached 164 device per user system limit for User ID: ${ctx.session.user.id}`,
+          );
+          throw new TRPCError({
+            code: "TOO_MANY_REQUESTS",
+            message: `Error: User has way too many devices`,
+          });
+        }
+      }
+
+      return ctx.db
+        .insert(device)
+        .values({ ...input, userId: ctx.session.user.id });
     }),
   update: protectedProcedure
     .input(updateDeviceSchema)
