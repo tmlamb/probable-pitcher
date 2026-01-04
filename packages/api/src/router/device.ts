@@ -2,7 +2,7 @@ import type { TRPCRouterRecord } from "@trpc/server";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod/v4";
 
-import { and, eq } from "@probable/db";
+import { and, eq, ne } from "@probable/db";
 import {
   createDeviceSchema,
   device,
@@ -50,6 +50,14 @@ export const deviceRouter = {
   update: protectedProcedure
     .input(updateDeviceSchema)
     .mutation(async ({ ctx, input }) => {
+      if (input.pushToken) {
+        await ctx.db
+          .delete(device)
+          .where(
+            and(eq(device.pushToken, input.pushToken), ne(device.id, input.id)),
+          );
+      }
+
       return ctx.db
         .update(device)
         .set({
