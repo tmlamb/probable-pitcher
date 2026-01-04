@@ -1,17 +1,14 @@
 # Probable Pitcher ⚾
 
-> Get notified when your favorite MLB pitchers are starting
-
 Never miss a game. Subscribe to pitchers and get push notifications when they're scheduled to start.
 
 ---
 
 ## Features
 
-- 🔔 Morning notifications when your pitchers are starting
-- ⚡ Real-time lineup updates
-- 🌍 Timezone-aware game times
-- 📱 Cross-platform (iOS, Android, Web)
+- Morning notifications when your pitchers are starting
+- Real-time lineup updates
+- Cross-platform (iOS, Android, Web)
 
 ## Tech Stack
 
