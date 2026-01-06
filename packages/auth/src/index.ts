@@ -30,6 +30,7 @@ export function initAuth<
       expo(),
       oAuthProxy({
         productionURL: options.productionURL,
+        maxAge: 60 * 5, // 5 minutes
       }),
       ...(options.extraPlugins ?? []),
     ],
