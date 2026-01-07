@@ -86,7 +86,9 @@ export default function SignIn() {
                 }),
               );
             } finally {
-              setSignInPending(false);
+              setTimeout(() => {
+                setSignInPending(false);
+              }, 750);
             }
           }}
           accessibilityLabel="Sign in with Google"
@@ -163,7 +165,9 @@ export default function SignIn() {
                   );
                 }
               } finally {
-                setSignInPending(false);
+                setTimeout(() => {
+                  setSignInPending(false);
+                }, 750);
               }
             }}
           />
