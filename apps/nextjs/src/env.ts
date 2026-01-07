@@ -16,6 +16,7 @@ export const env = createEnv({
   client: {
     NEXT_PUBLIC_IOS_APP_STORE_ID: z.string(),
     NEXT_PUBLIC_ANDROID_PACKAGE_NAME: z.string(),
+    NEXT_PUBLIC_POSTHOG_API_KEY: z.string().optional(),
   },
   /**
    * Destructure all variables from `process.env` to make sure they aren't
@@ -27,6 +28,7 @@ export const env = createEnv({
     NEXT_PUBLIC_IOS_APP_STORE_ID: process.env.NEXT_PUBLIC_IOS_APP_STORE_ID,
     NEXT_PUBLIC_ANDROID_PACKAGE_NAME:
       process.env.NEXT_PUBLIC_ANDROID_PACKAGE_NAME,
+    NEXT_PUBLIC_POSTHOG_API_KEY: process.env.NEXT_PUBLIC_POSTHOG_API_KEY,
   },
   skipValidation:
     !!process.env.CI || process.env.npm_lifecycle_event === "lint",

@@ -31,6 +31,7 @@ jobs:
           AUTH_APPLE_SECRET=secret \
           NEXT_PUBLIC_IOS_APP_STORE_ID=123456789 \
           NEXT_PUBLIC_ANDROID_PACKAGE_NAME=com.example.app \
+          NEXT_PUBLIC_POSTHOG_API_KEY=posthogpublickey \
           docker compose up --build --abort-on-container-failure integration stress
 
   lint:
