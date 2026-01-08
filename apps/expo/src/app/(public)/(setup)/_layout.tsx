@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
 import * as Application from "expo-application";
 import { Redirect, Slot, SplashScreen } from "expo-router";
@@ -12,6 +13,12 @@ export default function SetupLayout() {
   const versionQuery = useQuery(trpc.meta.version.queryOptions());
   const session = authClient.useSession();
   const posthog = usePostHog();
+
+  useEffect(() => {
+    if (session.data) {
+      posthog.identify(session.data.user.id);
+    }
+  }, [session.data?.user.id, posthog, session.data]);
 
   if (versionQuery.isError) {
     throw new Error("Error fetching version metadata for force update", {
@@ -49,10 +56,6 @@ export default function SetupLayout() {
         />
       </View>
     );
-  }
-
-  if (session.data) {
-    posthog.identify(session.data.user.id);
   }
 
   if (
