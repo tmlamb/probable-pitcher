@@ -2,20 +2,15 @@
 
 import { useRef } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import posthog from "posthog-js";
 
 import type { PitcherSubscription } from "@probable/ui/utils";
 import { cn } from "@probable/ui";
 import { subscriptionSchedule } from "@probable/ui/utils";
 
-import { authClient } from "~/auth/client";
 import { useScrollShadow } from "~/hooks/use-scroll-shadow";
 import { useTRPC } from "~/trpc/react";
 
 export function Subscriptions() {
-  const session = authClient.useSession();
-  posthog.identify(session.data?.user.id);
-
   const trpc = useTRPC();
 
   const { data: subscriptions } = useSuspenseQuery(
