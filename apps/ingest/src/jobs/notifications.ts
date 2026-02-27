@@ -4,7 +4,7 @@ import { add, endOfDay, format } from "date-fns";
 import { client } from "../db/client.js";
 import { sendPushNotification } from "../services/push.js";
 
-const TIME_FORMAT = "h:mm aaa z";
+const TIME_FORMAT = "h:mm aaa";
 
 export async function ingestNotifications(ingestStartTime: Date) {
   const ingestEndTime = add(endOfDay(ingestStartTime), { hours: 6 });
