@@ -790,6 +790,18 @@ const armorPolicy = new gcp.compute.SecurityPolicy(
     description: "Rate limiting policy for the application",
     rules: [
       {
+        action: "allow",
+        priority: 500,
+        match: {
+          expr: {
+            expression:
+              "request.path.matches('^/(_next|static|favicon\\\\.ico|.*\\\\.(js|css|png|jpg|jpeg|svg|woff2?|ico))')",
+          },
+        },
+        description:
+          "Allow static assets past the strict rate limit (caught by default rule instead)",
+      },
+      {
         action: "rate_based_ban",
         priority: 1000,
         match: {
@@ -802,15 +814,16 @@ const armorPolicy = new gcp.compute.SecurityPolicy(
           conformAction: "allow",
           exceedAction: "deny(429)",
           rateLimitThreshold: {
-            count: 200,
+            count: 100,
             intervalSec: 60,
           },
-          banDurationSec: 300,
+          banDurationSec: 60,
         },
-        description: "Rate limit requests from any single IP",
+        description:
+          "Strict rate limit for API and page requests (static assets skip this via priority 500 rule)",
       },
       {
-        action: "allow",
+        action: "rate_based_ban",
         priority: 2147483647,
         match: {
           versionedExpr: "SRC_IPS_V1",
@@ -818,6 +831,16 @@ const armorPolicy = new gcp.compute.SecurityPolicy(
             srcIpRanges: ["*"],
           },
         },
+        rateLimitOptions: {
+          conformAction: "allow",
+          exceedAction: "deny(429)",
+          rateLimitThreshold: {
+            count: 500,
+            intervalSec: 60,
+          },
+          banDurationSec: 60,
+        },
+        description: "Generous rate limit for static assets (default rule)",
       },
     ],
   },
