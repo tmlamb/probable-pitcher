@@ -785,7 +785,7 @@ const appHpa = new k8s.autoscaling.v2.HorizontalPodAutoscaler(
 );
 
 const armorPolicy = new gcp.compute.SecurityPolicy(
-  `probable-armor-policy-v2-${env}`,
+  `probable-armor-policy-${env}`,
   {
     description: "Rate limiting policy for the application",
     rules: [
@@ -844,6 +844,7 @@ const armorPolicy = new gcp.compute.SecurityPolicy(
       },
     ],
   },
+  { deleteBeforeReplace: true },
 );
 
 const backendConfig = new k8s.apiextensions.CustomResource(
