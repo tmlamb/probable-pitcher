@@ -844,7 +844,7 @@ const armorPolicy = new gcp.compute.SecurityPolicy(
       },
     ],
   },
-  { deleteBeforeReplace: true },
+  { deleteBeforeReplace: true, replaceOnChanges: ["rules"] },
 );
 
 const backendConfig = new k8s.apiextensions.CustomResource(
