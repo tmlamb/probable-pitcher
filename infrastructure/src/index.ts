@@ -795,7 +795,7 @@ const armorPolicy = new gcp.compute.SecurityPolicy(
         match: {
           expr: {
             expression:
-              "request.path.matches('^/(_next|static|favicon\\\\.ico|.*\\\\.(js|css|png|jpg|jpeg|svg|woff2?|ico))')",
+              "request.path.matches('^/(?:_next|static|favicon\\\\.ico|.*\\\\.(?:js|css|png|jpg|jpeg|svg|woff2?|ico))')",
           },
         },
         description:
