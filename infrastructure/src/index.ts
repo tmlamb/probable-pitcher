@@ -791,7 +791,7 @@ const armorPolicy = new gcp.compute.SecurityPolicy(
     rules: [
       {
         action: "allow",
-        priority: 500,
+        priority: 900,
         match: {
           expr: {
             expression:
