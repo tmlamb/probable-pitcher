@@ -795,7 +795,7 @@ const armorPolicy = new gcp.compute.SecurityPolicy(
         match: {
           expr: {
             expression:
-              "request.path.matches('^/(?:_next|static|favicon\\\\.ico|.*\\\\.(?:js|css|png|jpg|jpeg|svg|woff2?|ico))')",
+              "request.path.matches('^/(?:_next|static|pt|favicon\\\\.ico|.*\\\\.(?:js|css|png|jpg|jpeg|svg|woff2?|ico))')",
           },
         },
         description:
@@ -814,7 +814,7 @@ const armorPolicy = new gcp.compute.SecurityPolicy(
           conformAction: "allow",
           exceedAction: "deny(429)",
           rateLimitThreshold: {
-            count: 100,
+            count: 300,
             intervalSec: 60,
           },
           banDurationSec: 60,
