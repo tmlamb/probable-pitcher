@@ -1,0 +1,30 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "url": "/--/api/v2/push/send",
+    "bodyPatterns": [
+      {
+        "contains": "test_push_token_bad_device"
+      }
+    ]
+  },
+
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "data": [
+        {
+          "status": "error",
+          "message": "\"test_push_token_bad_device\" is not a registered push notification recipient",
+          "details": {
+            "error": "DeviceNotRegistered"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -882,6 +882,24 @@ VALUES
     true
   );
 
+-- Device with a push token that triggers a DeviceNotRegistered error from the mock Expo API
+INSERT INTO
+  device (
+    id,
+    user_id,
+    push_token,
+    timezone,
+    notifications_enabled
+  )
+VALUES
+  (
+    'd888ba0c-de64-4e25-9de7-bea768ba888d',
+    'e777a9b7-2b65-4a8d-b476-6eb5fda8777e',
+    'test_push_token_bad_device',
+    'America/New_York',
+    true
+  );
+
 INSERT INTO
   team (id, ref, name, abbreviation)
 VALUES

@@ -112,6 +112,19 @@ const TEST_USER_SCENARIOS = [
       },
     ],
   },
+  // Device with a push token that triggers a DeviceNotRegistered error from
+  // the mock Expo API. The notification should be created but NOT marked as
+  // sent, verifying that push failures don't silently swallow errors.
+  {
+    apiKey: "mhVRJaTRJSUJkWaGKfZBIBAnlHILjyQGZswQyTWjsrSBcncejjyrmiBdrmLOjkCv",
+    deviceId: "d888ba0c-de64-4e25-9de7-bea768ba888d",
+    notifications: [
+      {
+        gameId: "a5551f88-3f1a-4492-978b-30770358555a",
+        sent: false,
+      },
+    ],
+  },
 ] as const;
 
 async function getNotifications(apiKey: string, deviceId: string) {
