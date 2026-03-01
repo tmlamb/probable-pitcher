@@ -4,7 +4,7 @@ import type {
   PitcherUpsert,
   TeamRef,
 } from "@probable/db/schema";
-import { and, between, eq, inArray, isNull } from "@probable/db";
+import { and, between, eq, inArray, isNull, sql } from "@probable/db";
 import { db } from "@probable/db/client";
 import {
   device,
@@ -67,9 +67,9 @@ export const client = {
           target: pitcher.ref,
           set: {
             name,
-            number,
+            number: sql`coalesce(excluded.number, ${pitcher.number})`,
             teamId,
-            active,
+            active: sql`coalesce(excluded.active, ${pitcher.active})`,
             gone,
           },
         })
