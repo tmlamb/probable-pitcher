@@ -16,15 +16,13 @@
       "Content-Type": "application/json"
     },
     "jsonBody": {
-      "data": [
-        {
-          "status": "error",
-          "message": "\"test_push_token_bad_device\" is not a registered push notification recipient",
-          "details": {
-            "error": "DeviceNotRegistered"
-          }
+      "data": {
+        "status": "error",
+        "message": "\"test_push_token_bad_device\" is not a registered push notification recipient",
+        "details": {
+          "error": "DeviceNotRegistered"
         }
-      ]
+      }
     }
   }
 }

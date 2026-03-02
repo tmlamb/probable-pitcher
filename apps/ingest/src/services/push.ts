@@ -1,17 +1,18 @@
 import fetch from "node-fetch";
 import { z } from "zod";
 
+const pushTicket = z.discriminatedUnion("status", [
+  z.object({ status: z.literal("ok"), id: z.string() }),
+  z.object({
+    status: z.literal("error"),
+    message: z.string(),
+    details: z.object({ error: z.string() }).optional(),
+  }),
+]);
+
+// Expo returns { data: ticket } for a single message, or { data: ticket[] } for a batch
 const pushTicketSchema = z.object({
-  data: z.array(
-    z.discriminatedUnion("status", [
-      z.object({ status: z.literal("ok"), id: z.string() }),
-      z.object({
-        status: z.literal("error"),
-        message: z.string(),
-        details: z.object({ error: z.string() }).optional(),
-      }),
-    ]),
-  ),
+  data: z.union([z.array(pushTicket), pushTicket]),
 });
 
 export async function sendPushNotification(
@@ -46,8 +47,9 @@ export async function sendPushNotification(
   }
 
   const parsed = pushTicketSchema.parse(await res.json());
+  const tickets = Array.isArray(parsed.data) ? parsed.data : [parsed.data];
 
-  for (const ticket of parsed.data) {
+  for (const ticket of tickets) {
     if (ticket.status === "error") {
       throw new Error(
         `Expo push ticket error: ${ticket.message} (${ticket.details?.error ?? "unknown"})`,
