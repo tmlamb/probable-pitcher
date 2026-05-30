@@ -1,6 +1,6 @@
 import { AppState, PixelRatio, Text, View } from "react-native";
-import { Slot } from "expo-router";
 import { useNetworkState } from "expo-network";
+import { Slot } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import * as Updates from "expo-updates";
 import { focusManager, QueryClientProvider } from "@tanstack/react-query";
