@@ -1,5 +1,6 @@
 import { AppState, PixelRatio, Text, View } from "react-native";
 import { Slot } from "expo-router";
+import { useNetworkState } from "expo-network";
 import * as SplashScreen from "expo-splash-screen";
 import * as Updates from "expo-updates";
 import { focusManager, QueryClientProvider } from "@tanstack/react-query";
@@ -65,6 +66,11 @@ export default function RootLayout() {
 }
 
 export function ErrorBoundary({ error }: { error: Error }) {
+  const networkState = useNetworkState();
+  const isOffline =
+    networkState.isConnected === false ||
+    networkState.isInternetReachable === false;
+
   useEffect(() => {
     SplashScreen.hide();
 
@@ -78,14 +84,15 @@ export function ErrorBoundary({ error }: { error: Error }) {
           maxFontSizeMultiplier={1.5}
           className="text-foreground text-3xl font-semibold sm:text-4xl md:text-5xl"
         >
-          Something Went Wrong
+          {isOffline ? "You're Offline" : "Something Went Wrong"}
         </Text>
         <Text
           maxFontSizeMultiplier={2}
           className="text-foreground text-lg md:text-xl"
         >
-          We're currently experiencing technical difficulties. Please try again
-          later.
+          {isOffline
+            ? "Check your internet connection, then try reloading the app."
+            : "We're currently experiencing technical difficulties. Please try again later."}
         </Text>
       </View>
       <PressableThemed
