@@ -56,7 +56,7 @@ export default function Home() {
 
   const searchQuery = useQuery(
     trpc.pitcher.byFuzzyName.queryOptions(searchFilter ?? "", {
-      enabled: !!searchFilter && subscriptionQuery.isSuccess,
+      enabled: !!searchFilter && !!subscriptionQuery.data,
     }),
   );
 
@@ -466,7 +466,7 @@ export default function Home() {
         }}
         ListEmptyComponent={
           <View>
-            {searchQuery.isFetching ? (
+            {searchFilter && !searchQuery.isSuccess && !searchQuery.isError ? (
               <AnimatedViewStyled entering={FadeIn} exiting={FadeOut}>
                 <ActivityIndicator className="text-muted top-9" size="large" />
               </AnimatedViewStyled>

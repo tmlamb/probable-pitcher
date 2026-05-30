@@ -39,7 +39,7 @@ export default function AppLayout() {
     return <Redirect href="/device-setup" />;
   }
 
-  if (subscriptionQuery.isError) {
+  if (subscriptionQuery.isError && !subscriptionQuery.data) {
     throw new Error("Error fetching subscriptions", {
       cause: subscriptionQuery.error,
     });

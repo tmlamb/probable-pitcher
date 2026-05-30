@@ -20,25 +20,37 @@ export default function SetupLayout() {
     }
   }, [session.data?.user.id, posthog, session.data]);
 
-  if (versionQuery.isError) {
-    throw new Error("Error fetching version metadata for force update", {
-      cause: versionQuery.error,
-    });
-  }
+  useEffect(() => {
+    if (versionQuery.isError) {
+      posthog.captureException(
+        new Error("Error fetching version metadata for force update", {
+          cause: versionQuery.error,
+        }),
+      );
+    }
+  }, [posthog, versionQuery.error, versionQuery.isError]);
 
   // Check for Secure Store access errors due to app being backgrounded
-  let isSecureStoreBackgroundError = false;
+  const sessionErrorMessage = session.error?.message ?? "";
+  const isSecureStoreBackgroundError =
+    sessionErrorMessage.includes("User interaction is not allowed") ||
+    sessionErrorMessage.includes("KeyChainException") ||
+    sessionErrorMessage.includes("getValueWithKeySync");
+
+  useEffect(() => {
+    if (!session.error || (!isSecureStoreBackgroundError && !session.data)) {
+      return;
+    }
+
+    posthog.captureException(
+      isSecureStoreBackgroundError
+        ? session.error
+        : new Error("Error refreshing session data", { cause: session.error }),
+    );
+  }, [isSecureStoreBackgroundError, posthog, session.data, session.error]);
 
   if (session.error) {
-    const errorMessage = session.error.message || String(session.error);
-    isSecureStoreBackgroundError =
-      errorMessage.includes("User interaction is not allowed") ||
-      errorMessage.includes("KeyChainException") ||
-      errorMessage.includes("getValueWithKeySync");
-
-    if (isSecureStoreBackgroundError) {
-      posthog.captureException(session.error);
-    } else {
+    if (!isSecureStoreBackgroundError && !session.data) {
       throw new Error("Error fetching session data", { cause: session.error });
     }
   }
@@ -59,6 +71,7 @@ export default function SetupLayout() {
   }
 
   if (
+    versionQuery.data &&
     Application.nativeApplicationVersion &&
     semver.lt(
       Application.nativeApplicationVersion,
