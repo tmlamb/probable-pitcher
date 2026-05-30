@@ -9,7 +9,7 @@ import { queryClient } from "~/utils/api";
 
 import "~/global.css";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Platform, useColorScheme } from "react-native";
 import { useNativeVariable } from "react-native-css";
 import * as NavigationBar from "expo-navigation-bar";
@@ -70,6 +70,11 @@ export function ErrorBoundary({ error }: { error: Error }) {
   const isOffline =
     networkState.isConnected === false ||
     networkState.isInternetReachable === false;
+  const [wasOffline, setWasOffline] = useState(isOffline);
+
+  if (isOffline && !wasOffline) {
+    setWasOffline(true);
+  }
 
   useEffect(() => {
     SplashScreen.hide();
@@ -84,13 +89,13 @@ export function ErrorBoundary({ error }: { error: Error }) {
           maxFontSizeMultiplier={1.5}
           className="text-foreground text-3xl font-semibold sm:text-4xl md:text-5xl"
         >
-          {isOffline ? "You're Offline" : "Something Went Wrong"}
+          {wasOffline ? "You're Offline" : "Something Went Wrong"}
         </Text>
         <Text
           maxFontSizeMultiplier={2}
           className="text-foreground text-lg md:text-xl"
         >
-          {isOffline
+          {wasOffline
             ? "Check your internet connection, then try reloading the app."
             : "We're currently experiencing technical difficulties. Please try again later."}
         </Text>
