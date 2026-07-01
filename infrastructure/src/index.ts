@@ -855,6 +855,9 @@ const backendConfig = new k8s.apiextensions.CustomResource(
       namespace: namespaceName,
     },
     spec: {
+      logging: {
+        enable: false,
+      },
       securityPolicy: {
         name: armorPolicy.name,
       },
