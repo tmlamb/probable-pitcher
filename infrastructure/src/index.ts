@@ -17,6 +17,7 @@ const domains = config.requireObject<string[]>("domains");
 const replicas = config.requireNumber("nextjsReplicas");
 
 const enabled = config.getBoolean("enabled") ?? true;
+const stackEnabled = isProd || enabled;
 
 const projectCloudSql = new gcp.projects.Service(
   `probable-cloudsql-api-${env}`,
@@ -55,7 +56,7 @@ const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
     settings: {
       tier: "db-f1-micro",
       availabilityType: isProd ? "REGIONAL" : "ZONAL",
-      activationPolicy: isProd || enabled ? "ALWAYS" : "NEVER",
+      activationPolicy: stackEnabled ? "ALWAYS" : "NEVER",
       ipConfiguration: {
         ipv4Enabled: !isProd,
         privateNetwork: defaultVpc.then((vpc) => vpc.id),
@@ -215,86 +216,92 @@ const dbcred = new k8s.core.v1.Secret(
 
 const migrationLabels = { app: `probable-migration-${env}` };
 
-const migrationJob = new k8s.batch.v1.Job(
-  migrationLabels.app,
-  {
-    metadata: {
-      namespace: namespaceName,
-    },
-    spec: {
-      activeDeadlineSeconds: 20 * 60,
-      backoffLimit: 4,
-      parallelism: 1,
-      completions: 1,
-      ttlSecondsAfterFinished: 600,
-      template: {
+const migrationJob = stackEnabled
+  ? new k8s.batch.v1.Job(
+      migrationLabels.app,
+      {
+        metadata: {
+          namespace: namespaceName,
+        },
         spec: {
-          restartPolicy: "OnFailure",
-          imagePullSecrets: [{ name: regcred.metadata.apply((m) => m.name) }],
-          serviceAccountName: ksa.metadata.apply((m) => m.name),
-          containers: [
-            {
-              name: migrationLabels.app,
-              image: `ghcr.io/tmlamb/probable-migration:${
-                changedDatabase ? imageTag : "latest"
-              }`,
-              env: [
+          activeDeadlineSeconds: 20 * 60,
+          backoffLimit: 4,
+          parallelism: 1,
+          completions: 1,
+          ttlSecondsAfterFinished: 600,
+          template: {
+            spec: {
+              restartPolicy: "OnFailure",
+              imagePullSecrets: [
+                { name: regcred.metadata.apply((m) => m.name) },
+              ],
+              serviceAccountName: ksa.metadata.apply((m) => m.name),
+              containers: [
                 {
-                  name: "DATABASE_URL",
-                  valueFrom: {
-                    secretKeyRef: {
-                      name: dbcred.metadata.apply((m) => m.name),
-                      key: "databaseUrl",
+                  name: migrationLabels.app,
+                  image: `ghcr.io/tmlamb/probable-migration:${
+                    changedDatabase ? imageTag : "latest"
+                  }`,
+                  env: [
+                    {
+                      name: "DATABASE_URL",
+                      valueFrom: {
+                        secretKeyRef: {
+                          name: dbcred.metadata.apply((m) => m.name),
+                          key: "databaseUrl",
+                        },
+                      },
+                    },
+                  ],
+                  resources: {
+                    requests: {
+                      cpu: isProd ? "25m" : "5m",
+                      memory: isProd ? "256Mi" : "128Mi",
+                    },
+                    limits: {
+                      cpu: isProd ? "100m" : "50m",
+                      memory: isProd ? "512Mi" : "256Mi",
+                      "ephemeral-storage": "1Gi",
+                    },
+                  },
+                },
+                {
+                  name: "cloudsql-proxy",
+                  image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
+                  args: [
+                    "--private-ip",
+                    "--port=5432",
+                    pgDatabaseInstance.connectionName,
+                    "--quitquitquit",
+                    "--exit-zero-on-sigterm",
+                  ],
+                  securityContext: {
+                    runAsNonRoot: true,
+                  },
+                  resources: {
+                    requests: {
+                      cpu: isProd ? "50m" : "25m",
+                      memory: isProd ? "32Mi" : "16Mi",
+                    },
+                    limits: {
+                      cpu: isProd ? "75m" : "50m",
+                      memory: isProd ? "64Mi" : "32Mi",
+                      "ephemeral-storage": "1Gi",
                     },
                   },
                 },
               ],
-              resources: {
-                requests: {
-                  cpu: isProd ? "25m" : "5m",
-                  memory: isProd ? "256Mi" : "128Mi",
-                },
-                limits: {
-                  cpu: isProd ? "100m" : "50m",
-                  memory: isProd ? "512Mi" : "256Mi",
-                  "ephemeral-storage": "1Gi",
-                },
-              },
             },
-            {
-              name: "cloudsql-proxy",
-              image: "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.13.0",
-              args: [
-                "--private-ip",
-                "--port=5432",
-                pgDatabaseInstance.connectionName,
-                "--quitquitquit",
-                "--exit-zero-on-sigterm",
-              ],
-              securityContext: {
-                runAsNonRoot: true,
-              },
-              resources: {
-                requests: {
-                  cpu: isProd ? "50m" : "25m",
-                  memory: isProd ? "32Mi" : "16Mi",
-                },
-                limits: {
-                  cpu: isProd ? "75m" : "50m",
-                  memory: isProd ? "64Mi" : "32Mi",
-                  "ephemeral-storage": "1Gi",
-                },
-              },
-            },
-          ],
+          },
         },
       },
-    },
-  },
-  {
-    provider: clusterProvider,
-  },
-);
+      {
+        provider: clusterProvider,
+      },
+    )
+  : undefined;
+
+const workloadDependencies = migrationJob ? [migrationJob] : [];
 
 const seedLabels = { app: `probable-seed-${env}` };
 
@@ -395,7 +402,7 @@ const seedJob = new k8s.batch.v1.CronJob(
   },
   {
     provider: clusterProvider,
-    dependsOn: [migrationJob],
+    dependsOn: workloadDependencies,
   },
 );
 
@@ -502,7 +509,7 @@ const playerJob = new k8s.batch.v1.CronJob(
   },
   {
     provider: clusterProvider,
-    dependsOn: [migrationJob],
+    dependsOn: workloadDependencies,
   },
 );
 
@@ -609,7 +616,7 @@ const notifyJob = new k8s.batch.v1.CronJob(
   },
   {
     provider: clusterProvider,
-    dependsOn: [migrationJob],
+    dependsOn: workloadDependencies,
   },
 );
 
@@ -749,7 +756,7 @@ const appDeployment = new k8s.apps.v1.Deployment(
   },
   {
     provider: clusterProvider,
-    dependsOn: [migrationJob],
+    dependsOn: workloadDependencies,
   },
 );
 
