@@ -55,7 +55,7 @@ const pgDatabaseInstance = new gcp.sql.DatabaseInstance(
     settings: {
       tier: "db-f1-micro",
       availabilityType: isProd ? "REGIONAL" : "ZONAL",
-      activationPolicy: "ALWAYS",
+      activationPolicy: isProd || enabled ? "ALWAYS" : "NEVER",
       ipConfiguration: {
         ipv4Enabled: !isProd,
         privateNetwork: defaultVpc.then((vpc) => vpc.id),
