@@ -408,6 +408,9 @@ importers:
         specifier: 5.3.0
         version: 5.3.0
     devDependencies:
+      '@probable/eslint-config':
+        specifier: workspace:*
+        version: link:../tooling/eslint
       '@probable/prettier-config':
         specifier: workspace:*
         version: link:../tooling/prettier
@@ -417,6 +420,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 22.18.12
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.1(jiti@2.5.1)
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
