@@ -198,7 +198,7 @@ importers:
         specifier: catalog:react19
         version: 19.1.4(react@19.1.4)
       react-native:
-        specifier: ~0.81.5
+        specifier: 0.81.5
         version: 0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.4)
       react-native-css:
         specifier: 3.0.1
