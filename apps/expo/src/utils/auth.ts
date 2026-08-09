@@ -1,3 +1,4 @@
+import type { BetterAuthClientPlugin } from "better-auth";
 import type { SecureStoreOptions } from "expo-secure-store";
 import * as SecureStore from "expo-secure-store";
 import { expoClient } from "@better-auth/expo/client";
@@ -98,13 +99,17 @@ const authStorage = {
   },
 };
 
+const expoPlugin = expoClient({
+  scheme: "probablepitcher",
+  storage: authStorage,
+}) as unknown as BetterAuthClientPlugin;
+
+type AuthClientWithExpo = ReturnType<typeof createAuthClient> & {
+  getCookie: () => string;
+};
+
 export const authClient = createAuthClient({
   disableDefaultFetchPlugins: true,
-  plugins: [
-    expoClient({
-      scheme: "probablepitcher",
-      storage: authStorage,
-    }),
-  ],
+  plugins: [expoPlugin],
   baseURL: getBaseUrl(),
-});
+}) as unknown as AuthClientWithExpo;

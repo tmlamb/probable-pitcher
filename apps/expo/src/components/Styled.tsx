@@ -1,10 +1,13 @@
+import type { ComponentType } from "react";
 import Animated from "react-native-reanimated";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { styled } from "nativewind";
 
-export const AnimatedViewStyled = styled(Animated.View) as typeof Animated.View;
+export const AnimatedViewStyled = styled(
+  Animated.View as unknown as ComponentType<object>,
+) as typeof Animated.View;
 
 export const LinearGradientStyled = styled(
   LinearGradient,

@@ -11,7 +11,6 @@ import "~/global.css";
 
 import { useEffect, useRef, useState } from "react";
 import { Platform, useColorScheme } from "react-native";
-import { useNativeVariable } from "react-native-css";
 import * as NavigationBar from "expo-navigation-bar";
 import { StatusBar } from "expo-status-bar";
 import { PostHogProvider } from "posthog-react-native";
@@ -46,18 +45,12 @@ export default function RootLayout() {
 
   const currentFontScale = useRef(PixelRatio.getFontScale());
 
-  const backgroundColor = useNativeVariable("--background") as string;
-
-  if (Platform.OS === "android") {
-    NavigationBar.setBackgroundColorAsync(backgroundColor).catch((e) =>
-      posthog.captureException(e),
-    );
-    NavigationBar.setStyle("auto");
-  }
-
   return (
     <PostHogProvider client={posthog}>
       <QueryClientProvider client={queryClient}>
+        {Platform.OS === "android" && (
+          <NavigationBar.NavigationBar style="auto" />
+        )}
         <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
         <Slot />
       </QueryClientProvider>

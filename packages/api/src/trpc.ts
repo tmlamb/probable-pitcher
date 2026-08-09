@@ -5,6 +5,8 @@ import { z, ZodError } from "zod/v4";
 import type { Auth } from "@probable/auth";
 import { db } from "@probable/db/client";
 
+type AuthSessionApi = Pick<Auth["api"], "getSession">;
+
 /**
  * This helper generates the "internals" for a tRPC context. The API handler and RSC clients each
  * wrap this and provides the required context.
@@ -13,7 +15,7 @@ import { db } from "@probable/db/client";
  */
 export const createTRPCContext = async (opts: {
   headers: Headers;
-  auth: Auth;
+  auth: { api: AuthSessionApi };
 }) => {
   const authApi = opts.auth.api;
   const session = await authApi.getSession({

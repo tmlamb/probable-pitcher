@@ -14,6 +14,7 @@
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
+    "@better-auth/api-key": "catalog:",
     "@date-fns/tz": "1.4.0",
     "@probable/api": "workspace:*",
     "@probable/auth": "workspace:*",

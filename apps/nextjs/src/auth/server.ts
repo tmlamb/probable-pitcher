@@ -2,8 +2,8 @@ import "server-only";
 
 import { cache } from "react";
 import { headers } from "next/headers";
+import { apiKey } from "@better-auth/api-key";
 import { nextCookies } from "better-auth/next-js";
-import { apiKey } from "better-auth/plugins";
 
 import { initAuth } from "@probable/auth";
 

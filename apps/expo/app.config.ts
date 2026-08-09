@@ -20,20 +20,18 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     slug: "probable-pitchers",
     scheme: "probablepitcher",
     owner: EXPO_OWNER,
-    version: "2.7.0",
+    version: "2.7.1",
     orientation: "portrait",
     userInterfaceStyle: "automatic",
     experiments: {
       tsconfigPaths: true,
       typedRoutes: true,
-      reactCanary: true,
       reactCompiler: true,
     },
     updates: {
       fallbackToCacheTimeout: 10000,
       url: "https://u.expo.dev/abd1f73f-1027-4617-a091-abea678a0784",
     },
-    newArchEnabled: true,
     runtimeVersion: {
       policy: "appVersion",
     },
@@ -90,6 +88,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       "expo-router",
       "expo-secure-store",
       "expo-apple-authentication",
+      "expo-image",
+      "expo-status-bar",
       [
         "expo-splash-screen",
         {

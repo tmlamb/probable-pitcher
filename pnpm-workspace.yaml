@@ -6,8 +6,9 @@ packages:
   - infrastructure
 
 catalog:
-  "@better-auth/cli": 1.4.7
-  "@better-auth/expo": 1.4.7
+  "@better-auth/api-key": 1.6.26
+  "@better-auth/cli": 1.6.26
+  "@better-auth/expo": 1.6.26
   "@eslint/js": 9.39.1
   "@tailwindcss/postcss": 4.1.16
   "@tanstack/react-form": 1.23.8
@@ -16,19 +17,19 @@ catalog:
   "@trpc/server": 11.7.0
   "@trpc/tanstack-react-query": 11.7.0
   "@types/node": 22.18.12
-  better-auth: 1.4.7
+  better-auth: 1.6.26
   eslint: 9.39.1
   prettier: 3.6.2
   tailwindcss: 4.1.16
   typescript: 5.9.3
-  zod: 4.1.12
+  zod: 4.4.3
 
 catalogs:
   react19:
-    "@types/react": ~19.1.0
-    "@types/react-dom": ~19.1.0
-    react: 19.1.4
-    react-dom: 19.1.4
+    "@types/react": ~19.2.4
+    "@types/react-dom": ~19.2.3
+    react: 19.2.3
+    react-dom: 19.2.3
 
 linkWorkspacePackages: true
 
